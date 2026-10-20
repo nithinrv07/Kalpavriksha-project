@@ -1,0 +1,240 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --bg: #050507;
+  --surface: #0b0a10;
+  --surface-2: #13111b;
+  --line: rgb(255 255 255 / 0.08);
+  --line-strong: rgb(255 255 255 / 0.16);
+  --text: #ededf2;
+  --muted: #9a98a8;
+  --violet: #a78bfa;
+  --violet-deep: #3b0764;
+  --violet-ink: #e9d5ff;
+  --glow-a: #7c3aed;
+  --glow-b: #c084fc;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-violet: var(--violet);
+  --color-violet-deep: var(--violet-deep);
+  --color-violet-ink: var(--violet-ink);
+  --color-glow-a: var(--glow-a);
+  --color-glow-b: var(--glow-b);
+  --font-display: var(--font-geist), var(--font-anek-tamil), var(--font-anek-deva), ui-sans-serif, sans-serif;
+  --font-sans: var(--font-geist), var(--font-anek-tamil), var(--font-anek-deva), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-plex-mono), var(--font-anek-tamil), var(--font-anek-deva), ui-monospace, monospace;
+  --ease-premium: var(--ease-out);
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgb(167 139 250 / 0.35);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+/* ---------- Motion primitives ---------- */
+
+@keyframes type-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.35em);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@keyframes beam-travel {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+
+@keyframes chip-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes beam {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+@property --beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.type-in {
+  display: inline-block;
+  animation: type-in 0.7s var(--ease-out) both;
+}
+
+.fade-up {
+  animation: fade-up 0.9s var(--ease-out) both;
+}
+
+@keyframes glow-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-6vmax, 5vmax) scale(1.12);
+  }
+}
+
+.glow-drift {
+  animation: glow-drift 26s ease-in-out infinite;
+  will-change: transform;
+}
+
+.spin-slow {
+  animation: spin-slow 60s linear infinite;
+}
+
+.grain {
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Cursor-following border glow for bento tiles (--mx / --my set from JS). */
+.glow-tile {
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  isolation: isolate;
+}
+
+.glow-tile::before,
+.glow-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--glow-o, 0);
+  transition: opacity 300ms var(--ease-out);
+}
+
+.glow-tile::before {
+  padding: 1px;
+  background: radial-gradient(360px circle at var(--mx) var(--my), rgb(192 132 252 / 0.9), transparent 45%);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  z-index: 1;
+}
+
+.glow-tile::after {
+  background: radial-gradient(520px circle at var(--mx) var(--my), rgb(124 58 237 / 0.1), transparent 45%);
+  z-index: -1;
+}
+
+/* Rotating conic border for the primary call to action. */
+.beam-border {
+  position: relative;
+  isolation: isolate;
+}
+
+.beam-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--beam-angle), transparent 0 70%, var(--glow-b) 85%, #fff 90%, transparent 100%);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: beam 4s linear infinite;
+  z-index: -1;
+}
+
+/* Mask for word-by-word heading reveals (animated by GSAP in <ScrollFx />). */
+.word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+.word > span {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
