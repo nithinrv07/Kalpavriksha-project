@@ -25,7 +25,7 @@ export function IdentitySection() {
   ];
 
   return (
-    <section className="mx-auto grid w-full max-w-[1320px] items-center gap-14 border-t border-line px-4 py-24 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:py-36">
+    <section className="mx-auto grid w-full max-w-[1320px] items-center gap-14 border-t border-line px-4 pt-20 pb-12 sm:px-6 sm:pt-24 sm:pb-14 lg:grid-cols-[0.85fr_1.15fr] lg:pt-28 lg:pb-16">
       <div>
         <p data-reveal="up" className="font-mono text-[12px] text-violet">
           — {t.identityCenter}

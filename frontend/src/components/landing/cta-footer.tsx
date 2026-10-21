@@ -4,24 +4,36 @@ import { ArrowRight } from "@phosphor-icons/react/ssr";
 import Link from "next/link";
 import { BrandMark } from "@/components/brand-mark";
 import { useLocale } from "@/components/locale-provider";
-import { RevealWords } from "@/components/scroll-fx";
+import { SplitText } from "@/components/split-text";
+import { WarpText } from "@/components/warp-text";
+import { StandingPenguin } from "./standing-penguin";
 
 export function CtaFooter() {
   const { t } = useLocale();
   const firstModule = "/m/learn";
 
   return (
-    <footer className="relative mt-24 overflow-hidden border-t border-line lg:mt-36">
+    <footer className="relative mt-8 overflow-hidden border-t border-line sm:mt-10 lg:mt-14">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-[radial-gradient(60%_80%_at_20%_100%,rgb(124_58_237/0.22),transparent_70%)]"
       />
 
-      <div className="relative mx-auto flex w-full max-w-[1320px] flex-col gap-10 px-4 py-24 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:py-32">
-        <RevealWords
-          text={t.ctaTitle}
-          className="max-w-3xl font-display text-[clamp(44px,7vw,112px)] leading-[0.92] tracking-[-0.055em]"
-        />
+      <div className="relative mx-auto flex w-full max-w-[1320px] flex-col gap-10 px-4 pt-10 pb-20 sm:px-6 sm:pt-12 sm:pb-24 lg:flex-row lg:items-end lg:justify-between lg:pt-14 lg:pb-28">
+        <div className="flex items-end gap-5 sm:gap-8 lg:gap-10">
+          <StandingPenguin />
+          <SplitText
+            text={t.ctaTitle}
+            tag="h2"
+            textAlign="left"
+            splitType="chars,words"
+            effect="rise"
+            hoverEffect="lift"
+            delay={30}
+            duration={1.2}
+            className="max-w-3xl font-display text-[clamp(44px,7vw,112px)] leading-[0.92] tracking-[-0.055em] text-text"
+          />
+        </div>
         <Link
           href={firstModule}
           data-reveal="up"
@@ -41,13 +53,34 @@ export function CtaFooter() {
         <span className="font-mono text-[12px]">© {new Date().getFullYear()}</span>
       </div>
 
-      {/* Oversized outlined wordmark, cropped by the page edge. */}
-      <p
-        aria-hidden
-        className="footer-mark relative -mb-[0.22em] select-none text-center font-display text-[clamp(64px,17vw,300px)] leading-none tracking-[-0.06em] text-transparent [-webkit-text-stroke:1px_var(--line-strong)]"
-      >
-        Kalpavriksha
-      </p>
+      {/* Oversized interactive WebGL warp wordmark, cropped by the page edge. */}
+      <div className="footer-mark relative -mb-[0.16em] w-full select-none overflow-hidden">
+        <WarpText
+          text="Kalpavriksha"
+          fontFamily="var(--font-display), var(--font-geist), sans-serif"
+          fontSize="clamp(64px, 17vw, 300px)"
+          fontWeight={700}
+          letterSpacing="-0.06em"
+          lineHeight={0.9}
+          outline={true}
+          strokeColor="rgba(255, 255, 255, 0.55)"
+          strokeWidth={2.2}
+          color="rgba(255, 255, 255, 0.55)"
+          warpStrength={0.08}
+          warpScale={1.7}
+          speed={0.55}
+          pointerInfluence={0.42}
+          pointerStrength={0.38}
+          refraction={0.018}
+          chromatic={0.02}
+          ripple={true}
+          clickRipple={true}
+          idleDrift={0.2}
+          lens="bulge"
+          className="w-full"
+          style={{ minHeight: "clamp(120px, 18vw, 300px)" }}
+        />
+      </div>
     </footer>
   );
 }

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { BrandMark } from "@/components/brand-mark";
 import { useLocale } from "@/components/locale-provider";
 import { ParticleCanvas } from "@/components/particle-canvas";
+import { PulsatingBorder } from "@/components/pulsating-border";
 import type { Locale } from "@/lib/i18n";
 import type { ShapeName } from "@/lib/shapes";
 import { MODULES } from "@/modules/registry";
@@ -74,7 +75,13 @@ export function Hero() {
       data-hero
       className="relative isolate flex min-h-[100dvh] items-center px-2 py-2 sm:px-4 sm:py-4 lg:px-12 lg:py-10"
     >
-      <div className="hero-frame fade-up relative mx-auto flex w-full max-w-[1240px] flex-col overflow-hidden rounded-[22px] border border-line bg-surface/95 shadow-[0_40px_120px_-20px_rgb(0_0_0/0.85),0_0_90px_-25px_rgb(124_58_237/0.45),inset_0_1px_0_rgb(255_255_255/0.05)] lg:block lg:h-[min(820px,calc(100dvh-5rem))] lg:min-h-[640px] lg:rounded-[28px]">
+      <div className="hero-frame fade-up relative mx-auto w-full max-w-[1240px] lg:h-[min(820px,calc(100dvh-5rem))] lg:min-h-[640px]">
+        {/* Pulsating border glow around the hero frame */}
+        <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
+          <PulsatingBorder colors={["#000000", "#ffffff", "#a855f7"]} thickness={0.35} />
+        </div>
+
+        <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[22px] border border-line bg-surface/95 shadow-[0_40px_120px_-20px_rgb(0_0_0/0.85),0_0_90px_-25px_rgb(124_58_237/0.45),inset_0_1px_0_rgb(255_255_255/0.05)] lg:block lg:rounded-[28px]">
         {/* Top bar — flows on mobile, pinned on desktop. */}
         <div className="z-20 flex items-center justify-between gap-3 p-3 sm:p-4 lg:absolute lg:inset-x-6 lg:top-6 lg:justify-end lg:p-0">
           <span className="flex items-center gap-2 font-display text-lg tracking-tight lg:hidden">
@@ -232,6 +239,7 @@ export function Hero() {
             );
           })}
         </nav>
+        </div>
       </div>
 
       <MenuSheet open={menuOpen} onClose={() => setMenuOpen(false)} />
