@@ -1,0 +1,171 @@
+"use client";
+
+import { ArrowLeft, Fire, IdentificationCard } from "@phosphor-icons/react/ssr";
+import Link from "next/link";
+import type { ReactNode } from "react";
+import { Avatar } from "@/components/avatar";
+import { BrandMark } from "@/components/brand-mark";
+import { ChromeWaves } from "@/components/landing/chrome-waves";
+import { LangSelect } from "@/components/landing/lang-select";
+import { useLocale } from "@/components/locale-provider";
+import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
+import { useProgress } from "@/components/progress-store";
+import { BAND_INFO } from "@/lib/bands";
+import { bandOf, levelOf, localDay, streak, type Band, type Profile } from "@/lib/progress";
+import { MODULES, type KalpaModule } from "@/modules/registry";
+
+/** XP, level and streak: the shared student profile, visible on every module. */
+function ProgressPill() {
+  const { t } = useLocale();
+  const progress = useProgress();
+  const { level, into, span } = levelOf(progress.xp);
+  const days = streak(progress.activeDays, localDay());
+
+  return (
+    <div className="flex items-center gap-2">
+      <div
+        className="hidden h-11 items-center gap-3 rounded-xl border border-line bg-white/[0.04] px-3.5 sm:flex"
+        title={`${progress.xp} XP`}
+      >
+        <span className="font-mono text-[12px] text-muted">
+          {t.level} <span className="text-text">{level}</span>
+        </span>
+        <span className="h-1.5 w-16 overflow-hidden rounded-full bg-white/[0.08]">
+          <span
+            className="block h-full rounded-full bg-gradient-to-r from-glow-a to-glow-b transition-[width] duration-700"
+            style={{ width: `${Math.round((into / span) * 100)}%` }}
+          />
+        </span>
+        <span className="font-mono text-[12px] text-violet-ink">{progress.xp} XP</span>
+      </div>
+      {days > 0 && (
+        <span
+          className="flex h-11 items-center gap-1.5 rounded-xl border border-amber/25 bg-amber/10 px-3 font-mono text-[12px] text-amber"
+          title={`${days} ${t.streak}`}
+        >
+          <Fire size={16} weight="fill" aria-hidden />
+          {days}
+          <span className="sr-only">{t.streak}</span>
+        </span>
+      )}
+      <Link
+        href="/sign-in"
+        aria-label={progress.profile ? `${t.myCard}: ${progress.profile.name}` : t.makeCard}
+        className="grid size-11 place-items-center rounded-xl border border-line bg-white/[0.04] transition-colors duration-200 hover:bg-white/[0.1]"
+      >
+        {progress.profile ? (
+          <Avatar id={progress.profile.avatar} className="size-8" iconSize={18} />
+        ) : (
+          <IdentificationCard size={20} className="text-violet" />
+        )}
+      </Link>
+    </div>
+  );
+}
+
+/**
+ * Page frame shared by every module screen: background, top bar, module switcher and title.
+ * Students without a learner card pick their class first; the module then renders for that band.
+ */
+export function ModuleShell({
+  module,
+  children,
+}: {
+  module: KalpaModule;
+  children: (band: Band, profile: Profile) => ReactNode;
+}) {
+  const { t, locale } = useLocale();
+  const progress = useProgress();
+  const hydrated = useHydrated();
+  const Icon = module.icon;
+  const profile = progress.profile;
+  const band = profile ? bandOf(profile.grade) : null;
+
+  return (
+    <>
+      <ChromeWaves />
+      <div
+        data-band={band ?? undefined}
+        style={band ? ({ "--band": BAND_INFO[band].accent } as React.CSSProperties) : undefined}
+        className="relative z-10 mx-auto w-full max-w-[1240px] px-4 pb-24 sm:px-6"
+      >
+        <header className="flex flex-wrap items-center justify-between gap-3 py-4 sm:py-6">
+          <div className="flex items-center gap-2">
+            <Link
+              href="/"
+              className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.04] px-3 text-sm transition-colors duration-200 hover:bg-white/[0.1]"
+            >
+              <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
+              <BrandMark className="size-5 text-violet" />
+              <span className="sr-only sm:not-sr-only">{t.home}</span>
+            </Link>
+            <nav aria-label={t.modulesTitle} className="flex gap-1 rounded-xl border border-line bg-white/[0.03] p-1">
+              {MODULES.map((m) => {
+                const ModIcon = m.icon;
+                const active = m.slug === module.slug;
+                return (
+                  <Link
+                    key={m.id}
+                    href={`/m/${m.slug}`}
+                    aria-current={active ? "page" : undefined}
+                    title={m.title[locale]}
+                    className={`grid size-9 place-items-center rounded-lg transition-colors duration-200 ${
+                      active ? "bg-violet-deep text-violet-ink" : "text-muted hover:bg-white/[0.06] hover:text-text"
+                    }`}
+                  >
+                    <ModIcon size={18} weight={active ? "fill" : "regular"} aria-hidden />
+                    <span className="sr-only">{m.title[locale]}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+          <div className="flex items-center gap-2">
+            <ProgressPill />
+            <LangSelect />
+          </div>
+        </header>
+
+        <div className="fade-up mt-6 flex items-start gap-4 sm:mt-10 sm:items-center">
+          <span className="hidden size-14 shrink-0 place-items-center rounded-2xl bg-violet-deep/70 text-violet-ink shadow-[0_0_40px_-8px_rgb(124_58_237/0.7)] sm:grid">
+            <Icon size={28} weight="duotone" />
+          </span>
+          <div>
+            <p className="font-mono text-[12px] text-violet">{module.index}</p>
+            <h1
+              className={`font-display text-text ${
+                locale === "en"
+                  ? "text-[clamp(36px,5.5vw,68px)] leading-[0.95] tracking-[-0.05em]"
+                  : "text-[clamp(28px,4.4vw,54px)] leading-[1.1] tracking-[-0.01em]"
+              }`}
+            >
+              {module.title[locale]}
+            </h1>
+            <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-muted">{module.summary[locale]}</p>
+            {band && (
+              <Link
+                href="/sign-in"
+                className="mt-3 inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--band)_40%,transparent)] bg-[color-mix(in_srgb,var(--band)_10%,transparent)] py-1 pl-1 pr-3 text-[12.5px] text-[var(--band)] transition-colors hover:bg-[color-mix(in_srgb,var(--band)_18%,transparent)]"
+              >
+                <GrowthStage band={band} className="size-6" />
+                {BAND_INFO[band].name[locale]} · {BAND_INFO[band].classes[locale]}
+              </Link>
+            )}
+          </div>
+        </div>
+
+        <main className="mt-8 sm:mt-12">
+          {!hydrated ? (
+            <div aria-hidden className="h-72 animate-pulse rounded-3xl border border-line bg-surface/60" />
+          ) : profile && band ? (
+            children(band, profile)
+          ) : (
+            <div className="rounded-[28px] border border-line bg-surface/80 p-5 backdrop-blur-sm sm:p-10">
+              <LearnerSetup />
+            </div>
+          )}
+        </main>
+      </div>
+    </>
+  );
+}

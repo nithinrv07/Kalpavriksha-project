@@ -14,7 +14,14 @@
   --violet-ink: #e9d5ff;
   --glow-a: #7c3aed;
   --glow-b: #c084fc;
+  /* Playful accents for module screens (categories, rewards, feedback). */
+  --amber: #fbbf24;
+  --teal: #2dd4bf;
+  --pink: #f472b6;
+  --success: #4ade80;
+  --danger: #f87171;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @theme inline {
@@ -30,6 +37,11 @@
   --color-violet-ink: var(--violet-ink);
   --color-glow-a: var(--glow-a);
   --color-glow-b: var(--glow-b);
+  --color-amber: var(--amber);
+  --color-teal: var(--teal);
+  --color-pink: var(--pink);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
   --font-display: var(--font-geist), var(--font-anek-tamil), var(--font-anek-deva), ui-sans-serif, sans-serif;
   --font-sans: var(--font-geist), var(--font-anek-tamil), var(--font-anek-deva), ui-sans-serif, sans-serif;
   --font-mono: var(--font-plex-mono), var(--font-anek-tamil), var(--font-anek-deva), ui-monospace, monospace;
@@ -227,6 +239,118 @@ body {
 
 .word > span {
   display: inline-block;
+}
+
+/* ---------- Module screens: rewards & feedback ---------- */
+
+@keyframes burst {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.3);
+  }
+}
+
+.burst-spark {
+  animation: burst 0.8s var(--ease-out) both;
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+.pop-in {
+  animation: pop-in 0.5s var(--ease-bounce) both;
+}
+
+@keyframes shake {
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
+}
+
+.shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes float-up {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-28px);
+  }
+}
+
+.float-up {
+  animation: float-up 1.2s var(--ease-out) both;
+}
+
+/* Leaves on the Grow tree scale in from their stem. */
+@keyframes leaf-grow {
+  from {
+    transform: scale(0) rotate(-30deg);
+  }
+}
+
+.leaf {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: leaf-grow 0.7s var(--ease-bounce) both;
+}
+
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-1.2deg);
+  }
+  50% {
+    transform: rotate(1.2deg);
+  }
+}
+
+.sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: sway 6s ease-in-out infinite;
+}
+
+/* Karaoke word highlight while read-aloud plays. */
+.karaoke-word {
+  transition:
+    color 200ms var(--ease-out),
+    text-shadow 200ms var(--ease-out);
+}
+
+.karaoke-word[data-state="now"] {
+  color: #fff;
+  text-shadow:
+    0 0 18px rgb(192 132 252 / 0.9),
+    0 0 2px rgb(255 255 255 / 0.6);
+}
+
+.karaoke-word[data-state="done"] {
+  color: var(--violet-ink);
+}
+
+.karaoke-word[data-state="next"] {
+  color: var(--muted);
 }
 
 @media (prefers-reduced-motion: reduce) {
