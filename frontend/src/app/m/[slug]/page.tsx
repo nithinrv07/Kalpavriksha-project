@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { ComingSoon } from "@/components/coming-soon";
 import { MODULES, getModule } from "@/modules/registry";
+import { ModuleScreen } from "@/modules/screens";
 
 export const dynamicParams = false;
 
@@ -16,5 +16,5 @@ export async function generateMetadata(props: PageProps<"/m/[slug]">) {
 export default async function ModulePage(props: PageProps<"/m/[slug]">) {
   const { slug } = await props.params;
   if (!getModule(slug)) notFound();
-  return <ComingSoon target={{ kind: "module", slug }} />;
+  return <ModuleScreen slug={slug} />;
 }

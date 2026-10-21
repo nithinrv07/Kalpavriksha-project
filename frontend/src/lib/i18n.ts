@@ -42,6 +42,11 @@ export type Copy = {
   readonly comingSoon: string;
   readonly signInSoon: string;
   readonly back: string;
+  readonly home: string;
+  readonly level: string;
+  readonly streak: string;
+  readonly myCard: string;
+  readonly makeCard: string;
 };
 
 const LANGS = "தமிழ் · English · हिन्दी";
@@ -85,6 +90,11 @@ export const COPY = {
     comingSoon: "This module is being built. It will open right here.",
     signInSoon: "Student and staff sign-in arrives with the shared student profile.",
     back: "Back to home",
+    home: "Home",
+    level: "Level",
+    streak: "day streak",
+    myCard: "My learner card",
+    makeCard: "Make your card",
   },
   ta: {
     menu: "பட்டியல்",
@@ -123,6 +133,11 @@ export const COPY = {
     comingSoon: "இந்தத் தொகுதி உருவாக்கப்பட்டு வருகிறது. விரைவில் இங்கே திறக்கும்.",
     signInSoon: "மாணவர் மற்றும் ஆசிரியர் உள்நுழைவு, பொதுவான மாணவர் சுயவிவரத்துடன் வரும்.",
     back: "முகப்புக்குத் திரும்பு",
+    home: "முகப்பு",
+    level: "நிலை",
+    streak: "நாள் தொடர்",
+    myCard: "என் மாணவர் அட்டை",
+    makeCard: "உன் அட்டையை உருவாக்கு",
   },
   hi: {
     menu: "मेनू",
@@ -161,5 +176,10 @@ export const COPY = {
     comingSoon: "यह मॉड्यूल अभी बनाया जा रहा है। जल्द ही यहीं खुलेगा।",
     signInSoon: "विद्यार्थी और स्टाफ़ साइन-इन साझा विद्यार्थी प्रोफ़ाइल के साथ आएगा।",
     back: "मुख पृष्ठ पर लौटें",
+    home: "मुख पृष्ठ",
+    level: "स्तर",
+    streak: "दिन लगातार",
+    myCard: "मेरा विद्यार्थी कार्ड",
+    makeCard: "अपना कार्ड बनाएँ",
   },
 } as const satisfies Record<Locale, Copy>;
