@@ -3,13 +3,16 @@
 "use client";
 
 import * as React from "react";
-import { createPortal } from "react-dom";
 import { PulsingBorder } from "@paper-design/shaders-react";
 
 export interface PulsatingBorderProps {
   colors?: string[];
   colorBack?: string;
   speed?: number;
+  /**
+   * Corner radius in pixels (e.g. 28) or ratio (0..1).
+   * If omitted, dynamically adapts to card frame: 28px on desktop (lg), 22px on mobile.
+   */
   radius?: number;
   thickness?: number;
   softness?: number;
@@ -17,6 +20,8 @@ export interface PulsatingBorderProps {
   bloom?: number;
   spotSize?: number;
   spread?: number;
+  smoke?: number;
+  smokeSize?: number;
   style?: React.CSSProperties;
   className?: string;
   children?: React.ReactNode;
@@ -27,36 +32,33 @@ const DEFAULT_COLORS = ["#000000", "#ffffff", "#a855f7"];
 const DEFAULTS = {
   colorBack: "rgba(0, 0, 0, 0)",
   speed: 1,
-  radius: 35,
+  radius: 28,
   thickness: 0.35,
-  softness: 70,
+  softness: 65,
   intensity: 30,
   bloom: 45,
   spotSize: 60,
-
-  spread: 31,
+  spread: 0,
+  smoke: 0, // Clean structural border without noisy drift
+  smokeSize: 0,
 };
 
 const SPOTS = 3;
 const PULSE = 0;
-const SMOKE = 0.35;
-const SMOKE_SIZE = 0.63;
-
-const GLOW_ROOM = 0.4;
-
-const MAX_ROOM = 480;
 
 function OriginkitBasePulsatingBorder(props: PulsatingBorderProps) {
   const {
     colorBack = DEFAULTS.colorBack,
     speed = DEFAULTS.speed,
-    radius = DEFAULTS.radius,
+    radius: propRadius,
     thickness = DEFAULTS.thickness,
     softness = DEFAULTS.softness,
     intensity = DEFAULTS.intensity,
     bloom = DEFAULTS.bloom,
     spotSize = DEFAULTS.spotSize,
     spread = DEFAULTS.spread,
+    smoke = DEFAULTS.smoke,
+    smokeSize = DEFAULTS.smokeSize,
     style,
     className,
     children,
@@ -68,87 +70,75 @@ function OriginkitBasePulsatingBorder(props: PulsatingBorderProps) {
       : DEFAULT_COLORS;
 
   const hostRef = React.useRef<HTMLDivElement>(null);
-
-  const [rect, setRect] = React.useState({ left: 0, top: 0, w: 0, h: 0 });
-  const [portalTarget, setPortalTarget] = React.useState<HTMLElement | null>(
-    null
-  );
-
-  React.useEffect(() => {
-    if (typeof document !== "undefined") {
-      setPortalTarget(document.body);
-    }
-  }, []);
+  const [size, setSize] = React.useState({ w: 0, h: 0 });
 
   React.useEffect(() => {
     const host = hostRef.current;
     if (!host) return;
-    let raf = 0;
-    const read = () => {
-      raf = 0;
-      const r = host.getBoundingClientRect();
+
+    const measure = () => {
       const w = host.clientWidth;
       const h = host.clientHeight;
-      setRect((prev) =>
-        prev.left === r.left &&
-        prev.top === r.top &&
-        prev.w === w &&
-        prev.h === h
-          ? prev
-          : { left: r.left, top: r.top, w, h }
-      );
+      if (w > 0 && h > 0) {
+        setSize((prev) => (prev.w === w && prev.h === h ? prev : { w, h }));
+      }
     };
 
-    const schedule = () => {
-      if (!raf) raf = requestAnimationFrame(read);
-    };
-    read();
-    const ro = new ResizeObserver(schedule);
+    measure();
+
+    const ro = new ResizeObserver(() => measure());
     ro.observe(host);
 
-    window.addEventListener("scroll", schedule, true);
-    window.addEventListener("resize", schedule);
-    return () => {
-      if (raf) cancelAnimationFrame(raf);
-      ro.disconnect();
-      window.removeEventListener("scroll", schedule, true);
-      window.removeEventListener("resize", schedule);
-    };
+    return () => ro.disconnect();
   }, []);
 
-  const worldW = rect.w + spread * 2;
-  const worldH = rect.h + spread * 2;
+  const worldW = size.w + spread * 2;
+  const worldH = size.h + spread * 2;
   const marginX = worldW > 0 ? spread / worldW : 0;
   const marginY = worldH > 0 ? spread / worldH : 0;
 
-  const room = Math.min(
-    MAX_ROOM,
-    Math.ceil(GLOW_ROOM * Math.min(worldW, worldH))
-  );
+  // room provides buffer for bloom / softness glow around the outer edge
+  const room = Math.min(100, Math.ceil(0.18 * Math.min(worldW, worldH)));
   const bleed = spread + room;
-  const canvasW = rect.w + bleed * 2;
-  const canvasH = rect.h + bleed * 2;
-  const measured = rect.w > 0 && rect.h > 0;
+  const canvasW = size.w + bleed * 2;
+  const canvasH = size.h + bleed * 2;
+  const measured = size.w > 0 && size.h > 0;
 
-  const escapes = portalTarget !== null;
+  // Responsive radius in pixels: default to 28px on desktop (lg: w >= 1024), 22px on mobile
+  const targetRadiusPx =
+    typeof propRadius === "number"
+      ? propRadius > 1
+        ? propRadius
+        : propRadius * (Math.min(size.w, size.h) / 2)
+      : size.w >= 1024
+      ? 28
+      : 22;
+
+  // In PulsingBorder shader:
+  // radius = mix(0., min(halfSize.x, halfSize.y), roundness)
+  // where min(halfSize.x, halfSize.y) in screen pixels corresponds to Math.min(size.w, size.h) / 2.
+  // Therefore, roundness = targetRadiusPx / (Math.min(size.w, size.h) / 2) = (targetRadiusPx * 2) / Math.min(size.w, size.h).
+  const minDimension = Math.min(size.w, size.h);
+  const roundness =
+    minDimension > 0
+      ? Math.max(0, Math.min(1, (targetRadiusPx * 2) / minDimension))
+      : 0.08;
 
   const layer = measured ? (
     <PulsingBorder
       colors={colors}
       colorBack={colorBack}
       speed={speed}
-      roundness={radius / 100}
+      roundness={roundness}
       thickness={thickness / 100}
       softness={softness / 100}
       intensity={intensity / 100}
       bloom={bloom / 100}
       spots={SPOTS}
-
       spotSize={(spotSize / 100) * 0.5}
       pulse={PULSE}
-      smoke={SMOKE}
-      smokeSize={SMOKE_SIZE}
-
+      smoke={smoke}
+      smokeSize={smokeSize}
       worldWidth={worldW}
       worldHeight={worldH}
       fit="none"
@@ -164,12 +154,12 @@ function OriginkitBasePulsatingBorder(props: PulsatingBorderProps) {
       originY={0.5}
       frame={0}
       style={{
-        position: escapes ? "fixed" : "absolute",
-        left: escapes ? rect.left - bleed : -bleed,
-        top: escapes ? rect.top - bleed : -bleed,
+        position: "absolute",
+        left: -bleed,
+        top: -bleed,
         width: canvasW,
         height: canvasH,
-        zIndex: (style?.zIndex as number | undefined) ?? 50,
+        zIndex: (style?.zIndex as number | undefined) ?? 20,
         pointerEvents: "none",
       }}
     />
@@ -184,31 +174,37 @@ function OriginkitBasePulsatingBorder(props: PulsatingBorderProps) {
         width: "100%",
         height: "100%",
         flexShrink: 0,
-
         overflow: "visible",
+        pointerEvents: "none",
         ...style,
       }}
     >
       {children}
-      {escapes && portalTarget ? createPortal(layer, portalTarget) : layer}
+      {layer}
     </div>
   );
 }
 
 const __originkitPresetProps = {
-  "colors": ["#000000", "#ffffff", "#a855f7"],
-  "thickness": 0.35,
-  "radius": 35,
-  "softness": 70,
-  "intensity": 30,
-  "bloom": 45,
-  "spread": 31,
-  "speed": 1,
-  "spotSize": 60
+  colors: ["#000000", "#ffffff", "#a855f7"],
+  thickness: 0.35,
+  radius: 28,
+  softness: 65,
+  intensity: 30,
+  bloom: 45,
+  spread: 0,
+  smoke: 0,
+  speed: 1,
+  spotSize: 60,
 };
 
 export function PulsatingBorder(props: PulsatingBorderProps) {
-  return <OriginkitBasePulsatingBorder {...(__originkitPresetProps as Record<string, unknown>)} {...props} />;
+  return (
+    <OriginkitBasePulsatingBorder
+      {...(__originkitPresetProps as Record<string, unknown>)}
+      {...props}
+    />
+  );
 }
 
 export default PulsatingBorder;
