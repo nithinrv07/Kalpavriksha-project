@@ -66,7 +66,7 @@ export function ScrollFx() {
       if (hero) {
         gsap
           .timeline({ scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } })
-          .to(".hero-frame", { yPercent: 10, scale: 0.9, ease: "none" }, 0)
+          .to(".hero-frame", { yPercent: 10, ease: "none" }, 0)
           .to(".hero-stage", { y: -140, ease: "none" }, 0)
           .to(".hero-copy", { y: -70, ease: "none" }, 0);
       }
