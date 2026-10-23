@@ -185,8 +185,8 @@ export function Hero() {
               align="right"
               fontSize={
                 locale === "en"
-                  ? "clamp(52px, 24cqi, 128px)"
-                  : "clamp(36px, 15cqi, 96px)"
+                  ? "clamp(56px, 26cqi, 136px)"
+                  : "clamp(40px, 17cqi, 104px)"
               }
               fontFamily="var(--font-display), var(--font-geist), sans-serif"
               fontWeight={700}
@@ -345,7 +345,7 @@ export function Hero() {
               {/* Crystal Glow "Rooted To Rise" headline */}
               <div
                 data-no-flip="true"
-                className="pointer-events-auto absolute right-4 top-[18%] z-20 hidden items-center justify-end sm:right-8 sm:flex lg:right-10 lg:top-[22%]"
+                className="pointer-events-auto absolute right-4 top-[12%] z-20 flex items-center justify-end sm:right-8 sm:top-[14%] lg:right-10 lg:top-[16%]"
               >
                 <SparkleButton
                   as="h2"
@@ -353,8 +353,8 @@ export function Hero() {
                   align="right"
                   fontSize={
                     locale === "en"
-                      ? "clamp(44px, 4.2vw, 76px)"
-                      : "clamp(32px, 3.4vw, 56px)"
+                      ? "clamp(48px, 8vw, 132px)"
+                      : "clamp(36px, 5.8vw, 96px)"
                   }
                   fontFamily="var(--font-display), var(--font-geist), sans-serif"
                   fontWeight={800}

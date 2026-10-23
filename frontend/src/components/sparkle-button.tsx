@@ -233,6 +233,7 @@ function OriginkitBaseSparkleButton({
   color: transparent;
   z-index: 2;
   text-shadow: none;
+  transform: translate(calc(var(--hover) * (var(--font-size) * 0.10)), calc(var(--hover) * (var(--font-size) * -0.10)));
 }
 
 .sparkle-button svg {
