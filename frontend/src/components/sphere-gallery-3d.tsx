@@ -138,7 +138,7 @@ void main() {
 const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
 const BASE_SPIN = 0.22;
 const SPRING_STIFFNESS = 70;
-const HOVER_POP = 0.3;
+const HOVER_POP = 0;
 const BILLBOARD_BLEND = 0.75;
 const RADIUS = 12;
 const DAMPING = 0.6;
@@ -1014,17 +1014,10 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
       if (!pointer.dragging) pointer.inside = false;
     };
 
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      const L = live.current;
-      orbit.zoomTarget = clamp(orbit.zoomTarget + e.deltaY * 0.02 * L.zoomGain, L.minZoom, L.maxZoom);
-    };
-
     canvas.style.cursor = "grab";
     canvas.style.touchAction = "none";
     canvas.addEventListener("pointerdown", onPointerDown);
     canvas.addEventListener("pointerleave", onLeave);
-    canvas.addEventListener("wheel", onWheel, { passive: false });
 
     window.addEventListener("pointermove", onPointerMove);
     window.addEventListener("pointerup", release);
@@ -1084,12 +1077,11 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
       gl.depthMask(true);
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-      const lo = Math.min(L.minZoom, L.maxZoom);
-      const hi = Math.max(L.minZoom, L.maxZoom);
-      orbit.zoomTarget = clamp(orbit.zoomTarget, lo, hi);
-      orbit.zoom += (orbit.zoomTarget - orbit.zoom) * (1 - Math.exp(-ZOOM_RATE * dt));
+      const restZoom = clamp(L.radius * REST_DIST_MUL, L.minZoom, L.maxZoom);
+      orbit.zoom = restZoom;
+      orbit.zoomTarget = restZoom;
 
-      camDist = orbit.zoom / Math.max(0.001, L.scale);
+      camDist = restZoom / Math.max(0.001, L.scale);
 
       const fovRad = (FOV * Math.PI) / 180;
       const aspect = vw / vh;
@@ -1220,7 +1212,7 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
             ty = tmpA[1]! * k;
             tz = tmpA[2]! * k;
 
-            const pop = -k * L.radius * 0.12;
+            const pop = 0;
             tx += forwardLocal[0]! * pop;
             ty += forwardLocal[1]! * pop;
             tz += forwardLocal[2]! * pop;
@@ -1368,7 +1360,6 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
       ro.disconnect();
       canvas.removeEventListener("pointerdown", onPointerDown);
       canvas.removeEventListener("pointerleave", onLeave);
-      canvas.removeEventListener("wheel", onWheel);
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerup", release);
       window.removeEventListener("pointercancel", release);
