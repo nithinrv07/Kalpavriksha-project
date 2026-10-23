@@ -7,9 +7,12 @@ import { motion, type TargetAndTransition, type Transition } from "motion/react"
 
 export interface SparkleButtonProps {
   text?: string;
+  lines?: readonly string[] | string[];
   fontFamily?: string | Record<string, unknown>;
   fontWeight?: number | string;
   fontSize?: number | string;
+  lineHeight?: number | string;
+  letterSpacing?: string;
   textColor?: string;
   shadowColor?: string;
   glareColor?: string;
@@ -19,14 +22,19 @@ export interface SparkleButtonProps {
   className?: string;
   style?: React.CSSProperties;
   href?: string;
-  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
+  align?: "left" | "center" | "right";
+  as?: "a" | "h1" | "h2" | "div" | "span";
 }
 
 function OriginkitBaseSparkleButton({
   text = "Rooted To Rise",
+  lines,
   fontFamily = "var(--font-display), sans-serif",
   fontWeight = 800,
   fontSize = 64,
+  lineHeight,
+  letterSpacing,
   textColor = "#C3AFD4",
   shadowColor = "#1E0028",
   glareColor = "#4A105DBF",
@@ -37,6 +45,8 @@ function OriginkitBaseSparkleButton({
   style,
   href,
   onClick,
+  align = "center",
+  as = "a",
 }: SparkleButtonProps) {
   const resolvedFontFamily =
     typeof fontFamily === "string"
@@ -55,6 +65,18 @@ function OriginkitBaseSparkleButton({
       ? ((fontFamily as Record<string, unknown>).fontSize as string | number)
       : fontSize;
 
+  const resolvedLineHeight =
+    lineHeight ??
+    (typeof fontFamily === "object" && fontFamily !== null && (fontFamily as Record<string, unknown>).lineHeight
+      ? ((fontFamily as Record<string, unknown>).lineHeight as string | number)
+      : undefined);
+
+  const resolvedLetterSpacing =
+    letterSpacing ??
+    (typeof fontFamily === "object" && fontFamily !== null && (fontFamily as Record<string, unknown>).letterSpacing
+      ? ((fontFamily as Record<string, unknown>).letterSpacing as string)
+      : undefined);
+
   const fontSizeCss =
     typeof resolvedFontSize === "number" ? `${resolvedFontSize}px` : resolvedFontSize;
 
@@ -68,7 +90,7 @@ function OriginkitBaseSparkleButton({
 
     return {
       rest: {
-        "--hover": 0.4,
+        "--hover": 0.45,
         "--pos": restPos,
         transition: {
           "--hover": transition,
@@ -92,19 +114,68 @@ function OriginkitBaseSparkleButton({
     };
   }, [glareDirection, glareSpeed, transition]);
 
+  const alignItems =
+    align === "right" ? "flex-end" : align === "left" ? "flex-start" : "center";
+
+  const content = lines && lines.length > 0 ? (
+    lines.map((line, idx) => (
+      <span key={idx} className="block w-full">
+        {line}
+      </span>
+    ))
+  ) : (
+    <span>{text}</span>
+  );
+
+  const motionProps = {
+    className: `sparkle-button ${className}`,
+    style: {
+      fontFamily: resolvedFontFamily,
+      textAlign: align,
+      letterSpacing: resolvedLetterSpacing,
+      lineHeight: resolvedLineHeight,
+      "--color": textColor,
+      "--shadow": shadowColor,
+      "--glare": glareColor,
+      "--font-size": fontSizeCss,
+      "--sparkle-align-items": alignItems,
+      "--sparkle-text-align": align,
+      ...style,
+    } as React.CSSProperties,
+    initial: "rest" as const,
+    whileHover: "hover" as const,
+    whileTap: "tap" as const,
+    variants,
+    onClick,
+  };
+
+  const inner = (
+    <>
+      <Sparkle />
+      <Sparkle />
+      <Sparkle />
+      <Sparkle />
+      <Sparkle />
+
+      <span className="sparkle-text-base">{content}</span>
+      <span aria-hidden="true" className="sparkle-text-glare">
+        {content}
+      </span>
+    </>
+  );
+
   return (
     <div
       style={{
         display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
-        ...style,
+        alignItems,
+        justifyContent: alignItems,
+        width: align === "right" || align === "left" ? "100%" : "auto",
       }}
-      className={className}
     >
       <style>{`
 .sparkle-button {
-  --padding: 12px 20px;
+  --padding: 4px 8px;
   padding: var(--padding);
   border-radius: 16px;
   text-decoration: none;
@@ -112,17 +183,21 @@ function OriginkitBaseSparkleButton({
   position: relative;
   cursor: pointer;
   display: inline-flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: var(--sparkle-align-items, center);
   justify-content: center;
   user-select: none;
 }
 
-.sparkle-button span {
-  display: inline-block;
+.sparkle-button .sparkle-text-base {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   font-size: var(--font-size);
   font-weight: ${resolvedFontWeight};
   text-decoration: none;
   color: transparent;
+  text-align: var(--sparkle-text-align, center);
   text-shadow:
     calc(var(--hover) * (var(--font-size) * -0)) calc(var(--hover) * (var(--font-size) * 0)) var(--shadow),
     calc(var(--hover) * (var(--font-size) * -0.02)) calc(var(--hover) * (var(--font-size) * 0.02)) var(--shadow),
@@ -133,20 +208,25 @@ function OriginkitBaseSparkleButton({
   transform: translate(calc(var(--hover) * (var(--font-size) * 0.10)), calc(var(--hover) * (var(--font-size) * -0.10)));
 }
 
-.sparkle-button span:last-of-type {
+.sparkle-button .sparkle-text-glare {
   position: absolute;
   inset: 0;
   padding: var(--padding);
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  align-items: var(--sparkle-align-items, center);
   justify-content: center;
+  text-align: var(--sparkle-text-align, center);
+  font-size: var(--font-size);
+  font-weight: ${resolvedFontWeight};
   background: linear-gradient(
     108deg,
-    transparent 0 55%,
-    var(--glare) 55% 60%,
-    transparent 60% 70%,
-    var(--glare) 70% 85%,
-    transparent 85%
+    transparent 0 50%,
+    var(--glare) 52% 62%,
+    transparent 64% 72%,
+    var(--glare) 74% 88%,
+    transparent 90%
   ) calc(var(--pos) * -200%) 0% / 200% 100%, var(--color);
   -webkit-background-clip: text;
   background-clip: text;
@@ -158,7 +238,7 @@ function OriginkitBaseSparkleButton({
 .sparkle-button svg {
   position: absolute;
   z-index: 3;
-  width: calc(var(--font-size) * 0.6);
+  width: calc(var(--font-size) * 0.45);
   aspect-ratio: 1;
   pointer-events: none;
   top: calc(var(--y, 50) * 1%);
@@ -180,40 +260,24 @@ function OriginkitBaseSparkleButton({
   }
 }
 
-.sparkle-button svg:nth-of-type(1) { --x: 0; --y: 20; --s: 1.1; --d: 1; --delay-step: 0.15; }
-.sparkle-button svg:nth-of-type(2) { --x: 15; --y: 80; --s: 1.25; --d: 2; --delay-step: 0.15; }
-.sparkle-button svg:nth-of-type(3) { --x: 45; --y: 40; --s: 1.1; --d: 3; --delay-step: 0.15; }
-.sparkle-button svg:nth-of-type(4) { --x: 75; --y: 60; --s: 0.9; --d: 2; --delay-step: 0.15; }
-.sparkle-button svg:nth-of-type(5) { --x: 100; --y: 30; --s: 0.8; --d: 4; --delay-step: 0.15; }
+.sparkle-button svg:nth-of-type(1) { --x: 8; --y: 15; --s: 1.15; --d: 1; --delay-step: 0.14; }
+.sparkle-button svg:nth-of-type(2) { --x: 18; --y: 85; --s: 1.3; --d: 2; --delay-step: 0.14; }
+.sparkle-button svg:nth-of-type(3) { --x: 52; --y: 20; --s: 1.1; --d: 3; --delay-step: 0.14; }
+.sparkle-button svg:nth-of-type(4) { --x: 82; --y: 78; --s: 1.0; --d: 2; --delay-step: 0.14; }
+.sparkle-button svg:nth-of-type(5) { --x: 94; --y: 25; --s: 0.9; --d: 4; --delay-step: 0.14; }
 `}</style>
 
-      <motion.a
-        href={href}
-        onClick={onClick}
-        className="sparkle-button"
-        style={
-          {
-            fontFamily: resolvedFontFamily,
-            "--color": textColor,
-            "--shadow": shadowColor,
-            "--glare": glareColor,
-            "--font-size": fontSizeCss,
-          } as React.CSSProperties
-        }
-        initial="rest"
-        whileHover="hover"
-        whileTap="tap"
-        variants={variants}
-      >
-        <Sparkle />
-        <Sparkle />
-        <Sparkle />
-        <Sparkle />
-        <Sparkle />
-
-        <span>{text}</span>
-        <span aria-hidden="true">{text}</span>
-      </motion.a>
+      {as === "h1" ? (
+        <motion.h1 {...motionProps}>{inner}</motion.h1>
+      ) : as === "h2" ? (
+        <motion.h2 {...motionProps}>{inner}</motion.h2>
+      ) : as === "div" ? (
+        <motion.div {...motionProps}>{inner}</motion.div>
+      ) : as === "span" ? (
+        <motion.span {...motionProps}>{inner}</motion.span>
+      ) : (
+        <motion.a href={href} {...motionProps}>{inner}</motion.a>
+      )}
     </div>
   );
 }

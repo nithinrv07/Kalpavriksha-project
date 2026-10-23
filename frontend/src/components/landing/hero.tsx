@@ -10,7 +10,6 @@ import { FlipCard } from "@/components/flip-card";
 import { PulsatingBorder } from "@/components/pulsating-border";
 import { SparkleButton } from "@/components/sparkle-button";
 import { SphereGallery3D } from "@/components/sphere-gallery-3d";
-import type { Locale } from "@/lib/i18n";
 import type { ShapeName } from "@/lib/shapes";
 import { MODULES } from "@/modules/registry";
 import { LangSelect } from "./lang-select";
@@ -30,25 +29,6 @@ const STAT_POSITIONS = [
 
 function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
-/** Letter-by-letter reveal for Latin; word-by-word for Tamil/Devanagari so clusters never split. */
-function TypeLine({ text, locale, offset }: { text: string; locale: Locale; offset: number }) {
-  const granularity = locale === "en" ? "grapheme" : "word";
-  const parts = Array.from(new Intl.Segmenter(locale, { granularity }).segment(text), (s) => s.segment);
-  return (
-    <span aria-hidden className="block">
-      {parts.map((part, i) => (
-        <span
-          key={i}
-          className="type-in whitespace-pre"
-          style={{ animationDelay: `${offset + i * (granularity === "word" ? 140 : 55)}ms` }}
-        >
-          {part}
-        </span>
-      ))}
-    </span>
-  );
 }
 
 export function Hero() {
@@ -198,21 +178,26 @@ export function Hero() {
             <br />
             {t.tagline[1]}
           </p>
-          <h1
-            key={locale}
-            className={`mt-4 font-display text-text ${
-              // Sized to the copy column so wide scripts never overflow the frame.
-              locale === "en"
-                ? "text-[clamp(52px,26cqi,132px)] leading-[0.9] tracking-[-0.055em]"
-                : "text-[clamp(36px,15cqi,104px)] leading-[1.08] tracking-[-0.01em]"
-            }`}
-          >
-            <span className="sr-only">
-              {line1} {line2}
-            </span>
-            <TypeLine text={line1} locale={locale} offset={300} />
-            <TypeLine text={line2} locale={locale} offset={300 + line1.length * 55} />
-          </h1>
+          <div className="mt-4 flex justify-end">
+            <SparkleButton
+              as="h1"
+              lines={[line1, line2]}
+              align="right"
+              fontSize={
+                locale === "en"
+                  ? "clamp(52px, 24cqi, 128px)"
+                  : "clamp(36px, 15cqi, 96px)"
+              }
+              fontFamily="var(--font-display), var(--font-geist), sans-serif"
+              fontWeight={700}
+              letterSpacing={locale === "en" ? "-0.055em" : "-0.01em"}
+              lineHeight={locale === "en" ? 0.9 : 1.08}
+              textColor="#FFFFFF"
+              shadowColor="#3b0764"
+              glareColor="rgba(255, 255, 255, 0.85)"
+              className="w-full text-right"
+            />
+          </div>
         </div>
 
         <div
@@ -363,10 +348,18 @@ export function Hero() {
                 className="pointer-events-auto absolute right-4 top-[18%] z-20 hidden items-center justify-end sm:right-8 sm:flex lg:right-10 lg:top-[22%]"
               >
                 <SparkleButton
-                  text="Rooted To Rise"
-                  fontSize="clamp(36px, 4.2vw, 68px)"
+                  as="h2"
+                  lines={[line1, line2]}
+                  align="right"
+                  fontSize={
+                    locale === "en"
+                      ? "clamp(44px, 4.2vw, 76px)"
+                      : "clamp(32px, 3.4vw, 56px)"
+                  }
                   fontFamily="var(--font-display), var(--font-geist), sans-serif"
                   fontWeight={800}
+                  letterSpacing={locale === "en" ? "-0.055em" : "-0.01em"}
+                  lineHeight={0.92}
                   textColor="#C3AFD4"
                   shadowColor="#1E0028"
                   glareColor="#4A105DBF"
