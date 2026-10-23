@@ -337,6 +337,8 @@ export function Hero() {
                 className="absolute inset-0 z-10 h-full w-full -translate-x-8 sm:-translate-x-16 lg:-translate-x-48 xl:-translate-x-56"
               >
                 <SphereGallery3D
+                  scale={76}
+                  size={30}
                   background="transparent"
                   style={{ width: "100%", height: "100%", minWidth: 0, minHeight: 0 }}
                   onBackgroundClick={() => setIsFlipped(false)}
