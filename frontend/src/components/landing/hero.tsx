@@ -348,7 +348,7 @@ export function Hero() {
               {/* 3D Sphere Gallery canvas */}
               <div
                 data-no-flip="true"
-                className="absolute inset-0 z-10 h-full w-full translate-x-6 sm:translate-x-10 lg:translate-x-16"
+                className="absolute inset-0 z-10 h-full w-full -translate-x-6 sm:-translate-x-12 lg:-translate-x-32"
               >
                 <SphereGallery3D
                   background="transparent"
