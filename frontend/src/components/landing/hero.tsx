@@ -343,101 +343,98 @@ export function Hero() {
                 />
               </div>
 
-              {/* Crystal Glow "Rooted To Rise" headline */}
+              {/* Right-side content column: perfectly aligned, zero overlap */}
               <div
                 data-no-flip="true"
-                className="pointer-events-auto absolute right-4 top-[7%] z-20 flex items-center justify-end sm:right-8 sm:top-[9%] lg:right-10 lg:top-[10%]"
+                className="pointer-events-auto absolute right-4 top-16 bottom-6 z-20 flex w-full max-w-[340px] flex-col justify-between items-end sm:right-8 sm:top-20 sm:bottom-8 sm:max-w-[400px] lg:right-10 lg:top-24 lg:bottom-9 lg:max-w-[440px]"
               >
-                <SparkleButton
-                  as="h2"
-                  lines={[line1, line2]}
-                  align="right"
-                  fontSize={
-                    locale === "en"
-                      ? "clamp(48px, 8vw, 132px)"
-                      : "clamp(36px, 5.8vw, 96px)"
-                  }
-                  fontFamily="var(--font-display), var(--font-geist), sans-serif"
-                  fontWeight={800}
-                  letterSpacing={locale === "en" ? "-0.055em" : "-0.01em"}
-                  lineHeight={0.92}
-                  textColor="#C3AFD4"
-                  shadowColor="#1E0028"
-                  glareColor="#4A105DBF"
-                />
-              </div>
+                {/* 1. Crystal Glow "Rooted To Rise" headline */}
+                <div className="w-full flex justify-end">
+                  <SparkleButton
+                    as="h2"
+                    lines={[line1, line2]}
+                    align="right"
+                    fontSize={
+                      locale === "en"
+                        ? "clamp(42px, 5.4vw, 92px)"
+                        : "clamp(32px, 4.2vw, 72px)"
+                    }
+                    fontFamily="var(--font-display), var(--font-geist), sans-serif"
+                    fontWeight={800}
+                    letterSpacing={locale === "en" ? "-0.055em" : "-0.01em"}
+                    lineHeight={0.92}
+                    textColor="#C3AFD4"
+                    shadowColor="#1E0028"
+                    glareColor="#4A105DBF"
+                  />
+                </div>
 
-              {/* Middle interactive showcase: fills the space between headline and bottom lead */}
-              <div
-                data-no-flip="true"
-                className="pointer-events-auto absolute right-4 top-[31%] z-20 hidden max-w-[380px] flex-col items-end gap-2.5 sm:right-8 sm:flex lg:right-10 lg:top-[32%]"
-              >
-                {/* Tagline / Subtitle */}
-                <p className="font-mono text-[11.5px] tracking-wide text-violet/90 text-right">
-                  {t.tagline[0]} — {t.tagline[1]}
-                </p>
+                {/* 2. Middle interactive showcase: dynamically spaced */}
+                <div className="my-auto hidden w-full flex-col items-end gap-2.5 py-3 sm:flex">
+                  {/* Tagline / Subtitle */}
+                  <p className="font-mono text-[11.5px] tracking-wide text-violet/90 text-right">
+                    {t.tagline[0]} — {t.tagline[1]}
+                  </p>
 
-                {/* Quick module access cards with custom icons */}
-                <div className="flex flex-col items-end gap-2 w-full">
-                  {MODULES.map((m) => {
-                    const Icon = m.icon;
-                    return (
-                      <Link
-                        key={m.id}
-                        href={`/m/${m.slug}`}
-                        className="group flex w-full max-w-[320px] items-center justify-between gap-3 rounded-xl border border-line/80 bg-surface/85 px-3 py-2 text-right shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)] backdrop-blur-md transition-all duration-200 hover:border-violet/60 hover:bg-surface-2 hover:shadow-[0_8px_24px_-4px_rgba(124,58,237,0.35)]"
+                  {/* Quick module access cards with custom icons */}
+                  <div className="flex flex-col items-end gap-2 w-full">
+                    {MODULES.map((m) => {
+                      const Icon = m.icon;
+                      return (
+                        <Link
+                          key={m.id}
+                          href={`/m/${m.slug}`}
+                          className="group flex w-full max-w-[320px] items-center justify-between gap-3 rounded-xl border border-line/80 bg-surface/85 px-3 py-2 text-right shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)] backdrop-blur-md transition-all duration-200 hover:border-violet/60 hover:bg-surface-2 hover:shadow-[0_8px_24px_-4px_rgba(124,58,237,0.35)]"
+                        >
+                          <span className="font-mono text-[10px] text-violet group-hover:text-text transition-colors">
+                            {m.index}
+                          </span>
+                          <span className="min-w-0 flex-1 truncate text-[12.5px] font-medium text-text group-hover:text-violet-ink transition-colors">
+                            {m.title[locale]}
+                          </span>
+                          <span className="grid size-7 shrink-0 place-items-center overflow-hidden rounded-lg border border-line bg-surface-2 text-violet-ink shadow-sm transition-transform duration-200 group-hover:scale-105">
+                            {m.iconImage ? (
+                              <Image
+                                src={m.iconImage}
+                                alt={m.title[locale]}
+                                width={28}
+                                height={28}
+                                className="size-full object-cover"
+                              />
+                            ) : (
+                              <Icon size={14} weight="duotone" />
+                            )}
+                          </span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+
+                  {/* Key statistics row */}
+                  <div className="flex flex-wrap items-center justify-end gap-1.5 pt-0.5">
+                    {t.stats.map((stat, i) => (
+                      <span
+                        key={i}
+                        className="inline-flex items-center gap-1 rounded-full border border-line/70 bg-white/[0.04] px-2.5 py-0.5 font-mono text-[10px] text-muted backdrop-blur-sm"
                       >
-                        <span className="font-mono text-[10px] text-violet group-hover:text-text transition-colors">
-                          {m.index}
-                        </span>
-                        <span className="min-w-0 flex-1 truncate text-[12.5px] font-medium text-text group-hover:text-violet-ink transition-colors">
-                          {m.title[locale]}
-                        </span>
-                        <span className="grid size-7 shrink-0 place-items-center overflow-hidden rounded-lg border border-line bg-surface-2 text-violet-ink shadow-sm transition-transform duration-200 group-hover:scale-105">
-                          {m.iconImage ? (
-                            <Image
-                              src={m.iconImage}
-                              alt={m.title[locale]}
-                              width={28}
-                              height={28}
-                              className="size-full object-cover"
-                            />
-                          ) : (
-                            <Icon size={14} weight="duotone" />
-                          )}
-                        </span>
-                      </Link>
-                    );
-                  })}
+                        <strong className="font-semibold text-text">{stat.value}</strong>
+                        <span>{stat.label}</span>
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
-                {/* Key statistics row */}
-                <div className="flex flex-wrap items-center justify-end gap-1.5 pt-0.5">
-                  {t.stats.map((stat, i) => (
-                    <span
-                      key={i}
-                      className="inline-flex items-center gap-1 rounded-full border border-line/70 bg-white/[0.04] px-2.5 py-0.5 font-mono text-[10px] text-muted backdrop-blur-sm"
-                    >
-                      <strong className="font-semibold text-text">{stat.value}</strong>
-                      <span>{stat.label}</span>
-                    </span>
-                  ))}
+                {/* 3. Bottom copy & explore link */}
+                <div className="w-full max-w-[340px] text-right sm:max-w-[380px]">
+                  <p className="font-mono text-[12.5px] leading-relaxed text-muted">{t.lead}</p>
+                  <a
+                    href="#modules"
+                    className="group mt-3 inline-flex items-center gap-2 text-sm text-text underline decoration-line-strong underline-offset-4 transition-colors duration-200 hover:decoration-violet"
+                  >
+                    {t.explore}
+                    <ArrowDown size={14} className="transition-transform duration-200 group-hover:translate-y-0.5" />
+                  </a>
                 </div>
-              </div>
-
-              {/* Exact bottom-right copy & explore link kept in same place */}
-              <div
-                data-no-flip="true"
-                className="pointer-events-auto absolute bottom-6 right-5 z-20 max-w-[340px] text-right sm:bottom-9 sm:right-8 sm:max-w-[380px] lg:bottom-9 lg:right-10 lg:max-w-[380px] lg:p-0 lg:text-right"
-              >
-                <p className="font-mono text-[12.5px] leading-relaxed text-muted">{t.lead}</p>
-                <a
-                  href="#modules"
-                  className="group mt-4 inline-flex items-center gap-2 text-sm text-text underline decoration-line-strong underline-offset-4 transition-colors duration-200 hover:decoration-violet"
-                >
-                  {t.explore}
-                  <ArrowDown size={14} className="transition-transform duration-200 group-hover:translate-y-0.5" />
-                </a>
               </div>
             </div>
           }
