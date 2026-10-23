@@ -68,6 +68,7 @@ export const MODULES: readonly KalpaModule[] = [
       hi: "प्रश्नोत्तरी, समसामयिकी और पढ़कर सुनाए जाने वाले गीत।",
     },
     icon: Flag,
+    iconImage: "/images/modules/gk-songs-icon.png",
     shape: "chakra",
     tile: "standard",
   },
