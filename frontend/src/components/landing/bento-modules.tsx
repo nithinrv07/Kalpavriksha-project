@@ -239,13 +239,13 @@ export function BentoModules() {
                       aria-hidden
                       className="pointer-events-none absolute -inset-6 rounded-full bg-[radial-gradient(circle_at_center,rgba(124,58,237,0.2),rgba(45,212,191,0.08),transparent_70%)] blur-2xl"
                     />
-                    <Image
+                    <MovableImage
                       src="/images/modules/tree-growth.png"
                       alt={m.title[locale]}
                       width={399}
                       height={416}
-                      draggable={false}
-                      className="relative z-10 h-auto w-full max-w-[200px] object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.45)] transition-transform duration-500 group-hover:scale-105 sm:max-w-[240px] lg:max-w-[260px]"
+                      framed={false}
+                      className="relative z-10 w-full max-w-[200px] sm:max-w-[240px] lg:max-w-[260px]"
                     />
                   </div>
                 </div>

@@ -9,6 +9,8 @@ interface MovableImageProps {
   width?: number;
   height?: number;
   className?: string;
+  imageClassName?: string;
+  framed?: boolean;
 }
 
 export function MovableImage({
@@ -17,6 +19,8 @@ export function MovableImage({
   width = 571,
   height = 350,
   className = "",
+  imageClassName = "",
+  framed = true,
 }: MovableImageProps) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
@@ -116,7 +120,24 @@ export function MovableImage({
           : "transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease",
       }}
     >
-      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-surface shadow-[0_20px_50px_-15px_rgba(0,0,0,0.85),0_0_30px_-8px_rgba(124,58,237,0.3)] transition-all duration-300 group-hover/movable:border-violet/50 group-hover/movable:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_40px_-5px_rgba(124,58,237,0.45)] lg:rounded-3xl">
+      {framed ? (
+        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-surface shadow-[0_20px_50px_-15px_rgba(0,0,0,0.85),0_0_30px_-8px_rgba(124,58,237,0.3)] transition-all duration-300 group-hover/movable:border-violet/50 group-hover/movable:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_40px_-5px_rgba(124,58,237,0.45)] lg:rounded-3xl">
+          <Image
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            priority
+            draggable={false}
+            className={`h-auto w-full max-w-[440px] object-cover object-center transition-transform duration-300 group-hover/movable:scale-[1.02] lg:max-w-[480px] ${imageClassName}`}
+          />
+          {/* Subtle highlight sheen */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.04] to-transparent"
+          />
+        </div>
+      ) : (
         <Image
           src={src}
           alt={alt}
@@ -124,14 +145,9 @@ export function MovableImage({
           height={height}
           priority
           draggable={false}
-          className="h-auto w-full max-w-[440px] object-cover object-center transition-transform duration-300 group-hover/movable:scale-[1.02] lg:max-w-[480px]"
+          className={`h-auto w-full object-contain drop-shadow-[0_16px_32px_rgba(0,0,0,0.55)] transition-transform duration-300 group-hover/movable:scale-105 ${imageClassName}`}
         />
-        {/* Subtle highlight sheen */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.04] to-transparent"
-        />
-      </div>
+      )}
     </div>
   );
 }
