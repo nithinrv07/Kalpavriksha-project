@@ -277,19 +277,88 @@ export function Hero() {
             </div>
           }
           back={
-            <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[22px] border border-line bg-surface/95 shadow-[0_40px_120px_-20px_rgb(0_0_0/0.85),0_0_90px_-25px_rgb(124_58_237/0.45),inset_0_1px_0_rgb(255_255_255/0.05)] lg:rounded-[28px]">
+            <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[22px] border border-line bg-surface/95 shadow-[0_40px_120px_-20px_rgb(0_0_0/0.85),0_0_90px_-25px_rgb(124_58_237/0.45),inset_0_1px_0_rgb(255_255_255/0.05)] lg:block lg:rounded-[28px]">
               {/* Pulsating border glow around the hero frame */}
               <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
                 <PulsatingBorder colors={["#000000", "#ffffff", "#a855f7"]} thickness={0.35} />
               </div>
 
+              {/* Top bar — flows on mobile, pinned on desktop */}
+              <div className="z-20 flex items-center justify-between gap-3 p-3 sm:p-4 lg:absolute lg:inset-x-6 lg:top-6 lg:justify-end lg:p-0">
+                <span className="flex items-center gap-2 font-display text-lg tracking-tight lg:hidden">
+                  <BrandMark className="size-6 text-violet" />
+                  Kalpavriksha
+                </span>
+                <div className="flex items-center gap-2">
+                  <LangSelect />
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsFlipped(false);
+                    }}
+                    className="flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.06] px-3.5 font-mono text-[13px] text-text transition-colors duration-200 hover:border-violet/40 hover:bg-violet-deep hover:text-violet-ink active:scale-[0.98]"
+                    title="Return to Particle Tree"
+                  >
+                    <ArrowsClockwise size={15} />
+                    <span className="hidden sm:inline">Tree View</span>
+                  </button>
+                  <Link
+                    href="/sign-in"
+                    className="hidden h-11 items-center rounded-xl border border-violet/25 bg-violet-deep px-5 font-mono text-[13px] text-violet-ink transition-colors duration-200 hover:bg-[#4c1d95] active:scale-[0.98] sm:flex"
+                  >
+                    {t.signIn}
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => setMenuOpen(true)}
+                    aria-label={t.menu}
+                    className="grid size-11 place-items-center rounded-xl border border-line bg-white/[0.06] lg:hidden"
+                  >
+                    <DotsNine size={18} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Desktop rail: menu pill + vertical wordmark */}
+              <button
+                type="button"
+                onClick={() => setMenuOpen(true)}
+                aria-label={t.menu}
+                className="group absolute left-6 top-6 z-20 hidden flex-col items-center gap-3 rounded-2xl border border-line bg-white/[0.04] p-1.5 pb-3 transition-colors duration-200 hover:bg-white/[0.08] lg:flex"
+              >
+                <span className="grid size-10 place-items-center rounded-xl bg-white/[0.08] text-text transition-colors duration-200 group-hover:text-violet">
+                  <BrandMark className="size-5" />
+                </span>
+                {locale === "en" && (
+                  <span aria-hidden className="font-mono text-[11px] tracking-wide text-muted [writing-mode:vertical-rl]">
+                    {t.menu}
+                  </span>
+                )}
+              </button>
+
               {/* 3D Sphere Gallery canvas */}
-              <div data-no-flip="true" className="relative z-10 h-full w-full">
+              <div data-no-flip="true" className="absolute inset-0 z-10 h-full w-full">
                 <SphereGallery3D
                   background="transparent"
                   style={{ width: "100%", height: "100%", minWidth: 0, minHeight: 0 }}
                   onBackgroundClick={() => setIsFlipped(false)}
                 />
+              </div>
+
+              {/* Exact bottom-right copy & explore link kept in same place */}
+              <div
+                data-no-flip="true"
+                className="pointer-events-auto absolute bottom-6 right-5 z-20 max-w-[340px] text-right sm:bottom-9 sm:right-8 sm:max-w-[380px] lg:bottom-9 lg:right-10 lg:max-w-[380px] lg:p-0 lg:text-right"
+              >
+                <p className="font-mono text-[12.5px] leading-relaxed text-muted">{t.lead}</p>
+                <a
+                  href="#modules"
+                  className="group mt-4 inline-flex items-center gap-2 text-sm text-text underline decoration-line-strong underline-offset-4 transition-colors duration-200 hover:decoration-violet"
+                >
+                  {t.explore}
+                  <ArrowDown size={14} className="transition-transform duration-200 group-hover:translate-y-0.5" />
+                </a>
               </div>
             </div>
           }
