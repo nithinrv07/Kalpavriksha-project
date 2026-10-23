@@ -1,11 +1,14 @@
 "use client";
 
 import { Lock, Plus, Trash } from "@phosphor-icons/react/ssr";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { BandHint } from "@/components/band-hint";
 import { Burst } from "@/components/burst";
 import { useLocale } from "@/components/locale-provider";
 import { updateProgress, useProgress } from "@/components/progress-store";
+import { StandardSwitcherModal } from "@/components/standard-switcher-modal";
+import { authService } from "@/lib/auth-service";
+import { getLearningTrackStats } from "@/lib/learning-track";
 import {
   AREAS,
   XP,
@@ -20,6 +23,7 @@ import {
   type Progress,
 } from "@/lib/progress";
 import { AREA_INFO, BADGE_INFO, GROW_COPY } from "./content";
+import { LearningTrackCard } from "./learning-track-card";
 
 /** Fixed precision so server and browser render identical SVG attributes. */
 const round = (n: number) => Math.round(n * 100) / 100;
@@ -29,7 +33,11 @@ const MAX_LEAVES = 48;
 const LEAF_SLOTS = Array.from({ length: MAX_LEAVES }, (_, i) => {
   const r = Math.sqrt((i + 0.5) / MAX_LEAVES);
   const a = i * 2.39996;
-  return { x: round(160 + Math.cos(a) * 118 * r), y: round(118 + Math.sin(a) * 84 * r), rot: round((a * 180) / Math.PI) % 360 };
+  return {
+    x: round(160 + Math.cos(a) * 118 * r),
+    y: round(118 + Math.sin(a) * 84 * r),
+    rot: round((a * 180) / Math.PI) % 360,
+  };
 });
 const FRUIT_SLOTS = [
   [92, 96],
@@ -40,9 +48,28 @@ const FRUIT_SLOTS = [
   [262, 140],
 ] as const;
 
-function GrowthTree({ activities, fruits, big }: { activities: readonly Activity[]; fruits: number; big: boolean }) {
+function GrowthTree({
+  activities,
+  lessonsDoneCount,
+  fruits,
+  big,
+}: {
+  activities: readonly Activity[];
+  lessonsDoneCount: number;
+  fruits: number;
+  big: boolean;
+}) {
+  // Completed lessons from Module 1 bloom as academic leaves on the Growth Tree
+  const lessonLeaves: Activity[] = Array.from({ length: lessonsDoneCount }, (_, i) => ({
+    id: `lesson-leaf-${i}`,
+    area: "academics" as const,
+    title: `Lesson ${i + 1}`,
+    date: "",
+  }));
+  const allActivities = [...activities, ...lessonLeaves];
   // Oldest activity takes the innermost slot, so a new leaf always appears at the edge.
-  const leaves = [...activities].reverse().slice(0, MAX_LEAVES);
+  const leaves = [...allActivities].reverse().slice(0, MAX_LEAVES);
+
   return (
     <svg viewBox="0 0 320 300" aria-hidden className={`mx-auto w-full ${big ? "max-w-[520px]" : "max-w-[380px]"}`}>
       <defs>
@@ -104,7 +131,12 @@ function SkillRadar({ progress }: { progress: Progress }) {
   const values = AREAS.map((a) => scores[a]);
   const poly = (radii: readonly number[]) => radii.map((r, i) => radarPoint(i, r).join(",")).join(" ");
   return (
-    <svg viewBox="0 0 240 240" className="mx-auto w-full max-w-[340px] overflow-visible" role="img" aria-label={AREAS.map((a) => `${AREA_INFO[a].name[locale]} ${Math.round(scores[a] * 100)}%`).join(", ")}>
+    <svg
+      viewBox="0 0 240 240"
+      className="mx-auto w-full max-w-[340px] overflow-visible"
+      role="img"
+      aria-label={AREAS.map((a) => `${AREA_INFO[a].name[locale]} ${Math.round(scores[a] * 100)}%`).join(", ")}
+    >
       {[0.33, 0.66, 1].map((r) => (
         <polygon key={r} points={poly(AREAS.map(() => r))} fill="none" stroke="var(--line-strong)" />
       ))}
@@ -136,14 +168,25 @@ function SkillRadar({ progress }: { progress: Progress }) {
 }
 
 /** Junior view of the same data: a sticker per area with a count. */
-function Stickers({ activities }: { activities: readonly Activity[] }) {
+function Stickers({
+  activities,
+  lessonsDoneCount,
+  songsHeardCount,
+}: {
+  activities: readonly Activity[];
+  lessonsDoneCount: number;
+  songsHeardCount: number;
+}) {
   const { locale } = useLocale();
   return (
     <div className="grid grid-cols-3 gap-2">
       {AREAS.map((a) => {
         const info = AREA_INFO[a];
         const Glyph = info.icon;
-        const count = activities.filter((x) => x.area === a).length;
+        let count = activities.filter((x) => x.area === a).length;
+        if (a === "academics") count += lessonsDoneCount;
+        if (a === "communication") count += songsHeardCount;
+
         return (
           <div
             key={a}
@@ -257,15 +300,38 @@ export function GrowScreen({ band }: { band: Band }) {
   const scores = skillScores(progress);
   const ranked = [...AREAS].sort((a, b) => scores[b] - scores[a]);
 
+  const [switcherOpen, setSwitcherOpen] = useState(false);
+  const learningStats = useMemo(() => getLearningTrackStats(progress), [progress]);
+
+  const totalLeaves = progress.activities.length + progress.lessonsDone.length;
+
   return (
     <div className="flex flex-col gap-6">
       <BandHint band={band} text={c.bandHint[band]} />
 
+      {/* Standard Switcher Modal for switching Class 1-12 */}
+      <StandardSwitcherModal
+        currentGrade={learningStats.standard}
+        isOpen={switcherOpen}
+        onClose={() => setSwitcherOpen(false)}
+        onSelectStandard={(std) => {
+          authService.updateStandard(std);
+          setSwitcherOpen(false);
+        }}
+      />
+
       <div className={`grid gap-4 ${band === "junior" ? "lg:grid-cols-[1.3fr_1fr]" : "lg:grid-cols-[1.1fr_1fr]"}`}>
         <section className="rounded-[28px] border border-line bg-surface p-5 sm:p-6">
           <h2 className="font-display text-xl tracking-[-0.02em]">{c.treeTitle}</h2>
-          <p className="mt-1 font-mono text-[12px] text-muted">{c.leaves(progress.activities.length)}</p>
-          <GrowthTree activities={progress.activities} fruits={fruits} big={band === "junior"} />
+          <p className="mt-1 font-mono text-[12px] text-muted">
+            {c.leaves(totalLeaves, progress.lessonsDone.length)}
+          </p>
+          <GrowthTree
+            activities={progress.activities}
+            lessonsDoneCount={progress.lessonsDone.length}
+            fruits={fruits}
+            big={band === "junior"}
+          />
           <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1">
             {AREAS.map((a) => (
               <span key={a} className="flex items-center gap-1.5 text-[12px] text-muted">
@@ -280,7 +346,17 @@ export function GrowScreen({ band }: { band: Band }) {
           <ActivityForm band={band} />
           <section className="rounded-3xl border border-line bg-surface p-5 sm:p-6">
             <h2 className="font-display text-xl tracking-[-0.02em]">{band === "junior" ? c.stickersTitle : c.skillsTitle}</h2>
-            <div className="mt-4">{band === "junior" ? <Stickers activities={progress.activities} /> : <SkillRadar progress={progress} />}</div>
+            <div className="mt-4">
+              {band === "junior" ? (
+                <Stickers
+                  activities={progress.activities}
+                  lessonsDoneCount={progress.lessonsDone.length}
+                  songsHeardCount={progress.songsHeard.length}
+                />
+              ) : (
+                <SkillRadar progress={progress} />
+              )}
+            </div>
             {band === "senior" && (
               <div className="mt-4 grid grid-cols-2 gap-2 border-t border-line pt-4">
                 <p className="text-[13px] text-muted">
@@ -301,9 +377,16 @@ export function GrowScreen({ band }: { band: Band }) {
         </div>
       </div>
 
+      {/* Dedicated Learning Track Performance Card integrated into Module 2 */}
+      <LearningTrackCard
+        stats={learningStats}
+        band={band}
+        onOpenStandardSwitcher={() => setSwitcherOpen(true)}
+      />
+
       <section className="rounded-[28px] border border-line bg-surface p-5 sm:p-6">
         <h2 className="font-display text-xl tracking-[-0.02em]">{c.badgesTitle}</h2>
-        <ul className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+        <ul className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-7">
           {earned.map(({ id, earned: got }) => {
             const info = BADGE_INFO[id];
             const Glyph = info.icon;

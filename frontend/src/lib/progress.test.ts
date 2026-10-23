@@ -92,6 +92,16 @@ describe("skillScores", () => {
       expect(v).toBeLessThanOrEqual(1);
     }
   });
+
+  it("increases academics score when lessons are completed in Module 1", () => {
+    const before = skillScores(EMPTY_PROGRESS);
+    let p = EMPTY_PROGRESS;
+    for (let i = 1; i <= 5; i++) {
+      p = completeLesson(p, `lesson-${i}`, TODAY);
+    }
+    const after = skillScores(p);
+    expect(after.academics).toBeGreaterThan(before.academics);
+  });
 });
 
 describe("badges", () => {
@@ -101,6 +111,15 @@ describe("badges", () => {
     const after = badges(p, TODAY).find((b) => b.id === "first-leaf");
     expect(before?.earned).toBe(false);
     expect(after?.earned).toBe(true);
+  });
+
+  it("unlocks the scholar badge after 10 completed lessons", () => {
+    let p = EMPTY_PROGRESS;
+    for (let i = 1; i <= 10; i++) {
+      p = completeLesson(p, `lesson-${i}`, TODAY);
+    }
+    const scholar = badges(p, TODAY).find((b) => b.id === "scholar");
+    expect(scholar?.earned).toBe(true);
   });
 });
 

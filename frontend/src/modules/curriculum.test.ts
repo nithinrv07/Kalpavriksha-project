@@ -5,6 +5,11 @@ import {
   getSubjectsForStandard,
   isSupportedStandard,
   SUPPORTED_STANDARDS,
+  TN_11TH_TEXTBOOKS_URL,
+  TN_12TH_TEXTBOOKS_URL,
+  TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL,
+  TN_NEW_SYLLABUS_2026_27_URL,
+  TN_OFFICIAL_TEXTBOOK_LINKS,
   TN_TEXTBOOK_PORTAL_URL,
   validateStandardAccess,
 } from "@/lib/curriculum";
@@ -18,9 +23,9 @@ import {
   type Profile,
 } from "@/lib/progress";
 
-describe("Standard-wise Curriculum Engine (Class 4 to 12)", () => {
-  it("supports all standards from Class 4 through Class 12", () => {
-    expect(SUPPORTED_STANDARDS).toEqual([4, 5, 6, 7, 8, 9, 10, 11, 12]);
+describe("Standard-wise Curriculum Engine (Class 1 to 12)", () => {
+  it("supports all standards from Class 1 through Class 12 across 3 growth stages", () => {
+    expect(SUPPORTED_STANDARDS).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
     for (const std of SUPPORTED_STANDARDS) {
       expect(isSupportedStandard(std)).toBe(true);
       const curriculum = getStandardCurriculum(std);
@@ -30,40 +35,176 @@ describe("Standard-wise Curriculum Engine (Class 4 to 12)", () => {
     }
   });
 
-  it("Scenario 1: Class 4 student sees only subjects configured for Class 4", () => {
-    const subjects = getSubjectsForStandard(4);
-    const codes = subjects.map((s) => s.code);
-    expect(codes).toContain("TAM-04");
-    expect(codes).toContain("ENG-04");
-    expect(codes).toContain("MAT-04");
-    expect(codes).toContain("SCI-04");
-    expect(codes).toContain("SOC-04");
+  it("Scenario 0: Class 1, 2, 3 (Seed stage) sees primary foundational subjects", () => {
+    const subjects1 = getSubjectsForStandard(1);
+    const codes1 = subjects1.map((s) => s.code);
+    expect(codes1).toEqual(["TAM-01", "ENG-01", "MAT-01", "EVS-01"]);
+    expect(subjects1.find((s) => s.id === "c1-tamil")?.chapters.length).toBe(9);
+    expect(subjects1.find((s) => s.id === "c1-english")?.chapters.length).toBe(6);
+    expect(subjects1.find((s) => s.id === "c1-math")?.chapters.length).toBe(6);
+    expect(subjects1.find((s) => s.id === "c1-evs")?.chapters.length).toBe(6);
+
+    const subjects2 = getSubjectsForStandard(2);
+    const codes2 = subjects2.map((s) => s.code);
+    expect(codes2).toEqual(["TAM-02", "ENG-02", "MAT-02", "EVS-02"]);
+    expect(subjects2.find((s) => s.id === "c2-tamil")?.chapters.length).toBe(9);
+    expect(subjects2.find((s) => s.id === "c2-english")?.chapters.length).toBe(6);
+    expect(subjects2.find((s) => s.id === "c2-math")?.chapters.length).toBe(6);
+    expect(subjects2.find((s) => s.id === "c2-evs")?.chapters.length).toBe(6);
+
+    const subjects3 = getSubjectsForStandard(3);
+    const codes3 = subjects3.map((s) => s.code);
+    expect(codes3).toEqual(["TAM-03", "ENG-03", "MAT-03", "SCI-03", "SOC-03"]);
+    expect(subjects3.find((s) => s.id === "c3-tamil")?.chapters.length).toBe(9);
+    expect(subjects3.find((s) => s.id === "c3-english")?.chapters.length).toBe(6);
+    expect(subjects3.find((s) => s.id === "c3-math")?.chapters.length).toBe(6);
+    expect(subjects3.find((s) => s.id === "c3-science")?.chapters.length).toBe(6);
+    expect(subjects3.find((s) => s.id === "c3-social")?.chapters.length).toBe(6);
+  });
+
+  it("Scenario 1: Class 4 & 5 students see full 3-term primary/plant subjects", () => {
+    const subjects4 = getSubjectsForStandard(4);
+    const codes4 = subjects4.map((s) => s.code);
+    expect(codes4).toEqual(["TAM-04", "ENG-04", "MAT-04", "SCI-04", "SOC-04"]);
+    expect(subjects4.find((s) => s.id === "c4-tamil")?.chapters.length).toBe(9);
+    expect(subjects4.find((s) => s.id === "c4-english")?.chapters.length).toBe(6);
+    expect(subjects4.find((s) => s.id === "c4-math")?.chapters.length).toBe(6);
+    expect(subjects4.find((s) => s.id === "c4-science")?.chapters.length).toBe(6);
+    expect(subjects4.find((s) => s.id === "c4-social")?.chapters.length).toBe(6);
+
+    const subjects5 = getSubjectsForStandard(5);
+    const codes5 = subjects5.map((s) => s.code);
+    expect(codes5).toEqual(["TAM-05", "ENG-05", "MAT-05", "SCI-05", "SOC-05"]);
+    expect(subjects5.find((s) => s.id === "c5-tamil")?.chapters.length).toBe(9);
+    expect(subjects5.find((s) => s.id === "c5-english")?.chapters.length).toBe(6);
+    expect(subjects5.find((s) => s.id === "c5-math")?.chapters.length).toBe(6);
+    expect(subjects5.find((s) => s.id === "c5-science")?.chapters.length).toBe(6);
+    expect(subjects5.find((s) => s.id === "c5-social")?.chapters.length).toBe(6);
 
     // Must NOT contain higher secondary streams like Physics or Accountancy
-    expect(codes).not.toContain("PHY-11");
-    expect(codes).not.toContain("ACC-11");
+    expect(codes4).not.toContain("PHY-11");
+    expect(codes4).not.toContain("ACC-11");
+    expect(codes5).not.toContain("CHE-12");
   });
 
-  it("Scenario 2: Class 8 student sees upper primary subjects configured for Class 8", () => {
+  it("Scenario 1b: Class 6 student sees full 3-term syllabus across all 5 subjects", () => {
+    const subjects = getSubjectsForStandard(6);
+    expect(subjects.length).toBe(5);
+
+    const c6Tamil = subjects.find((s) => s.id === "c6-tamil");
+    expect(c6Tamil).toBeDefined();
+    expect(c6Tamil!.chapters.length).toBe(9); // All 3 terms
+    expect(c6Tamil!.chapters[0]?.title.ta).toContain("இன்பத்தமிழ்");
+    expect(c6Tamil!.chapters[8]?.title.ta).toContain("திருக்குறள்");
+
+    const c6English = subjects.find((s) => s.id === "c6-english");
+    expect(c6English).toBeDefined();
+    expect(c6English!.chapters.length).toBe(7); // All 3 terms
+    expect(c6English!.chapters[0]?.title.en).toContain("Sea Turtles");
+
+    const c6Math = subjects.find((s) => s.id === "c6-math");
+    expect(c6Math).toBeDefined();
+    expect(c6Math!.chapters.length).toBe(14); // All 3 terms
+
+    const c6Science = subjects.find((s) => s.id === "c6-science");
+    expect(c6Science).toBeDefined();
+    expect(c6Science!.chapters.length).toBe(15); // All 3 terms
+
+    const c6Social = subjects.find((s) => s.id === "c6-social");
+    expect(c6Social).toBeDefined();
+    expect(c6Social!.chapters.length).toBe(12); // All 3 terms
+  });
+
+  it("Scenario 1c: Class 7 student sees full 3-term syllabus across all 5 subjects", () => {
+    const subjects = getSubjectsForStandard(7);
+    const codes = subjects.map((s) => s.code);
+    expect(codes).toEqual(["TAM-07", "ENG-07", "MAT-07", "SCI-07", "SOC-07"]);
+
+    const c7Tamil = subjects.find((s) => s.id === "c7-tamil");
+    expect(c7Tamil?.chapters.length).toBe(9);
+    expect(c7Tamil?.chapters[0]?.title.ta).toContain("எங்கள் தமிழ்");
+
+    const c7English = subjects.find((s) => s.id === "c7-english");
+    expect(c7English?.chapters.length).toBe(7);
+    expect(c7English?.chapters[0]?.title.en).toContain("Eidgah");
+
+    const c7Math = subjects.find((s) => s.id === "c7-math");
+    expect(c7Math?.chapters.length).toBe(10);
+
+    const c7Science = subjects.find((s) => s.id === "c7-science");
+    expect(c7Science?.chapters.length).toBe(10);
+
+    const c7Social = subjects.find((s) => s.id === "c7-social");
+    expect(c7Social?.chapters.length).toBe(9);
+  });
+
+  it("Scenario 2: Class 8 student sees upper primary full 3-term syllabus across all 5 subjects", () => {
     const subjects = getSubjectsForStandard(8);
     const codes = subjects.map((s) => s.code);
-    expect(codes).toContain("TAM-08");
-    expect(codes).toContain("ENG-08");
-    expect(codes).toContain("MAT-08");
-    expect(codes).toContain("SCI-08");
-    expect(codes).toContain("SOC-08");
-    expect(codes).not.toContain("TAM-04");
+    expect(codes).toEqual(["TAM-08", "ENG-08", "MAT-08", "SCI-08", "SOC-08"]);
+
+    const c8Tamil = subjects.find((s) => s.id === "c8-tamil");
+    expect(c8Tamil?.chapters.length).toBe(9);
+    expect(c8Tamil?.chapters[0]?.title.ta).toContain("தமிழ்மொழி வாழ்த்து");
+
+    const c8English = subjects.find((s) => s.id === "c8-english");
+    expect(c8English?.chapters.length).toBe(7);
+    expect(c8English?.chapters[0]?.title.en).toContain("The Nose-Jewel");
+
+    const c8Math = subjects.find((s) => s.id === "c8-math");
+    expect(c8Math?.chapters.length).toBe(10);
+
+    const c8Science = subjects.find((s) => s.id === "c8-science");
+    expect(c8Science?.chapters.length).toBe(10);
+
+    const c8Social = subjects.find((s) => s.id === "c8-social");
+    expect(c8Social?.chapters.length).toBe(9);
   });
 
-  it("Scenario 3: Class 10 student sees board exam subjects configured for Class 10", () => {
+  it("Scenario 2b: Class 9 student sees full syllabus across all 5 subjects", () => {
+    const subjects = getSubjectsForStandard(9);
+    const codes = subjects.map((s) => s.code);
+    expect(codes).toEqual(["TAM-09", "ENG-09", "MAT-09", "SCI-09", "SOC-09"]);
+
+    const c9Tamil = subjects.find((s) => s.id === "c9-tamil");
+    expect(c9Tamil?.chapters.length).toBe(9);
+    expect(c9Tamil?.chapters[0]?.title.ta).toContain("திராவிட மொழிக் குடும்பம்");
+
+    const c9English = subjects.find((s) => s.id === "c9-english");
+    expect(c9English?.chapters.length).toBe(7);
+    expect(c9English?.chapters[0]?.title.en).toContain("Learning the Game");
+
+    const c9Math = subjects.find((s) => s.id === "c9-math");
+    expect(c9Math?.chapters.length).toBe(9);
+
+    const c9Science = subjects.find((s) => s.id === "c9-science");
+    expect(c9Science?.chapters.length).toBe(10);
+
+    const c9Social = subjects.find((s) => s.id === "c9-social");
+    expect(c9Social?.chapters.length).toBe(9);
+  });
+
+  it("Scenario 3: Class 10 student sees full SSLC board exam syllabus across all 5 subjects", () => {
     const subjects = getSubjectsForStandard(10);
     const codes = subjects.map((s) => s.code);
-    expect(codes).toContain("TAM-10");
-    expect(codes).toContain("ENG-10");
-    expect(codes).toContain("MAT-10");
-    expect(codes).toContain("SCI-10");
-    expect(codes).toContain("SOC-10");
-    expect(codes).not.toContain("PHY-12");
+    expect(codes).toEqual(["TAM-10", "ENG-10", "MAT-10", "SCI-10", "SOC-10"]);
+
+    const c10Tamil = subjects.find((s) => s.id === "c10-tamil");
+    expect(c10Tamil?.chapters.length).toBe(9);
+    expect(c10Tamil?.chapters[0]?.title.ta).toContain("அன்னை மொழியே");
+
+    const c10English = subjects.find((s) => s.id === "c10-english");
+    expect(c10English?.chapters.length).toBe(7);
+    expect(c10English?.chapters[0]?.title.en).toContain("His First Flight");
+
+    const c10Math = subjects.find((s) => s.id === "c10-math");
+    expect(c10Math?.chapters.length).toBe(8);
+
+    const c10Science = subjects.find((s) => s.id === "c10-science");
+    expect(c10Science?.chapters.length).toBe(12);
+
+    const c10Social = subjects.find((s) => s.id === "c10-social");
+    expect(c10Social?.chapters.length).toBe(10);
   });
 
   it("Scenario 4: Class 12 student sees higher secondary elective and language subjects", () => {
@@ -85,7 +226,15 @@ describe("Standard-wise Curriculum Engine (Class 4 to 12)", () => {
     for (const std of SUPPORTED_STANDARDS) {
       const subjects = getSubjectsForStandard(std);
       for (const sub of subjects) {
-        expect(sub.textbookUrl).toBe(TN_TEXTBOOK_PORTAL_URL);
+        if (std <= 3) {
+          expect(sub.textbookUrl).toBe(TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL);
+        } else if (std === 11) {
+          expect(sub.textbookUrl).toBe(TN_11TH_TEXTBOOKS_URL);
+        } else if (std === 12) {
+          expect(sub.textbookUrl).toBe(TN_12TH_TEXTBOOKS_URL);
+        } else {
+          expect(sub.textbookUrl).toBe(TN_TEXTBOOK_PORTAL_URL);
+        }
         expect(sub.chapters.length).toBeGreaterThan(0);
         for (const ch of sub.chapters) {
           expect(ch.title.en.trim().length).toBeGreaterThan(0);
@@ -148,19 +297,19 @@ describe("Standard-wise Curriculum Engine (Class 4 to 12)", () => {
     expect(p.profile?.lastAccessed).toBeUndefined();
 
     // Student opens Class 8 Science Chapter 1
-    p = setLastAccessed(p, { standard: 8, subjectId: "c8-science", chapterId: "c8-sci-ch1" });
+    p = setLastAccessed(p, { standard: 8, subjectId: "c8-science", chapterId: "c8-science-ch1" });
     expect(p.profile?.lastAccessed?.standard).toBe(8);
     expect(p.profile?.lastAccessed?.subjectId).toBe("c8-science");
-    expect(p.profile?.lastAccessed?.chapterId).toBe("c8-sci-ch1");
+    expect(p.profile?.lastAccessed?.chapterId).toBe("c8-science-ch1");
 
-    const resolved = getChapterById(8, "c8-science", "c8-sci-ch1");
+    const resolved = getChapterById(8, "c8-science", "c8-science-ch1");
     expect(resolved).toBeDefined();
     expect(resolved?.subject.id).toBe("c8-science");
-    expect(resolved?.chapter.id).toBe("c8-sci-ch1");
+    expect(resolved?.chapter.id).toBe("c8-science-ch1");
 
     // Completing lesson adds to lessonsDone and gives XP
-    p = completeLesson(p, "c8-sci-ch1", "2026-10-23");
-    expect(p.lessonsDone).toContain("c8-sci-ch1");
+    p = completeLesson(p, "c8-science-ch1", "2026-10-23");
+    expect(p.lessonsDone).toContain("c8-science-ch1");
     expect(p.xp).toBe(20);
   });
 
@@ -178,5 +327,48 @@ describe("Standard-wise Curriculum Engine (Class 4 to 12)", () => {
     // Invalid standard
     const unsupported = validateStandardAccess(6, 99);
     expect(unsupported.allowed).toBe(false);
+  });
+
+  it("provides official Tamil Nadu reference links for textbooks and 2026-27 syllabus", () => {
+    expect(TN_TEXTBOOK_PORTAL_URL).toBe("https://share.google/DWaDvFsGIVE5d4HHs");
+    expect(TN_NEW_SYLLABUS_2026_27_URL).toBe("https://share.google/qaF2Aopcl5hgnN7p0");
+    expect(TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL).toBe("https://share.google/KPUGozoLZRzEdc9wP");
+
+    expect(TN_OFFICIAL_TEXTBOOK_LINKS.length).toBe(5);
+    expect(TN_OFFICIAL_TEXTBOOK_LINKS.map((l) => l.url)).toContain(TN_NEW_SYLLABUS_2026_27_URL);
+    expect(TN_OFFICIAL_TEXTBOOK_LINKS.map((l) => l.url)).toContain(TN_TEXTBOOK_PORTAL_URL);
+    expect(TN_OFFICIAL_TEXTBOOK_LINKS.map((l) => l.url)).toContain(TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL);
+    expect(TN_OFFICIAL_TEXTBOOK_LINKS.map((l) => l.url)).toContain(TN_11TH_TEXTBOOKS_URL);
+    expect(TN_OFFICIAL_TEXTBOOK_LINKS.map((l) => l.url)).toContain(TN_12TH_TEXTBOOKS_URL);
+  });
+
+  it("Scenario 11: Class 11 & 12 touching a subject reveals all chapters from tntextbooks.net", () => {
+    const c11Physics = getSubjectsForStandard(11).find((s) => s.id === "c11-physics");
+    expect(c11Physics).toBeDefined();
+    expect(c11Physics!.chapters.length).toBe(11);
+    expect(c11Physics!.chapters[0]?.title.en).toBe("Nature of Physical World and Measurement");
+    expect(c11Physics!.chapters[10]?.title.en).toBe("Waves");
+    expect(c11Physics!.textbookUrl).toBe(TN_11TH_TEXTBOOKS_URL);
+
+    const c12Chemistry = getSubjectsForStandard(12).find((s) => s.id === "c12-chemistry");
+    expect(c12Chemistry).toBeDefined();
+    expect(c12Chemistry!.chapters.length).toBe(15);
+    expect(c12Chemistry!.chapters[0]?.title.en).toBe("Metallurgy");
+    expect(c12Chemistry!.chapters[14]?.title.en).toBe("Chemistry in Everyday Life");
+    expect(c12Chemistry!.textbookUrl).toBe(TN_12TH_TEXTBOOKS_URL);
+
+    const c12English = getSubjectsForStandard(12).find((s) => s.id === "c12-english");
+    expect(c12English).toBeDefined();
+    expect(c12English!.chapters.length).toBe(18);
+    expect(c12English!.chapters[0]?.title.en).toContain("Two Gentlemen of Verona");
+    expect(c12English!.chapters[1]?.title.en).toContain("The Castle");
+    expect(c12English!.chapters[2]?.title.en).toContain("God Sees the Truth, but Waits");
+    expect(c12English!.chapters[17]?.title.en).toContain("Remember Caesar");
+
+    const c11English = getSubjectsForStandard(11).find((s) => s.id === "c11-english");
+    expect(c11English).toBeDefined();
+    expect(c11English!.chapters.length).toBe(18);
+    expect(c11English!.chapters[0]?.title.en).toContain("The Portrait of a Lady");
+    expect(c11English!.chapters[17]?.title.en).toContain("The Never-Never Nest");
   });
 });

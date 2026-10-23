@@ -9,7 +9,7 @@ import { authService } from "@/lib/auth-service";
 import { AVATAR_NAME, BAND_INFO, SETUP_COPY } from "@/lib/bands";
 import { SUPPORTED_STANDARDS, type SupportedStandard } from "@/lib/curriculum";
 import { LOCALES, LOCALE_LABEL, type Locale } from "@/lib/i18n";
-import { AVATARS, bandOf, type AvatarId, type Band, type Profile } from "@/lib/progress";
+import { AVATARS, BANDS, BAND_GRADES, bandOf, type AvatarId, type Band, type Profile } from "@/lib/progress";
 
 const noopSubscribe = () => () => {};
 /** False during SSR and hydration, true afterwards: lets device-stored state render without a flash. */
@@ -106,15 +106,32 @@ export function LearnerSetup({
   const { locale, setLocale } = useLocale();
   const c = SETUP_COPY[locale];
 
-  // Standard (Class 4 to 12)
-  const [grade, setGrade] = useState<number | null>(existing?.grade ?? null);
+  // Selected Band (Stage): "junior" (Seed: 1-3), "middle" (Plant: 4-10), "senior" (Tree: 11-12)
+  const [selectedBand, setSelectedBand] = useState<Band>(
+    existing ? bandOf(existing.grade) : "middle",
+  );
+
+  // Exact School Standard (Class 1 to 12)
+  const [grade, setGrade] = useState<number | null>(existing?.grade ?? 6);
   const [name, setName] = useState(existing?.name ?? "");
   const [email, setEmail] = useState(existing?.email ?? "");
   const [prefLang, setPrefLang] = useState<Locale>(existing?.preferredLanguage ?? locale);
   const [avatar, setAvatar] = useState<AvatarId>(existing?.avatar ?? "cat");
 
-  const band = grade !== null ? bandOf(grade) : null;
+  const band = grade !== null ? bandOf(grade) : selectedBand;
   const ready = grade !== null && name.trim().length > 0;
+
+  // Handle clicking one of the 3 stage cards
+  const handleStageSelect = (b: Band) => {
+    setSelectedBand(b);
+    const available = BAND_GRADES[b];
+    // If current grade is not in this band, pick a sensible default
+    if (!grade || !available.includes(grade)) {
+      if (b === "junior") setGrade(1);
+      else if (b === "middle") setGrade(6);
+      else if (b === "senior") setGrade(11);
+    }
+  };
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -143,36 +160,40 @@ export function LearnerSetup({
   };
 
   return (
-    <form onSubmit={submit} className="fade-up">
+    <form onSubmit={submit} className="fade-up flex flex-col gap-8">
       {/* Mock Authentication Banner */}
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-violet/30 bg-violet-deep/20 px-4 py-3 text-xs text-violet-ink">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-violet/30 bg-violet-deep/20 px-4 py-3 text-xs text-violet-ink">
         <span className="flex items-center gap-2">
           <ShieldCheck size={18} className="text-violet" weight="fill" />
           <span>
-            <strong>Authentication Mode:</strong> Mock / Device Profile (Stored persistently in browser & synced to /api/profile)
+            <strong>Authentication Mode:</strong> Mock / Device Profile (Stored persistently & synced to /api/profile)
           </span>
         </span>
         <span className="rounded-full bg-white/[0.08] px-2.5 py-0.5 font-mono text-[11px] text-muted">
-          Ready for School SSO / Clerk
+          Ready for School SSO
         </span>
       </div>
 
-      <h2 className="font-display text-[clamp(26px,3.8vw,44px)] leading-[1.05] tracking-[-0.035em] text-balance">
-        {existing ? (locale === "ta" ? "உன் சுயவிவரத்தைப் புதுப்பி" : locale === "hi" ? "अपनी प्रोफ़ाइल अपडेट करें" : "Update your student profile") : c.askTitle}
-      </h2>
-      <p className="mt-2 max-w-xl text-[14.5px] leading-relaxed text-muted">
-        {locale === "ta"
-          ? "வகுப்பு 4 முதல் 12 வரையிலான பாடத்திட்டம் உன் வகுப்புக்கேற்ப தனிப்பயனாக்கப்படும்."
-          : locale === "hi"
-            ? "कक्षा 4 से 12 तक का पाठ्यक्रम आपकी कक्षा के अनुसार व्यक्तिगत बनाया जाएगा।"
-            : "Select your school standard (Class 4 to 12). Learning modules, textbooks and quizzes will be personalised to match."}
-      </p>
+      <div>
+        <h2 className="font-display text-[clamp(26px,3.8vw,44px)] leading-[1.05] tracking-[-0.035em] text-balance">
+          {existing
+            ? (locale === "ta" ? "உன் சுயவிவரத்தைப் புதுப்பி" : locale === "hi" ? "अपनी प्रोफ़ाइल अपडेट करें" : "Update your student profile")
+            : c.askTitle}
+        </h2>
+        <p className="mt-2 max-w-xl text-[14.5px] leading-relaxed text-muted">
+          {locale === "ta"
+            ? "விதை (வகுப்பு 1–3), செடி (வகுப்பு 4–10) அல்லது மரம் (வகுப்பு 11–12) தேர்ந்தெடுத்துத் தொடர்க."
+            : locale === "hi"
+              ? "बीज (कक्षा 1–3), पौधा (कक्षा 4–10) या वृक्ष (कक्षा 11–12) चुनकर आगे बढ़ें।"
+              : "Choose Seed for Class 1–3, Plant for Class 4–10, or Tree for Class 11–12, then proceed."}
+        </p>
+      </div>
 
-      {/* 1. School Standard Selector (Classes 4 to 12) */}
-      <fieldset className="mt-8">
-        <div className="flex items-center justify-between">
-          <legend className="font-mono text-[12px] uppercase tracking-[0.14em] text-violet">
-            1. {locale === "ta" ? "பள்ளி வகுப்பு (வகுப்பு 4 – 12)" : locale === "hi" ? "कक्षा चुनें (कक्षा 4 – 12)" : "School Standard (Class 4 to 12)"} *
+      {/* 1. THREE STAGE CARDS: Seed (1-3), Plant (4-10), Tree (11-12) */}
+      <fieldset>
+        <div className="flex items-center justify-between mb-3">
+          <legend className="font-mono text-[12px] uppercase tracking-[0.14em] text-violet font-semibold">
+            1. {locale === "ta" ? "படிநிலையைத் தேர்ந்தெடு" : locale === "hi" ? "अवस्था चुनें" : "Select Your Growth Stage"} *
           </legend>
           {grade && (
             <span className="font-mono text-[12px] text-muted">
@@ -181,62 +202,93 @@ export function LearnerSetup({
           )}
         </div>
 
-        {/* Dropdown for quick selection on mobile */}
-        <div className="mt-3 block sm:hidden">
-          <select
-            value={grade ?? ""}
-            onChange={(e) => setGrade(e.target.value ? Number(e.target.value) : null)}
-            className="h-12 w-full rounded-2xl border border-line bg-surface-2 px-4 font-mono text-sm text-text focus:border-violet focus:outline-none"
-          >
-            <option value="">-- Choose your class --</option>
-            {SUPPORTED_STANDARDS.map((s) => (
-              <option key={s} value={s}>
-                {c.classWord} {s} ({BAND_INFO[bandOf(s)].name[locale]})
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Interactive Standard Card Grid on tablet & desktop */}
-        <div className="mt-3 hidden grid-cols-3 gap-2.5 sm:grid sm:grid-cols-5 md:grid-cols-9">
-          {SUPPORTED_STANDARDS.map((s) => {
-            const b = bandOf(s);
-            const isSelected = grade === s;
-            const accent = BAND_INFO[b].accent;
+        <div className="grid gap-4 md:grid-cols-3">
+          {BANDS.map((b) => {
+            const info = BAND_INFO[b];
+            const isSelected = selectedBand === b;
             return (
               <button
-                key={s}
+                key={b}
                 type="button"
-                onClick={() => setGrade(s)}
-                style={{ "--band": accent } as React.CSSProperties}
-                className={`group relative flex flex-col items-center justify-center rounded-2xl border py-3 px-2 text-center transition-all duration-200 ${
+                onClick={() => handleStageSelect(b)}
+                style={{ "--band": info.accent } as React.CSSProperties}
+                className={`group relative flex flex-col rounded-3xl border p-5 text-left transition-all duration-300 ${
                   isSelected
-                    ? "border-[var(--band)] bg-[color-mix(in_srgb,var(--band)_16%,var(--surface))] shadow-[0_0_25px_-5px_var(--band)]"
-                    : "border-line bg-surface hover:-translate-y-0.5 hover:border-line-strong hover:bg-surface-2"
+                    ? "border-[var(--band)] bg-[color-mix(in_srgb,var(--band)_14%,var(--surface))] shadow-[0_0_60px_-15px_var(--band)]"
+                    : "border-line bg-surface hover:border-line-strong hover:bg-surface-2 hover:-translate-y-0.5"
                 }`}
               >
-                <span className="font-mono text-[10px] uppercase tracking-wider text-muted opacity-80">
-                  {c.classWord}
-                </span>
-                <span className="font-display text-2xl font-bold tracking-tight text-text">
-                  {s}
-                </span>
-                <span className="mt-1 font-mono text-[9.5px] text-[var(--band)]">
-                  {BAND_INFO[b].name[locale]}
-                </span>
-                {isSelected && (
-                  <span className="absolute -top-1.5 -right-1.5 grid size-5 place-items-center rounded-full bg-[var(--band)] text-bg text-[10px]">
-                    <Check size={11} weight="bold" />
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[11.5px] uppercase tracking-[0.14em] text-[var(--band)] font-semibold">
+                    {info.classes[locale]}
                   </span>
-                )}
+                  <span
+                    className={`grid size-6 place-items-center rounded-full border transition-colors ${
+                      isSelected ? "border-[var(--band)] bg-[var(--band)] text-bg" : "border-line-strong"
+                    }`}
+                  >
+                    {isSelected && <Check size={14} weight="bold" />}
+                  </span>
+                </div>
+
+                <GrowthStage
+                  band={b}
+                  className="mx-auto my-3 size-24 transition-transform duration-500 group-hover:scale-110"
+                />
+
+                <span className="font-display text-2xl font-bold tracking-tight text-text">
+                  {info.name[locale]}
+                </span>
+                <span className="mt-1 line-clamp-2 text-[13px] leading-snug text-muted">
+                  {info.tagline[locale]}
+                </span>
               </button>
             );
           })}
         </div>
+
+        {/* Dynamic Class Selector for the Chosen Stage */}
+        <div className="mt-5 rounded-2xl border border-line bg-surface-2 p-4">
+          <p className="font-mono text-[11.5px] uppercase tracking-wider text-muted mb-3">
+            Pick your exact class in {BAND_INFO[selectedBand].name[locale]}:
+          </p>
+
+          <div className="flex flex-wrap gap-2.5">
+            {BAND_GRADES[selectedBand].map((g) => {
+              const isSelected = grade === g;
+              const accent = BAND_INFO[selectedBand].accent;
+              return (
+                <button
+                  key={g}
+                  type="button"
+                  onClick={() => setGrade(g)}
+                  style={{ "--band": accent } as React.CSSProperties}
+                  className={`group relative flex h-13 min-w-[76px] flex-col items-center justify-center rounded-2xl border px-4 py-2 transition-all duration-200 ${
+                    isSelected
+                      ? "border-[var(--band)] bg-[var(--band)] text-bg font-bold shadow-[0_0_20px_-4px_var(--band)]"
+                      : "border-line bg-surface text-text hover:border-line-strong hover:bg-white/[0.04]"
+                  }`}
+                >
+                  <span className={`font-mono text-[10px] uppercase opacity-75 ${isSelected ? "text-bg" : "text-muted"}`}>
+                    {c.classWord}
+                  </span>
+                  <span className="font-display text-xl font-bold">
+                    {g}
+                  </span>
+                  {isSelected && (
+                    <span className="absolute -top-1 -right-1 grid size-4 place-items-center rounded-full bg-white text-bg shadow">
+                      <Check size={10} weight="bold" />
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </fieldset>
 
-      {/* 2. Student Details: Name, Email, Preferred Language */}
-      <div className="mt-8 grid gap-5 rounded-3xl border border-line bg-surface p-5 sm:p-7 md:grid-cols-2">
+      {/* 2. Student Profile Details: Name, Email, Preferred Language & Avatar */}
+      <div className="grid gap-5 rounded-3xl border border-line bg-surface p-5 sm:p-7 md:grid-cols-2">
         <label className="flex flex-col gap-2">
           <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
             2. {c.nameLabel} *
@@ -321,16 +373,16 @@ export function LearnerSetup({
           </div>
         </fieldset>
 
-        {/* Submit Actions */}
-        <div className="flex flex-col gap-3 pt-2 md:col-span-2 md:flex-row md:items-center md:justify-between">
+        {/* Submit / Proceed Action */}
+        <div className="flex flex-col gap-3 pt-3 md:col-span-2 md:flex-row md:items-center md:justify-between border-t border-line/60">
           <p className="text-[12.5px] text-muted/80">{c.deviceNote}</p>
           <button
             type="submit"
             disabled={!ready}
-            className="beam-border group inline-flex h-13 shrink-0 items-center justify-center gap-3 rounded-full bg-violet-deep px-8 font-mono text-sm text-violet-ink transition-all duration-200 hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-40 disabled:[&::before]:hidden"
+            className="beam-border group inline-flex h-14 shrink-0 items-center justify-center gap-3 rounded-full bg-violet-deep px-9 font-mono text-sm font-semibold text-violet-ink transition-all duration-200 hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-40 disabled:[&::before]:hidden"
           >
-            {existing ? c.save : c.start}
-            <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-1" />
+            <span>Proceed to Class {grade ?? ""} →</span>
+            <ArrowRight size={18} className="transition-transform duration-200 group-hover:translate-x-1" />
           </button>
         </div>
       </div>

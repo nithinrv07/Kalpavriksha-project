@@ -20,13 +20,13 @@ export type AvatarId = (typeof AVATARS)[number];
 export const BANDS = ["junior", "middle", "senior"] as const;
 export type Band = (typeof BANDS)[number];
 export const BAND_GRADES: Record<Band, readonly number[]> = {
-  junior: [1, 2, 3, 4, 5],
-  middle: [6, 7, 8, 9, 10],
+  junior: [1, 2, 3],
+  middle: [4, 5, 6, 7, 8, 9, 10],
   senior: [11, 12],
 };
 
 export function bandOf(grade: number): Band {
-  if (grade <= 5) return "junior";
+  if (grade <= 3) return "junior";
   if (grade <= 10) return "middle";
   return "senior";
 }
@@ -186,7 +186,7 @@ export function skillScores(p: Progress): Record<Area, number> {
   return Object.fromEntries(AREAS.map((a) => [a, fill(counts[a])])) as Record<Area, number>;
 }
 
-export type BadgeId = "first-leaf" | "bookworm" | "quiz-star" | "all-rounder" | "streak-3" | "singer";
+export type BadgeId = "first-leaf" | "bookworm" | "scholar" | "quiz-star" | "all-rounder" | "streak-3" | "singer";
 
 export function badges(p: Progress, today: string): { id: BadgeId; earned: boolean }[] {
   const areas = new Set(p.activities.map((a) => a.area));
@@ -194,6 +194,7 @@ export function badges(p: Progress, today: string): { id: BadgeId; earned: boole
     { id: "first-leaf", earned: p.activities.length > 0 },
     // Every band has at least four lessons, so every student can earn it.
     { id: "bookworm", earned: p.lessonsDone.length >= 4 },
+    { id: "scholar", earned: p.lessonsDone.length >= 10 },
     { id: "quiz-star", earned: p.quizBest >= 80 },
     { id: "singer", earned: p.songsHeard.length >= 2 },
     { id: "all-rounder", earned: areas.size === AREAS.length },

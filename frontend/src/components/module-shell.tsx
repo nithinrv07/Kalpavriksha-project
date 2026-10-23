@@ -10,6 +10,7 @@ import { ChromeWaves } from "@/components/landing/chrome-waves";
 import { LangSelect } from "@/components/landing/lang-select";
 import { useLocale } from "@/components/locale-provider";
 import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
+import { PulsatingBorder } from "@/components/pulsating-border";
 import { useProgress } from "@/components/progress-store";
 import { BAND_INFO } from "@/lib/bands";
 import { bandOf, levelOf, localDay, streak, type Band, type Profile } from "@/lib/progress";
@@ -65,8 +66,9 @@ function ProgressPill() {
 }
 
 /**
- * Page frame shared by every module screen: background, top bar, module switcher and title.
- * Students without a learner card pick their class first; the module then renders for that band.
+ * Page frame shared by every module screen:
+ * Encased in a dedicated solid black layout frame with pulsating structural border glow,
+ * housing the header, module title banner, and entire module content.
  */
 export function ModuleShell({
   module,
@@ -83,100 +85,113 @@ export function ModuleShell({
   const band = profile ? bandOf(profile.grade) : null;
 
   return (
-    <>
+    <div className="relative isolate min-h-[100dvh] w-full px-2 py-3 sm:px-4 sm:py-6 lg:px-8 lg:py-8">
       <ChromeWaves />
+
+      {/* Main Module Layout Frame */}
       <div
         data-band={band ?? undefined}
         style={band ? ({ "--band": BAND_INFO[band].accent } as React.CSSProperties) : undefined}
-        className="relative z-10 mx-auto w-full max-w-[1240px] px-4 pb-24 sm:px-6"
+        className="hero-frame fade-up relative z-10 mx-auto w-full max-w-[1280px]"
       >
-        <header className="flex flex-wrap items-center justify-between gap-3 py-4 sm:py-6">
-          <div className="flex items-center gap-2">
-            <Link
-              href="/"
-              className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.04] px-3 text-sm transition-colors duration-200 hover:bg-white/[0.1]"
-            >
-              <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
-              <BrandMark className="size-5 text-violet" />
-              <span className="sr-only sm:not-sr-only">{t.home}</span>
-            </Link>
-            <nav aria-label={t.modulesTitle} className="flex gap-1 rounded-xl border border-line bg-white/[0.03] p-1">
-              {MODULES.map((m) => {
-                const ModIcon = m.icon;
-                const active = m.slug === module.slug;
-                return (
-                  <Link
-                    key={m.id}
-                    href={`/m/${m.slug}`}
-                    aria-current={active ? "page" : undefined}
-                    title={m.title[locale]}
-                    className={`grid size-9 place-items-center rounded-lg transition-colors duration-200 ${
-                      active ? "bg-violet-deep text-violet-ink" : "text-muted hover:bg-white/[0.06] hover:text-text"
-                    }`}
-                  >
-                    <ModIcon size={18} weight={active ? "fill" : "regular"} aria-hidden />
-                    <span className="sr-only">{m.title[locale]}</span>
-                  </Link>
-                );
-              })}
-            </nav>
-          </div>
-          <div className="flex items-center gap-2">
-            <ProgressPill />
-            <LangSelect />
-          </div>
-        </header>
-
-        <div className="fade-up mt-6 flex items-start gap-4 sm:mt-10 sm:items-center">
-          <span className="hidden size-14 shrink-0 place-items-center overflow-hidden rounded-2xl bg-violet-deep/70 text-violet-ink shadow-[0_0_40px_-8px_rgb(124_58_237/0.7)] sm:grid">
-            {module.iconImage ? (
-              <Image
-                src={module.iconImage}
-                alt={module.title[locale]}
-                width={56}
-                height={56}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <Icon size={28} weight="duotone" />
-            )}
-          </span>
-          <div>
-            <p className="font-mono text-[12px] text-violet">{module.index}</p>
-            <h1
-              className={`font-display text-text ${
-                locale === "en"
-                  ? "text-[clamp(36px,5.5vw,68px)] leading-[0.95] tracking-[-0.05em]"
-                  : "text-[clamp(28px,4.4vw,54px)] leading-[1.1] tracking-[-0.01em]"
-              }`}
-            >
-              {module.title[locale]}
-            </h1>
-            <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-muted">{module.summary[locale]}</p>
-            {band && (
-              <Link
-                href="/sign-in"
-                className="mt-3 inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--band)_40%,transparent)] bg-[color-mix(in_srgb,var(--band)_10%,transparent)] py-1 pl-1 pr-3 text-[12.5px] text-[var(--band)] transition-colors hover:bg-[color-mix(in_srgb,var(--band)_18%,transparent)]"
-              >
-                <GrowthStage band={band} className="size-6" />
-                {BAND_INFO[band].name[locale]} · {BAND_INFO[band].classes[locale]}
-              </Link>
-            )}
-          </div>
+        {/* Pulsating border glow around the module frame boundaries */}
+        <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
+          <PulsatingBorder colors={["#000000", "#ffffff", "#a855f7"]} thickness={0.35} />
         </div>
 
-        <main className="mt-8 sm:mt-12">
-          {!hydrated ? (
-            <div aria-hidden className="h-72 animate-pulse rounded-3xl border border-line bg-surface/60" />
-          ) : profile && band ? (
-            children(band, profile)
-          ) : (
-            <div className="rounded-[28px] border border-line bg-surface/80 p-5 backdrop-blur-sm sm:p-10">
-              <LearnerSetup />
+        {/* Solid deep black layout container */}
+        <div className="relative z-10 flex min-h-[calc(100dvh-4rem)] w-full flex-col overflow-hidden rounded-[22px] border border-line bg-black p-4 shadow-[0_40px_120px_-20px_rgb(0_0_0/0.95),0_0_90px_-25px_rgb(124_58_237/0.35),inset_0_1px_0_rgb(255_255_255/0.06)] sm:p-7 lg:rounded-[28px] lg:p-9">
+          {/* 1. Header: Back to home, module switcher tabs, XP pill & language selector */}
+          <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-4 sm:pb-6">
+            <div className="flex items-center gap-2">
+              <Link
+                href="/"
+                className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.04] px-3 text-sm transition-colors duration-200 hover:bg-white/[0.1]"
+              >
+                <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
+                <BrandMark className="size-5 text-violet" />
+                <span className="sr-only sm:not-sr-only">{t.home}</span>
+              </Link>
+              <nav aria-label={t.modulesTitle} className="flex gap-1 rounded-xl border border-line bg-white/[0.03] p-1">
+                {MODULES.map((m) => {
+                  const ModIcon = m.icon;
+                  const active = m.slug === module.slug;
+                  return (
+                    <Link
+                      key={m.id}
+                      href={`/m/${m.slug}`}
+                      aria-current={active ? "page" : undefined}
+                      title={m.title[locale]}
+                      className={`grid size-9 place-items-center rounded-lg transition-colors duration-200 ${
+                        active ? "bg-violet-deep text-violet-ink" : "text-muted hover:bg-white/[0.06] hover:text-text"
+                      }`}
+                    >
+                      <ModIcon size={18} weight={active ? "fill" : "regular"} aria-hidden />
+                      <span className="sr-only">{m.title[locale]}</span>
+                    </Link>
+                  );
+                })}
+              </nav>
             </div>
-          )}
-        </main>
+            <div className="flex items-center gap-2">
+              <ProgressPill />
+              <LangSelect />
+            </div>
+          </header>
+
+          {/* 2. Module Banner: Icon, Title, Summary & Grade Badge */}
+          <div className="fade-up mt-6 flex items-start gap-4 sm:mt-8 sm:items-center">
+            <span className="hidden size-14 shrink-0 place-items-center overflow-hidden rounded-2xl bg-violet-deep/70 text-violet-ink shadow-[0_0_40px_-8px_rgb(124_58_237/0.7)] sm:grid">
+              {module.iconImage ? (
+                <Image
+                  src={module.iconImage}
+                  alt={module.title[locale]}
+                  width={56}
+                  height={56}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <Icon size={28} weight="duotone" />
+              )}
+            </span>
+            <div>
+              <p className="font-mono text-[12px] text-violet">{module.index}</p>
+              <h1
+                className={`font-display text-text ${
+                  locale === "en"
+                    ? "text-[clamp(36px,5.5vw,68px)] leading-[0.95] tracking-[-0.05em]"
+                    : "text-[clamp(28px,4.4vw,54px)] leading-[1.1] tracking-[-0.01em]"
+                }`}
+              >
+                {module.title[locale]}
+              </h1>
+              <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-muted">{module.summary[locale]}</p>
+              {band && (
+                <Link
+                  href="/sign-in"
+                  className="mt-3 inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--band)_40%,transparent)] bg-[color-mix(in_srgb,var(--band)_10%,transparent)] py-1 pl-1 pr-3 text-[12.5px] text-[var(--band)] transition-colors hover:bg-[color-mix(in_srgb,var(--band)_18%,transparent)]"
+                >
+                  <GrowthStage band={band} className="size-6" />
+                  {BAND_INFO[band].name[locale]} · {BAND_INFO[band].classes[locale]}
+                </Link>
+              )}
+            </div>
+          </div>
+
+          {/* 3. Main Content: Everything inside this black layout */}
+          <main className="mt-8 flex-1 sm:mt-10">
+            {!hydrated ? (
+              <div aria-hidden className="h-72 animate-pulse rounded-3xl border border-line bg-surface/60" />
+            ) : profile && band ? (
+              children(band, profile)
+            ) : (
+              <div className="rounded-[28px] border border-line bg-surface/80 p-5 backdrop-blur-sm sm:p-10">
+                <LearnerSetup />
+              </div>
+            )}
+          </main>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
