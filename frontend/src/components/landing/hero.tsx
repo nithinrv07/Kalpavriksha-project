@@ -1,12 +1,14 @@
 "use client";
 
-import { ArrowDown, DotsNine } from "@phosphor-icons/react/ssr";
+import { ArrowDown, ArrowsClockwise, DotsNine } from "@phosphor-icons/react/ssr";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BrandMark } from "@/components/brand-mark";
 import { useLocale } from "@/components/locale-provider";
 import { ParticleCanvas } from "@/components/particle-canvas";
+import { FlipCard } from "@/components/flip-card";
 import { PulsatingBorder } from "@/components/pulsating-border";
+import { SphereGallery3D } from "@/components/sphere-gallery-3d";
 import type { Locale } from "@/lib/i18n";
 import type { ShapeName } from "@/lib/shapes";
 import { MODULES } from "@/modules/registry";
@@ -54,6 +56,7 @@ export function Hero() {
   const [slot, setSlot] = useState<Slot>(-1);
   const [hovering, setHovering] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
 
   useEffect(() => {
     const id = window.setTimeout(() => setIntroDone(true), prefersReducedMotion() ? 0 : INTRO_MS);
@@ -62,10 +65,19 @@ export function Hero() {
 
   // Auto-cycle home → module 1 → 2 → 3 → home while nobody is interacting.
   useEffect(() => {
-    if (!introDone || hovering || prefersReducedMotion()) return;
+    if (!introDone || hovering || isFlipped || prefersReducedMotion()) return;
     const id = window.setTimeout(() => setSlot((s) => (s + 1 >= MODULES.length ? -1 : s + 1)), CYCLE_MS);
     return () => window.clearTimeout(id);
-  }, [introDone, hovering, slot]);
+  }, [introDone, hovering, slot, isFlipped]);
+
+  useEffect(() => {
+    if (!isFlipped) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsFlipped(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isFlipped]);
 
   const shape: ShapeName = !introDone ? "ring" : slot < 0 ? "tree" : (MODULES[slot]?.shape ?? "tree");
   const [line1, line2] = t.headline;
@@ -75,13 +87,24 @@ export function Hero() {
       data-hero
       className="relative isolate flex min-h-[100dvh] items-center px-2 py-2 sm:px-4 sm:py-4 lg:px-12 lg:py-10"
     >
-      <div className="hero-frame fade-up relative mx-auto w-full max-w-[1240px] lg:h-[min(820px,calc(100dvh-5rem))] lg:min-h-[640px]">
-        {/* Pulsating border glow around the hero frame */}
-        <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
-          <PulsatingBorder colors={["#000000", "#ffffff", "#a855f7"]} thickness={0.35} />
-        </div>
-
-        <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[22px] border border-line bg-surface/95 shadow-[0_40px_120px_-20px_rgb(0_0_0/0.85),0_0_90px_-25px_rgb(124_58_237/0.45),inset_0_1px_0_rgb(255_255_255/0.05)] lg:block lg:rounded-[28px]">
+      <div className="hero-frame fade-up relative mx-auto w-full max-w-[1240px] min-h-[720px] sm:min-h-[700px] lg:h-[min(820px,calc(100dvh-5rem))] lg:min-h-[640px]">
+        <FlipCard
+          flipped={isFlipped}
+          onFlip={setIsFlipped}
+          width="100%"
+          
+          height="100%"
+          radius={28}
+          background="transparent"
+          shadow={false}
+          className="h-full w-full"
+          ariaLabel="Kalpavriksha hero frame"
+          front={
+            <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[22px] border border-line bg-surface/95 shadow-[0_40px_120px_-20px_rgb(0_0_0/0.85),0_0_90px_-25px_rgb(124_58_237/0.45),inset_0_1px_0_rgb(255_255_255/0.05)] lg:block lg:rounded-[28px]">
+              {/* Pulsating border glow around the hero frame */}
+              <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
+                <PulsatingBorder colors={["#000000", "#ffffff", "#a855f7"]} thickness={0.35} />
+              </div>
         {/* Top bar — flows on mobile, pinned on desktop. */}
         <div className="z-20 flex items-center justify-between gap-3 p-3 sm:p-4 lg:absolute lg:inset-x-6 lg:top-6 lg:justify-end lg:p-0">
           <span className="flex items-center gap-2 font-display text-lg tracking-tight lg:hidden">
@@ -90,6 +113,18 @@ export function Hero() {
           </span>
           <div className="flex items-center gap-2">
             <LangSelect />
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsFlipped(true);
+              }}
+              className="flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.06] px-3.5 font-mono text-[13px] text-text transition-colors duration-200 hover:border-violet/40 hover:bg-violet-deep hover:text-violet-ink active:scale-[0.98]"
+              title="Explore 3D Sphere Gallery"
+            >
+              <ArrowsClockwise size={15} />
+              <span className="hidden sm:inline">3D Gallery</span>
+            </button>
             <Link
               href="/sign-in"
               className="hidden h-11 items-center rounded-xl border border-violet/25 bg-violet-deep px-5 font-mono text-[13px] text-violet-ink transition-colors duration-200 hover:bg-[#4c1d95] active:scale-[0.98] sm:flex"
@@ -239,7 +274,26 @@ export function Hero() {
             );
           })}
         </nav>
-        </div>
+            </div>
+          }
+          back={
+            <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[22px] border border-line bg-surface/95 shadow-[0_40px_120px_-20px_rgb(0_0_0/0.85),0_0_90px_-25px_rgb(124_58_237/0.45),inset_0_1px_0_rgb(255_255_255/0.05)] lg:rounded-[28px]">
+              {/* Pulsating border glow around the hero frame */}
+              <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
+                <PulsatingBorder colors={["#000000", "#ffffff", "#a855f7"]} thickness={0.35} />
+              </div>
+
+              {/* 3D Sphere Gallery canvas */}
+              <div data-no-flip="true" className="relative z-10 h-full w-full">
+                <SphereGallery3D
+                  background="transparent"
+                  style={{ width: "100%", height: "100%", minWidth: 0, minHeight: 0 }}
+                  onBackgroundClick={() => setIsFlipped(false)}
+                />
+              </div>
+            </div>
+          }
+        />
       </div>
 
       <MenuSheet open={menuOpen} onClose={() => setMenuOpen(false)} />

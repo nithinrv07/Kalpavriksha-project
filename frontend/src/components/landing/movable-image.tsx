@@ -6,10 +6,18 @@ import { useCallback, useRef, useState } from "react";
 interface MovableImageProps {
   src: string;
   alt: string;
+  width?: number;
+  height?: number;
   className?: string;
 }
 
-export function MovableImage({ src, alt, className = "" }: MovableImageProps) {
+export function MovableImage({
+  src,
+  alt,
+  width = 571,
+  height = 350,
+  className = "",
+}: MovableImageProps) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -112,11 +120,11 @@ export function MovableImage({ src, alt, className = "" }: MovableImageProps) {
         <Image
           src={src}
           alt={alt}
-          width={841}
-          height={590}
+          width={width}
+          height={height}
           priority
           draggable={false}
-          className="h-auto w-full max-w-[440px] object-cover transition-transform duration-300 group-hover/movable:scale-[1.02] lg:max-w-[480px]"
+          className="h-auto w-full max-w-[440px] object-cover object-center transition-transform duration-300 group-hover/movable:scale-[1.02] lg:max-w-[480px]"
         />
         {/* Subtle highlight sheen */}
         <div

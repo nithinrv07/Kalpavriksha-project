@@ -1,0 +1,6 @@
+# Temporary debug screenshots at repo root
+/*.png
+
+# OS artifacts
+.DS_Store
+Thumbs.db

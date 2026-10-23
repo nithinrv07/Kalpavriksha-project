@@ -4,6 +4,7 @@ import { ArrowRight } from "@phosphor-icons/react/ssr";
 import Link from "next/link";
 import { BrandMark } from "@/components/brand-mark";
 import { useLocale } from "@/components/locale-provider";
+import { ScrollWaveField } from "@/components/scroll-wave-field";
 import { SplitText } from "@/components/split-text";
 import { WarpText } from "@/components/warp-text";
 import { StandingPenguin } from "./standing-penguin";
@@ -44,42 +45,53 @@ export function CtaFooter() {
         </Link>
       </div>
 
-      <div className="relative mx-auto flex w-full max-w-[1320px] flex-col gap-6 border-t border-line px-4 py-8 text-[13px] text-muted sm:px-6 md:flex-row md:items-center md:justify-between">
-        <span className="flex items-center gap-2.5 text-text">
-          <BrandMark className="size-5 text-violet" />
-          {t.trust}
-        </span>
-        <span>{t.partner}</span>
-        <span className="font-mono text-[12px]">© {new Date().getFullYear()}</span>
-      </div>
+      {/* Bottom footer credit & wordmark area with ScrollWaveField active ONLY here */}
+      <div className="relative overflow-hidden border-t border-line">
+        {/* ScrollWaveField WebGL effect constrained strictly to this bottom footer area */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-0">
+          <ScrollWaveField
+            background="transparent"
+            style={{ width: "100%", height: "100%" }}
+          />
+        </div>
 
-      {/* Oversized interactive WebGL warp wordmark, cropped by the page edge. */}
-      <div className="footer-mark relative -mb-[0.16em] w-full select-none overflow-hidden">
-        <WarpText
-          text="Kalpavriksha"
-          fontFamily="var(--font-display), var(--font-geist), sans-serif"
-          fontSize="clamp(64px, 17vw, 300px)"
-          fontWeight={700}
-          letterSpacing="-0.06em"
-          lineHeight={0.9}
-          outline={true}
-          strokeColor="rgba(255, 255, 255, 0.55)"
-          strokeWidth={2.2}
-          color="rgba(255, 255, 255, 0.55)"
-          warpStrength={0.08}
-          warpScale={1.7}
-          speed={0.55}
-          pointerInfluence={0.42}
-          pointerStrength={0.38}
-          refraction={0.018}
-          chromatic={0.02}
-          ripple={true}
-          clickRipple={true}
-          idleDrift={0.2}
-          lens="bulge"
-          className="w-full"
-          style={{ minHeight: "clamp(120px, 18vw, 300px)" }}
-        />
+        <div className="relative z-10 mx-auto flex w-full max-w-[1320px] flex-col gap-6 px-4 py-8 text-[13px] text-muted sm:px-6 md:flex-row md:items-center md:justify-between">
+          <span className="flex items-center gap-2.5 text-text">
+            <BrandMark className="size-5 text-violet" />
+            {t.trust}
+          </span>
+          <span>{t.partner}</span>
+          <span className="font-mono text-[12px]">© {new Date().getFullYear()}</span>
+        </div>
+
+        {/* Oversized interactive WebGL warp wordmark, cropped by the page edge. */}
+        <div className="footer-mark relative z-10 -mb-[0.16em] w-full select-none overflow-hidden">
+          <WarpText
+            text="Kalpavriksha"
+            fontFamily="var(--font-display), var(--font-geist), sans-serif"
+            fontSize="clamp(64px, 17vw, 300px)"
+            fontWeight={700}
+            letterSpacing="-0.06em"
+            lineHeight={0.9}
+            outline={true}
+            strokeColor="rgba(255, 255, 255, 0.55)"
+            strokeWidth={2.2}
+            color="rgba(255, 255, 255, 0.55)"
+            warpStrength={0.08}
+            warpScale={1.7}
+            speed={0.55}
+            pointerInfluence={0.42}
+            pointerStrength={0.38}
+            refraction={0.018}
+            chromatic={0.02}
+            ripple={true}
+            clickRipple={true}
+            idleDrift={0.2}
+            lens="bulge"
+            className="w-full"
+            style={{ minHeight: "clamp(120px, 18vw, 300px)" }}
+          />
+        </div>
       </div>
     </footer>
   );

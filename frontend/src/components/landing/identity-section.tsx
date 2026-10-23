@@ -1,6 +1,7 @@
 "use client";
 
-import { Plus, UserCircle } from "@phosphor-icons/react/ssr";
+import { Plus } from "@phosphor-icons/react/ssr";
+import Image from "next/image";
 import { useLocale } from "@/components/locale-provider";
 import { RevealWords } from "@/components/scroll-fx";
 import { MODULES } from "@/modules/registry";
@@ -78,9 +79,16 @@ export function IdentitySection() {
         <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2">
           <span
             data-reveal="pop"
-            className="relative grid size-24 place-items-center rounded-full border border-violet/40 bg-violet-deep text-violet-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.12),0_0_0_10px_rgb(59_7_100/0.25)] sm:size-28"
+            className="group relative grid size-24 place-items-center overflow-hidden rounded-full border border-violet/40 bg-violet-deep transition-transform duration-300 hover:scale-105 shadow-[inset_0_1px_0_rgb(255_255_255/0.12),0_0_0_10px_rgb(59_7_100/0.25)] sm:size-28"
           >
-            <UserCircle size={44} weight="duotone" />
+            <Image
+              src="/images/student-avatar.png"
+              alt={t.identityCenter}
+              width={600}
+              height={945}
+              priority
+              className="h-full w-full object-contain p-2.5 drop-shadow-[0_4px_10px_rgba(0,0,0,0.4)] transition-transform duration-300 group-hover:scale-105 sm:p-3"
+            />
           </span>
           <span className="whitespace-nowrap rounded-full border border-line bg-surface px-3 py-1 font-mono text-[11px] text-text">
             {t.identityCenter}
