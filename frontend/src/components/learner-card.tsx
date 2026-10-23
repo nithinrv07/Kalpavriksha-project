@@ -1,8 +1,9 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, Fire, PencilSimple, Trash } from "@phosphor-icons/react/ssr";
+import { ArrowLeft, ArrowRight, Fire, PencilSimple, ShieldCheck, Trash } from "@phosphor-icons/react/ssr";
 import Link from "next/link";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
 import { Avatar } from "@/components/avatar";
 import { BrandMark } from "@/components/brand-mark";
 import { ChromeWaves } from "@/components/landing/chrome-waves";
@@ -11,6 +12,7 @@ import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-set
 import { useLocale } from "@/components/locale-provider";
 import { updateProgress, useProgress } from "@/components/progress-store";
 import { BAND_INFO, SETUP_COPY } from "@/lib/bands";
+import { LOCALE_LABEL } from "@/lib/i18n";
 import { bandOf, levelOf, localDay, setProfile, streak, type Profile } from "@/lib/progress";
 
 /** The student's ID card: avatar, class band and progress at a glance. */
@@ -47,6 +49,9 @@ function Card({ profile }: { profile: Profile }) {
             <p className="mt-1 font-mono text-[12px] text-[var(--band)]">
               {c.classWord} {profile.grade} · {info.name[locale]}
             </p>
+            {profile.email && (
+              <p className="truncate font-mono text-[11px] text-muted">{profile.email}</p>
+            )}
           </div>
           <GrowthStage band={band} className="ml-auto size-16 shrink-0" />
         </div>
@@ -73,19 +78,33 @@ function Card({ profile }: { profile: Profile }) {
             style={{ width: `${Math.round((into / span) * 100)}%` }}
           />
         </div>
-        <p className="mt-6 font-mono text-[12px] tracking-[0.2em] text-muted">{profile.studentId}</p>
+        <div className="mt-6 flex items-center justify-between font-mono text-[12px] text-muted">
+          <span className="tracking-[0.16em]">{profile.studentId}</span>
+          {profile.preferredLanguage && (
+            <span className="text-[11px] uppercase tracking-wider text-violet">
+              {LOCALE_LABEL[profile.preferredLanguage]?.native ?? profile.preferredLanguage}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
 }
 
-export function SignInScreen() {
+function SignInScreenContent() {
+  const searchParams = useSearchParams();
+  const redirectTarget = searchParams?.get("redirect") || "/m/learn";
   const { t, locale } = useLocale();
   const { profile } = useProgress();
   const hydrated = useHydrated();
   const [editing, setEditing] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const c = SETUP_COPY[locale];
+
+  const continueHref =
+    profile?.lastAccessed
+      ? `/m/learn?subject=${profile.lastAccessed.subjectId}&chapter=${profile.lastAccessed.chapterId}`
+      : redirectTarget;
 
   return (
     <>
@@ -118,21 +137,32 @@ export function SignInScreen() {
                   {c.back}
                 </button>
               )}
-              <LearnerSetup existing={profile} onDone={() => setEditing(false)} />
+              <LearnerSetup
+                existing={profile}
+                redirectTo={redirectTarget}
+                onDone={() => setEditing(false)}
+              />
             </div>
           ) : (
             <div className="grid items-center gap-10 lg:grid-cols-[1fr_1fr]">
               <div className="fade-up">
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-violet/30 bg-violet-deep/20 px-3 py-1 font-mono text-[11px] text-violet-ink">
+                  <ShieldCheck size={14} weight="fill" />
+                  Mock Authentication (School Standard Profile Active)
+                </div>
                 <p className="font-mono text-[13px] text-violet">{t.myCard}</p>
-                <h1 className="mt-3 font-display text-[clamp(40px,6vw,80px)] leading-[0.95] tracking-[-0.05em]">
+                <h1 className="mt-2 font-display text-[clamp(36px,5.5vw,72px)] leading-[0.95] tracking-[-0.05em]">
                   {c.hello(profile.name)}
                 </h1>
-                <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted">
+                <p className="mt-3 text-[16px] text-text font-medium">
+                  {c.classWord} {profile.grade} Student · {BAND_INFO[bandOf(profile.grade)].name[locale]}
+                </p>
+                <p className="mt-2 max-w-md text-[14.5px] leading-relaxed text-muted">
                   {BAND_INFO[bandOf(profile.grade)].tagline[locale]}
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link
-                    href="/m/learn"
+                    href={continueHref}
                     className="beam-border group inline-flex h-14 items-center gap-3 rounded-full bg-violet-deep px-7 font-mono text-sm text-violet-ink transition-transform duration-200 hover:-translate-y-0.5"
                   >
                     {c.continueLearning}
@@ -170,5 +200,13 @@ export function SignInScreen() {
         </main>
       </div>
     </>
+  );
+}
+
+export function SignInScreen() {
+  return (
+    <Suspense fallback={<div className="h-96 animate-pulse rounded-3xl border border-line bg-surface/60" />}>
+      <SignInScreenContent />
+    </Suspense>
   );
 }

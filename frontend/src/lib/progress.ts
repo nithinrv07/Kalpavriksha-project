@@ -4,6 +4,8 @@
  * Kept on the device until the shared student profile has a server.
  */
 
+import { LOCALES, type Locale } from "@/lib/i18n";
+
 export const AREAS = ["academics", "sports", "arts", "leadership", "service", "communication"] as const;
 export type Area = (typeof AREAS)[number];
 
@@ -29,13 +31,23 @@ export function bandOf(grade: number): Band {
   return "senior";
 }
 
-export type Activity ={ readonly id: string; readonly area: Area; readonly title: string; readonly date: string };
+export type Activity = { readonly id: string; readonly area: Area; readonly title: string; readonly date: string };
+
+export type LastAccessed = {
+  readonly standard: number;
+  readonly subjectId: string;
+  readonly chapterId: string;
+  readonly timestamp: string;
+};
 
 export type Profile = {
   readonly name: string;
   readonly avatar: AvatarId;
   readonly grade: number;
   readonly studentId: string;
+  readonly email?: string;
+  readonly preferredLanguage?: Locale;
+  readonly lastAccessed?: LastAccessed;
 };
 
 export type Progress = {
@@ -134,6 +146,33 @@ export function setProfile(p: Progress, profile: Profile | null): Progress {
   return { ...p, profile };
 }
 
+export function setLastAccessed(
+  p: Progress,
+  record: { standard: number; subjectId: string; chapterId: string },
+): Progress {
+  if (!p.profile) return p;
+  const updatedProfile: Profile = {
+    ...p.profile,
+    lastAccessed: {
+      standard: record.standard,
+      subjectId: record.subjectId,
+      chapterId: record.chapterId,
+      timestamp: new Date().toISOString(),
+    },
+  };
+  return { ...p, profile: updatedProfile };
+}
+
+export function updateStudentProfile(p: Progress, updates: Partial<Profile>): Progress {
+  if (!p.profile) return p;
+  const updatedProfile: Profile = {
+    ...p.profile,
+    ...updates,
+    grade: updates.grade !== undefined ? Math.round(updates.grade) : p.profile.grade,
+  };
+  return { ...p, profile: updatedProfile };
+}
+
 /**
  * 0..1 per growth area. Logged activities fill an area with diminishing returns;
  * lessons and quiz results also feed academics and communication.
@@ -180,7 +219,31 @@ function parseProfile(v: unknown): Profile | null {
   if (!(AVATARS as readonly unknown[]).includes(v.avatar)) return null;
   const grade = Math.round(num(v.grade, 6));
   if (grade < 1 || grade > 12) return null;
-  return { name: v.name.slice(0, 24), avatar: v.avatar as AvatarId, grade, studentId: v.studentId };
+
+  const email = isStr(v.email) ? v.email.slice(0, 80) : undefined;
+  const preferredLanguage = (LOCALES as readonly unknown[]).includes(v.preferredLanguage)
+    ? (v.preferredLanguage as Locale)
+    : undefined;
+
+  let lastAccessed: LastAccessed | undefined;
+  if (isObj(v.lastAccessed) && isStr(v.lastAccessed.subjectId) && isStr(v.lastAccessed.chapterId)) {
+    lastAccessed = {
+      standard: num(v.lastAccessed.standard, grade),
+      subjectId: v.lastAccessed.subjectId,
+      chapterId: v.lastAccessed.chapterId,
+      timestamp: isStr(v.lastAccessed.timestamp) ? v.lastAccessed.timestamp : new Date().toISOString(),
+    };
+  }
+
+  return {
+    name: v.name.slice(0, 24),
+    avatar: v.avatar as AvatarId,
+    grade,
+    studentId: v.studentId,
+    email,
+    preferredLanguage,
+    lastAccessed,
+  };
 }
 
 export function parseProgress(raw: unknown): Progress {

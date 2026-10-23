@@ -1,12 +1,15 @@
 "use client";
 
-import { ArrowRight, Check } from "@phosphor-icons/react/ssr";
+import { ArrowRight, Check, ShieldCheck } from "@phosphor-icons/react/ssr";
+import { useRouter } from "next/navigation";
 import { useState, useSyncExternalStore } from "react";
 import { Avatar } from "@/components/avatar";
 import { useLocale } from "@/components/locale-provider";
-import { updateProgress } from "@/components/progress-store";
+import { authService } from "@/lib/auth-service";
 import { AVATAR_NAME, BAND_INFO, SETUP_COPY } from "@/lib/bands";
-import { AVATARS, BANDS, BAND_GRADES, bandOf, setProfile, type AvatarId, type Band, type Profile } from "@/lib/progress";
+import { SUPPORTED_STANDARDS, type SupportedStandard } from "@/lib/curriculum";
+import { LOCALES, LOCALE_LABEL, type Locale } from "@/lib/i18n";
+import { AVATARS, bandOf, type AvatarId, type Band, type Profile } from "@/lib/progress";
 
 const noopSubscribe = () => () => {};
 /** False during SSR and hydration, true afterwards: lets device-stored state render without a flash. */
@@ -47,7 +50,6 @@ export function GrowthStage({ band, className = "" }: { band: Band; className?: 
             [48, 46],
             [72, 70],
           ].map(([x, y], i) => (
-            // Rotation on the wrapper so the leaf animation's CSS transform cannot override it.
             <g key={i} transform={`rotate(${i % 2 ? 30 : -30} ${x} ${y})`}>
               <ellipse
                 className="leaf"
@@ -91,164 +93,247 @@ export function GrowthStage({ band, className = "" }: { band: Band; className?: 
   );
 }
 
-function newStudentId() {
-  const digits = Array.from(crypto.getRandomValues(new Uint8Array(4)), (b) => b % 10).join("");
-  return `KV-${new Date().getFullYear()}-${digits}`;
-}
-
-/**
- * Entry flow: class band → exact class → name and buddy avatar.
- * Used as the gate in front of every module and on /sign-in to edit the card.
- */
-export function LearnerSetup({ existing, onDone }: { existing?: Profile | null; onDone?: () => void }) {
-  const { locale } = useLocale();
+export function LearnerSetup({
+  existing,
+  redirectTo,
+  onDone,
+}: {
+  existing?: Profile | null;
+  redirectTo?: string;
+  onDone?: () => void;
+}) {
+  const router = useRouter();
+  const { locale, setLocale } = useLocale();
   const c = SETUP_COPY[locale];
-  const [band, setBand] = useState<Band | null>(existing ? bandOf(existing.grade) : null);
+
+  // Standard (Class 4 to 12)
   const [grade, setGrade] = useState<number | null>(existing?.grade ?? null);
   const [name, setName] = useState(existing?.name ?? "");
+  const [email, setEmail] = useState(existing?.email ?? "");
+  const [prefLang, setPrefLang] = useState<Locale>(existing?.preferredLanguage ?? locale);
   const [avatar, setAvatar] = useState<AvatarId>(existing?.avatar ?? "cat");
 
+  const band = grade !== null ? bandOf(grade) : null;
   const ready = grade !== null && name.trim().length > 0;
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!ready) return;
-    updateProgress((p) =>
-      setProfile(p, {
-        name: name.trim().slice(0, 24),
-        avatar,
-        grade,
-        studentId: existing?.studentId ?? newStudentId(),
-      }),
-    );
-    onDone?.();
+    if (!ready || grade === null) return;
+
+    authService.saveProfile({
+      name: name.trim(),
+      email: email.trim() || undefined,
+      grade,
+      avatar,
+      preferredLanguage: prefLang,
+      studentId: existing?.studentId,
+    });
+
+    if (prefLang !== locale) {
+      setLocale(prefLang);
+    }
+
+    if (onDone) {
+      onDone();
+    }
+
+    if (redirectTo) {
+      router.push(redirectTo);
+    }
   };
 
   return (
     <form onSubmit={submit} className="fade-up">
-      <h2 className="font-display text-[clamp(28px,4vw,48px)] leading-[1.05] tracking-[-0.035em] text-balance">
-        {c.askTitle}
-      </h2>
-      <p className="mt-2 max-w-lg text-[15px] leading-relaxed text-muted">{c.askLead}</p>
-
-      <div role="radiogroup" aria-label={c.askTitle} className="mt-8 grid gap-3 md:grid-cols-3">
-        {BANDS.map((b) => {
-          const info = BAND_INFO[b];
-          const selected = band === b;
-          return (
-            <button
-              key={b}
-              type="button"
-              role="radio"
-              aria-checked={selected}
-              aria-label={`${info.name[locale]}, ${info.classes[locale]}`}
-              onClick={() => {
-                setBand(b);
-                if (grade === null || bandOf(grade) !== b) setGrade(null);
-              }}
-              style={{ "--band": info.accent } as React.CSSProperties}
-              className={`group relative flex flex-col overflow-hidden rounded-3xl border p-5 text-left transition-all duration-300 ${
-                selected
-                  ? "border-[var(--band)] bg-[color-mix(in_srgb,var(--band)_12%,var(--surface))] shadow-[0_0_60px_-20px_var(--band)]"
-                  : "border-line bg-surface hover:-translate-y-1 hover:border-line-strong"
-              }`}
-            >
-              <span className="flex items-start justify-between">
-                <span className="font-mono text-[12px] text-[var(--band)]">{info.classes[locale]}</span>
-                <span
-                  className={`grid size-6 place-items-center rounded-full border transition-colors ${
-                    selected ? "border-[var(--band)] bg-[var(--band)] text-bg" : "border-line-strong"
-                  }`}
-                >
-                  {selected && <Check size={14} weight="bold" />}
-                </span>
-              </span>
-              <GrowthStage
-                band={b}
-                className="mx-auto my-2 size-28 transition-transform duration-500 group-hover:scale-110"
-              />
-              <span className="font-display text-2xl tracking-[-0.02em]">{info.name[locale]}</span>
-              <span className="mt-1 text-[13.5px] leading-snug text-muted">{info.tagline[locale]}</span>
-            </button>
-          );
-        })}
+      {/* Mock Authentication Banner */}
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-violet/30 bg-violet-deep/20 px-4 py-3 text-xs text-violet-ink">
+        <span className="flex items-center gap-2">
+          <ShieldCheck size={18} className="text-violet" weight="fill" />
+          <span>
+            <strong>Authentication Mode:</strong> Mock / Device Profile (Stored persistently in browser & synced to /api/profile)
+          </span>
+        </span>
+        <span className="rounded-full bg-white/[0.08] px-2.5 py-0.5 font-mono text-[11px] text-muted">
+          Ready for School SSO / Clerk
+        </span>
       </div>
 
-      {band && (
-        <fieldset key={band} className="fade-up mt-8">
-          <legend className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">{c.pickClass}</legend>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {BAND_GRADES[band].map((g) => (
+      <h2 className="font-display text-[clamp(26px,3.8vw,44px)] leading-[1.05] tracking-[-0.035em] text-balance">
+        {existing ? (locale === "ta" ? "உன் சுயவிவரத்தைப் புதுப்பி" : locale === "hi" ? "अपनी प्रोफ़ाइल अपडेट करें" : "Update your student profile") : c.askTitle}
+      </h2>
+      <p className="mt-2 max-w-xl text-[14.5px] leading-relaxed text-muted">
+        {locale === "ta"
+          ? "வகுப்பு 4 முதல் 12 வரையிலான பாடத்திட்டம் உன் வகுப்புக்கேற்ப தனிப்பயனாக்கப்படும்."
+          : locale === "hi"
+            ? "कक्षा 4 से 12 तक का पाठ्यक्रम आपकी कक्षा के अनुसार व्यक्तिगत बनाया जाएगा।"
+            : "Select your school standard (Class 4 to 12). Learning modules, textbooks and quizzes will be personalised to match."}
+      </p>
+
+      {/* 1. School Standard Selector (Classes 4 to 12) */}
+      <fieldset className="mt-8">
+        <div className="flex items-center justify-between">
+          <legend className="font-mono text-[12px] uppercase tracking-[0.14em] text-violet">
+            1. {locale === "ta" ? "பள்ளி வகுப்பு (வகுப்பு 4 – 12)" : locale === "hi" ? "कक्षा चुनें (कक्षा 4 – 12)" : "School Standard (Class 4 to 12)"} *
+          </legend>
+          {grade && (
+            <span className="font-mono text-[12px] text-muted">
+              Selected: <strong className="text-text">{c.classWord} {grade}</strong> ({BAND_INFO[bandOf(grade)].name[locale]})
+            </span>
+          )}
+        </div>
+
+        {/* Dropdown for quick selection on mobile */}
+        <div className="mt-3 block sm:hidden">
+          <select
+            value={grade ?? ""}
+            onChange={(e) => setGrade(e.target.value ? Number(e.target.value) : null)}
+            className="h-12 w-full rounded-2xl border border-line bg-surface-2 px-4 font-mono text-sm text-text focus:border-violet focus:outline-none"
+          >
+            <option value="">-- Choose your class --</option>
+            {SUPPORTED_STANDARDS.map((s) => (
+              <option key={s} value={s}>
+                {c.classWord} {s} ({BAND_INFO[bandOf(s)].name[locale]})
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Interactive Standard Card Grid on tablet & desktop */}
+        <div className="mt-3 hidden grid-cols-3 gap-2.5 sm:grid sm:grid-cols-5 md:grid-cols-9">
+          {SUPPORTED_STANDARDS.map((s) => {
+            const b = bandOf(s);
+            const isSelected = grade === s;
+            const accent = BAND_INFO[b].accent;
+            return (
+              <button
+                key={s}
+                type="button"
+                onClick={() => setGrade(s)}
+                style={{ "--band": accent } as React.CSSProperties}
+                className={`group relative flex flex-col items-center justify-center rounded-2xl border py-3 px-2 text-center transition-all duration-200 ${
+                  isSelected
+                    ? "border-[var(--band)] bg-[color-mix(in_srgb,var(--band)_16%,var(--surface))] shadow-[0_0_25px_-5px_var(--band)]"
+                    : "border-line bg-surface hover:-translate-y-0.5 hover:border-line-strong hover:bg-surface-2"
+                }`}
+              >
+                <span className="font-mono text-[10px] uppercase tracking-wider text-muted opacity-80">
+                  {c.classWord}
+                </span>
+                <span className="font-display text-2xl font-bold tracking-tight text-text">
+                  {s}
+                </span>
+                <span className="mt-1 font-mono text-[9.5px] text-[var(--band)]">
+                  {BAND_INFO[b].name[locale]}
+                </span>
+                {isSelected && (
+                  <span className="absolute -top-1.5 -right-1.5 grid size-5 place-items-center rounded-full bg-[var(--band)] text-bg text-[10px]">
+                    <Check size={11} weight="bold" />
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </fieldset>
+
+      {/* 2. Student Details: Name, Email, Preferred Language */}
+      <div className="mt-8 grid gap-5 rounded-3xl border border-line bg-surface p-5 sm:p-7 md:grid-cols-2">
+        <label className="flex flex-col gap-2">
+          <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
+            2. {c.nameLabel} *
+          </span>
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            maxLength={24}
+            required
+            autoComplete="name"
+            placeholder={c.namePlaceholder}
+            className="h-13 rounded-2xl border border-line bg-bg/70 px-4 text-[16px] text-text placeholder:text-muted/60 focus:border-violet/60 focus:outline-none"
+          />
+        </label>
+
+        <label className="flex flex-col gap-2">
+          <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
+            3. {locale === "ta" ? "மின்னஞ்சல் அல்லது மாணவர் எண்" : locale === "hi" ? "ईमेल या छात्र आईडी" : "Email or Student Login ID"}
+          </span>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            maxLength={80}
+            autoComplete="email"
+            placeholder="student@school.edu.in"
+            className="h-13 rounded-2xl border border-line bg-bg/70 px-4 text-[16px] text-text placeholder:text-muted/60 focus:border-violet/60 focus:outline-none"
+          />
+        </label>
+
+        {/* Preferred Language */}
+        <div className="flex flex-col gap-2">
+          <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
+            4. {locale === "ta" ? "விருப்ப மொழி" : locale === "hi" ? "पसंदीदा भाषा" : "Preferred Language"}
+          </span>
+          <div className="flex gap-2">
+            {LOCALES.map((l) => {
+              const active = prefLang === l;
+              return (
+                <button
+                  key={l}
+                  type="button"
+                  onClick={() => setPrefLang(l)}
+                  className={`flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl border font-mono text-xs transition-colors ${
+                    active
+                      ? "border-violet bg-violet-deep text-violet-ink"
+                      : "border-line bg-bg/60 text-muted hover:text-text"
+                  }`}
+                >
+                  {LOCALE_LABEL[l].native}
+                  {active && <Check size={12} weight="bold" />}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Buddy Avatar Selector */}
+        <fieldset>
+          <legend className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
+            5. {c.avatarLabel}
+          </legend>
+          <div className="mt-2 grid grid-cols-4 gap-2 sm:grid-cols-8 md:grid-cols-4">
+            {AVATARS.map((a) => (
               <label
-                key={g}
-                style={{ "--band": BAND_INFO[band].accent } as React.CSSProperties}
-                className="cursor-pointer has-[:checked]:border-[var(--band)] has-[:checked]:bg-[var(--band)] has-[:checked]:text-bg has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-violet flex h-12 min-w-12 items-center justify-center gap-1.5 rounded-2xl border border-line bg-white/[0.04] px-4 font-mono text-sm transition-colors duration-200 hover:bg-white/[0.08]"
+                key={a}
+                title={AVATAR_NAME[a][locale]}
+                className="grid cursor-pointer place-items-center rounded-2xl border border-transparent p-1 transition-all duration-200 hover:bg-white/[0.06] has-[:checked]:scale-105 has-[:checked]:border-violet/60 has-[:checked]:bg-violet-deep/40 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-violet"
               >
                 <input
                   type="radio"
-                  name="grade"
-                  value={g}
-                  checked={grade === g}
-                  onChange={() => setGrade(g)}
+                  name="avatar"
+                  value={a}
+                  checked={avatar === a}
+                  onChange={() => setAvatar(a)}
                   className="sr-only"
+                  aria-label={AVATAR_NAME[a][locale]}
                 />
-                <span className="text-[11px] opacity-70">{c.classWord}</span> {g}
+                <Avatar id={a} className="size-10" iconSize={22} />
               </label>
             ))}
           </div>
         </fieldset>
-      )}
 
-      {grade !== null && (
-        <div className="fade-up mt-8 grid gap-8 rounded-3xl border border-line bg-surface p-5 sm:p-6 md:grid-cols-[1fr_1.2fr]">
-          <label className="flex flex-col gap-2">
-            <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">{c.nameLabel}</span>
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              maxLength={24}
-              required
-              autoComplete="given-name"
-              placeholder={c.namePlaceholder}
-              className="h-14 rounded-2xl border border-line bg-bg/60 px-4 text-[17px] text-text placeholder:text-muted/60 focus:border-violet/60 focus:outline-none"
-            />
-          </label>
-          <fieldset>
-            <legend className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">{c.avatarLabel}</legend>
-            <div className="mt-2 grid grid-cols-4 gap-2">
-              {AVATARS.map((a) => (
-                <label
-                  key={a}
-                  title={AVATAR_NAME[a][locale]}
-                  className="grid cursor-pointer place-items-center rounded-2xl border border-transparent p-1.5 transition-all duration-200 hover:bg-white/[0.06] has-[:checked]:scale-105 has-[:checked]:border-violet/60 has-[:checked]:bg-violet-deep/40 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-violet"
-                >
-                  <input
-                    type="radio"
-                    name="avatar"
-                    value={a}
-                    checked={avatar === a}
-                    onChange={() => setAvatar(a)}
-                    className="sr-only"
-                    aria-label={AVATAR_NAME[a][locale]}
-                  />
-                  <Avatar id={a} className="size-12" iconSize={26} />
-                </label>
-              ))}
-            </div>
-          </fieldset>
-          <div className="flex flex-col gap-3 md:col-span-2 md:flex-row md:items-center md:justify-between">
-            <p className="text-[13px] text-muted">{c.deviceNote}</p>
-            <button
-              type="submit"
-              disabled={!ready}
-              className="beam-border group inline-flex h-14 shrink-0 items-center justify-center gap-3 rounded-full bg-violet-deep px-8 font-mono text-sm text-violet-ink transition-all duration-200 hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-40 disabled:[&::before]:hidden"
-            >
-              {existing ? c.save : c.start}
-              <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-1" />
-            </button>
-          </div>
+        {/* Submit Actions */}
+        <div className="flex flex-col gap-3 pt-2 md:col-span-2 md:flex-row md:items-center md:justify-between">
+          <p className="text-[12.5px] text-muted/80">{c.deviceNote}</p>
+          <button
+            type="submit"
+            disabled={!ready}
+            className="beam-border group inline-flex h-13 shrink-0 items-center justify-center gap-3 rounded-full bg-violet-deep px-8 font-mono text-sm text-violet-ink transition-all duration-200 hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-40 disabled:[&::before]:hidden"
+          >
+            {existing ? c.save : c.start}
+            <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-1" />
+          </button>
         </div>
-      )}
+      </div>
     </form>
   );
 }
