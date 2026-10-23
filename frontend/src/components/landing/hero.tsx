@@ -335,7 +335,14 @@ export function Hero() {
                     {t.menu}
                   </span>
                 )}
+                <DotsNine size={14} className="text-muted" aria-hidden />
               </button>
+              <p
+                aria-hidden
+                className="pointer-events-none select-none absolute bottom-8 left-5 z-20 hidden rotate-180 font-display text-[clamp(44px,4.6vw,76px)] leading-none tracking-[-0.04em] text-text/85 [writing-mode:vertical-rl] lg:block"
+              >
+                Kalpavriksha
+              </p>
 
               {/* 3D Sphere Gallery canvas */}
               <div
