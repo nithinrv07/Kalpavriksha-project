@@ -49,6 +49,7 @@ export const MODULES: readonly KalpaModule[] = [
       hi: "पढ़ाई, कौशल, खेल और गतिविधियाँ — एक ही प्रोफ़ाइल में।",
     },
     icon: Plant,
+    iconImage: "/images/modules/holistic-growth-icon.png",
     shape: "bars",
     tile: "tall",
   },
