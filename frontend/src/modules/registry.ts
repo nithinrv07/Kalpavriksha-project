@@ -15,13 +15,14 @@ export type KalpaModule = {
   readonly title: LocalizedText;
   readonly summary: LocalizedText;
   readonly icon: Icon;
+  readonly iconImage?: string;
   /** Particle shape the hero morphs into when this module is highlighted. */
   readonly shape: ShapeName;
   /** Bento tile footprint on large screens. */
   readonly tile: "feature" | "tall" | "standard";
 };
 
-export const MODULES = [
+export const MODULES: readonly KalpaModule[] = [
   {
     id: "content",
     slug: "learn",
@@ -33,6 +34,7 @@ export const MODULES = [
       hi: "वीडियो, पाठ, गीत और कहानियाँ — पढ़ें या सुनें।",
     },
     icon: BookOpenText,
+    iconImage: "/images/modules/digital-learning-icon.png",
     shape: "play",
     tile: "feature",
   },

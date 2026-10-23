@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowLeft, Fire, IdentificationCard } from "@phosphor-icons/react/ssr";
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Avatar } from "@/components/avatar";
@@ -127,8 +128,18 @@ export function ModuleShell({
         </header>
 
         <div className="fade-up mt-6 flex items-start gap-4 sm:mt-10 sm:items-center">
-          <span className="hidden size-14 shrink-0 place-items-center rounded-2xl bg-violet-deep/70 text-violet-ink shadow-[0_0_40px_-8px_rgb(124_58_237/0.7)] sm:grid">
-            <Icon size={28} weight="duotone" />
+          <span className="hidden size-14 shrink-0 place-items-center overflow-hidden rounded-2xl bg-violet-deep/70 text-violet-ink shadow-[0_0_40px_-8px_rgb(124_58_237/0.7)] sm:grid">
+            {module.iconImage ? (
+              <Image
+                src={module.iconImage}
+                alt={module.title[locale]}
+                width={56}
+                height={56}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <Icon size={28} weight="duotone" />
+            )}
           </span>
           <div>
             <p className="font-mono text-[12px] text-violet">{module.index}</p>

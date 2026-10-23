@@ -21,8 +21,14 @@ const NODES = [
 export function IdentitySection() {
   const { t, locale } = useLocale();
   const items = [
-    ...MODULES.map((m) => ({ key: m.id, label: m.title[locale], Icon: m.icon, future: false })),
-    { key: "future", label: t.soonTitle, Icon: Plus, future: true },
+    ...MODULES.map((m) => ({
+      key: m.id,
+      label: m.title[locale],
+      Icon: m.icon,
+      iconImage: m.iconImage,
+      future: false,
+    })),
+    { key: "future", label: t.soonTitle, Icon: Plus, iconImage: undefined, future: true },
   ];
 
   return (
@@ -95,7 +101,7 @@ export function IdentitySection() {
           </span>
         </div>
 
-        {items.map(({ key, label, Icon, future }, i) => {
+        {items.map(({ key, label, Icon, iconImage, future }, i) => {
           const n = NODES[i];
           if (!n) return null;
           return (
@@ -106,13 +112,23 @@ export function IdentitySection() {
             >
               <span
                 data-reveal="pop"
-                className={`grid size-12 place-items-center rounded-2xl sm:size-14 ${
+                className={`grid size-12 place-items-center overflow-hidden rounded-2xl transition-transform duration-300 hover:scale-105 sm:size-14 ${
                   future
                     ? "border border-dashed border-line-strong bg-surface"
                     : "border border-line-strong bg-surface-2 text-violet-ink"
                 }`}
               >
-                <Icon size={22} weight="duotone" />
+                {iconImage ? (
+                  <Image
+                    src={iconImage}
+                    alt={label}
+                    width={56}
+                    height={56}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <Icon size={22} weight="duotone" />
+                )}
               </span>
               <span className="text-[12px] leading-snug sm:text-[13px]">{label}</span>
             </div>

@@ -175,8 +175,18 @@ export function BentoModules() {
                   {/* Right Column: Book Icon, Movable Image in exact ratio, Arrow button */}
                   <div className="flex flex-col justify-between gap-4">
                     <div className="flex justify-end">
-                      <span className="grid size-10 place-items-center rounded-xl bg-violet-deep/60 text-violet-ink">
-                        <Icon size={20} weight="duotone" />
+                      <span className="grid size-10 place-items-center overflow-hidden rounded-xl bg-violet-deep/60 text-violet-ink">
+                        {m.iconImage ? (
+                          <Image
+                            src={m.iconImage}
+                            alt={m.title[locale]}
+                            width={40}
+                            height={40}
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <Icon size={20} weight="duotone" />
+                        )}
                       </span>
                     </div>
 
@@ -208,8 +218,18 @@ export function BentoModules() {
             >
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[12px] text-violet">{m.index}</span>
-                <span className="grid size-10 place-items-center rounded-xl bg-violet-deep/60 text-violet-ink">
-                  <Icon size={20} weight="duotone" />
+                <span className="grid size-10 place-items-center overflow-hidden rounded-xl bg-violet-deep/60 text-violet-ink">
+                  {m.iconImage ? (
+                    <Image
+                      src={m.iconImage}
+                      alt={m.title[locale]}
+                      width={40}
+                      height={40}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <Icon size={20} weight="duotone" />
+                  )}
                 </span>
               </div>
               {m.slug === "grow" ? (

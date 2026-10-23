@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowUpRight, X } from "@phosphor-icons/react/ssr";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { BrandMark } from "@/components/brand-mark";
@@ -56,8 +57,18 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
                 onClick={onClose}
                 className="group flex items-center gap-4 rounded-2xl border border-transparent p-3 transition-colors duration-200 hover:border-line hover:bg-white/[0.04]"
               >
-                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-violet-deep/60 text-violet-ink">
-                  <Icon size={20} weight="duotone" />
+                <span className="grid size-11 shrink-0 place-items-center overflow-hidden rounded-xl bg-violet-deep/60 text-violet-ink">
+                  {m.iconImage ? (
+                    <Image
+                      src={m.iconImage}
+                      alt={m.title[locale]}
+                      width={44}
+                      height={44}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <Icon size={20} weight="duotone" />
+                  )}
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block font-mono text-[11px] text-violet">{m.index}</span>
