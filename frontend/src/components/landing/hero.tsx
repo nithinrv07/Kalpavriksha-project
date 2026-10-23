@@ -338,7 +338,10 @@ export function Hero() {
               </button>
 
               {/* 3D Sphere Gallery canvas */}
-              <div data-no-flip="true" className="absolute inset-0 z-10 h-full w-full">
+              <div
+                data-no-flip="true"
+                className="absolute inset-0 z-10 h-full w-full translate-x-6 sm:translate-x-10 lg:translate-x-16"
+              >
                 <SphereGallery3D
                   background="transparent"
                   style={{ width: "100%", height: "100%", minWidth: 0, minHeight: 0 }}
