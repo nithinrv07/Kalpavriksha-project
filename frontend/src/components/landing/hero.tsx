@@ -8,6 +8,7 @@ import { useLocale } from "@/components/locale-provider";
 import { ParticleCanvas } from "@/components/particle-canvas";
 import { FlipCard } from "@/components/flip-card";
 import { PulsatingBorder } from "@/components/pulsating-border";
+import { SparkleButton } from "@/components/sparkle-button";
 import { SphereGallery3D } from "@/components/sphere-gallery-3d";
 import type { Locale } from "@/lib/i18n";
 import type { ShapeName } from "@/lib/shapes";
@@ -353,6 +354,22 @@ export function Hero() {
                   background="transparent"
                   style={{ width: "100%", height: "100%", minWidth: 0, minHeight: 0 }}
                   onBackgroundClick={() => setIsFlipped(false)}
+                />
+              </div>
+
+              {/* Crystal Glow "Rooted To Rise" headline */}
+              <div
+                data-no-flip="true"
+                className="pointer-events-auto absolute right-4 top-[18%] z-20 hidden items-center justify-end sm:right-8 sm:flex lg:right-10 lg:top-[22%]"
+              >
+                <SparkleButton
+                  text="Rooted To Rise"
+                  fontSize="clamp(36px, 4.2vw, 68px)"
+                  fontFamily="var(--font-display), var(--font-geist), sans-serif"
+                  fontWeight={800}
+                  textColor="#C3AFD4"
+                  shadowColor="#1E0028"
+                  glareColor="#4A105DBF"
                 />
               </div>
 
