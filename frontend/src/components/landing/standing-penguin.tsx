@@ -94,8 +94,8 @@ export function StandingPenguin() {
         <Image
           src="/images/skipper-penguin.png"
           alt="Skipper Penguin"
-          width={572}
-          height={959}
+          width={538}
+          height={951}
           priority
           draggable={false}
           className="h-[140px] w-auto sm:h-[185px] lg:h-[235px] object-contain transition-transform duration-200 group-hover:-rotate-2"
