@@ -13,7 +13,7 @@ export default function Home() {
       {/* Blooming Wishing Tree with drifting petals throughout the left side of the landing page */}
       <div
         aria-hidden
-        className="pointer-events-none fixed inset-y-0 left-0 z-[1] h-full w-[66vw] min-w-[320px] max-w-[880px] overflow-hidden opacity-90"
+        className="pointer-events-none fixed inset-y-0 left-0 z-[1] h-full w-[52vw] min-w-[300px] max-w-[700px] overflow-hidden opacity-90"
         style={{
           maskImage: "linear-gradient(to right, #000 88%, transparent 100%)",
           WebkitMaskImage: "linear-gradient(to right, #000 88%, transparent 100%)",
@@ -21,7 +21,7 @@ export default function Home() {
       >
         <MoonlitPetals
           background="transparent"
-          scale={85}
+          scale={68}
           blossomColor="#D8B4FE"
           petals={80}
           wind={20}
