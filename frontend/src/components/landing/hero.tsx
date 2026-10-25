@@ -160,12 +160,12 @@ export function Hero() {
                 />
               </div>
 
-              {/* Right-side content column: perfectly aligned, zero overlap */}
+              {/* Right-side content column: harmoniously proportioned, cohesive right rail */}
               <div
                 data-no-flip="true"
-                className="pointer-events-auto absolute right-4 top-16 bottom-6 z-20 flex w-full max-w-[340px] flex-col justify-between items-end sm:right-8 sm:top-20 sm:bottom-8 sm:max-w-[400px] lg:right-8 xl:right-12 lg:top-24 lg:bottom-10 lg:max-w-[440px]"
+                className="pointer-events-auto absolute right-4 top-20 bottom-6 z-20 flex w-full max-w-[340px] flex-col justify-center gap-5 sm:gap-6 lg:gap-7 items-end sm:right-8 sm:top-24 sm:bottom-8 sm:max-w-[380px] lg:right-8 xl:right-12 lg:top-24 lg:bottom-8 lg:max-w-[400px] xl:max-w-[420px]"
               >
-                {/* 1. Crystal Glow "Rooted To Rise" headline */}
+                {/* 1. Crystal Glow "Rooted to Rise" headline */}
                 <div className="w-full flex justify-end">
                   <SparkleButton
                     as="h2"
@@ -173,53 +173,53 @@ export function Hero() {
                     align="right"
                     fontSize={
                       locale === "en"
-                        ? "clamp(42px, 5.4vw, 92px)"
-                        : "clamp(32px, 4.2vw, 72px)"
+                        ? "clamp(36px, 4.2vw, 70px)"
+                        : "clamp(28px, 3.4vw, 56px)"
                     }
                     fontFamily="var(--font-display), var(--font-geist), sans-serif"
                     fontWeight={800}
-                    letterSpacing={locale === "en" ? "-0.055em" : "-0.01em"}
-                    lineHeight={0.92}
+                    letterSpacing={locale === "en" ? "-0.045em" : "-0.01em"}
+                    lineHeight={0.94}
                     textColor="#C3AFD4"
                     shadowColor="#1E0028"
                     glareColor="#4A105DBF"
                   />
                 </div>
 
-                {/* 2. Middle interactive showcase: dynamically spaced */}
-                <div className="my-auto hidden w-full flex-col items-end gap-2.5 py-3 sm:flex">
+                {/* 2. Middle interactive showcase: flush aligned with matching card width */}
+                <div className="hidden w-full flex-col items-end gap-3 sm:flex">
                   {/* Tagline / Subtitle */}
-                  <p className="font-mono text-[11.5px] tracking-wide text-violet/90 text-right">
+                  <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-ink/80 text-right">
                     {t.tagline[0]} — {t.tagline[1]}
                   </p>
 
                   {/* Quick module access cards with custom icons */}
-                  <div className="flex flex-col items-end gap-2 w-full">
+                  <div className="flex flex-col items-end gap-2.5 w-full">
                     {MODULES.map((m) => {
                       const Icon = m.icon;
                       return (
                         <Link
                           key={m.id}
                           href={`/m/${m.slug}`}
-                          className="group flex w-full max-w-[320px] items-center justify-between gap-3 rounded-xl border border-line/80 bg-surface/85 px-3 py-2 text-right shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)] backdrop-blur-md transition-all duration-200 hover:border-violet/60 hover:bg-surface-2 hover:shadow-[0_8px_24px_-4px_rgba(124,58,237,0.35)]"
+                          className="group flex w-full max-w-[340px] sm:max-w-[360px] items-center justify-between gap-3 rounded-2xl border border-white/12 bg-[#140d28]/90 backdrop-blur-xl px-3.5 py-2.5 text-right shadow-[0_8px_24px_-4px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-violet/50 hover:bg-[#1e133c] hover:shadow-[0_12px_28px_-4px_rgba(147,51,234,0.3)] hover:-translate-x-1"
                         >
-                          <span className="font-mono text-[10px] text-violet group-hover:text-text transition-colors">
+                          <span className="font-mono text-[11px] font-semibold text-amber-400 group-hover:text-amber-300 transition-colors">
                             {m.index}
                           </span>
-                          <span className="min-w-0 flex-1 truncate text-[12.5px] font-medium text-text group-hover:text-violet-ink transition-colors">
+                          <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-text group-hover:text-violet-ink transition-colors">
                             {m.title[locale]}
                           </span>
-                          <span className="grid size-7 shrink-0 place-items-center overflow-hidden rounded-lg border border-line bg-surface-2 text-violet-ink shadow-sm transition-transform duration-200 group-hover:scale-105">
+                          <span className="grid size-8 shrink-0 place-items-center overflow-hidden rounded-xl border border-white/10 bg-surface-2 text-violet-ink shadow-sm transition-transform duration-200 group-hover:scale-105">
                             {m.iconImage ? (
                               <Image
                                 src={m.iconImage}
                                 alt={m.title[locale]}
-                                width={28}
-                                height={28}
+                                width={32}
+                                height={32}
                                 className="size-full object-cover"
                               />
                             ) : (
-                              <Icon size={14} weight="duotone" />
+                              <Icon size={16} weight="duotone" />
                             )}
                           </span>
                         </Link>
@@ -227,29 +227,29 @@ export function Hero() {
                     })}
                   </div>
 
-                  {/* Key statistics row */}
-                  <div className="flex flex-wrap items-center justify-end gap-1.5 pt-0.5">
+                  {/* Key statistics row: neatly bounded to card width */}
+                  <div className="flex w-full max-w-[340px] sm:max-w-[360px] flex-wrap items-center justify-end gap-1.5 pt-0.5">
                     {t.stats.map((stat, i) => (
                       <span
                         key={i}
-                        className="inline-flex items-center gap-1 rounded-full border border-line/70 bg-white/[0.04] px-2.5 py-0.5 font-mono text-[10px] text-muted backdrop-blur-sm"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.05] px-2.5 py-1 font-mono text-[10.5px] text-muted backdrop-blur-md shadow-sm transition-colors hover:border-white/20"
                       >
-                        <strong className="font-semibold text-text">{stat.value}</strong>
-                        <span>{stat.label}</span>
+                        <strong className="font-semibold text-amber-300">{stat.value}</strong>
+                        <span className="text-muted/90">{stat.label}</span>
                       </span>
                     ))}
                   </div>
                 </div>
 
                 {/* 3. Bottom copy & explore link */}
-                <div className="w-full max-w-[340px] text-right sm:max-w-[380px]">
-                  <p className="font-mono text-[12.5px] leading-relaxed text-muted">{t.lead}</p>
+                <div className="w-full max-w-[340px] sm:max-w-[360px] text-right flex flex-col items-end">
+                  <p className="font-sans text-[13px] leading-relaxed text-muted/90">{t.lead}</p>
                   <a
                     href="#modules"
-                    className="group mt-3 inline-flex items-center gap-2 text-sm text-text underline decoration-line-strong underline-offset-4 transition-colors duration-200 hover:decoration-violet"
+                    className="group mt-3.5 inline-flex items-center gap-2 rounded-full border border-violet/30 bg-violet/10 px-4 py-2 font-mono text-[12px] font-medium text-violet-ink backdrop-blur-md shadow-[0_4px_16px_rgba(147,51,234,0.2)] transition-all duration-300 hover:border-violet/60 hover:bg-violet-deep hover:text-white hover:shadow-[0_6px_25px_rgba(168,85,247,0.35)] active:scale-[0.98]"
                   >
-                    {t.explore}
-                    <ArrowDown size={14} className="transition-transform duration-200 group-hover:translate-y-0.5" />
+                    <span>{t.explore}</span>
+                    <ArrowDown size={13} className="transition-transform duration-200 group-hover:translate-y-0.5 text-amber-300" />
                   </a>
                 </div>
               </div>
