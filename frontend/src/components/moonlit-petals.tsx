@@ -1369,10 +1369,7 @@ function __OriginkitBase_NightSceneBacklit(props: NightSceneBacklitProps) {
             ro.disconnect();
             io.disconnect();
             disposeScene(scene);
-            try {
-                const ext = gl?.getExtension("WEBGL_lose_context");
-                ext?.loseContext();
-            } catch {}
+
             root.removeEventListener("pointermove", onMove);
             root.removeEventListener("pointerenter", onMove);
             root.removeEventListener("pointerleave", onLeave);

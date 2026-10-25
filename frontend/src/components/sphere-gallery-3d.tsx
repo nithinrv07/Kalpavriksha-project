@@ -1398,10 +1398,7 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
       }
       gl.deleteProgram(quadProg);
       gl.deleteProgram(solidProg);
-      try {
-        const ext = gl.getExtension("WEBGL_lose_context");
-        ext?.loseContext();
-      } catch {}
+
     };
   }, []);
 
