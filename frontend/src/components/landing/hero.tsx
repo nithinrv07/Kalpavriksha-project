@@ -66,15 +66,15 @@ export function Hero() {
   return (
     <section
       data-hero
-      className="relative isolate flex min-h-[100dvh] items-center px-2 py-2 sm:px-4 sm:py-4 lg:px-12 lg:py-10"
+      className="relative isolate flex min-h-[100dvh] h-[100dvh] w-full items-center justify-center overflow-hidden p-0"
     >
-      <div className="hero-frame fade-up relative mx-auto w-full max-w-[1240px] min-h-[720px] sm:min-h-[700px] lg:h-[min(820px,calc(100dvh-5rem))] lg:min-h-[640px]">
+      <div className="hero-frame fade-up relative h-full w-full">
         <FlipCard
           flipped={isFlipped}
           onFlip={setIsFlipped}
           width="100%"
           height="100%"
-          radius={28}
+          radius={0}
           background="transparent"
           shadow={false}
           className="h-full w-full"
@@ -84,7 +84,7 @@ export function Hero() {
             <div className="relative flex h-full w-full flex-col overflow-hidden bg-transparent lg:block">
 
               {/* Top bar — flows on mobile, pinned on desktop */}
-              <div className="z-20 flex items-center justify-between gap-3 p-3 sm:p-4 lg:absolute lg:inset-x-6 lg:top-6 lg:justify-end lg:p-0">
+              <div className="z-20 flex items-center justify-between gap-3 p-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
                 <span className="flex items-center gap-2 font-display text-lg tracking-tight lg:hidden">
                   <BrandMark className="size-6 text-violet" />
                   Kalpavriksha
@@ -125,7 +125,7 @@ export function Hero() {
                 type="button"
                 onClick={() => setMenuOpen(true)}
                 aria-label={t.menu}
-                className="group absolute left-6 top-6 z-20 hidden flex-col items-center gap-3 rounded-2xl border border-line bg-white/[0.04] p-1.5 pb-3 transition-colors duration-200 hover:bg-white/[0.08] lg:flex"
+                className="group absolute left-6 xl:left-8 top-6 xl:top-8 z-20 hidden flex-col items-center gap-3 rounded-2xl border border-line bg-white/[0.04] p-1.5 pb-3 transition-colors duration-200 hover:bg-white/[0.08] lg:flex"
               >
                 <span className="grid size-10 place-items-center rounded-xl bg-white/[0.08] text-text transition-colors duration-200 group-hover:text-violet">
                   <BrandMark className="size-5" />
@@ -139,7 +139,7 @@ export function Hero() {
               </button>
               <p
                 aria-hidden
-                className="pointer-events-none select-none absolute bottom-8 left-5 z-20 hidden rotate-180 font-display text-[clamp(44px,4.6vw,76px)] leading-none tracking-[-0.04em] text-text/85 [writing-mode:vertical-rl] lg:block"
+                className="pointer-events-none select-none absolute bottom-8 left-6 xl:left-8 z-20 hidden rotate-180 font-display text-[clamp(44px,4.6vw,76px)] leading-none tracking-[-0.04em] text-text/85 [writing-mode:vertical-rl] lg:block"
               >
                 Kalpavriksha
               </p>
@@ -147,7 +147,7 @@ export function Hero() {
               {/* 3D Sphere Gallery canvas */}
               <div
                 data-no-flip="true"
-                className="absolute inset-0 z-10 h-full w-full -translate-x-8 sm:-translate-x-16 lg:-translate-x-48 xl:-translate-x-56"
+                className="absolute inset-0 z-10 h-full w-full -translate-x-8 sm:-translate-x-16 lg:-translate-x-32 xl:-translate-x-44"
               >
                 <SphereGallery3D
                   background="transparent"
@@ -158,7 +158,7 @@ export function Hero() {
               {/* Right-side content column: perfectly aligned, zero overlap */}
               <div
                 data-no-flip="true"
-                className="pointer-events-auto absolute right-4 top-16 bottom-6 z-20 flex w-full max-w-[340px] flex-col justify-between items-end sm:right-8 sm:top-20 sm:bottom-8 sm:max-w-[400px] lg:right-10 lg:top-24 lg:bottom-9 lg:max-w-[440px]"
+                className="pointer-events-auto absolute right-4 top-16 bottom-6 z-20 flex w-full max-w-[340px] flex-col justify-between items-end sm:right-8 sm:top-20 sm:bottom-8 sm:max-w-[400px] lg:right-8 xl:right-12 lg:top-24 lg:bottom-10 lg:max-w-[440px]"
               >
                 {/* 1. Crystal Glow "Rooted To Rise" headline */}
                 <div className="w-full flex justify-end">
@@ -255,7 +255,7 @@ export function Hero() {
             <div className="relative flex h-full w-full flex-col overflow-hidden bg-transparent lg:block">
 
               {/* Top bar — flows on mobile, pinned on desktop */}
-              <div className="z-20 flex items-center justify-between gap-3 p-3 sm:p-4 lg:absolute lg:inset-x-6 lg:top-6 lg:justify-end lg:p-0">
+              <div className="z-20 flex items-center justify-between gap-3 p-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
                 <span className="flex items-center gap-2 font-display text-lg tracking-tight lg:hidden">
                   <BrandMark className="size-6 text-violet" />
                   Kalpavriksha
@@ -296,7 +296,7 @@ export function Hero() {
                 type="button"
                 onClick={() => setMenuOpen(true)}
                 aria-label={t.menu}
-                className="group absolute left-6 top-6 z-20 hidden flex-col items-center gap-3 rounded-2xl border border-line bg-white/[0.04] p-1.5 pb-3 transition-colors duration-200 hover:bg-white/[0.08] lg:flex"
+                className="group absolute left-6 xl:left-8 top-6 xl:top-8 z-20 hidden flex-col items-center gap-3 rounded-2xl border border-line bg-white/[0.04] p-1.5 pb-3 transition-colors duration-200 hover:bg-white/[0.08] lg:flex"
               >
                 <span className="grid size-10 place-items-center rounded-xl bg-white/[0.08] text-text transition-colors duration-200 group-hover:text-violet">
                   <BrandMark className="size-5" />
@@ -310,7 +310,7 @@ export function Hero() {
               </button>
               <p
                 aria-hidden
-                className="pointer-events-none select-none absolute bottom-8 left-5 z-20 hidden rotate-180 font-display text-[clamp(44px,4.6vw,76px)] leading-none tracking-[-0.04em] text-text/85 [writing-mode:vertical-rl] lg:block"
+                className="pointer-events-none select-none absolute bottom-8 left-6 xl:left-8 z-20 hidden rotate-180 font-display text-[clamp(44px,4.6vw,76px)] leading-none tracking-[-0.04em] text-text/85 [writing-mode:vertical-rl] lg:block"
               >
                 Kalpavriksha
               </p>
@@ -339,7 +339,7 @@ export function Hero() {
               </p>
 
               {/* Copy block */}
-              <div className="hero-copy relative z-10 px-5 pb-2 sm:px-8 lg:absolute lg:right-10 lg:top-[27%] lg:w-[44%] lg:p-0 lg:text-right [container-type:inline-size]">
+              <div className="hero-copy relative z-10 px-5 pb-2 sm:px-8 lg:absolute lg:right-8 xl:right-12 lg:top-[27%] lg:w-[44%] lg:p-0 lg:text-right [container-type:inline-size]">
                 <p className="fade-up font-mono text-[13px] leading-relaxed text-violet" style={{ animationDelay: "500ms" }}>
                   {t.tagline[0]}
                   <br />
@@ -368,7 +368,7 @@ export function Hero() {
               </div>
 
               <div
-                className="fade-up relative z-10 px-5 pt-5 sm:px-8 lg:absolute lg:bottom-9 lg:right-10 lg:max-w-[380px] lg:p-0 lg:text-right"
+                className="fade-up relative z-10 px-5 pt-5 sm:px-8 lg:absolute lg:bottom-10 lg:right-8 xl:right-12 lg:max-w-[380px] lg:p-0 lg:text-right"
                 style={{ animationDelay: "1100ms" }}
               >
                 <p className="font-mono text-[12.5px] leading-relaxed text-muted">{t.lead}</p>
@@ -389,7 +389,7 @@ export function Hero() {
                   setHovering(false);
                   setSlot(-1);
                 }}
-                className="relative z-10 flex gap-2 overflow-x-auto px-5 pb-5 pt-6 [scrollbar-width:none] sm:px-8 lg:absolute lg:bottom-8 lg:left-[112px] lg:max-w-[52%] lg:flex-wrap lg:overflow-visible lg:p-0"
+                className="relative z-10 flex gap-2 overflow-x-auto px-5 pb-5 pt-6 [scrollbar-width:none] sm:px-8 lg:absolute lg:bottom-10 lg:left-[112px] xl:left-[128px] lg:max-w-[52%] lg:flex-wrap lg:overflow-visible lg:p-0"
               >
                 {MODULES.map((m, i) => {
                   const active = slot === i;
