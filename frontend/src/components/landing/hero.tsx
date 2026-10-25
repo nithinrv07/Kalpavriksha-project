@@ -160,12 +160,15 @@ export function Hero() {
                 )}
                 <DotsNine size={14} className="text-muted" aria-hidden />
               </button>
-              <p
+              {/* Horizontal brand title centered directly above 3D Sphere */}
+              <div
                 aria-hidden
-                className="pointer-events-none select-none absolute top-1/2 -translate-y-1/2 left-6 xl:left-8 z-20 hidden rotate-180 font-display text-[clamp(44px,4.6vw,76px)] leading-none tracking-[-0.04em] text-text/85 [writing-mode:vertical-rl] lg:block"
+                className="pointer-events-none select-none absolute top-6 xl:top-8 inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
               >
-                Kalpavriksha
-              </p>
+                <p className="font-display text-[clamp(32px,3.6vw,56px)] font-bold tracking-[-0.035em] text-white/90 drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]">
+                  Kalpavriksha
+                </p>
+              </div>
 
               {/* 3D Sphere Gallery canvas */}
               <div
@@ -333,12 +336,15 @@ export function Hero() {
                 )}
                 <DotsNine size={14} className="text-muted" aria-hidden />
               </button>
-              <p
+              {/* Horizontal brand title centered directly above 3D Sphere */}
+              <div
                 aria-hidden
-                className="pointer-events-none select-none absolute top-1/2 -translate-y-1/2 left-6 xl:left-8 z-20 hidden rotate-180 font-display text-[clamp(44px,4.6vw,76px)] leading-none tracking-[-0.04em] text-text/85 [writing-mode:vertical-rl] lg:block"
+                className="pointer-events-none select-none absolute top-6 xl:top-8 inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
               >
-                Kalpavriksha
-              </p>
+                <p className="font-display text-[clamp(32px,3.6vw,56px)] font-bold tracking-[-0.035em] text-white/90 drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]">
+                  Kalpavriksha
+                </p>
+              </div>
 
               {/* Particle stage */}
               <div className="hero-stage relative mx-auto aspect-square w-full max-w-[560px] lg:absolute lg:bottom-28 lg:left-[9%] lg:top-0 lg:aspect-auto lg:w-[54%] lg:max-w-none">
