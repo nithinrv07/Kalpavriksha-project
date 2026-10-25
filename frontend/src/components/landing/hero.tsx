@@ -10,6 +10,7 @@ import { ParticleCanvas } from "@/components/particle-canvas";
 import { FlipCard } from "@/components/flip-card";
 import { SparkleButton } from "@/components/sparkle-button";
 import { SphereGallery3D } from "@/components/sphere-gallery-3d";
+import { MoonlitPetals } from "@/components/moonlit-petals";
 import type { ShapeName } from "@/lib/shapes";
 import { MODULES } from "@/modules/registry";
 import { LangSelect } from "./lang-select";
@@ -82,6 +83,28 @@ export function Hero() {
           front={
             /* DEFAULT FRONTPAGE: Luminous 3D Sphere Gallery View */
             <div className="relative flex h-full w-full flex-col overflow-hidden bg-transparent lg:block">
+
+              {/* Moonlit Petals — Blooming Wishing Tree on Left Stage */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-y-0 left-0 z-0 h-full w-[44vw] min-w-[320px] max-w-[580px] overflow-hidden opacity-90"
+              >
+                <MoonlitPetals
+                  background="transparent"
+                  scale={85}
+                  blossomColor="#D8B4FE"
+                  petals={80}
+                  wind={20}
+                  direction="left"
+                  advanced={{
+                    crownReach: 75,
+                    twigs: 22,
+                    hazeOpacity: 0,
+                    vignette: 0,
+                    grain: 0,
+                  }}
+                />
+              </div>
 
               {/* Top bar — flows on mobile, pinned on desktop */}
               <div className="z-20 flex items-center justify-between gap-3 p-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">

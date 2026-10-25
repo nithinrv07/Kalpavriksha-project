@@ -954,7 +954,12 @@ function __OriginkitBase_NightSceneBacklit(props: NightSceneBacklitProps) {
         let last = -1;
         let t = 0;
         let raf = 0;
+        let isVisible = true;
         const frame = (now: number) => {
+            if (!isVisible) {
+                raf = 0;
+                return;
+            }
             raf = requestAnimationFrame(frame);
             const dt = last < 0 ? 0 : Math.min((now - last) / 1000, 0.05);
             last = now;
@@ -1325,11 +1330,21 @@ function __OriginkitBase_NightSceneBacklit(props: NightSceneBacklitProps) {
                 ctx.globalAlpha = 1;
             }
         };
+        const io = new IntersectionObserver(([entry]) => {
+            isVisible = !!entry?.isIntersecting;
+            if (isVisible && !raf) {
+                last = -1;
+                raf = requestAnimationFrame(frame);
+            }
+        }, { threshold: 0.05 });
+        io.observe(root);
+
         raf = requestAnimationFrame(frame);
 
         return () => {
             cancelAnimationFrame(raf);
             ro.disconnect();
+            io.disconnect();
             root.removeEventListener("pointermove", onMove);
             root.removeEventListener("pointerenter", onMove);
             root.removeEventListener("pointerleave", onLeave);
