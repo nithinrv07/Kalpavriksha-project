@@ -137,23 +137,23 @@ export function Hero() {
                 )}
                 <DotsNine size={14} className="text-amber-400/80 transition-colors group-hover:text-amber-300" aria-hidden />
               </button>
-              {/* Horizontal brand title centered directly above 3D Sphere */}
+              {/* Horizontal brand title centered directly above 3D Sphere with celestial text animatic */}
               <div
                 aria-hidden
-                className="pointer-events-none select-none absolute top-6 xl:top-8 inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
+                className="pointer-events-none select-none absolute top-5 xl:top-6 inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
               >
-                <p className="font-display text-[clamp(32px,3.6vw,56px)] font-bold tracking-[-0.035em] text-white/90 drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]">
+                <h1 className="font-display text-animatic text-[clamp(42px,5.2vw,78px)] font-black tracking-[-0.035em]">
                   Kalpavriksha
-                </p>
+                </h1>
               </div>
 
-              {/* 3D Sphere Gallery canvas */}
+              {/* 3D Sphere Gallery canvas — shifted down for harmonious breathing room */}
               <div
                 data-no-flip="true"
-                className="absolute inset-0 z-10 h-full w-full -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8"
+                className="absolute inset-0 z-10 h-full w-full -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 translate-y-12 sm:translate-y-14 lg:translate-y-16"
               >
                 <SphereGallery3D
-                  scale={70}
+                  scale={68}
                   size={28}
                   background="transparent"
                   style={{ width: "100%", height: "100%", minWidth: 0, minHeight: 0 }}
@@ -313,18 +313,18 @@ export function Hero() {
                 )}
                 <DotsNine size={14} className="text-amber-400/80 transition-colors group-hover:text-amber-300" aria-hidden />
               </button>
-              {/* Horizontal brand title centered directly above 3D Sphere */}
+              {/* Horizontal brand title centered directly above 3D Sphere with celestial text animatic */}
               <div
                 aria-hidden
-                className="pointer-events-none select-none absolute top-6 xl:top-8 inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
+                className="pointer-events-none select-none absolute top-5 xl:top-6 inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
               >
-                <p className="font-display text-[clamp(32px,3.6vw,56px)] font-bold tracking-[-0.035em] text-white/90 drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]">
+                <p className="font-display text-animatic text-[clamp(42px,5.2vw,78px)] font-black tracking-[-0.035em]">
                   Kalpavriksha
                 </p>
               </div>
 
-              {/* Particle stage */}
-              <div className="hero-stage relative mx-auto aspect-square w-full max-w-[560px] lg:absolute lg:bottom-28 lg:left-[9%] lg:top-0 lg:aspect-auto lg:w-[54%] lg:max-w-none">
+              {/* Particle stage — shifted down for harmonious breathing room */}
+              <div className="hero-stage relative mx-auto aspect-square w-full max-w-[560px] translate-y-6 sm:translate-y-8 lg:translate-y-10 lg:absolute lg:bottom-28 lg:left-[9%] lg:top-0 lg:aspect-auto lg:w-[54%] lg:max-w-none">
                 <ParticleCanvas shape={shape} className="absolute inset-0 h-full w-full" />
                 {t.stats.map((stat, i) => (
                   <div

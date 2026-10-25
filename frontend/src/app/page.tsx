@@ -19,12 +19,13 @@ export default function Home() {
           background="transparent"
           scale={85}
           blossomColor="#D8B4FE"
-          petals={80}
-          wind={20}
+          petals={40}
+          wind={18}
           direction="left"
           advanced={{
+            flowers: 4000,
             crownReach: 75,
-            twigs: 22,
+            twigs: 20,
             hazeOpacity: 0,
             vignette: 0,
             grain: 0,

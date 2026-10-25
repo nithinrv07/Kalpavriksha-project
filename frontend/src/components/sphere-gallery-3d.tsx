@@ -848,7 +848,7 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
     const resize = () => {
       const w = Math.max(1, host.clientWidth);
       const h = Math.max(1, host.clientHeight);
-      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const dpr = Math.min(1.5, window.devicePixelRatio || 1);
       vw = Math.max(1, Math.round(w * dpr));
       vh = Math.max(1, Math.round(h * dpr));
       if (canvas.width !== vw) canvas.width = vw;

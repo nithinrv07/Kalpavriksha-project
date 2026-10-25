@@ -220,13 +220,19 @@ export function NeonBorder(props: NeonBorderProps) {
     }, []);
 
     useEffect(() => {
+        const root = rootRef.current;
         let raf = 0;
         let last = performance.now();
         let lap = 0;
         let corner = 0;
         let stepT = 0;
+        let isVisible = true;
 
         const frame = (now: number) => {
+            if (!isVisible) {
+                raf = 0;
+                return;
+            }
             const dt = Math.min(0.05, Math.max(0, (now - last) / 1000));
             last = now;
             const p = live.current;
@@ -275,9 +281,28 @@ export function NeonBorder(props: NeonBorderProps) {
 
             raf = requestAnimationFrame(frame);
         };
-        raf = requestAnimationFrame(frame);
 
-        return () => cancelAnimationFrame(raf);
+        let io: IntersectionObserver | null = null;
+        if (root && typeof IntersectionObserver !== "undefined") {
+            io = new IntersectionObserver(
+                ([entry]) => {
+                    isVisible = !!entry?.isIntersecting;
+                    if (isVisible && !raf) {
+                        last = performance.now();
+                        raf = requestAnimationFrame(frame);
+                    }
+                },
+                { threshold: 0.05 }
+            );
+            io.observe(root);
+        } else {
+            raf = requestAnimationFrame(frame);
+        }
+
+        return () => {
+            cancelAnimationFrame(raf);
+            io?.disconnect();
+        };
     }, []);
 
     const thick = Math.max(1, Math.min(10, thickness));

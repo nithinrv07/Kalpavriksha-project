@@ -869,7 +869,7 @@ function __OriginkitBase_NightSceneBacklit(props: NightSceneBacklitProps) {
         let Hd = 0;
         let dpr = 1;
         const resize = () => {
-            dpr = Math.min(2, window.devicePixelRatio || 1);
+            dpr = Math.min(1.5, window.devicePixelRatio || 1);
             Wd = Math.max(1, Math.round(root.offsetWidth * dpr));
             Hd = Math.max(1, Math.round(root.offsetHeight * dpr));
             if (canvas.width !== Wd) canvas.width = Wd;
@@ -1140,7 +1140,8 @@ function __OriginkitBase_NightSceneBacklit(props: NightSceneBacklitProps) {
             const capF = 0.03 * Wd;
             const tsec = now / 1000;
             let act = false;
-            for (let i = 0; i < F.n; i++) {
+            if (pAmt > 0.001 || F.active) {
+                for (let i = 0; i < F.n; i++) {
                 let tx = 0;
                 let ty = 0;
                 let kx = 0;
@@ -1171,8 +1172,9 @@ function __OriginkitBase_NightSceneBacklit(props: NightSceneBacklitProps) {
                 F.ox[i] = nOx;
                 F.oy[i] = nOy;
                 if (Math.abs(nOx) + Math.abs(nOy) > 0.05 || Math.abs(nVx) + Math.abs(nVy) > 0.5) act = true;
+                }
+                F.active = act;
             }
-            F.active = act;
             if (warp && warpScene !== scene) {
                 warp.upload(scene.core, scene.coreBlur);
                 warpScene = scene;

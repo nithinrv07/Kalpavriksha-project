@@ -39,8 +39,8 @@ export function ChromeWaves() {
               </linearGradient>
             </defs>
             <g transform="rotate(-22)">
-              {/* Radiant violet-fuchsia halo behind the brightest ribbons */}
-              <g style={{ filter: "blur(12px)" }} opacity="0.85">
+              {/* Radiant violet-fuchsia atmospheric halo behind the brightest ribbons (pure SVG strokes, 0 raster filter lag) */}
+              <g opacity="0.6">
                 {RINGS.filter((i) => i % 4 === 0).map((i) => (
                   <ellipse
                     key={i}
@@ -48,7 +48,8 @@ export function ChromeWaves() {
                     ry={92 + i * 17}
                     fill="none"
                     stroke="url(#chrome-glow)"
-                    strokeWidth="14"
+                    strokeWidth="8"
+                    strokeOpacity="0.4"
                   />
                 ))}
               </g>
