@@ -86,7 +86,7 @@ export function Hero() {
               {/* Top bar — flows on mobile, pinned on desktop */}
               <div className="z-20 flex items-center justify-between gap-3 p-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
                 <span className="flex items-center gap-2 font-display text-lg tracking-tight lg:hidden">
-                  <BrandMark className="size-6 text-violet" />
+                  <BrandMark className="size-6 text-amber-400" strokeWidth={1.8} />
                   Kalpavriksha
                 </span>
                 <div className="flex items-center gap-2">
@@ -113,7 +113,7 @@ export function Hero() {
                     type="button"
                     onClick={() => setMenuOpen(true)}
                     aria-label={t.menu}
-                    className="grid size-11 place-items-center rounded-xl border border-line bg-white/[0.06] text-text transition-colors hover:border-violet/40 hover:bg-violet-deep hover:text-violet-ink lg:hidden"
+                    className="grid size-11 place-items-center rounded-xl border border-white/15 bg-surface/90 text-amber-300 shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all hover:border-amber-400/50 hover:bg-surface-2 hover:text-amber-200 lg:hidden"
                   >
                     <DotsNine size={18} />
                   </button>
@@ -125,17 +125,17 @@ export function Hero() {
                 type="button"
                 onClick={() => setMenuOpen(true)}
                 aria-label={t.menu}
-                className="group absolute left-6 xl:left-8 top-6 xl:top-8 z-20 hidden flex-col items-center gap-3 rounded-2xl border border-line bg-white/[0.04] p-1.5 pb-3 transition-colors duration-200 hover:bg-white/[0.08] lg:flex"
+                className="group absolute left-6 xl:left-8 top-6 xl:top-8 z-20 hidden flex-col items-center gap-3 rounded-2xl border border-white/15 bg-surface/90 backdrop-blur-xl p-1.5 pb-3 shadow-[0_10px_35px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-amber-400/50 hover:bg-surface-2 hover:shadow-[0_10px_35px_rgba(251,191,36,0.18)] lg:flex"
               >
-                <span className="grid size-10 place-items-center rounded-xl bg-white/[0.08] text-text transition-colors duration-200 group-hover:text-violet">
-                  <BrandMark className="size-5" />
+                <span className="grid size-10 place-items-center rounded-xl border border-amber-400/35 bg-amber-400/15 text-amber-300 shadow-[0_0_16px_-2px_rgba(251,191,36,0.45)] transition-all duration-300 group-hover:scale-105 group-hover:border-amber-400 group-hover:bg-amber-400/25 group-hover:text-amber-200 group-hover:shadow-[0_0_22px_rgba(251,191,36,0.65)]">
+                  <BrandMark className="size-5" strokeWidth={1.8} />
                 </span>
                 {locale === "en" && (
-                  <span aria-hidden className="font-mono text-[11px] tracking-wide text-muted [writing-mode:vertical-rl]">
+                  <span aria-hidden className="font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-white/90 transition-colors group-hover:text-amber-200 [writing-mode:vertical-rl]">
                     {t.menu}
                   </span>
                 )}
-                <DotsNine size={14} className="text-muted" aria-hidden />
+                <DotsNine size={14} className="text-amber-400/80 transition-colors group-hover:text-amber-300" aria-hidden />
               </button>
               {/* Horizontal brand title centered directly above 3D Sphere */}
               <div
@@ -262,7 +262,7 @@ export function Hero() {
               {/* Top bar — flows on mobile, pinned on desktop */}
               <div className="z-20 flex items-center justify-between gap-3 p-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
                 <span className="flex items-center gap-2 font-display text-lg tracking-tight lg:hidden">
-                  <BrandMark className="size-6 text-violet" />
+                  <BrandMark className="size-6 text-amber-400" strokeWidth={1.8} />
                   Kalpavriksha
                 </span>
                 <div className="flex items-center gap-2">
@@ -289,7 +289,7 @@ export function Hero() {
                     type="button"
                     onClick={() => setMenuOpen(true)}
                     aria-label={t.menu}
-                    className="grid size-11 place-items-center rounded-xl border border-line bg-white/[0.06] text-text transition-colors hover:border-violet/40 hover:bg-violet-deep hover:text-violet-ink lg:hidden"
+                    className="grid size-11 place-items-center rounded-xl border border-white/15 bg-surface/90 text-amber-300 shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all hover:border-amber-400/50 hover:bg-surface-2 hover:text-amber-200 lg:hidden"
                   >
                     <DotsNine size={18} />
                   </button>
@@ -301,17 +301,17 @@ export function Hero() {
                 type="button"
                 onClick={() => setMenuOpen(true)}
                 aria-label={t.menu}
-                className="group absolute left-6 xl:left-8 top-6 xl:top-8 z-20 hidden flex-col items-center gap-3 rounded-2xl border border-line bg-white/[0.04] p-1.5 pb-3 transition-colors duration-200 hover:bg-white/[0.08] lg:flex"
+                className="group absolute left-6 xl:left-8 top-6 xl:top-8 z-20 hidden flex-col items-center gap-3 rounded-2xl border border-white/15 bg-surface/90 backdrop-blur-xl p-1.5 pb-3 shadow-[0_10px_35px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-amber-400/50 hover:bg-surface-2 hover:shadow-[0_10px_35px_rgba(251,191,36,0.18)] lg:flex"
               >
-                <span className="grid size-10 place-items-center rounded-xl bg-white/[0.08] text-text transition-colors duration-200 group-hover:text-violet">
-                  <BrandMark className="size-5" />
+                <span className="grid size-10 place-items-center rounded-xl border border-amber-400/35 bg-amber-400/15 text-amber-300 shadow-[0_0_16px_-2px_rgba(251,191,36,0.45)] transition-all duration-300 group-hover:scale-105 group-hover:border-amber-400 group-hover:bg-amber-400/25 group-hover:text-amber-200 group-hover:shadow-[0_0_22px_rgba(251,191,36,0.65)]">
+                  <BrandMark className="size-5" strokeWidth={1.8} />
                 </span>
                 {locale === "en" && (
-                  <span aria-hidden className="font-mono text-[11px] tracking-wide text-muted [writing-mode:vertical-rl]">
+                  <span aria-hidden className="font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-white/90 transition-colors group-hover:text-amber-200 [writing-mode:vertical-rl]">
                     {t.menu}
                   </span>
                 )}
-                <DotsNine size={14} className="text-muted" aria-hidden />
+                <DotsNine size={14} className="text-amber-400/80 transition-colors group-hover:text-amber-300" aria-hidden />
               </button>
               {/* Horizontal brand title centered directly above 3D Sphere */}
               <div
