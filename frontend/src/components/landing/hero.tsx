@@ -141,7 +141,7 @@ export function Hero() {
               {/* Horizontal brand title centered directly above 3D Sphere with 3D DepthText */}
               <div
                 aria-hidden
-                className="pointer-events-none select-none absolute top-4 xl:top-5 inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
+                className="pointer-events-none select-none absolute top-[7vh] inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
               >
                 <DepthText
                   text="Kalpavriksha"
@@ -334,7 +334,7 @@ export function Hero() {
               {/* Horizontal brand title centered directly above 3D Sphere with 3D DepthText */}
               <div
                 aria-hidden
-                className="pointer-events-none select-none absolute top-4 xl:top-5 inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
+                className="pointer-events-none select-none absolute top-[7vh] inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
               >
                 <DepthText
                   text="Kalpavriksha"
