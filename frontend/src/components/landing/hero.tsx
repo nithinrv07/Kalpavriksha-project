@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BrandMark } from "@/components/brand-mark";
+import { DepthText } from "@/components/depth-text";
 import { useLocale } from "@/components/locale-provider";
 import { ParticleCanvas } from "@/components/particle-canvas";
 import { FlipCard } from "@/components/flip-card";
@@ -137,14 +138,28 @@ export function Hero() {
                 )}
                 <DotsNine size={14} className="text-amber-400/80 transition-colors group-hover:text-amber-300" aria-hidden />
               </button>
-              {/* Horizontal brand title centered directly above 3D Sphere with celestial text animatic */}
+              {/* Horizontal brand title centered directly above 3D Sphere with 3D DepthText */}
               <div
                 aria-hidden
-                className="pointer-events-none select-none absolute top-5 xl:top-6 inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
+                className="pointer-events-none select-none absolute top-4 xl:top-5 inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
               >
-                <h1 className="font-display text-animatic text-[clamp(42px,5.2vw,78px)] font-black tracking-[-0.035em]">
-                  Kalpavriksha
-                </h1>
+                <DepthText
+                  text="Kalpavriksha"
+                  fontSize="clamp(46px, 6vw, 86px)"
+                  fontWeight={900}
+                  faceColor="#FFFFFF"
+                  depthColor="#6d28d9"
+                  layers={32}
+                  depth={2.2}
+                  tilt={8}
+                  perspective={1000}
+                  autoOrbit={true}
+                  orbitSpeed={0.3}
+                  float={true}
+                  pointerTracking={true}
+                  shadow={true}
+                  className="font-display tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
+                />
               </div>
 
               {/* 3D Sphere Gallery canvas — shifted down for harmonious breathing room */}
@@ -313,14 +328,28 @@ export function Hero() {
                 )}
                 <DotsNine size={14} className="text-amber-400/80 transition-colors group-hover:text-amber-300" aria-hidden />
               </button>
-              {/* Horizontal brand title centered directly above 3D Sphere with celestial text animatic */}
+              {/* Horizontal brand title centered directly above 3D Sphere with 3D DepthText */}
               <div
                 aria-hidden
-                className="pointer-events-none select-none absolute top-5 xl:top-6 inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
+                className="pointer-events-none select-none absolute top-4 xl:top-5 inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
               >
-                <p className="font-display text-animatic text-[clamp(42px,5.2vw,78px)] font-black tracking-[-0.035em]">
-                  Kalpavriksha
-                </p>
+                <DepthText
+                  text="Kalpavriksha"
+                  fontSize="clamp(46px, 6vw, 86px)"
+                  fontWeight={900}
+                  faceColor="#FFFFFF"
+                  depthColor="#6d28d9"
+                  layers={32}
+                  depth={2.2}
+                  tilt={8}
+                  perspective={1000}
+                  autoOrbit={true}
+                  orbitSpeed={0.3}
+                  float={true}
+                  pointerTracking={true}
+                  shadow={true}
+                  className="font-display tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
+                />
               </div>
 
               {/* Particle stage — shifted down for harmonious breathing room */}
