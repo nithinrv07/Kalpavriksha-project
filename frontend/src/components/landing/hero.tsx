@@ -162,7 +162,7 @@ export function Hero() {
               </button>
               <p
                 aria-hidden
-                className="pointer-events-none select-none absolute bottom-8 left-6 xl:left-8 z-20 hidden rotate-180 font-display text-[clamp(44px,4.6vw,76px)] leading-none tracking-[-0.04em] text-text/85 [writing-mode:vertical-rl] lg:block"
+                className="pointer-events-none select-none absolute top-1/2 -translate-y-1/2 left-6 xl:left-8 z-20 hidden rotate-180 font-display text-[clamp(44px,4.6vw,76px)] leading-none tracking-[-0.04em] text-text/85 [writing-mode:vertical-rl] lg:block"
               >
                 Kalpavriksha
               </p>
@@ -335,7 +335,7 @@ export function Hero() {
               </button>
               <p
                 aria-hidden
-                className="pointer-events-none select-none absolute bottom-8 left-6 xl:left-8 z-20 hidden rotate-180 font-display text-[clamp(44px,4.6vw,76px)] leading-none tracking-[-0.04em] text-text/85 [writing-mode:vertical-rl] lg:block"
+                className="pointer-events-none select-none absolute top-1/2 -translate-y-1/2 left-6 xl:left-8 z-20 hidden rotate-180 font-display text-[clamp(44px,4.6vw,76px)] leading-none tracking-[-0.04em] text-text/85 [writing-mode:vertical-rl] lg:block"
               >
                 Kalpavriksha
               </p>
