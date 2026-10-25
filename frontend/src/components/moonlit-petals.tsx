@@ -4,6 +4,7 @@
 import type { CSSProperties } from "react";
 import * as React from "react";
 import { useEffect, useRef } from "react";
+import { getQualityBudget } from "@/lib/perf/quality";
 
 const ADVANCED_DEFAULTS = {
     seed: 7,
@@ -857,9 +858,12 @@ export interface NightSceneBacklitProps {
         vignette?: number;
     };
     style?: CSSProperties;
+    /** After this many viewport heights of scroll, drop to `ambientFps` (keeps petals alive, cuts cost). */
+    throttleAfterViewports?: number;
+    ambientFps?: number;
 }
 
-function __OriginkitBase_NightSceneBacklit(props: NightSceneBacklitProps) {
+function OriginkitBaseNightSceneBacklit(props: NightSceneBacklitProps) {
     props = withMovedControls(props);
     const {
         speed = 100,
@@ -871,6 +875,8 @@ function __OriginkitBase_NightSceneBacklit(props: NightSceneBacklitProps) {
         background = "#000000",
         direction = "left",
         style,
+        throttleAfterViewports,
+        ambientFps = 15,
     } = props;
     const rootRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -945,7 +951,7 @@ function __OriginkitBase_NightSceneBacklit(props: NightSceneBacklitProps) {
             gl = glc.getContext("webgl", {
                 alpha: true,
                 premultipliedAlpha: true,
-                preserveDrawingBuffer: true,
+                preserveDrawingBuffer: false,
                 antialias: false,
                 depth: false,
             }) as WebGLRenderingContext | null;
@@ -975,12 +981,28 @@ function __OriginkitBase_NightSceneBacklit(props: NightSceneBacklitProps) {
         let t = 0;
         let raf = 0;
         let isVisible = true;
+        const budget = getQualityBudget();
+        let gateOpen = true;
+        let lastAmbient = 0;
+
+        const updateScrollGate = () => {
+            if (throttleAfterViewports === undefined) return;
+            gateOpen = window.scrollY < window.innerHeight * throttleAfterViewports;
+        };
+        updateScrollGate();
+        window.addEventListener("scroll", updateScrollGate, { passive: true });
+
         const frame = (now: number) => {
             if (!isVisible) {
                 raf = 0;
                 return;
             }
             raf = requestAnimationFrame(frame);
+            if (!gateOpen) {
+                // Scrolled past the hero: keep the petals drifting, at a fraction of the cost.
+                if (now - lastAmbient < (1000 / Math.max(1, ambientFps)) * 0.8) return;
+                lastAmbient = now;
+            }
             const dt = last < 0 ? 0 : Math.min((now - last) / 1000, 0.05);
             last = now;
             if (Wd < 2 || Hd < 2) return;
@@ -996,7 +1018,7 @@ function __OriginkitBase_NightSceneBacklit(props: NightSceneBacklitProps) {
             if (!geo || gk !== geoKey) {
                 geo = buildTree(
                     seed,
-                    clamp(num(adv.flowers, 11000), 500, 30000),
+                    clamp(num(adv.flowers, 11000), 500, Math.max(500, budget.flowers)),
                     Math.max(2, num(adv.flowerSize, 6)),
                     Math.max(4, num(adv.clumpSize, 11)),
                     clamp(Math.round(num(adv.twigs, 30)), 0, 60),
@@ -1026,7 +1048,7 @@ function __OriginkitBase_NightSceneBacklit(props: NightSceneBacklitProps) {
                 scene = bakeScene(Wd, Hd, geo, P, adv);
                 sceneKey = sk;
             }
-            const count = clamp(Math.round(num(P.petals, 140)), 0, 600);
+            const count = clamp(Math.round(num(P.petals, 140)), 0, Math.max(0, budget.petals));
             const pk = [count, seed, adv.nearShare].join("|");
             if (pk !== partKey) {
                 const r = mulberry32(seed + 5);
@@ -1368,6 +1390,7 @@ function __OriginkitBase_NightSceneBacklit(props: NightSceneBacklitProps) {
             cancelAnimationFrame(raf);
             ro.disconnect();
             io.disconnect();
+            window.removeEventListener("scroll", updateScrollGate);
             disposeScene(scene);
 
             root.removeEventListener("pointermove", onMove);
@@ -1413,7 +1436,7 @@ const __originkitPresetProps = {
 };
 
 export function NightSceneBacklit(props: NightSceneBacklitProps) {
-    return <__OriginkitBase_NightSceneBacklit {...(__originkitPresetProps as Record<string, unknown>)} {...props} />;
+    return <OriginkitBaseNightSceneBacklit {...(__originkitPresetProps as Record<string, unknown>)} {...props} />;
 }
 
 export const MoonlitPetals = NightSceneBacklit;

@@ -5,6 +5,8 @@
 import * as React from "react";
 import { useEffect, useRef } from "react";
 import { animate, motionValue } from "motion/react";
+import { clampDpr, getQualityBudget } from "@/lib/perf/quality";
+import { useSceneVisibility } from "@/lib/perf/use-scene-visibility";
 
 type Motion = {
   type?: "spring" | "tween" | "keyframes" | "inertia";
@@ -266,7 +268,7 @@ function OriginkitBaseScrollWaveField(props: ScrollWaveFieldProps) {
     background: backgroundProp,
     colors: colorsProp,
     palette = {},
-    density = 145,
+    density = getQualityBudget().waveDensity,
     dotSize = 2,
     scatter = 108,
     cameraHeight = 50,
@@ -296,6 +298,13 @@ function OriginkitBaseScrollWaveField(props: ScrollWaveFieldProps) {
 
   const hostRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const visibleRef = useRef(true);
+  const resumeRef = useRef<(() => void) | null>(null);
+  useSceneVisibility(hostRef, (visible) => {
+    visibleRef.current = visible;
+    if (visible) resumeRef.current?.();
+  });
 
   const live = useRef({
     colors,
@@ -395,6 +404,22 @@ function OriginkitBaseScrollWaveField(props: ScrollWaveFieldProps) {
     const seedBuf = gl.createBuffer()!;
 
     const palBuf = new Float32Array(MAX_COLORS * 3);
+    let palSource: readonly string[] | null = null;
+    let palLen = 0;
+
+    // Palette strings are parsed once per color change, never per frame.
+    const syncPalette = (source: readonly string[]) => {
+      if (source === palSource) return;
+      palSource = source;
+      const src = source.length > 0 ? source.slice(0, MAX_COLORS) : DEFAULT_COLORS;
+      palLen = Math.min(src.length, MAX_COLORS);
+      for (let i = 0; i < palLen; i++) {
+        const [r, g, b] = parseColor(src[i] ?? "");
+        palBuf[i * 3] = r;
+        palBuf[i * 3 + 1] = g;
+        palBuf[i * 3 + 2] = b;
+      }
+    };
 
     let builtDensity = -1;
     let count = 0;
@@ -438,7 +463,7 @@ function OriginkitBaseScrollWaveField(props: ScrollWaveFieldProps) {
     let areaScale = 1;
 
     const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP);
+      dpr = Math.min(clampDpr(window.devicePixelRatio || 1), DPR_CAP);
       cssW = canvas.clientWidth || host.clientWidth || 0;
       cssH = canvas.clientHeight || host.clientHeight || 0;
       areaScale =
@@ -520,10 +545,13 @@ function OriginkitBaseScrollWaveField(props: ScrollWaveFieldProps) {
 
     let raf = 0;
     let last = performance.now();
+    let lastDraw = 0;
     let phase = 0;
     let flow = 0;
     let hitX = 0;
     let hitZ = -1e6;
+    const targetFps = Math.max(24, getQualityBudget().targetFps);
+    const frameInterval = 1000 / targetFps;
 
     const groundHit = (
       mx: number,
@@ -556,7 +584,18 @@ function OriginkitBaseScrollWaveField(props: ScrollWaveFieldProps) {
     };
 
     const frame = (now: number) => {
+      // Offscreen or background tab: stop the loop instead of drawing invisible points.
+      if (!visibleRef.current) {
+        raf = 0;
+        return;
+      }
       raf = requestAnimationFrame(frame);
+
+      // Ambient decoration does not need every display refresh.
+      // Small tolerance so a 60 Hz display is not rounded down to 30 fps.
+      if (now - lastDraw < frameInterval * 0.8) return;
+      lastDraw = now;
+
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
 
@@ -613,15 +652,8 @@ function OriginkitBaseScrollWaveField(props: ScrollWaveFieldProps) {
       const hx = hitX;
       const hz = hitZ;
 
-      const pal =
-        Array.isArray(L.colors) && L.colors.length > 0 ? L.colors.slice(0, 8) : DEFAULT_COLORS;
-      for (let i = 0; i < pal.length; i++) {
-        const [cr2, cg2, cb2] = parseColor(pal[i] ?? "");
-        palBuf[i * 3] = cr2;
-        palBuf[i * 3 + 1] = cg2;
-        palBuf[i * 3 + 2] = cb2;
-      }
-
+      const pal = L.colors;
+      syncPalette(pal);
       gl.uniform2f(u.res, wDev, hDev);
       gl.uniform1f(u.focal, focal);
       gl.uniform1f(u.time, phase);
@@ -637,7 +669,7 @@ function OriginkitBaseScrollWaveField(props: ScrollWaveFieldProps) {
       gl.uniform1f(u.pitch, pitch);
       gl.uniform1f(u.roll, roll);
       gl.uniform1f(u.dot, L.dotSize);
-      gl.uniform1f(u.colorCount, pal.length);
+      gl.uniform1f(u.colorCount, palLen);
       gl.uniform2f(u.jit, spacingX * 0.25, spacingZ * 0.7);
       gl.uniform3fv(u.colors, palBuf);
       gl.uniform3f(u.cursor, hx, hz, p.active);
@@ -656,10 +688,18 @@ function OriginkitBaseScrollWaveField(props: ScrollWaveFieldProps) {
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.POINTS, 0, count);
     };
-    raf = requestAnimationFrame(frame);
+    resumeRef.current = () => {
+      if (raf) return;
+      last = performance.now();
+      lastDraw = 0;
+      raf = requestAnimationFrame(frame);
+    };
+    resumeRef.current();
 
     return () => {
       cancelAnimationFrame(raf);
+      raf = 0;
+      resumeRef.current = null;
       ro.disconnect();
       hoverAnim?.stop();
       pressAnim?.stop();
@@ -669,6 +709,20 @@ function OriginkitBaseScrollWaveField(props: ScrollWaveFieldProps) {
       host.removeEventListener("pointercancel", onUp);
       window.removeEventListener("pointerup", onUp);
       window.removeEventListener("pointermove", onWindowMove);
+
+      gl.deleteBuffer(gridBuf);
+      gl.deleteBuffer(seedBuf);
+      gl.deleteProgram(prog);
+
+      const lose = gl.getExtension("WEBGL_lose_context");
+      if (lose) {
+        // Wait a tick and only free the context when the canvas is really gone:
+        // React re-runs effects on the same canvas (StrictMode / Fast Refresh),
+        // and losing it there would leave the wave field permanently broken.
+        window.setTimeout(() => {
+          if (!canvas.isConnected) lose.loseContext();
+        }, 0);
+      }
     };
   }, [hoverMV, pressMV]);
 

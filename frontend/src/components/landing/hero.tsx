@@ -158,6 +158,7 @@ export function Hero() {
                   float={true}
                   pointerTracking={true}
                   shadow={true}
+                  active={!isFlipped}
                   className="font-display tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
                 />
               </div>
@@ -171,6 +172,7 @@ export function Hero() {
                   scale={68}
                   size={28}
                   background="transparent"
+                  active={!isFlipped}
                   style={{ width: "100%", height: "100%", minWidth: 0, minHeight: 0 }}
                 />
               </div>
@@ -348,13 +350,14 @@ export function Hero() {
                   float={true}
                   pointerTracking={true}
                   shadow={true}
+                  active={isFlipped}
                   className="font-display tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
                 />
               </div>
 
               {/* Particle stage — shifted down for harmonious breathing room */}
               <div className="hero-stage relative mx-auto aspect-square w-full max-w-[560px] translate-y-6 sm:translate-y-8 lg:translate-y-10 lg:absolute lg:bottom-28 lg:left-[9%] lg:top-0 lg:aspect-auto lg:w-[54%] lg:max-w-none">
-                <ParticleCanvas shape={shape} className="absolute inset-0 h-full w-full" />
+                <ParticleCanvas shape={shape} className="absolute inset-0 h-full w-full" active={isFlipped} />
                 {t.stats.map((stat, i) => (
                   <div
                     key={i}

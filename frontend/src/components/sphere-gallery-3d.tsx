@@ -3,6 +3,7 @@
 "use client";
 
 import * as React from "react";
+import { clampDpr, detectQualityTier, getQualityBudget } from "@/lib/perf/quality";
 
 export interface GalleryItem {
   image?: string;
@@ -32,6 +33,8 @@ export interface SphereGallery3DProps {
   className?: string;
   style?: React.CSSProperties;
   onBackgroundClick?: () => void;
+  /** When false the scene stops rendering (e.g. the flip card is showing its back). */
+  active?: boolean;
 }
 
 const DUMMY_PAIRS: ReadonlyArray<[string, string]> = [
@@ -617,10 +620,15 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
     className,
     style,
     onBackgroundClick,
+    active = true,
   } = props;
 
   const onBackgroundClickRef = React.useRef(onBackgroundClick);
   onBackgroundClickRef.current = onBackgroundClick;
+
+  const activeRef = React.useRef(active);
+  activeRef.current = active;
+  const resumeRef = React.useRef<(() => void) | null>(null);
 
   const items = images && images.length ? images : DEFAULT_ITEMS;
   const branches = clamp(Math.round(branchesProp), 1, MAX_BRANCHES);
@@ -723,12 +731,13 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
     const host = hostRef.current;
     if (!canvas || !host) return;
 
+    const budget = getQualityBudget(detectQualityTier());
     const attrs: WebGLContextAttributes = {
-      antialias: true,
+      antialias: budget.antialias,
       alpha: true,
       premultipliedAlpha: true,
       depth: true,
-      powerPreference: "high-performance",
+      powerPreference: "default",
     };
     const gl = (canvas.getContext("webgl2", attrs) ||
       canvas.getContext("webgl", attrs) ||
@@ -848,7 +857,7 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
     const resize = () => {
       const w = Math.max(1, host.clientWidth);
       const h = Math.max(1, host.clientHeight);
-      const dpr = Math.min(1.5, window.devicePixelRatio || 1);
+      const dpr = clampDpr(window.devicePixelRatio || 1);
       vw = Math.max(1, Math.round(w * dpr));
       vh = Math.max(1, Math.round(h * dpr));
       if (canvas.width !== vw) canvas.width = vw;
@@ -1044,7 +1053,7 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
     let isVisible = true;
 
     const frame = () => {
-      if (!isVisible) {
+      if (!isVisible || !activeRef.current) {
         raf = 0;
         return;
       }
@@ -1069,7 +1078,7 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
 
       const curW = Math.max(1, host.clientWidth);
       const curH = Math.max(1, host.clientHeight);
-      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const dpr = clampDpr(window.devicePixelRatio || 1);
       const expectedVw = Math.max(1, Math.round(curW * dpr));
       const expectedVh = Math.max(1, Math.round(curH * dpr));
       if (vw !== expectedVw || vh !== expectedVh || canvas.width !== expectedVw || canvas.height !== expectedVh) {
@@ -1384,10 +1393,17 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
     );
     io.observe(host);
 
+    resumeRef.current = () => {
+      if (raf || !isVisible || !activeRef.current) return;
+      prev = performance.now();
+      raf = requestAnimationFrame(frame);
+    };
+
     raf = requestAnimationFrame(frame);
 
     return () => {
       cancelAnimationFrame(raf);
+      resumeRef.current = null;
       ro.disconnect();
       io.disconnect();
       canvas.removeEventListener("pointerdown", onPointerDown);
@@ -1414,6 +1430,11 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
 
     };
   }, []);
+
+  // Resume the render loop when the scene becomes the visible one again.
+  React.useEffect(() => {
+    if (active) resumeRef.current?.();
+  }, [active]);
 
   return (
     <div

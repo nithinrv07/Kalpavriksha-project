@@ -4,7 +4,15 @@ import { useEffect, useRef } from "react";
 import { createParticleScene, type ParticleScene } from "@/lib/particle-scene";
 import type { ShapeName } from "@/lib/shapes";
 
-export function ParticleCanvas({ shape, className }: { shape: ShapeName; className?: string }) {
+export function ParticleCanvas({
+  shape,
+  className,
+  active = true,
+}: {
+  shape: ShapeName;
+  className?: string;
+  active?: boolean;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sceneRef = useRef<ParticleScene | null>(null);
   const initialShape = useRef(shape);
@@ -23,6 +31,10 @@ export function ParticleCanvas({ shape, className }: { shape: ShapeName; classNa
   useEffect(() => {
     sceneRef.current?.morphTo(shape);
   }, [shape]);
+
+  useEffect(() => {
+    sceneRef.current?.setActive(active);
+  }, [active]);
 
   return <canvas ref={canvasRef} aria-hidden className={className} />;
 }

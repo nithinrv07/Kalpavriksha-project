@@ -1,4 +1,5 @@
 import { SHAPES, generateShape, type ShapeName } from "./shapes";
+import { getQualityBudget } from "./perf/quality";
 
 /**
  * Framework-free Canvas 2D particle renderer: a point cloud that morphs
@@ -7,6 +8,8 @@ import { SHAPES, generateShape, type ShapeName } from "./shapes";
  */
 export type ParticleScene = {
   readonly morphTo: (shape: ShapeName) => void;
+  /** Pause / resume rendering without losing the current shape. */
+  readonly setActive: (active: boolean) => void;
   readonly destroy: () => void;
 };
 
@@ -21,11 +24,15 @@ const clamp01 = (t: number) => (t < 0 ? 0 : t > 1 ? 1 : t);
 
 export function createParticleScene(canvas: HTMLCanvasElement, initial: ShapeName): ParticleScene {
   const ctx = canvas.getContext("2d");
-  if (!ctx) return { morphTo: () => undefined, destroy: () => undefined };
+  if (!ctx)
+    return { morphTo: () => undefined, setActive: () => undefined, destroy: () => undefined };
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const lowPower = window.matchMedia("(max-width: 768px)").matches || (navigator.hardwareConcurrency ?? 8) <= 4;
-  const count = lowPower ? 2200 : 4000;
+  const lowPower =
+    window.matchMedia("(max-width: 768px)").matches || (navigator.hardwareConcurrency ?? 8) <= 4;
+  const count = lowPower
+    ? Math.min(2200, getQualityBudget().particles)
+    : getQualityBudget().particles;
 
   const targets = new Map<ShapeName, Float32Array>();
   const target = (name: ShapeName) => {
@@ -59,6 +66,7 @@ export function createParticleScene(canvas: HTMLCanvasElement, initial: ShapeNam
   let settled = true;
   let raf = 0;
   let visible = true;
+  let enabled = true;
   let pointerX = 0;
   let pointerY = 0;
   let tiltX = 0;
@@ -164,7 +172,7 @@ export function createParticleScene(canvas: HTMLCanvasElement, initial: ShapeNam
   };
 
   const start = () => {
-    if (reducedMotion || raf || !visible || document.hidden) return;
+    if (reducedMotion || raf || !visible || !enabled || document.hidden) return;
     if (!settled) {
       // Returning mid-morph: continue from where the particles were left, not a stale half-state.
       from.set(pos);
@@ -206,6 +214,16 @@ export function createParticleScene(canvas: HTMLCanvasElement, initial: ShapeNam
       } else {
         morphStart = performance.now();
         settled = false;
+      }
+    },
+    setActive(next: boolean) {
+      if (next === enabled) return;
+      enabled = next;
+      if (!enabled) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      } else {
+        start();
       }
     },
     destroy() {

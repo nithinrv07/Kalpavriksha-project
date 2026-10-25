@@ -59,6 +59,8 @@ export interface DepthTextProps {
   intro?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  /** When false the headline is drawn in its resting pose and its animation loop stops. */
+  active?: boolean;
 }
 
 export function DepthText({
@@ -81,6 +83,7 @@ export function DepthText({
   shadow = true,
   outline = false,
   intro = true,
+  active = true,
   className = "",
   style = {},
 }: DepthTextProps) {
@@ -171,6 +174,21 @@ export function DepthText({
       setIntroDone(true);
       current.x = baseRotation.x;
       current.y = baseRotation.y;
+      applyTransform();
+      return undefined;
+    }
+
+    // Inactive headline (e.g. the flip card is showing its other side): draw the
+    // resting pose once and skip the animation loop entirely.
+    if (!active) {
+      introRef.current = 1;
+      motion.push = 0;
+      motion.velocity = 0;
+      motion.float = 0;
+      applyGrow();
+      setIntroDone(true);
+      current.x = baseRotation.x + Math.sin(0) * safeTilt * 0.18;
+      current.y = baseRotation.y + Math.cos(0) * safeTilt * 0.18;
       applyTransform();
       return undefined;
     }
@@ -338,7 +356,7 @@ export function DepthText({
       resizeObserver?.disconnect();
       stop();
     };
-  }, [autoOrbit, baseRotation, pointerTracking, safeOrbitSpeed, safeSmoothing, safeTilt, safePush, float, extent]);
+  }, [autoOrbit, baseRotation, pointerTracking, safeOrbitSpeed, safeSmoothing, safeTilt, safePush, float, extent, active]);
 
   const rootStyle = {
     ...style,

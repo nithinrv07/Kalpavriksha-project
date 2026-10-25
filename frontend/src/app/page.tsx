@@ -22,6 +22,7 @@ export default function Home() {
           petals={80}
           wind={20}
           direction="left"
+          throttleAfterViewports={1.15}
           advanced={{
             flowers: 11000,
             crownReach: 100,
