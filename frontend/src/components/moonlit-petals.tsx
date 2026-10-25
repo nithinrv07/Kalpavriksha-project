@@ -491,6 +491,25 @@ const mk = (w: number, h: number) => {
     return c;
 };
 
+const disposeScene = (s: any) => {
+    if (!s) return;
+    try {
+        if (s.core) { s.core.width = 1; s.core.height = 1; }
+        if (s.coreBlur) { s.coreBlur.width = 1; s.coreBlur.height = 1; }
+        if (s.bloom) { s.bloom.width = 1; s.bloom.height = 1; }
+        if (s.halo && s.halo !== s.bloom) { s.halo.width = 1; s.halo.height = 1; }
+        if (s.bg) { s.bg.width = 1; s.bg.height = 1; }
+        if (Array.isArray(s.sprites)) {
+            for (const sp of s.sprites) {
+                if (sp && sp.c) {
+                    sp.c.width = 1;
+                    sp.c.height = 1;
+                }
+            }
+        }
+    } catch {}
+};
+
 function bakeScene(Wd: number, Hd: number, geo: Geo, P: any, adv: any) {
     const u = (Hd / 414) * (num(P.scale, 100) / 100);
     const stretch = clamp(Wd / Hd / 1.778, 0.8, 1.25);
@@ -920,9 +939,10 @@ function __OriginkitBase_NightSceneBacklit(props: NightSceneBacklitProps) {
         const grainPat = ctx.createPattern(noise, "repeat");
 
         const glc = document.createElement("canvas");
+        let gl: WebGLRenderingContext | null = null;
         let warp: ReturnType<typeof createWarp> | null = null;
         try {
-            const gl = glc.getContext("webgl", {
+            gl = glc.getContext("webgl", {
                 alpha: true,
                 premultipliedAlpha: true,
                 preserveDrawingBuffer: true,
@@ -1002,6 +1022,7 @@ function __OriginkitBase_NightSceneBacklit(props: NightSceneBacklitProps) {
                 gk,
             ].join("|");
             if (!scene || sk !== sceneKey) {
+                if (scene) disposeScene(scene);
                 scene = bakeScene(Wd, Hd, geo, P, adv);
                 sceneKey = sk;
             }
@@ -1347,6 +1368,11 @@ function __OriginkitBase_NightSceneBacklit(props: NightSceneBacklitProps) {
             cancelAnimationFrame(raf);
             ro.disconnect();
             io.disconnect();
+            disposeScene(scene);
+            try {
+                const ext = gl?.getExtension("WEBGL_lose_context");
+                ext?.loseContext();
+            } catch {}
             root.removeEventListener("pointermove", onMove);
             root.removeEventListener("pointerenter", onMove);
             root.removeEventListener("pointerleave", onLeave);

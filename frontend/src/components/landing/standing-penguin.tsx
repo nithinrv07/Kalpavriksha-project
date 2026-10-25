@@ -37,6 +37,11 @@ export function StandingPenguin() {
       gain.connect(audioCtx.destination);
       osc.start();
       osc.stop(audioCtx.currentTime + 0.1);
+      setTimeout(() => {
+        try {
+          audioCtx.close();
+        } catch {}
+      }, 250);
     } catch {
       // AudioContext may be restricted before user gesture
     }

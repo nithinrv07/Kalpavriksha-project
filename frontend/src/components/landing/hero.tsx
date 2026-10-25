@@ -149,8 +149,8 @@ export function Hero() {
                   fontWeight={900}
                   faceColor="#FFFFFF"
                   depthColor="#6d28d9"
-                  layers={32}
-                  depth={2.2}
+                  layers={18}
+                  depth={3.5}
                   tilt={8}
                   perspective={1000}
                   autoOrbit={true}
@@ -339,8 +339,8 @@ export function Hero() {
                   fontWeight={900}
                   faceColor="#FFFFFF"
                   depthColor="#6d28d9"
-                  layers={32}
-                  depth={2.2}
+                  layers={18}
+                  depth={3.5}
                   tilt={8}
                   perspective={1000}
                   autoOrbit={true}
