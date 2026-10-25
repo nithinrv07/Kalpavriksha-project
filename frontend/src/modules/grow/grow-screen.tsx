@@ -312,10 +312,11 @@ export function GrowScreen({ band }: { band: Band }) {
       {/* Standard Switcher Modal for switching Class 1-12 */}
       <StandardSwitcherModal
         currentGrade={learningStats.standard}
+        currentSeniorGroup={progress.profile?.seniorGroup}
         isOpen={switcherOpen}
         onClose={() => setSwitcherOpen(false)}
-        onSelectStandard={(std) => {
-          authService.updateStandard(std);
+        onSelectStandard={(std, grp) => {
+          authService.updateStandard(std, grp);
           setSwitcherOpen(false);
         }}
       />

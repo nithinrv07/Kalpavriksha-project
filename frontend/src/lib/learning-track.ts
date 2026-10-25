@@ -51,6 +51,7 @@ export type LearningTrackStats = {
 export function getLearningTrackStats(
   progress: Progress,
   standardOverride?: number,
+  today = localDay(),
 ): LearningTrackStats {
   // Resolve standard (profile grade -> last accessed standard -> override -> default 6)
   let standard: SupportedStandard = 6;
@@ -170,7 +171,7 @@ export function getLearningTrackStats(
     quizBest: progress.quizBest,
     xp: progress.xp,
     level: levelOf(progress.xp),
-    streakDays: streak(progress.activeDays, localDay()),
+    streakDays: streak(progress.activeDays, today),
     subjects: subjectProgressList,
     lastAccessed: lastAccessedMeta,
     nextRecommendedChapter: nextRecommended,

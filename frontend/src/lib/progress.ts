@@ -47,6 +47,7 @@ export type Profile = {
   readonly studentId: string;
   readonly email?: string;
   readonly preferredLanguage?: Locale;
+  readonly seniorGroup?: string;
   readonly lastAccessed?: LastAccessed;
 };
 
@@ -225,6 +226,7 @@ function parseProfile(v: unknown): Profile | null {
   const preferredLanguage = (LOCALES as readonly unknown[]).includes(v.preferredLanguage)
     ? (v.preferredLanguage as Locale)
     : undefined;
+  const seniorGroup = isStr(v.seniorGroup) ? v.seniorGroup.slice(0, 32) : undefined;
 
   let lastAccessed: LastAccessed | undefined;
   if (isObj(v.lastAccessed) && isStr(v.lastAccessed.subjectId) && isStr(v.lastAccessed.chapterId)) {
@@ -243,6 +245,7 @@ function parseProfile(v: unknown): Profile | null {
     studentId: v.studentId,
     email,
     preferredLanguage,
+    seniorGroup,
     lastAccessed,
   };
 }

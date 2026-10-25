@@ -108,6 +108,7 @@ void main() {
     if (mask <= 0.002) discard;
 
     vec3 col = mix(uPlaceholder, texture2D(uMap, vUv).rgb, uHasTex);
+    col = col * 1.15;
     col *= uDim;
 
     float a = mask * uOpacity;
@@ -151,7 +152,7 @@ const ZOOM_GAIN = 1;
 const ORBIT_SPEED = 0.25;
 const ORBIT_DAMPING = 0.6;
 const ORBIT_LIMIT = 70;
-const DEPTH_FLOOR = 0.32;
+const DEPTH_FLOOR = 0.85;
 const ZOOM_RATE = 9;
 const CLICK_SLOP_PX = 5;
 const CLICK_MS = 450;

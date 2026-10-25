@@ -22463,6 +22463,1270 @@ const CURRICULUM_DATA: Record<SupportedStandard, StandardCurriculum> = {
             ]
           }
         ]
+      },
+      {
+        id: "c11-comp-app",
+        code: "CAP-11",
+        name: { en: "Computer Applications", ta: "கணினி பயன்பாடுகள்", hi: "Computer Applications" },
+        accent: "var(--teal)",
+        icon: "computer",
+        description: {
+          en: "Official Tamil Nadu State Board Samacheer Kalvi Class 11 Computer Applications (Office tools, HTML, CSS, JavaScript, Cyber Security).",
+          ta: "தமிழ்நாடு அரசுப் பாடத்திட்டம் வகுப்பு 11 கணினி பயன்பாடுகள் முழுமையான அத்தியாயங்கள் (அலுவலகச் செயலிகள், வலை வடிவமைப்பு, ஜாவாஸ்கிரிப்ட்).",
+          hi: "कक्षा 11 कंप्यूटर अनुप्रयोग संपूर्ण पाठ्यक्रम।"
+        },
+        stream: "commerce",
+        textbookUrl: TN_11TH_TEXTBOOKS_URL,
+        chapters: [
+          {
+            id: "c11-comp-app-ch1",
+            chapterNumber: 1,
+            title: { en: "Introduction to Computers", ta: "கணினி ஓர் அறிமுகம்", hi: "Introduction to Computers" },
+            summary: { en: "Generations of computers, IPO cycle, hardware and software components, memory hierarchy.", ta: "கணினியின் தலைமுறைகள், உள்ளீடு-செயலகம்-வெளியீடு சுழற்சி மற்றும் நினைவக அமைப்பு.", hi: "कंप्यूटर की पीढ़ियां, हार्डवेयर और सॉफ्टवेयर घटक।" },
+            lessonLines: [
+              "Introduction to Computers (கணினி ஓர் அறிமுகம்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch1-pdf",
+                title: { en: "Introduction to Computers Textbook PDF", ta: "கணினி ஓர் அறிமுகம் பாடநூல் (PDF)", hi: "Introduction to Computers पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch1-q1",
+                question: {
+                  en: "What is the core focus of Introduction to Computers?",
+                  ta: "கணினி ஓர் அறிமுகம் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Introduction to Computers का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch2",
+            chapterNumber: 2,
+            title: { en: "Number Systems", ta: "எண் முறைகள்", hi: "Number Systems" },
+            summary: { en: "Binary, decimal, octal, hexadecimal, binary arithmetic, and 2's complement representation.", ta: "இருநிலை, பதின்ம, எண்ம, பதினறும எண் முறைகள் மற்றும் இரும எண்கணிதம்.", hi: "बाइनरी, दशमलव, अष्टक, हेक्साडेसिमल संख्या प्रणालियां।" },
+            lessonLines: [
+              "Number Systems (எண் முறைகள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch2-pdf",
+                title: { en: "Number Systems Textbook PDF", ta: "எண் முறைகள் பாடநூல் (PDF)", hi: "Number Systems पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch2-q1",
+                question: {
+                  en: "What is the core focus of Number Systems?",
+                  ta: "எண் முறைகள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Number Systems का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch3",
+            chapterNumber: 3,
+            title: { en: "Computer Organization", ta: "கணினி அமைப்பு", hi: "Computer Organization" },
+            summary: { en: "Microprocessors, RAM, ROM, cache memory, flash memory, ports and device interfaces.", ta: "நுண்செயலி, நினைவகச் சாதனங்கள், இடைமுகங்கள் மற்றும் தொடர்புத் துறைகள்.", hi: "माइक्रोप्रोसेसर, रैम, रोम, कैश मेमोरी और पोर्ट्स।" },
+            lessonLines: [
+              "Computer Organization (கணினி அமைப்பு) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch3-pdf",
+                title: { en: "Computer Organization Textbook PDF", ta: "கணினி அமைப்பு பாடநூல் (PDF)", hi: "Computer Organization पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch3-q1",
+                question: {
+                  en: "What is the core focus of Computer Organization?",
+                  ta: "கணினி அமைப்பு பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Computer Organization का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch4",
+            chapterNumber: 4,
+            title: { en: "Theoretical Concepts of Operating System", ta: "இயக்க அமைப்பின் கோட்பாட்டுக் கருத்துக்கள்", hi: "Concepts of Operating System" },
+            summary: { en: "OS functions, process management, memory allocation, file systems, and user interfaces.", ta: "இயக்க அமைப்பின் செயல்பாடுகள், நினைவக மேலாண்மை, கோப்பு முறைமைகள்.", hi: "ऑपरेटिंग सिस्टम के कार्य, प्रक्रिया प्रबंधन, मेमोरी आवंटन।" },
+            lessonLines: [
+              "Theoretical Concepts of Operating System (இயக்க அமைப்பின் கோட்பாட்டுக் கருத்துக்கள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch4-pdf",
+                title: { en: "Theoretical Concepts of Operating System Textbook PDF", ta: "இயக்க அமைப்பின் கோட்பாட்டுக் கருத்துக்கள் பாடநூல் (PDF)", hi: "Concepts of Operating System पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch4-q1",
+                question: {
+                  en: "What is the core focus of Theoretical Concepts of Operating System?",
+                  ta: "இயக்க அமைப்பின் கோட்பாட்டுக் கருத்துக்கள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Concepts of Operating System का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch5",
+            chapterNumber: 5,
+            title: { en: "Working with Windows Operating System", ta: "விண்டோஸ் இயக்க அமைப்புடன் வேலை செய்தல்", hi: "Working with Windows OS" },
+            summary: { en: "Desktop interface, window elements, files and folder operations, and Control Panel.", ta: "விண்டோஸ் பணிச்சூழல், கோப்புகள் மற்றும் கோப்புறைகள் கையாளுதல்.", hi: "विंडोज डेस्कटॉप, फाइलें और फ़ोल्डर संचालन।" },
+            lessonLines: [
+              "Working with Windows Operating System (விண்டோஸ் இயக்க அமைப்புடன் வேலை செய்தல்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch5-pdf",
+                title: { en: "Working with Windows Operating System Textbook PDF", ta: "விண்டோஸ் இயக்க அமைப்புடன் வேலை செய்தல் பாடநூல் (PDF)", hi: "Working with Windows OS पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch5-q1",
+                question: {
+                  en: "What is the core focus of Working with Windows Operating System?",
+                  ta: "விண்டோஸ் இயக்க அமைப்புடன் வேலை செய்தல் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Working with Windows OS का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch6",
+            chapterNumber: 6,
+            title: { en: "Introduction to Word Processor (OpenOffice Writer)", ta: "சொற்செயலி ஓர் அறிமுகம் (OpenOffice Writer)", hi: "Introduction to Word Processor" },
+            summary: { en: "Creating documents, text formatting, paragraph alignment, spell checking, and find-replace.", ta: "ஆவண உருவாக்கம், உரை வடிவூட்டல், பிழை திருத்தம் மற்றும் மாற்றுதல்.", hi: "दस्तावेज़ निर्माण, पाठ स्वरूपण और वर्तनी जाँच।" },
+            lessonLines: [
+              "Introduction to Word Processor (OpenOffice Writer) (சொற்செயலி ஓர் அறிமுகம் (OpenOffice Writer)) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch6-pdf",
+                title: { en: "Introduction to Word Processor (OpenOffice Writer) Textbook PDF", ta: "சொற்செயலி ஓர் அறிமுகம் (OpenOffice Writer) பாடநூல் (PDF)", hi: "Introduction to Word Processor पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch6-q1",
+                question: {
+                  en: "What is the core focus of Introduction to Word Processor (OpenOffice Writer)?",
+                  ta: "சொற்செயலி ஓர் அறிமுகம் (OpenOffice Writer) பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Introduction to Word Processor का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch7",
+            chapterNumber: 7,
+            title: { en: "Working with OpenOffice Calc", ta: "OpenOffice கால்க்கில் வேலை செய்தல்", hi: "Working with OpenOffice Calc" },
+            summary: { en: "Spreadsheets, cell formulas, built-in functions, chart generation, and data filtering.", ta: "விரிதாள் அமைப்பு, சூத்திரங்கள், சார்புகள் மற்றும் வரைபடங்கள் உருவாக்கம்.", hi: "स्प्रेडशीट, सेल फॉर्मूला, चार्ट और डेटा फ़िल्टरिंग।" },
+            lessonLines: [
+              "Working with OpenOffice Calc (OpenOffice கால்க்கில் வேலை செய்தல்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch7-pdf",
+                title: { en: "Working with OpenOffice Calc Textbook PDF", ta: "OpenOffice கால்க்கில் வேலை செய்தல் பாடநூல் (PDF)", hi: "Working with OpenOffice Calc पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch7-q1",
+                question: {
+                  en: "What is the core focus of Working with OpenOffice Calc?",
+                  ta: "OpenOffice கால்க்கில் வேலை செய்தல் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Working with OpenOffice Calc का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch8",
+            chapterNumber: 8,
+            title: { en: "Presentation Basics (OpenOffice Impress)", ta: "நிகழ்த்தல் அடிப்படைகள் (OpenOffice Impress)", hi: "Presentation Basics" },
+            summary: { en: "Slide creation, slide layouts, animations, transitions, and master slide design.", ta: "நிகழ்த்தல் தாள்கள் உருவாக்கம், வண்ண வார்ப்புருக்கள் மற்றும் அசைவூட்டம்.", hi: "स्लाइड निर्माण, लेआउट और एनिमेशन।" },
+            lessonLines: [
+              "Presentation Basics (OpenOffice Impress) (நிகழ்த்தல் அடிப்படைகள் (OpenOffice Impress)) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch8-pdf",
+                title: { en: "Presentation Basics (OpenOffice Impress) Textbook PDF", ta: "நிகழ்த்தல் அடிப்படைகள் (OpenOffice Impress) பாடநூல் (PDF)", hi: "Presentation Basics पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch8-q1",
+                question: {
+                  en: "What is the core focus of Presentation Basics (OpenOffice Impress)?",
+                  ta: "நிகழ்த்தல் அடிப்படைகள் (OpenOffice Impress) பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Presentation Basics का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch9",
+            chapterNumber: 9,
+            title: { en: "Introduction to Internet and Email", ta: "இணையம் மற்றும் மின்னஞ்சல் ஓர் அறிமுகம்", hi: "Internet and Email" },
+            summary: { en: "Internet concepts, World Wide Web, search engines, web browsers, and email protocols.", ta: "இணையத்தின் வரலாறு, உலாவிகள், தேடுபொறிகள் மற்றும் மின்னஞ்சல் பரிமாற்றம்.", hi: "इंटरनेट अवधारणाएं, ब्राउज़र, सर्च इंजन और ईमेल प्रोटोकॉल।" },
+            lessonLines: [
+              "Introduction to Internet and Email (இணையம் மற்றும் மின்னஞ்சல் ஓர் அறிமுகம்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch9-pdf",
+                title: { en: "Introduction to Internet and Email Textbook PDF", ta: "இணையம் மற்றும் மின்னஞ்சல் ஓர் அறிமுகம் பாடநூல் (PDF)", hi: "Internet and Email पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch9-q1",
+                question: {
+                  en: "What is the core focus of Introduction to Internet and Email?",
+                  ta: "இணையம் மற்றும் மின்னஞ்சல் ஓர் அறிமுகம் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Internet and Email का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch10",
+            chapterNumber: 10,
+            title: { en: "HTML - Structural Tags", ta: "HTML - கட்டமைப்பு குறிச்சொற்கள்", hi: "HTML - Structural Tags" },
+            summary: { en: "HTML page structure, head, body, headings h1-h6, paragraph, and line break tags.", ta: "HTML அடிப்படை கட்டமைப்பு, தலைப்புக் குறிச்சொற்கள் மற்றும் பத்திகள்.", hi: "HTML संरचनात्मक टैग, हेड, बॉडी, शीर्षक।" },
+            lessonLines: [
+              "HTML - Structural Tags (HTML - கட்டமைப்பு குறிச்சொற்கள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch10-pdf",
+                title: { en: "HTML - Structural Tags Textbook PDF", ta: "HTML - கட்டமைப்பு குறிச்சொற்கள் பாடநூல் (PDF)", hi: "HTML - Structural Tags पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch10-q1",
+                question: {
+                  en: "What is the core focus of HTML - Structural Tags?",
+                  ta: "HTML - கட்டமைப்பு குறிச்சொற்கள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "HTML - Structural Tags का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch11",
+            chapterNumber: 11,
+            title: { en: "HTML - Formatting Text, Creating Tables, Lists and Links", ta: "HTML உரை வடிவூட்டல், அட்டவணைகள் மற்றும் இணைப்புகள்", hi: "HTML - Formatting, Tables, Lists" },
+            summary: { en: "Font styles, ordered/unordered lists, hyperlink anchor tags, and HTML table rows/cells.", ta: "வடிவூட்டல் கூறுகள், பட்டியல்கள், மீயிணைப்புகள் மற்றும் அட்டவணைகள்.", hi: "पाठ स्वरूपण, सूचियाँ, हाइपरलिंक और टेबल।" },
+            lessonLines: [
+              "HTML - Formatting Text, Creating Tables, Lists and Links (HTML உரை வடிவூட்டல், அட்டவணைகள் மற்றும் இணைப்புகள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch11-pdf",
+                title: { en: "HTML - Formatting Text, Creating Tables, Lists and Links Textbook PDF", ta: "HTML உரை வடிவூட்டல், அட்டவணைகள் மற்றும் இணைப்புகள் பாடநூல் (PDF)", hi: "HTML - Formatting, Tables, Lists पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch11-q1",
+                question: {
+                  en: "What is the core focus of HTML - Formatting Text, Creating Tables, Lists and Links?",
+                  ta: "HTML உரை வடிவூட்டல், அட்டவணைகள் மற்றும் இணைப்புகள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "HTML - Formatting, Tables, Lists का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch12",
+            chapterNumber: 12,
+            title: { en: "HTML - Adding Multimedia Elements and Forms", ta: "HTML மல்டிமீடியா கூறுகள் மற்றும் படிவங்கள் சேர்த்தல்", hi: "HTML - Multimedia and Forms" },
+            summary: { en: "Embedding images, audio, video tags, interactive form controls, input elements, buttons.", ta: "படங்கள், ஒலி மற்றும் ஒளிக்காட்சிகள் சேர்த்தல், படிவக் கட்டுப்பாடுகள்.", hi: "छवियां, ऑडियो, वीडियो और फॉर्म नियंत्रण।" },
+            lessonLines: [
+              "HTML - Adding Multimedia Elements and Forms (HTML மல்டிமீடியா கூறுகள் மற்றும் படிவங்கள் சேர்த்தல்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch12-pdf",
+                title: { en: "HTML - Adding Multimedia Elements and Forms Textbook PDF", ta: "HTML மல்டிமீடியா கூறுகள் மற்றும் படிவங்கள் சேர்த்தல் பாடநூல் (PDF)", hi: "HTML - Multimedia and Forms पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch12-q1",
+                question: {
+                  en: "What is the core focus of HTML - Adding Multimedia Elements and Forms?",
+                  ta: "HTML மல்டிமீடியா கூறுகள் மற்றும் படிவங்கள் சேர்த்தல் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "HTML - Multimedia and Forms का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch13",
+            chapterNumber: 13,
+            title: { en: "CSS - Cascading Style Sheets", ta: "CSS - அடுக்கு பாணித் தாள்கள்", hi: "CSS - Cascading Style Sheets" },
+            summary: { en: "Inline, internal, external CSS, element/class/id selectors, box model, colors, fonts.", ta: "CSS வகைகள், தேர்விகள், எல்லைகள், நிறங்கள் மற்றும் எழுத்து வடிவங்கள்.", hi: "सीएसएस प्रकार, चयनकर्ता, बॉक्स मॉडल, रंग और फोंट।" },
+            lessonLines: [
+              "CSS - Cascading Style Sheets (CSS - அடுக்கு பாணித் தாள்கள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch13-pdf",
+                title: { en: "CSS - Cascading Style Sheets Textbook PDF", ta: "CSS - அடுக்கு பாணித் தாள்கள் பாடநூல் (PDF)", hi: "CSS - Cascading Style Sheets पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch13-q1",
+                question: {
+                  en: "What is the core focus of CSS - Cascading Style Sheets?",
+                  ta: "CSS - அடுக்கு பாணித் தாள்கள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "CSS - Cascading Style Sheets का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch14",
+            chapterNumber: 14,
+            title: { en: "Introduction to JavaScript", ta: "ஜாவாஸ்கிரிப்ட் ஓர் அறிமுகம்", hi: "Introduction to JavaScript" },
+            summary: { en: "Client-side scripting, script tag, variables, datatypes, operators, dialog boxes.", ta: "கிளையன்ட் பக்க ஸ்கிரிப்ட், மாறிகள், தரவு வகைகள், செயற்குறிகள்.", hi: "क्लाइंट-साइड स्क्रिप्टिंग, वेरिएबल्स, डेटा प्रकार, ऑपरेटर।" },
+            lessonLines: [
+              "Introduction to JavaScript (ஜாவாஸ்கிரிப்ட் ஓர் அறிமுகம்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch14-pdf",
+                title: { en: "Introduction to JavaScript Textbook PDF", ta: "ஜாவாஸ்கிரிப்ட் ஓர் அறிமுகம் பாடநூல் (PDF)", hi: "Introduction to JavaScript पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch14-q1",
+                question: {
+                  en: "What is the core focus of Introduction to JavaScript?",
+                  ta: "ஜாவாஸ்கிரிப்ட் ஓர் அறிமுகம் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Introduction to JavaScript का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch15",
+            chapterNumber: 15,
+            title: { en: "Control Structures in JavaScript", ta: "ஜாவாஸ்கிரிப்ட் கட்டுப்பாட்டு கட்டமைப்புகள்", hi: "Control Structures in JavaScript" },
+            summary: { en: "Conditional if-else, switch-case branching, and while, do-while, for iteration loops.", ta: "நிபந்தனை கூற்றுகள் மற்றும் மடக்கு அமைப்புகள் மூலம் செயல் கட்டுப்பாடு.", hi: "सशर्त कथन और लूप संरचनाएं।" },
+            lessonLines: [
+              "Control Structures in JavaScript (ஜாவாஸ்கிரிப்ட் கட்டுப்பாட்டு கட்டமைப்புகள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch15-pdf",
+                title: { en: "Control Structures in JavaScript Textbook PDF", ta: "ஜாவாஸ்கிரிப்ட் கட்டுப்பாட்டு கட்டமைப்புகள் பாடநூல் (PDF)", hi: "Control Structures in JavaScript पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch15-q1",
+                question: {
+                  en: "What is the core focus of Control Structures in JavaScript?",
+                  ta: "ஜாவாஸ்கிரிப்ட் கட்டுப்பாட்டு கட்டமைப்புகள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Control Structures in JavaScript का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch16",
+            chapterNumber: 16,
+            title: { en: "JavaScript Functions", ta: "ஜாவாஸ்கிரிப்ட் செயற்கூறுகள்", hi: "JavaScript Functions" },
+            summary: { en: "User-defined functions, arguments, return values, event-driven function invocations.", ta: "செயற்கூறுகளை வரையறுத்தல், அளபுருக்கள், மதிப்புகளைத் திருப்புதல்.", hi: "फ़ंक्शन परिभाषा, तर्क, रिटर्न मान और इवेंट हैंडलिंग।" },
+            lessonLines: [
+              "JavaScript Functions (ஜாவாஸ்கிரிப்ட் செயற்கூறுகள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch16-pdf",
+                title: { en: "JavaScript Functions Textbook PDF", ta: "ஜாவாஸ்கிரிப்ட் செயற்கூறுகள் பாடநூல் (PDF)", hi: "JavaScript Functions पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch16-q1",
+                question: {
+                  en: "What is the core focus of JavaScript Functions?",
+                  ta: "ஜாவாஸ்கிரிப்ட் செயற்கூறுகள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "JavaScript Functions का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch17",
+            chapterNumber: 17,
+            title: { en: "Computer Ethics and Cyber Security", ta: "கணினி நெறிமுறைகள் மற்றும் இணையப் பாதுகாப்பு", hi: "Ethics and Cyber Security" },
+            summary: { en: "Malware, virus, phishing, firewalls, encryption, ethical computing, and IT Act.", ta: "இணையப் பாதுகாப்பு, தீம்பொருள்கள், குறியாக்க முறைகள் மற்றும் தகவல் தொழில்நுட்ப சட்டம்.", hi: "साइबर सुरक्षा, मैलवेयर, फ़िशिंग, फ़ायरवॉल और आईटी अधिनियम।" },
+            lessonLines: [
+              "Computer Ethics and Cyber Security (கணினி நெறிமுறைகள் மற்றும் இணையப் பாதுகாப்பு) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch17-pdf",
+                title: { en: "Computer Ethics and Cyber Security Textbook PDF", ta: "கணினி நெறிமுறைகள் மற்றும் இணையப் பாதுகாப்பு பாடநூல் (PDF)", hi: "Ethics and Cyber Security पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch17-q1",
+                question: {
+                  en: "What is the core focus of Computer Ethics and Cyber Security?",
+                  ta: "கணினி நெறிமுறைகள் மற்றும் இணையப் பாதுகாப்பு பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Ethics and Cyber Security का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-comp-app-ch18",
+            chapterNumber: 18,
+            title: { en: "Tamil Computing", ta: "தமிழ் கணிப்பொறி பயன்பாடுகள்", hi: "Tamil Computing" },
+            summary: { en: "Tamil Unicode, typing interfaces, Tamil search engines, machine translation, e-governance.", ta: "தமிழ் யுனிகோட் குறியீட்டு முறை, தட்டச்சு இடைமுகங்கள், மின்னாளுமை சேவைகள்.", hi: "तमिल यूनिकोड, टाइपिंग इंटरफेस और ई-गवर्नेंस सेवाएं।" },
+            lessonLines: [
+              "Tamil Computing (தமிழ் கணிப்பொறி பயன்பாடுகள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-comp-app-ch18-pdf",
+                title: { en: "Tamil Computing Textbook PDF", ta: "தமிழ் கணிப்பொறி பயன்பாடுகள் பாடநூல் (PDF)", hi: "Tamil Computing पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-comp-app-ch18-q1",
+                question: {
+                  en: "What is the core focus of Tamil Computing?",
+                  ta: "தமிழ் கணிப்பொறி பயன்பாடுகள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Tamil Computing का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: "c11-business-math",
+        code: "BMA-11",
+        name: { en: "Business Mathematics & Statistics", ta: "வணிகக் கணிதம் மற்றும் புள்ளியியல்", hi: "Business Mathematics & Statistics" },
+        accent: "var(--violet)",
+        icon: "math",
+        description: {
+          en: "Official Tamil Nadu State Board Samacheer Kalvi Class 11 Business Mathematics & Statistics (Matrices, Calculus, Financial Math, OR).",
+          ta: "தமிழ்நாடு அரசுப் பாடத்திட்டம் வகுப்பு 11 வணிகக் கணிதம் மற்றும் புள்ளியியல் (அணிகள், நுண்கணிதம், நிதி கணிதம், செயல்பாட்டு ஆராய்ச்சி).",
+          hi: "कक्षा 11 व्यावसायिक गणित और सांख्यिकी संपूर्ण पाठ्यक्रम।"
+        },
+        stream: "commerce",
+        textbookUrl: TN_11TH_TEXTBOOKS_URL,
+        chapters: [
+          {
+            id: "c11-business-math-ch1",
+            chapterNumber: 1,
+            title: { en: "Matrices and Determinants", ta: "அணிகள் மற்றும் அணிக்கோவைகள்", hi: "Matrices and Determinants" },
+            summary: { en: "Determinants, minors, cofactors, adjoint, Cramer's rule, and Leontief input-output analysis.", ta: "அணிக்கோவைகள், கிராமரின் விதி மற்றும் லியோன்டிஃப் உள்ளீடு-வெளியீடு மாதிரி.", hi: "मैट्रिक्स, सारणिक, क्रेमर का नियम और इनपुट-आउटपुट विश्लेषण।" },
+            lessonLines: [
+              "Matrices and Determinants (அணிகள் மற்றும் அணிக்கோவைகள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-business-math-ch1-pdf",
+                title: { en: "Matrices and Determinants Textbook PDF", ta: "அணிகள் மற்றும் அணிக்கோவைகள் பாடநூல் (PDF)", hi: "Matrices and Determinants पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-business-math-ch1-q1",
+                question: {
+                  en: "What is the core focus of Matrices and Determinants?",
+                  ta: "அணிகள் மற்றும் அணிக்கோவைகள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Matrices and Determinants का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-business-math-ch2",
+            chapterNumber: 2,
+            title: { en: "Algebra", ta: "இயற்கணிதம்", hi: "Algebra" },
+            summary: { en: "Partial fractions, permutations, combinations, mathematical induction, Binomial theorem.", ta: "பகுதிப் பின்னங்கள், வரிசைமாற்றங்கள், சேர்வுகள், கணிதத் தொகுத்தறிதல்.", hi: "आंशिक भिन्न, क्रमचय, संचय और द्विपद प्रमेय।" },
+            lessonLines: [
+              "Algebra (இயற்கணிதம்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-business-math-ch2-pdf",
+                title: { en: "Algebra Textbook PDF", ta: "இயற்கணிதம் பாடநூல் (PDF)", hi: "Algebra पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-business-math-ch2-q1",
+                question: {
+                  en: "What is the core focus of Algebra?",
+                  ta: "இயற்கணிதம் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Algebra का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-business-math-ch3",
+            chapterNumber: 3,
+            title: { en: "Analytical Geometry", ta: "பகுமுறை வடிவியல்", hi: "Analytical Geometry" },
+            summary: { en: "Locus, straight lines in various forms, angle between lines, pair of straight lines.", ta: "நியமப்பாதை, நேர்கோடுகள், கோடுகளுக்கு இடைப்பட்ட கோணம், இரட்டை நேர்கோடுகள்.", hi: "बिंदुपथ, सरल रेखाएं, रेखाओं के बीच का कोण।" },
+            lessonLines: [
+              "Analytical Geometry (பகுமுறை வடிவியல்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-business-math-ch3-pdf",
+                title: { en: "Analytical Geometry Textbook PDF", ta: "பகுமுறை வடிவியல் பாடநூல் (PDF)", hi: "Analytical Geometry पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-business-math-ch3-q1",
+                question: {
+                  en: "What is the core focus of Analytical Geometry?",
+                  ta: "பகுமுறை வடிவியல் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Analytical Geometry का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-business-math-ch4",
+            chapterNumber: 4,
+            title: { en: "Trigonometry", ta: "திரிகோணமிதி", hi: "Trigonometry" },
+            summary: { en: "Trigonometric ratios, compound angles, multiple angles, transformation formulas, inverse trig.", ta: "கூட்டுக் கோணங்கள், மடங்கு கோணங்கள் மற்றும் நேர்மாறு முக்கோணவியல் சார்புகள்.", hi: "त्रिकोणमितीय अनुपात, संयुक्त कोण और व्युत्क्रम त्रिकोणमिति।" },
+            lessonLines: [
+              "Trigonometry (திரிகோணமிதி) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-business-math-ch4-pdf",
+                title: { en: "Trigonometry Textbook PDF", ta: "திரிகோணமிதி பாடநூல் (PDF)", hi: "Trigonometry पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-business-math-ch4-q1",
+                question: {
+                  en: "What is the core focus of Trigonometry?",
+                  ta: "திரிகோணமிதி பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Trigonometry का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-business-math-ch5",
+            chapterNumber: 5,
+            title: { en: "Differential Calculus", ta: "வகை நுண்கணிதம்", hi: "Differential Calculus" },
+            summary: { en: "Limits, continuity, differentiation rules, marginal revenue, marginal cost, elasticity.", ta: "எல்லைகள், தொடர்ச்சி, வகைக்கெழுக்கள், இறுதிநிலை வருவாய், இறுதிநிலைச் செலவு.", hi: "सीमा, सातत्य, अवकलन, सीमांत राजस्व और लागत।" },
+            lessonLines: [
+              "Differential Calculus (வகை நுண்கணிதம்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-business-math-ch5-pdf",
+                title: { en: "Differential Calculus Textbook PDF", ta: "வகை நுண்கணிதம் பாடநூல் (PDF)", hi: "Differential Calculus पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-business-math-ch5-q1",
+                question: {
+                  en: "What is the core focus of Differential Calculus?",
+                  ta: "வகை நுண்கணிதம் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Differential Calculus का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-business-math-ch6",
+            chapterNumber: 6,
+            title: { en: "Integral Calculus", ta: "தொகை நுண்கணிதம்", hi: "Integral Calculus" },
+            summary: { en: "Indefinite integrals, integration by substitution, integration by parts, definite integrals.", ta: "தொகையிடல் முறைகள், பதிலிடுதல் முறை, பகுதிவாரியாகத் தொகையிடல்.", hi: "अनिश्चित समाकलन, प्रतिस्थापन द्वारा समाकलन और निश्चित समाकलन।" },
+            lessonLines: [
+              "Integral Calculus (தொகை நுண்கணிதம்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-business-math-ch6-pdf",
+                title: { en: "Integral Calculus Textbook PDF", ta: "தொகை நுண்கணிதம் பாடநூல் (PDF)", hi: "Integral Calculus पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-business-math-ch6-q1",
+                question: {
+                  en: "What is the core focus of Integral Calculus?",
+                  ta: "தொகை நுண்கணிதம் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Integral Calculus का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-business-math-ch7",
+            chapterNumber: 7,
+            title: { en: "Financial Mathematics", ta: "நிதி கணிதம்", hi: "Financial Mathematics" },
+            summary: { en: "Simple/compound interest, annuities (immediate, due, perpetuity), sinking funds, stocks, shares.", ta: "வட்டி கணக்கீடுகள், தவணைப் பங்கீடுகள், தேய்மான நிதி, பங்குகள் மற்றும் கடனீட்டுப் பத்திரங்கள்.", hi: "ब्याज, वार्षिकी, सिंकिंग फंड, स्टॉक और शेयर।" },
+            lessonLines: [
+              "Financial Mathematics (நிதி கணிதம்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-business-math-ch7-pdf",
+                title: { en: "Financial Mathematics Textbook PDF", ta: "நிதி கணிதம் பாடநூல் (PDF)", hi: "Financial Mathematics पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-business-math-ch7-q1",
+                question: {
+                  en: "What is the core focus of Financial Mathematics?",
+                  ta: "நிதி கணிதம் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Financial Mathematics का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-business-math-ch8",
+            chapterNumber: 8,
+            title: { en: "Descriptive Statistics and Probability", ta: "விளக்கப் புள்ளியியல் மற்றும் நிகழ்தகவு", hi: "Statistics and Probability" },
+            summary: { en: "Central tendency, dispersion, standard deviation, axiomatic probability, conditional probability.", ta: "மையப்போக்கு அளவைகள், திட்டவிலக்கம், நிகழ்தகவு கோட்பாடுகள்.", hi: "केंद्रीय प्रवृत्ति, मानक विचलन और प्रायिकता।" },
+            lessonLines: [
+              "Descriptive Statistics and Probability (விளக்கப் புள்ளியியல் மற்றும் நிகழ்தகவு) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-business-math-ch8-pdf",
+                title: { en: "Descriptive Statistics and Probability Textbook PDF", ta: "விளக்கப் புள்ளியியல் மற்றும் நிகழ்தகவு பாடநூல் (PDF)", hi: "Statistics and Probability पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-business-math-ch8-q1",
+                question: {
+                  en: "What is the core focus of Descriptive Statistics and Probability?",
+                  ta: "விளக்கப் புள்ளியியல் மற்றும் நிகழ்தகவு பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Statistics and Probability का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-business-math-ch9",
+            chapterNumber: 9,
+            title: { en: "Correlation and Regression Analysis", ta: "உடன்தொடர்பு மற்றும் பின்னடைவு பகுப்பாய்வு", hi: "Correlation and Regression" },
+            summary: { en: "Karl Pearson's correlation, Spearman's rank correlation, regression equations and coefficients.", ta: "கார்ல் பியர்சனின் உடன்தொடர்புக் கெழு, தர உடன்தொடர்பு மற்றும் பின்னடைவுக் கோடுகள்.", hi: "सहसंबंध, प्रतिगमन समीकरण और गुणांक।" },
+            lessonLines: [
+              "Correlation and Regression Analysis (உடன்தொடர்பு மற்றும் பின்னடைவு பகுப்பாய்வு) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-business-math-ch9-pdf",
+                title: { en: "Correlation and Regression Analysis Textbook PDF", ta: "உடன்தொடர்பு மற்றும் பின்னடைவு பகுப்பாய்வு பாடநூல் (PDF)", hi: "Correlation and Regression पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-business-math-ch9-q1",
+                question: {
+                  en: "What is the core focus of Correlation and Regression Analysis?",
+                  ta: "உடன்தொடர்பு மற்றும் பின்னடைவு பகுப்பாய்வு பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Correlation and Regression का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c11-business-math-ch10",
+            chapterNumber: 10,
+            title: { en: "Operations Research", ta: "செயல்பாட்டு ஆராய்ச்சி", hi: "Operations Research" },
+            summary: { en: "Linear programming problem formulation, graphical solution for maximization and minimization.", ta: "நேரியல் திட்டமிடல் கணக்குகள் உருவாக்கம் மற்றும் வரைபடத் தீர்வுகள்.", hi: "रैखिक प्रोग्रामिंग समस्याएं और आलेखीय विधि।" },
+            lessonLines: [
+              "Operations Research (செயல்பாட்டு ஆராய்ச்சி) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-business-math-ch10-pdf",
+                title: { en: "Operations Research Textbook PDF", ta: "செயல்பாட்டு ஆராய்ச்சி பாடநூல் (PDF)", hi: "Operations Research पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-business-math-ch10-q1",
+                question: {
+                  en: "What is the core focus of Operations Research?",
+                  ta: "செயல்பாட்டு ஆராய்ச்சி பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Operations Research का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -28458,10 +29722,1372 @@ const CURRICULUM_DATA: Record<SupportedStandard, StandardCurriculum> = {
             ]
           }
         ]
+      },
+      {
+        id: "c12-comp-app",
+        code: "CAP-12",
+        name: { en: "Computer Applications", ta: "கணினி பயன்பாடுகள்", hi: "Computer Applications" },
+        accent: "var(--teal)",
+        icon: "computer",
+        description: {
+          en: "Official Tamil Nadu State Board Samacheer Kalvi Class 12 Computer Applications (PageMaker, DBMS, PHP, MySQL, Networks, E-Commerce).",
+          ta: "தமிழ்நாடு அரசுப் பாடத்திட்டம் வகுப்பு 12 கணினி பயன்பாடுகள் முழுமையான அத்தியாயங்கள் (பேஜ்மேக்கர், PHP, MySQL, கணினி வலையமைப்பு, மின்னணு வணிகம்).",
+          hi: "कक्षा 12 कंप्यूटर अनुप्रयोग बोर्ड पाठ्यक्रम।"
+        },
+        stream: "commerce",
+        textbookUrl: TN_12TH_TEXTBOOKS_URL,
+        chapters: [
+          {
+            id: "c12-comp-app-ch1",
+            chapterNumber: 1,
+            title: { en: "Multimedia and Desktop Publishing", ta: "மல்டிமீடியா மற்றும் கணிப்பொறி வெளியீடு", hi: "Multimedia and DTP" },
+            summary: { en: "Components of multimedia, file formats (JPEG, MP3, MP4), hardware/software, DTP workflow.", ta: "மல்டிமீடியா கூறுகள், கோப்பு வடிவங்கள் மற்றும் டெஸ்க்டாப் பப்ளிஷிங் வழிமுறைகள்.", hi: "मल्टीमीडिया घटक, फ़ाइल प्रारूप और डीटीपी कार्यप्रवाह।" },
+            lessonLines: [
+              "Multimedia and Desktop Publishing (மல்டிமீடியா மற்றும் கணிப்பொறி வெளியீடு) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch1-pdf",
+                title: { en: "Multimedia and Desktop Publishing Textbook PDF", ta: "மல்டிமீடியா மற்றும் கணிப்பொறி வெளியீடு பாடநூல் (PDF)", hi: "Multimedia and DTP पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch1-q1",
+                question: {
+                  en: "What is the core focus of Multimedia and Desktop Publishing?",
+                  ta: "மல்டிமீடியா மற்றும் கணிப்பொறி வெளியீடு பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Multimedia and DTP का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch2",
+            chapterNumber: 2,
+            title: { en: "An Introduction to Adobe PageMaker", ta: "அடோப் பேஜ்மேக்கர் ஓர் அறிமுகம்", hi: "Introduction to Adobe PageMaker" },
+            summary: { en: "PageMaker workspace, toolbox, creating text blocks, threading text, master pages.", ta: "பேஜ்மேக்கர் பணிச்சூழல், கருவிப்பெட்டி, உரைப் பெட்டிகள் மற்றும் முதன்மைப் பக்கங்கள்.", hi: "पेजमेकर कार्यक्षेत्र, टूलबॉक्स, टेक्स्ट ब्लॉक और मास्टर पेज।" },
+            lessonLines: [
+              "An Introduction to Adobe PageMaker (அடோப் பேஜ்மேக்கர் ஓர் அறிமுகம்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch2-pdf",
+                title: { en: "An Introduction to Adobe PageMaker Textbook PDF", ta: "அடோப் பேஜ்மேக்கர் ஓர் அறிமுகம் பாடநூல் (PDF)", hi: "Introduction to Adobe PageMaker पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch2-q1",
+                question: {
+                  en: "What is the core focus of An Introduction to Adobe PageMaker?",
+                  ta: "அடோப் பேஜ்மேக்கர் ஓர் அறிமுகம் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Introduction to Adobe PageMaker का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch3",
+            chapterNumber: 3,
+            title: { en: "Introduction to Database Management System", ta: "தரவுத்தள மேலாண்மை அமைப்பு ஓர் அறிமுகம்", hi: "Introduction to DBMS" },
+            summary: { en: "DBMS concepts, relational data model, ER diagrams, keys, tables, SQL queries.", ta: "தரவுத்தளக் கருத்துகள், உறவுநிலை மாதிரி, முதன்மைச் சாவிகள், SQL கட்டளைகள்.", hi: "डीबीएमएस अवधारणाएं, रिलेशनल मॉडल, कुंजियाँ और एसक्यूएल क्वेरी।" },
+            lessonLines: [
+              "Introduction to Database Management System (தரவுத்தள மேலாண்மை அமைப்பு ஓர் அறிமுகம்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch3-pdf",
+                title: { en: "Introduction to Database Management System Textbook PDF", ta: "தரவுத்தள மேலாண்மை அமைப்பு ஓர் அறிமுகம் பாடநூல் (PDF)", hi: "Introduction to DBMS पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch3-q1",
+                question: {
+                  en: "What is the core focus of Introduction to Database Management System?",
+                  ta: "தரவுத்தள மேலாண்மை அமைப்பு ஓர் அறிமுகம் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Introduction to DBMS का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch4",
+            chapterNumber: 4,
+            title: { en: "Introduction to PHP", ta: "ஹைப்பர்டெக்ஸ்ட் ப்ரீப்ராசஸர் (PHP) ஓர் அறிமுகம்", hi: "Introduction to PHP" },
+            summary: { en: "Server-side scripting concepts, PHP architecture, syntax, variables, echo and print.", ta: "சேவையகப் பக்க ஸ்கிரிப்டிங், PHP அமைப்பு, மாறிகள் மற்றும் வெளியீட்டுக் கூற்றுகள்.", hi: "सर्वर-साइड स्क्रिप्टिंग, पीएचपी सिंटैक्स, वेरिएबल्स।" },
+            lessonLines: [
+              "Introduction to PHP (ஹைப்பர்டெக்ஸ்ட் ப்ரீப்ராசஸர் (PHP) ஓர் அறிமுகம்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch4-pdf",
+                title: { en: "Introduction to PHP Textbook PDF", ta: "ஹைப்பர்டெக்ஸ்ட் ப்ரீப்ராசஸர் (PHP) ஓர் அறிமுகம் பாடநூல் (PDF)", hi: "Introduction to PHP पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch4-q1",
+                question: {
+                  en: "What is the core focus of Introduction to PHP?",
+                  ta: "ஹைப்பர்டெக்ஸ்ட் ப்ரீப்ராசஸர் (PHP) ஓர் அறிமுகம் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Introduction to PHP का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch5",
+            chapterNumber: 5,
+            title: { en: "PHP Function and Array", ta: "PHP செயற்கூறுகள் மற்றும் அணிகள்", hi: "PHP Functions and Arrays" },
+            summary: { en: "User-defined functions, parameterized functions, indexed, associative, multidimensional arrays.", ta: "பயனர் வரையறுத்த செயற்கூறுகள், சுட்டு மற்றும் தொடர்பு அணிகள்.", hi: "उपयोगकर्ता-परिभाषित फ़ंक्शन, अनुक्रमित और साहचर्य सरणियाँ।" },
+            lessonLines: [
+              "PHP Function and Array (PHP செயற்கூறுகள் மற்றும் அணிகள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch5-pdf",
+                title: { en: "PHP Function and Array Textbook PDF", ta: "PHP செயற்கூறுகள் மற்றும் அணிகள் பாடநூல் (PDF)", hi: "PHP Functions and Arrays पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch5-q1",
+                question: {
+                  en: "What is the core focus of PHP Function and Array?",
+                  ta: "PHP செயற்கூறுகள் மற்றும் அணிகள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "PHP Functions and Arrays का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch6",
+            chapterNumber: 6,
+            title: { en: "PHP Conditional Statements", ta: "PHP நிபந்தனை கூற்றுகள்", hi: "PHP Conditional Statements" },
+            summary: { en: "Decision making using if, if...else, if...elseif...else, and switch statements.", ta: "நிபந்தனைத் தேர்வுகள்: if, else, elseif மற்றும் switch கட்டமைப்புகள்.", hi: "निर्णय लेने के कथन: if, else, switch संरचनाएं।" },
+            lessonLines: [
+              "PHP Conditional Statements (PHP நிபந்தனை கூற்றுகள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch6-pdf",
+                title: { en: "PHP Conditional Statements Textbook PDF", ta: "PHP நிபந்தனை கூற்றுகள் பாடநூல் (PDF)", hi: "PHP Conditional Statements पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch6-q1",
+                question: {
+                  en: "What is the core focus of PHP Conditional Statements?",
+                  ta: "PHP நிபந்தனை கூற்றுகள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "PHP Conditional Statements का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch7",
+            chapterNumber: 7,
+            title: { en: "Loop Structure in PHP", ta: "PHP மடக்கு அமைப்புகள்", hi: "Loops in PHP" },
+            summary: { en: "Iterative processing with for loop, foreach loop for arrays, while, and do-while loops.", ta: "for, foreach, while மற்றும் do...while மடக்கு சுழற்சிகள்.", hi: "for, foreach, while और do-while लूप।" },
+            lessonLines: [
+              "Loop Structure in PHP (PHP மடக்கு அமைப்புகள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch7-pdf",
+                title: { en: "Loop Structure in PHP Textbook PDF", ta: "PHP மடக்கு அமைப்புகள் பாடநூல் (PDF)", hi: "Loops in PHP पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch7-q1",
+                question: {
+                  en: "What is the core focus of Loop Structure in PHP?",
+                  ta: "PHP மடக்கு அமைப்புகள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Loops in PHP का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch8",
+            chapterNumber: 8,
+            title: { en: "Forms and Files", ta: "படிவங்கள் மற்றும் கோப்புகள்", hi: "Forms and Files in PHP" },
+            summary: { en: "GET and POST form handling, sanitization, opening, reading, writing, and file upload in PHP.", ta: "GET மற்றும் POST படிவ முறைமைகள், கோப்புகளைப் படித்தல் மற்றும் பதிவேற்றம்.", hi: "फॉर्म हैंडलिंग, GET और POST विधियां, फ़ाइल संचालन।" },
+            lessonLines: [
+              "Forms and Files (படிவங்கள் மற்றும் கோப்புகள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch8-pdf",
+                title: { en: "Forms and Files Textbook PDF", ta: "படிவங்கள் மற்றும் கோப்புகள் பாடநூல் (PDF)", hi: "Forms and Files in PHP पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch8-q1",
+                question: {
+                  en: "What is the core focus of Forms and Files?",
+                  ta: "படிவங்கள் மற்றும் கோப்புகள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Forms and Files in PHP का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch9",
+            chapterNumber: 9,
+            title: { en: "Connecting PHP and MySQL", ta: "PHP மற்றும் MySQL இணைப்பு", hi: "Connecting PHP and MySQL" },
+            summary: { en: "MySQL database connectivity, mysqli functions, executing queries, fetching records.", ta: "MySQL தரவுத்தள இணைப்பு, வினவல்களை இயக்குதல், பதிவுகளைப் பெறுதல்.", hi: "डेटाबेस कनेक्टिविटी, क्वेरी निष्पादन और रिकॉर्ड प्राप्त करना।" },
+            lessonLines: [
+              "Connecting PHP and MySQL (PHP மற்றும் MySQL இணைப்பு) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch9-pdf",
+                title: { en: "Connecting PHP and MySQL Textbook PDF", ta: "PHP மற்றும் MySQL இணைப்பு பாடநூல் (PDF)", hi: "Connecting PHP and MySQL पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch9-q1",
+                question: {
+                  en: "What is the core focus of Connecting PHP and MySQL?",
+                  ta: "PHP மற்றும் MySQL இணைப்பு பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Connecting PHP and MySQL का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch10",
+            chapterNumber: 10,
+            title: { en: "Introduction to Computer Networks", ta: "கணினி வலையமைப்புகள் ஓர் அறிமுகம்", hi: "Computer Networks" },
+            summary: { en: "Network types LAN, MAN, WAN, network topologies (bus, star, ring, mesh), resource sharing.", ta: "வலையமைப்பு வகைகள் (LAN, MAN, WAN), அமைப்பியல் மற்றும் நன்மைகள்.", hi: "नेटवर्क प्रकार, टोपोलॉजी और संसाधन साझाकरण।" },
+            lessonLines: [
+              "Introduction to Computer Networks (கணினி வலையமைப்புகள் ஓர் அறிமுகம்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch10-pdf",
+                title: { en: "Introduction to Computer Networks Textbook PDF", ta: "கணினி வலையமைப்புகள் ஓர் அறிமுகம் பாடநூல் (PDF)", hi: "Computer Networks पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch10-q1",
+                question: {
+                  en: "What is the core focus of Introduction to Computer Networks?",
+                  ta: "கணினி வலையமைப்புகள் ஓர் அறிமுகம் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Computer Networks का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch11",
+            chapterNumber: 11,
+            title: { en: "Network Examples and Protocols", ta: "வலைப்பின்னல் எடுத்துக்காட்டுகள் மற்றும் நெறிமுறைகள்", hi: "Protocols and Networking" },
+            summary: { en: "Internet vs Intranet, mobile networks (4G/5G), RFID, Wi-Fi, TCP/IP, FTP, HTTP, HTTPS.", ta: "இணைய நெறிமுறைகள் (TCP/IP, HTTP), கம்பியில்லாத் தொடர்புகள் மற்றும் RFID.", hi: "इंटरनेट प्रोटोकॉल, वायरलेस संचार और टीसीपी/आईपी।" },
+            lessonLines: [
+              "Network Examples and Protocols (வலைப்பின்னல் எடுத்துக்காட்டுகள் மற்றும் நெறிமுறைகள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch11-pdf",
+                title: { en: "Network Examples and Protocols Textbook PDF", ta: "வலைப்பின்னல் எடுத்துக்காட்டுகள் மற்றும் நெறிமுறைகள் பாடநூல் (PDF)", hi: "Protocols and Networking पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch11-q1",
+                question: {
+                  en: "What is the core focus of Network Examples and Protocols?",
+                  ta: "வலைப்பின்னல் எடுத்துக்காட்டுகள் மற்றும் நெறிமுறைகள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Protocols and Networking का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch12",
+            chapterNumber: 12,
+            title: { en: "DNS (Domain Name System)", ta: "டொமைன் பெயர் அமைப்பு", hi: "Domain Name System" },
+            summary: { en: "IP addressing (IPv4/IPv6), domain naming hierarchy, top-level domains, DNS resolution.", ta: "IP முகவரிகள், டொமைன் படிநிலை மற்றும் பெயர் சேவையகத் தீர்வுகள்.", hi: "आईपी एड्रेसिंग, डोमेन नाम पदानुक्रम और डीएनएस रिज़ॉल्यूशन।" },
+            lessonLines: [
+              "DNS (Domain Name System) (டொமைன் பெயர் அமைப்பு) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch12-pdf",
+                title: { en: "DNS (Domain Name System) Textbook PDF", ta: "டொமைன் பெயர் அமைப்பு பாடநூல் (PDF)", hi: "Domain Name System पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch12-q1",
+                question: {
+                  en: "What is the core focus of DNS (Domain Name System)?",
+                  ta: "டொமைன் பெயர் அமைப்பு பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Domain Name System का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch13",
+            chapterNumber: 13,
+            title: { en: "Network Cabling", ta: "வலைப்பின்னல் வடங்கள்", hi: "Network Cabling" },
+            summary: { en: "Twisted pair, coaxial, optical fiber cables, Ethernet RJ45 connectors, crimping standards.", ta: "முறுக்கிய இணைக் கம்பி, ஒளியிழை வடங்கள், RJ45 இணைப்பிகள் மற்றும் கிரிம்பிங்.", hi: "नेटवर्क केबल, ऑप्टिकल फाइबर, आरजे45 कनेक्टर।" },
+            lessonLines: [
+              "Network Cabling (வலைப்பின்னல் வடங்கள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch13-pdf",
+                title: { en: "Network Cabling Textbook PDF", ta: "வலைப்பின்னல் வடங்கள் பாடநூல் (PDF)", hi: "Network Cabling पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch13-q1",
+                question: {
+                  en: "What is the core focus of Network Cabling?",
+                  ta: "வலைப்பின்னல் வடங்கள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Network Cabling का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch14",
+            chapterNumber: 14,
+            title: { en: "Open Source Concepts", ta: "திறந்த மூலக் கருத்துக்கள்", hi: "Open Source Concepts" },
+            summary: { en: "Free and Open Source Software (FOSS), GNU GPL, Linux, open standards, FOSS organizations.", ta: "இலவச மற்றும் திறந்த மூல மென்பொருள்கள், GNU உரிமம், லினக்ஸ் இயங்குதளம்.", hi: "ओपन सोर्स सॉफ्टवेयर, जीएनयू, लिनक्स और ओपन स्टैंडर्ड।" },
+            lessonLines: [
+              "Open Source Concepts (திறந்த மூலக் கருத்துக்கள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch14-pdf",
+                title: { en: "Open Source Concepts Textbook PDF", ta: "திறந்த மூலக் கருத்துக்கள் பாடநூல் (PDF)", hi: "Open Source Concepts पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch14-q1",
+                question: {
+                  en: "What is the core focus of Open Source Concepts?",
+                  ta: "திறந்த மூலக் கருத்துக்கள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Open Source Concepts का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch15",
+            chapterNumber: 15,
+            title: { en: "E-Commerce", ta: "மின்னணு வணிகம்", hi: "E-Commerce" },
+            summary: { en: "E-Commerce models B2B, B2C, C2C, G2C, advantages, revenue models, comparison with retail.", ta: "மின்னணு வணிக மாதிரிகள் (B2B, B2C), நன்மைகள் மற்றும் பாரம்பரிய வணிக ஒப்பீடு.", hi: "ई-कॉमर्स बिजनेस मॉडल, लाभ और राजस्व मॉडल।" },
+            lessonLines: [
+              "E-Commerce (மின்னணு வணிகம்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch15-pdf",
+                title: { en: "E-Commerce Textbook PDF", ta: "மின்னணு வணிகம் பாடநூல் (PDF)", hi: "E-Commerce पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch15-q1",
+                question: {
+                  en: "What is the core focus of E-Commerce?",
+                  ta: "மின்னணு வணிகம் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "E-Commerce का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch16",
+            chapterNumber: 16,
+            title: { en: "Electronic Payment Systems", ta: "மின்னணு கட்டண முறைகள்", hi: "Electronic Payment Systems" },
+            summary: { en: "Payment gateways, cards, net banking, UPI, digital wallets, NEFT, RTGS, ECS transactions.", ta: "மின்னணு பணப்பரிமாற்றம், UPI, கார்டுகள் மற்றும் இணைய வங்கிச் சேவைகள்.", hi: "डिजिटल भुगतान प्रणाली, यूपीआई, नेट बैंकिंग और ई-वॉलेट।" },
+            lessonLines: [
+              "Electronic Payment Systems (மின்னணு கட்டண முறைகள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch16-pdf",
+                title: { en: "Electronic Payment Systems Textbook PDF", ta: "மின்னணு கட்டண முறைகள் பாடநூல் (PDF)", hi: "Electronic Payment Systems पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch16-q1",
+                question: {
+                  en: "What is the core focus of Electronic Payment Systems?",
+                  ta: "மின்னணு கட்டண முறைகள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Electronic Payment Systems का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch17",
+            chapterNumber: 17,
+            title: { en: "E-Commerce Security Systems", ta: "மின்னணு வணிகப் பாதுகாப்பு அமைப்புகள்", hi: "E-Commerce Security" },
+            summary: { en: "Cyber risks, SSL/TLS, symmetric/asymmetric cryptography, digital certificates, firewalls.", ta: "இணையப் பாதுகாப்பு அபாயங்கள், குறியாக்கம், SSL மற்றும் டிஜிட்டல் சான்றிதழ்கள்.", hi: "सुरक्षा खतरे, एसएसएल, एन्क्रिप्शन और डिजिटल हस्ताक्षर।" },
+            lessonLines: [
+              "E-Commerce Security Systems (மின்னணு வணிகப் பாதுகாப்பு அமைப்புகள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch17-pdf",
+                title: { en: "E-Commerce Security Systems Textbook PDF", ta: "மின்னணு வணிகப் பாதுகாப்பு அமைப்புகள் பாடநூல் (PDF)", hi: "E-Commerce Security पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch17-q1",
+                question: {
+                  en: "What is the core focus of E-Commerce Security Systems?",
+                  ta: "மின்னணு வணிகப் பாதுகாப்பு அமைப்புகள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "E-Commerce Security का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-comp-app-ch18",
+            chapterNumber: 18,
+            title: { en: "Electronic Data Interchange (EDI)", ta: "மின்னணு தரவுப் பரிமாற்றம் (EDI)", hi: "Electronic Data Interchange" },
+            summary: { en: "EDI definition, architectural layers, ANSI/EDIFACT standards, paperless international trade.", ta: "EDI அடுக்குகள், சர்வதேச தரநிலைகள் மற்றும் காகிதமில்லா வர்த்தகம்.", hi: "ईडीआई वास्तुकला, मानक और पेपरलेस अंतर्राष्ट्रीय व्यापार।" },
+            lessonLines: [
+              "Electronic Data Interchange (EDI) (மின்னணு தரவுப் பரிமாற்றம் (EDI)) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-comp-app-ch18-pdf",
+                title: { en: "Electronic Data Interchange (EDI) Textbook PDF", ta: "மின்னணு தரவுப் பரிமாற்றம் (EDI) பாடநூல் (PDF)", hi: "Electronic Data Interchange पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-comp-app-ch18-q1",
+                question: {
+                  en: "What is the core focus of Electronic Data Interchange (EDI)?",
+                  ta: "மின்னணு தரவுப் பரிமாற்றம் (EDI) பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Electronic Data Interchange का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: "c12-business-math",
+        code: "BMA-12",
+        name: { en: "Business Mathematics & Statistics", ta: "வணிகக் கணிதம் மற்றும் புள்ளியியல்", hi: "Business Mathematics & Statistics" },
+        accent: "var(--violet)",
+        icon: "math",
+        description: {
+          en: "Official Tamil Nadu State Board Samacheer Kalvi Class 12 Business Mathematics & Statistics (Matrices, Calculus II, Probability, Applied Statistics, OR).",
+          ta: "தமிழ்நாடு அரசுப் பாடத்திட்டம் வகுப்பு 12 வணிகக் கணிதம் மற்றும் புள்ளியியல் முழுமையான அத்தியாயங்கள் (தொகை நுண்கணிதம், நிகழ்தகவு, மாதிரி எடுப்பு, செயல்பாட்டு ஆராய்ச்சி).",
+          hi: "कक्षा 12 व्यावसायिक गणित और सांख्यिकी बोर्ड पाठ्यक्रम।"
+        },
+        stream: "commerce",
+        textbookUrl: TN_12TH_TEXTBOOKS_URL,
+        chapters: [
+          {
+            id: "c12-business-math-ch1",
+            chapterNumber: 1,
+            title: { en: "Applications of Matrices and Determinants", ta: "அணிகள் மற்றும் அணிக்கோவைகளின் பயன்பாடுகள்", hi: "Applications of Matrices" },
+            summary: { en: "Rank of a matrix, consistency of linear equations, Cramer's rule, Hawkins-Simon conditions.", ta: "அணியின் தரம், நேரியல் சமன்பாடுகளின் ஒருங்கமைவு, ஹாக்கின்ஸ்-சைமன் நிபந்தனைகள்.", hi: "मैट्रिक्स की रैंक, समीकरणों की स्थिरता, हॉकिन्स-साइमन स्थितियां।" },
+            lessonLines: [
+              "Applications of Matrices and Determinants (அணிகள் மற்றும் அணிக்கோவைகளின் பயன்பாடுகள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-business-math-ch1-pdf",
+                title: { en: "Applications of Matrices and Determinants Textbook PDF", ta: "அணிகள் மற்றும் அணிக்கோவைகளின் பயன்பாடுகள் பாடநூல் (PDF)", hi: "Applications of Matrices पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-business-math-ch1-q1",
+                question: {
+                  en: "What is the core focus of Applications of Matrices and Determinants?",
+                  ta: "அணிகள் மற்றும் அணிக்கோவைகளின் பயன்பாடுகள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Applications of Matrices का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-business-math-ch2",
+            chapterNumber: 2,
+            title: { en: "Integral Calculus I", ta: "தொகை நுண்கணிதம் I", hi: "Integral Calculus I" },
+            summary: { en: "Indefinite integrals, integration using decomposition, integration by parts, substitution.", ta: "தொகையிடல் முறைகள், பகுதிப் பின்னங்கள், பகுதிவாரியாகத் தொகையிடல்.", hi: "अनिश्चित समाकलन, खंडशः समाकलन, प्रतिस्थापन विधि।" },
+            lessonLines: [
+              "Integral Calculus I (தொகை நுண்கணிதம் I) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-business-math-ch2-pdf",
+                title: { en: "Integral Calculus I Textbook PDF", ta: "தொகை நுண்கணிதம் I பாடநூல் (PDF)", hi: "Integral Calculus I पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-business-math-ch2-q1",
+                question: {
+                  en: "What is the core focus of Integral Calculus I?",
+                  ta: "தொகை நுண்கணிதம் I பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Integral Calculus I का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-business-math-ch3",
+            chapterNumber: 3,
+            title: { en: "Integral Calculus II", ta: "தொகை நுண்கணிதம் II", hi: "Integral Calculus II" },
+            summary: { en: "Definite integrals, area bounded by curves, consumer's surplus, producer's surplus.", ta: "வரையறுத்த தொகையீடு, நுகர்வோர் உபரி மற்றும் உற்பத்தியாளர் உபரி கணக்கீடுகள்.", hi: "निश्चित समाकलन, वक्रों द्वारा घिरा क्षेत्रफल, उपभोक्ता अधिशेष।" },
+            lessonLines: [
+              "Integral Calculus II (தொகை நுண்கணிதம் II) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-business-math-ch3-pdf",
+                title: { en: "Integral Calculus II Textbook PDF", ta: "தொகை நுண்கணிதம் II பாடநூல் (PDF)", hi: "Integral Calculus II पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-business-math-ch3-q1",
+                question: {
+                  en: "What is the core focus of Integral Calculus II?",
+                  ta: "தொகை நுண்கணிதம் II பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Integral Calculus II का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-business-math-ch4",
+            chapterNumber: 4,
+            title: { en: "Differential Equations", ta: "வகைக்கெழுச் சமன்பாடுகள்", hi: "Differential Equations" },
+            summary: { en: "Order and degree, variable separable method, homogeneous equations, first order linear DE.", ta: "வகைக்கெழுச் சமன்பாடுகள் உருவாக்கம், மாறிகள் பிரித்தல் முறை, நேரியல் சமன்பாடுகள்.", hi: "अवकल समीकरणों का निर्माण, पृथक्करणीय चर विधि।" },
+            lessonLines: [
+              "Differential Equations (வகைக்கெழுச் சமன்பாடுகள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-business-math-ch4-pdf",
+                title: { en: "Differential Equations Textbook PDF", ta: "வகைக்கெழுச் சமன்பாடுகள் பாடநூல் (PDF)", hi: "Differential Equations पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-business-math-ch4-q1",
+                question: {
+                  en: "What is the core focus of Differential Equations?",
+                  ta: "வகைக்கெழுச் சமன்பாடுகள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Differential Equations का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-business-math-ch5",
+            chapterNumber: 5,
+            title: { en: "Numerical Methods", ta: "எண்முறை முறைகள்", hi: "Numerical Methods" },
+            summary: { en: "Finite differences, Newton's forward and backward interpolation, Lagrange's formula.", ta: "முடிவுறு வேறுபாடுகள், நியூட்டனின் முன்நோக்கு/பின்நோக்கு இடைச்செருகல், லெக்ராஞ்சியின் முறை.", hi: "परिमित अंतर, न्यूटन का अंतर्वेशन और लैग्रेंज का सूत्र।" },
+            lessonLines: [
+              "Numerical Methods (எண்முறை முறைகள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-business-math-ch5-pdf",
+                title: { en: "Numerical Methods Textbook PDF", ta: "எண்முறை முறைகள் பாடநூல் (PDF)", hi: "Numerical Methods पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-business-math-ch5-q1",
+                question: {
+                  en: "What is the core focus of Numerical Methods?",
+                  ta: "எண்முறை முறைகள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Numerical Methods का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-business-math-ch6",
+            chapterNumber: 6,
+            title: { en: "Random Variable and Mathematical Expectation", ta: "சமவாய்ப்பு மாறி மற்றும் கணித எதிர்பார்ப்பு", hi: "Random Variable and Expectation" },
+            summary: { en: "Discrete and continuous random variables, PMF, PDF, mathematical expectation, variance.", ta: "தனித்த மற்றும் தொடர் சமவாய்ப்பு மாறிகள், நிகழ்தகவு நிறை/அடர்த்தி சார்பு, சராசரி.", hi: "यादृच्छिक चर, प्रायिकता घनत्व फलन, गणितीय प्रत्याशा और प्रसरण।" },
+            lessonLines: [
+              "Random Variable and Mathematical Expectation (சமவாய்ப்பு மாறி மற்றும் கணித எதிர்பார்ப்பு) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-business-math-ch6-pdf",
+                title: { en: "Random Variable and Mathematical Expectation Textbook PDF", ta: "சமவாய்ப்பு மாறி மற்றும் கணித எதிர்பார்ப்பு பாடநூல் (PDF)", hi: "Random Variable and Expectation पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-business-math-ch6-q1",
+                question: {
+                  en: "What is the core focus of Random Variable and Mathematical Expectation?",
+                  ta: "சமவாய்ப்பு மாறி மற்றும் கணித எதிர்பார்ப்பு பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Random Variable and Expectation का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-business-math-ch7",
+            chapterNumber: 7,
+            title: { en: "Probability Distributions", ta: "நிகழ்தகவு பரவல்கள்", hi: "Probability Distributions" },
+            summary: { en: "Binomial distribution, Poisson distribution, Normal distribution, and practical applications.", ta: "ஈருறுப்புப் பரவல், பாய்சான் பரவல், இயல்நிலைப் பரவல் பண்புகள் மற்றும் பயன்பாடுகள்.", hi: "द्विपद, प्वासों और सामान्य प्रायिकता वितरण।" },
+            lessonLines: [
+              "Probability Distributions (நிகழ்தகவு பரவல்கள்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-business-math-ch7-pdf",
+                title: { en: "Probability Distributions Textbook PDF", ta: "நிகழ்தகவு பரவல்கள் பாடநூல் (PDF)", hi: "Probability Distributions पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-business-math-ch7-q1",
+                question: {
+                  en: "What is the core focus of Probability Distributions?",
+                  ta: "நிகழ்தகவு பரவல்கள் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Probability Distributions का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-business-math-ch8",
+            chapterNumber: 8,
+            title: { en: "Sampling Techniques and Statistical Inference", ta: "மாதிரி எடுப்பு முறைகள் மற்றும் புள்ளியியல் அனுமானம்", hi: "Sampling and Inference" },
+            summary: { en: "Census vs sample, simple random/stratified sampling, standard error, large sample z-tests.", ta: "மாதிரி முறைகள், திட்டப்பிழை, கருதுகோள் சோதனை மற்றும் பெருங்கூறு சோதனைகள்.", hi: "प्रतिचयन तकनीकें, मानक त्रुटि और परिकल्पना परीक्षण।" },
+            lessonLines: [
+              "Sampling Techniques and Statistical Inference (மாதிரி எடுப்பு முறைகள் மற்றும் புள்ளியியல் அனுமானம்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-business-math-ch8-pdf",
+                title: { en: "Sampling Techniques and Statistical Inference Textbook PDF", ta: "மாதிரி எடுப்பு முறைகள் மற்றும் புள்ளியியல் அனுமானம் பாடநூல் (PDF)", hi: "Sampling and Inference पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-business-math-ch8-q1",
+                question: {
+                  en: "What is the core focus of Sampling Techniques and Statistical Inference?",
+                  ta: "மாதிரி எடுப்பு முறைகள் மற்றும் புள்ளியியல் அனுமானம் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Sampling and Inference का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-business-math-ch9",
+            chapterNumber: 9,
+            title: { en: "Applied Statistics", ta: "செயல்முறைப் புள்ளியியல்", hi: "Applied Statistics" },
+            summary: { en: "Time series analysis, index numbers (Laspeyre, Paasche, Fisher), statistical quality control.", ta: "காலத் தொடர் வரிசைப் பகுப்பாய்வு, குறியீட்டெண்கள் மற்றும் புள்ளியியல் தரக் கட்டுப்பாடு.", hi: "समय श्रृंखला विश्लेषण, सूचकांक संख्याएँ और सांख्यिकीय गुणवत्ता नियंत्रण।" },
+            lessonLines: [
+              "Applied Statistics (செயல்முறைப் புள்ளியியல்) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-business-math-ch9-pdf",
+                title: { en: "Applied Statistics Textbook PDF", ta: "செயல்முறைப் புள்ளியியல் பாடநூல் (PDF)", hi: "Applied Statistics पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-business-math-ch9-q1",
+                question: {
+                  en: "What is the core focus of Applied Statistics?",
+                  ta: "செயல்முறைப் புள்ளியியல் பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Applied Statistics का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          },
+          {
+            id: "c12-business-math-ch10",
+            chapterNumber: 10,
+            title: { en: "Operations Research", ta: "செயல்பாட்டு ஆராய்ச்சி", hi: "Operations Research" },
+            summary: { en: "Transportation problem (NWCM, LCM, VAM), Assignment problem (Hungarian), Decision theory.", ta: "போக்குவரத்துக் கணக்குகள், ஒதுக்கீட்டுக் கணக்குகள் மற்றும் முடிவெடுக்கும் கொள்கை.", hi: "परिवहन समस्याएं, नियतन समस्याएं और निर्णय सिद्धांत।" },
+            lessonLines: [
+              "Operations Research (செயல்பாட்டு ஆராய்ச்சி) — Tamil Nadu State Board curriculum.",
+              "Master the key theorems, definitions, concepts, and problem-solving techniques.",
+              "Review the standard textbook exercises and practice previous exam questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-business-math-ch10-pdf",
+                title: { en: "Operations Research Textbook PDF", ta: "செயல்பாட்டு ஆராய்ச்சி பாடநூல் (PDF)", hi: "Operations Research पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true,
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-business-math-ch10-q1",
+                question: {
+                  en: "What is the core focus of Operations Research?",
+                  ta: "செயல்பாட்டு ஆராய்ச்சி பாடத்தின் முக்கியப் பகுப்பாய்வு என்ன?",
+                  hi: "Operations Research का मुख्य अध्ययन क्षेत्र क्या है?"
+                },
+                options: [
+                  { en: "Understanding foundational concepts and applying analytical derivations", ta: "அடிப்படைக் கருத்துகளைப் புரிந்து பயன்பாட்டுத் தீர்வுகளைக் கற்றல்", hi: "मूलभूत सिद्धांतों को समझना और लागू करना" },
+                  { en: "Ignoring standard terminology and formulas", ta: "அடிப்படைக் குறியீடுகளையும் சூத்திரங்களையும் புறக்கணித்தல்", hi: "सूत्रों की अनदेखी करना" },
+                  { en: "Memorizing without understanding context", ta: "பயிற்சியின்றி மனனம் செய்தல்", hi: "बिना सोचे-समझे याद करना" },
+                  { en: "Avoiding real-world problem practice", ta: "நடைமுறைப் பயிற்சிகளைத் தவிர்த்தல்", hi: "अभ्यास से बचना" }
+                ],
+                answerIndex: 0,
+                explanation: {
+                  en: "Effective study requires conceptual understanding and regular problem practice.",
+                  ta: "பாடத்தைப் புரிந்துகொண்டு முறையான பயிற்சிகளைச் செய்வதே வெற்றியைத் தரும்.",
+                  hi: "सटीक समझ और निरंतर अभ्यास से ही विषय में सफलता मिलती है।"
+                }
+              }
+            ]
+          }
+        ]
       }
     ]
   }
 };
+
+// ============================================================================
+// HIGHER SECONDARY GROUPS / STREAMS (Class 11 & 12)
+// ============================================================================
+
+export type SeniorGroupId = "cs" | "commerce" | "business_maths";
+
+export interface SeniorGroupDefinition {
+  readonly id: SeniorGroupId;
+  readonly code: string;
+  readonly badge: string;
+  readonly accent: string;
+  readonly iconName: "computer" | "commerce" | "math";
+  readonly name: LocalizedText;
+  readonly description: LocalizedText;
+  readonly electiveCodes: readonly string[]; // 4 core group subjects
+  readonly allGroupCodes: readonly string[]; // 4 electives + TAM & ENG
+}
+
+export const SENIOR_GROUPS: readonly SeniorGroupDefinition[] = [
+  {
+    id: "cs",
+    code: "GROUP-1",
+    badge: "Computer Science",
+    accent: "var(--teal)",
+    iconName: "computer",
+    name: {
+      en: "Computer Science Group",
+      ta: "கணினி அறிவியல் பிரிவு",
+      hi: "कंप्यूटर साइंस ग्रुप",
+    },
+    description: {
+      en: "Computer Science, Mathematics, Physics, Chemistry (+ Tamil & English)",
+      ta: "கணினி அறிவியல், கணிதம், இயற்பியல், வேதியியல் (+ தமிழ், ஆங்கிலம்)",
+      hi: "कंप्यूटर साइंस, गणित, भौतिकी, रसायन विज्ञान (+ तमिल, अंग्रेजी)",
+    },
+    electiveCodes: ["CSC", "MAT", "PHY", "CHE"],
+    allGroupCodes: ["CSC", "MAT", "PHY", "CHE", "TAM", "ENG"],
+  },
+  {
+    id: "commerce",
+    code: "GROUP-2",
+    badge: "Commerce with CA",
+    accent: "var(--amber)",
+    iconName: "commerce",
+    name: {
+      en: "Commerce Group",
+      ta: "வணிகவியல் பிரிவு (கணினி பயன்பாடுகள்)",
+      hi: "कॉमर्स ग्रुप",
+    },
+    description: {
+      en: "Commerce, Accountancy, Economics, Computer Applications (+ Tamil & English)",
+      ta: "வணிகவியல், கணக்குப்பதிவியல், பொருளியல், கணினி பயன்பாடுகள் (+ தமிழ், ஆங்கிலம்)",
+      hi: "वाणिज्य, लेखा, अर्थशास्त्र, कंप्यूटर अनुप्रयोग (+ तमिल, अंग्रेजी)",
+    },
+    electiveCodes: ["COM", "ACC", "ECO", "CAP"],
+    allGroupCodes: ["COM", "ACC", "ECO", "CAP", "TAM", "ENG"],
+  },
+  {
+    id: "business_maths",
+    code: "GROUP-3",
+    badge: "Business Maths",
+    accent: "var(--violet)",
+    iconName: "math",
+    name: {
+      en: "Business Maths Group",
+      ta: "வணிகக் கணிதம் பிரிவு",
+      hi: "बिजनेस मैथ्स ग्रुप",
+    },
+    description: {
+      en: "Commerce, Accountancy, Economics, Business Mathematics (+ Tamil & English)",
+      ta: "வணிகவியல், கணக்குப்பதிவியல், பொருளியல், வணிகக் கணிதம் (+ தமிழ், ஆங்கிலம்)",
+      hi: "वाणिज्य, लेखा, अर्थशास्त्र, व्यावसायिक गणित (+ तमिल, अंग्रेजी)",
+    },
+    electiveCodes: ["COM", "ACC", "ECO", "BMA"],
+    allGroupCodes: ["COM", "ACC", "ECO", "BMA", "TAM", "ENG"],
+  },
+];
+
+export function getSeniorGroup(groupId?: string | null): SeniorGroupDefinition | undefined {
+  if (!groupId) return undefined;
+  return SENIOR_GROUPS.find((g) => g.id === groupId);
+}
+
+export function filterSubjectsByGroup(
+  subjects: readonly CurriculumSubject[],
+  groupId?: string | null,
+  includeLanguages = true,
+): readonly CurriculumSubject[] {
+  if (!groupId || groupId === "all") return subjects;
+  const group = getSeniorGroup(groupId);
+  if (!group) return subjects;
+  const targetCodes = includeLanguages ? group.allGroupCodes : group.electiveCodes;
+  return subjects.filter((s) => {
+    const prefix = s.code.split("-")[0] ?? "";
+    return targetCodes.includes(prefix);
+  });
+}
 
 // ============================================================================
 // HELPER & QUERY FUNCTIONS

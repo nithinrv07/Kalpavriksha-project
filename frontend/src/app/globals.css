@@ -2,18 +2,18 @@
 
 :root {
   color-scheme: dark;
-  --bg: #050507;
-  --surface: #0b0a10;
-  --surface-2: #13111b;
-  --line: rgb(255 255 255 / 0.08);
-  --line-strong: rgb(255 255 255 / 0.16);
-  --text: #ededf2;
-  --muted: #9a98a8;
-  --violet: #a78bfa;
-  --violet-deep: #3b0764;
-  --violet-ink: #e9d5ff;
-  --glow-a: #7c3aed;
-  --glow-b: #c084fc;
+  --bg: #090514;
+  --surface: #140d28;
+  --surface-2: #1e133c;
+  --line: rgb(255 255 255 / 0.14);
+  --line-strong: rgb(255 255 255 / 0.25);
+  --text: #ffffff;
+  --muted: #cbc7de;
+  --violet: #c084fc;
+  --violet-deep: #4c1d95;
+  --violet-ink: #f3e8ff;
+  --glow-a: #9333ea;
+  --glow-b: #e879f9;
   /* Playful accents for module screens (categories, rewards, feedback). */
   --amber: #fbbf24;
   --teal: #2dd4bf;
@@ -53,7 +53,8 @@ html {
 }
 
 body {
-  background: var(--bg);
+  background: radial-gradient(circle at 50% 0%, #1e0d38 0%, #0e061c 50%, #07030e 100%);
+  background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

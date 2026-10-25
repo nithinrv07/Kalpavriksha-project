@@ -7,7 +7,7 @@ import { Avatar } from "@/components/avatar";
 import { useLocale } from "@/components/locale-provider";
 import { authService } from "@/lib/auth-service";
 import { AVATAR_NAME, BAND_INFO, SETUP_COPY } from "@/lib/bands";
-import { SUPPORTED_STANDARDS, type SupportedStandard } from "@/lib/curriculum";
+import { SENIOR_GROUPS } from "@/lib/curriculum";
 import { LOCALES, LOCALE_LABEL, type Locale } from "@/lib/i18n";
 import { AVATARS, BANDS, BAND_GRADES, bandOf, type AvatarId, type Band, type Profile } from "@/lib/progress";
 
@@ -113,6 +113,7 @@ export function LearnerSetup({
 
   // Exact School Standard (Class 1 to 12)
   const [grade, setGrade] = useState<number | null>(existing?.grade ?? 6);
+  const [seniorGroup, setSeniorGroup] = useState<string>(existing?.seniorGroup ?? "cs");
   const [name, setName] = useState(existing?.name ?? "");
   const [email, setEmail] = useState(existing?.email ?? "");
   const [prefLang, setPrefLang] = useState<Locale>(existing?.preferredLanguage ?? locale);
@@ -143,6 +144,7 @@ export function LearnerSetup({
       grade,
       avatar,
       preferredLanguage: prefLang,
+      seniorGroup: grade >= 11 ? seniorGroup : undefined,
       studentId: existing?.studentId,
     });
 
@@ -285,6 +287,64 @@ export function LearnerSetup({
             })}
           </div>
         </div>
+
+        {/* Higher Secondary Group Selector (Class 11 & 12) */}
+        {(selectedBand === "senior" || (grade !== null && grade >= 11)) && (
+          <div className="mt-4 rounded-2xl border border-teal/40 bg-teal/5 p-4">
+            <div className="flex items-center justify-between mb-3">
+              <span className="font-mono text-[11.5px] uppercase tracking-wider text-teal font-semibold">
+                {locale === "ta"
+                  ? "மேல்நிலைப் பாடப்பிரிவைத் தேர்ந்தெடு (Class 11 & 12 Group):"
+                  : locale === "hi"
+                    ? "हायर सेकेंडरी ग्रुप चुनें (Class 11 & 12 Group):"
+                    : "Select Your Higher Secondary Group (Class 11 & 12):"}
+              </span>
+              <span className="rounded-full bg-teal/20 px-2 py-0.5 font-mono text-[10.5px] text-teal">
+                4 Core Electives
+              </span>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-3">
+              {SENIOR_GROUPS.map((grp) => {
+                const isGrpSelected = seniorGroup === grp.id;
+                return (
+                  <button
+                    key={grp.id}
+                    type="button"
+                    onClick={() => setSeniorGroup(grp.id)}
+                    style={{ "--grp-accent": grp.accent } as React.CSSProperties}
+                    className={`flex flex-col text-left rounded-2xl border p-3.5 transition-all duration-200 ${
+                      isGrpSelected
+                        ? "border-[var(--grp-accent)] bg-[color-mix(in_srgb,var(--grp-accent)_16%,var(--surface))] shadow-[0_0_25px_-5px_var(--grp-accent)]"
+                        : "border-line bg-surface hover:border-line-strong hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="font-mono text-[10.5px] font-semibold uppercase tracking-wider text-[var(--grp-accent)]">
+                        {grp.badge}
+                      </span>
+                      <span
+                        className={`grid size-5 place-items-center rounded-full border transition-colors ${
+                          isGrpSelected
+                            ? "border-[var(--grp-accent)] bg-[var(--grp-accent)] text-bg"
+                            : "border-line-strong text-transparent"
+                        }`}
+                      >
+                        <Check size={11} weight="bold" />
+                      </span>
+                    </div>
+                    <span className="font-display text-base font-bold text-text">
+                      {grp.name[locale]}
+                    </span>
+                    <span className="mt-1 text-[12px] leading-snug text-muted line-clamp-3">
+                      {grp.description[locale]}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </fieldset>
 
       {/* 2. Student Profile Details: Name, Email, Preferred Language & Avatar */}

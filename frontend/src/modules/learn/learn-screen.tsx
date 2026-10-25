@@ -64,7 +64,6 @@ import {
   PencilSimple,
   PenNib,
   Plant,
-  PlayCircle,
   Question,
   Radio,
   Receipt,
@@ -84,7 +83,6 @@ import {
 } from "@phosphor-icons/react/ssr";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { BandHint } from "@/components/band-hint";
 import { Burst } from "@/components/burst";
 import { GrowthStage, useHydrated } from "@/components/learner-setup";
 import { useLocale } from "@/components/locale-provider";
@@ -93,18 +91,17 @@ import { KaraokeLines, useReadAloud } from "@/components/read-aloud";
 import { authService } from "@/lib/auth-service";
 import { BAND_INFO } from "@/lib/bands";
 import {
+  filterSubjectsByGroup,
   getChapterById,
-  getStandardCurriculum,
+  getSeniorGroup,
   getSubjectsForStandard,
   isSupportedStandard,
-  SUPPORTED_STANDARDS,
+  SENIOR_GROUPS,
   TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL,
   TN_NEW_SYLLABUS_2026_27_URL,
-  TN_OFFICIAL_TEXTBOOK_LINKS,
   TN_TEXTBOOK_PORTAL_URL,
   type CurriculumChapter,
   type CurriculumSubject,
-  type SupportedStandard,
 } from "@/lib/curriculum";
 import { StandardSwitcherModal } from "@/components/standard-switcher-modal";
 import { completeLesson, localDay, setLastAccessed, XP, type Band, type Profile } from "@/lib/progress";
@@ -205,6 +202,19 @@ function resolveChapterIcon(subject: CurriculumSubject, chapter: CurriculumChapt
   if (t.includes("market") || t.includes("commerce") || t.includes("shares")) return "chart-up";
   if (t.includes("banking") || t.includes("bank")) return "bank";
   if (t.includes("money") || t.includes("national income") || t.includes("fiscal") || t.includes("economy")) return "currency";
+
+  // Computer Applications
+  if (t.includes("pagemaker") || t.includes("word") || t.includes("writer") || t.includes("multimedia")) return "camera";
+  if (t.includes("html") || t.includes("css") || t.includes("javascript") || t.includes("php")) return "code";
+  if (t.includes("open source") || t.includes("organization") || t.includes("operating system")) return "cpu";
+  if (t.includes("e-commerce") || t.includes("edi") || t.includes("payment")) return "coins";
+  if (t.includes("security") || t.includes("ethics")) return "shield";
+  if (t.includes("calc") || t.includes("spreadsheet") || t.includes("impress") || t.includes("presentation")) return "grid";
+
+  // Business Mathematics & Statistics
+  if (t.includes("financial") || t.includes("annuities") || t.includes("stocks")) return "currency";
+  if (t.includes("correlation") || t.includes("regression") || t.includes("sampling") || t.includes("applied statistics")) return "chart-bar";
+  if (t.includes("operations research") || t.includes("transportation") || t.includes("assignment")) return "target";
 
   // Tamil
   if (t.includes("இயல் 1") || t.includes("மொழி")) return "translate";
@@ -1000,11 +1010,23 @@ function PersonalisedLearnDashboard({
 
   // Active Standard (fallback to 6)
   const currentStandard = isSupportedStandard(profile.grade) ? profile.grade : 6;
+  const isSenior = currentStandard >= 11;
 
-  // Subjects for this standard
-  const subjects = useMemo(() => getSubjectsForStandard(currentStandard), [currentStandard]);
+  // Selected Group Filter for Class 11 and 12 (defaults to profile's group or "all")
+  const [seniorGroupFilter, setSeniorGroupFilter] = useState<string>(
+    profile.seniorGroup ?? "all",
+  );
 
-  // Flattened chapters across all subjects
+  // All subjects for this standard
+  const allStandardSubjects = useMemo(() => getSubjectsForStandard(currentStandard), [currentStandard]);
+
+  // Displayed subjects (filtered by group for Class 11/12)
+  const subjects = useMemo(() => {
+    if (!isSenior || seniorGroupFilter === "all") return allStandardSubjects;
+    return filterSubjectsByGroup(allStandardSubjects, seniorGroupFilter, true);
+  }, [isSenior, seniorGroupFilter, allStandardSubjects]);
+
+  // Flattened chapters across displayed subjects
   const allFlatChapters = useMemo(() => {
     return subjects.flatMap((s) => s.chapters.map((ch) => ({ subject: s, chapter: ch })));
   }, [subjects]);
@@ -1052,8 +1074,11 @@ function PersonalisedLearnDashboard({
     return null;
   }, [profile.lastAccessed, currentStandard, allFlatChapters]);
 
-  const handleStandardChange = (newStd: number) => {
-    authService.updateStandard(newStd);
+  const handleStandardChange = (newStd: number, newGroup?: string) => {
+    authService.updateStandard(newStd, newGroup);
+    if (newGroup) {
+      setSeniorGroupFilter(newGroup);
+    }
     setFilter("subjects");
   };
 
@@ -1062,6 +1087,7 @@ function PersonalisedLearnDashboard({
       {/* Standard Selector Modal */}
       <StandardSwitcherModal
         currentGrade={currentStandard}
+        currentSeniorGroup={profile.seniorGroup ?? (seniorGroupFilter !== "all" ? seniorGroupFilter : undefined)}
         isOpen={switcherOpen}
         onClose={() => setSwitcherOpen(false)}
         onSelectStandard={handleStandardChange}
@@ -1191,6 +1217,97 @@ function PersonalisedLearnDashboard({
           </a>
         </div>
       </div>
+
+      {/* Higher Secondary Group Selector (Class 11 & 12) */}
+      {isSenior && (
+        <div className="rounded-3xl border border-teal/40 bg-teal/[0.04] p-4 sm:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+            <div className="flex items-center gap-2">
+              <span className="grid size-7 place-items-center rounded-lg bg-teal/20 text-teal">
+                <GraduationCap size={18} weight="fill" />
+              </span>
+              <div>
+                <h3 className="font-display text-base font-bold text-text">
+                  {locale === "ta"
+                    ? "மேல்நிலைப் பிரிவு பாடங்கள் (Class 11 & 12 Streams)"
+                    : locale === "hi"
+                      ? "हायर सेकेंडरी स्ट्रीम्स और ग्रुप्स"
+                      : "Higher Secondary Stream Groups"}
+                </h3>
+                <p className="text-xs text-muted">
+                  {locale === "ta"
+                    ? "தமிழ்நாடு மாநிலப் பாடத்திட்டத்தின் முக்கியப் பாடப்பிரிவுகள்"
+                    : locale === "hi"
+                      ? "तमिलनाडु स्टेट बोर्ड स्ट्रीम-वार विषय"
+                      : "Tamil Nadu Samacheer Kalvi standard-wise group tracks"}
+                </p>
+              </div>
+            </div>
+
+            {profile.seniorGroup && (
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-teal/30 bg-teal/15 px-3 py-1 font-mono text-[11px] text-teal">
+                <span className="size-1.5 rounded-full bg-teal" />
+                <span>Enrolled: {getSeniorGroup(profile.seniorGroup)?.name[locale] ?? profile.seniorGroup}</span>
+              </span>
+            )}
+          </div>
+
+          <div className="grid gap-2.5 sm:grid-cols-4">
+            {/* All Subjects button */}
+            <button
+              type="button"
+              onClick={() => {
+                setSeniorGroupFilter("all");
+                setFilter("subjects");
+              }}
+              className={`flex flex-col rounded-2xl border p-3 text-left transition-all ${
+                seniorGroupFilter === "all"
+                  ? "border-teal bg-teal/20 text-teal shadow-[0_0_20px_-5px_var(--teal)] font-medium"
+                  : "border-line bg-surface text-muted hover:border-line-strong hover:bg-white/[0.04] hover:text-text"
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[10.5px] uppercase tracking-wider opacity-75">All Electives</span>
+                <span className="rounded-full bg-white/[0.08] px-1.5 py-0.2 font-mono text-[10px]">12</span>
+              </div>
+              <span className="font-display text-sm font-bold text-text mt-1">All Subjects</span>
+              <span className="text-[11px] text-muted line-clamp-1 mt-0.5">All 12 Subjects & Streams</span>
+            </button>
+
+            {/* 3 User-Specified Groups */}
+            {SENIOR_GROUPS.map((grp) => {
+              const active = seniorGroupFilter === grp.id;
+              return (
+                <button
+                  key={grp.id}
+                  type="button"
+                  onClick={() => {
+                    setSeniorGroupFilter(grp.id);
+                    setFilter("subjects");
+                  }}
+                  style={{ "--grp": grp.accent } as React.CSSProperties}
+                  className={`flex flex-col rounded-2xl border p-3 text-left transition-all ${
+                    active
+                      ? "border-[var(--grp)] bg-[color-mix(in_srgb,var(--grp)_18%,var(--surface))] shadow-[0_0_20px_-5px_var(--grp)] font-medium"
+                      : "border-line bg-surface text-muted hover:border-line-strong hover:bg-white/[0.04] hover:text-text"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[10.5px] font-semibold text-[var(--grp)]">{grp.badge}</span>
+                    {active && <CheckCircle size={14} weight="fill" className="text-[var(--grp)]" />}
+                  </div>
+                  <span className="font-display text-sm font-bold text-text mt-1 line-clamp-1">
+                    {grp.name[locale]}
+                  </span>
+                  <span className="text-[11px] text-muted line-clamp-1 mt-0.5">
+                    {grp.description[locale]}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* 4. Filter Pills Row: All Subjects, All Chapters, and Subjects for this Standard */}
       <div

@@ -26,6 +26,7 @@ export async function POST(request: Request) {
       studentId: data.studentId || `KV-${new Date().getFullYear()}-0001`,
       email: data.email ? String(data.email).trim().slice(0, 80) : undefined,
       preferredLanguage: data.preferredLanguage || "en",
+      seniorGroup: data.seniorGroup ? String(data.seniorGroup).trim().slice(0, 32) : undefined,
       lastAccessed: data.lastAccessed,
     };
 
@@ -50,6 +51,13 @@ export async function PATCH(request: Request) {
       serverProfileStore = {
         ...serverProfileStore,
         grade: Math.round(data.grade),
+      };
+    }
+
+    if (data.seniorGroup !== undefined) {
+      serverProfileStore = {
+        ...serverProfileStore,
+        seniorGroup: data.seniorGroup ? String(data.seniorGroup).trim().slice(0, 32) : undefined,
       };
     }
 

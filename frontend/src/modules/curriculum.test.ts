@@ -1,9 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
+  filterSubjectsByGroup,
   getChapterById,
+  getSeniorGroup,
   getStandardCurriculum,
   getSubjectsForStandard,
   isSupportedStandard,
+  SENIOR_GROUPS,
   SUPPORTED_STANDARDS,
   TN_11TH_TEXTBOOKS_URL,
   TN_12TH_TEXTBOOKS_URL,
@@ -370,5 +373,91 @@ describe("Standard-wise Curriculum Engine (Class 1 to 12)", () => {
     expect(c11English!.chapters.length).toBe(18);
     expect(c11English!.chapters[0]?.title.en).toContain("The Portrait of a Lady");
     expect(c11English!.chapters[17]?.title.en).toContain("The Never-Never Nest");
+  });
+
+  it("Scenario 12: Class 11 and 12 include Computer Applications and Business Mathematics", () => {
+    const c11Subjects = getSubjectsForStandard(11);
+    const c11Codes = c11Subjects.map((s) => s.code);
+    expect(c11Codes).toContain("CAP-11");
+    expect(c11Codes).toContain("BMA-11");
+
+    const c11CompApp = c11Subjects.find((s) => s.id === "c11-comp-app");
+    expect(c11CompApp).toBeDefined();
+    expect(c11CompApp!.chapters.length).toBe(18);
+    expect(c11CompApp!.chapters[0]?.title.en).toBe("Introduction to Computers");
+    expect(c11CompApp!.chapters[17]?.title.en).toBe("Tamil Computing");
+    expect(c11CompApp!.textbookUrl).toBe(TN_11TH_TEXTBOOKS_URL);
+
+    const c11BusMath = c11Subjects.find((s) => s.id === "c11-business-math");
+    expect(c11BusMath).toBeDefined();
+    expect(c11BusMath!.chapters.length).toBe(10);
+    expect(c11BusMath!.chapters[0]?.title.en).toBe("Matrices and Determinants");
+    expect(c11BusMath!.chapters[9]?.title.en).toBe("Operations Research");
+
+    const c12Subjects = getSubjectsForStandard(12);
+    const c12Codes = c12Subjects.map((s) => s.code);
+    expect(c12Codes).toContain("CAP-12");
+    expect(c12Codes).toContain("BMA-12");
+
+    const c12CompApp = c12Subjects.find((s) => s.id === "c12-comp-app");
+    expect(c12CompApp).toBeDefined();
+    expect(c12CompApp!.chapters.length).toBe(18);
+    expect(c12CompApp!.chapters[0]?.title.en).toBe("Multimedia and Desktop Publishing");
+    expect(c12CompApp!.chapters[17]?.title.en).toBe("Electronic Data Interchange (EDI)");
+
+    const c12BusMath = c12Subjects.find((s) => s.id === "c12-business-math");
+    expect(c12BusMath).toBeDefined();
+    expect(c12BusMath!.chapters.length).toBe(10);
+    expect(c12BusMath!.chapters[0]?.title.en).toBe("Applications of Matrices and Determinants");
+    expect(c12BusMath!.chapters[9]?.title.en).toBe("Operations Research");
+  });
+
+  it("Scenario 13: Higher Secondary Groups filter exact electives for Commerce, Business Maths, and Computer Science", () => {
+    expect(SENIOR_GROUPS.length).toBe(3);
+    const groupIds = SENIOR_GROUPS.map((g) => g.id);
+    expect(groupIds).toEqual(["cs", "commerce", "business_maths"]);
+
+    expect(getSeniorGroup("cs")?.badge).toBe("Computer Science");
+    expect(getSeniorGroup("commerce")?.badge).toBe("Commerce with CA");
+    expect(getSeniorGroup("business_maths")?.badge).toBe("Business Maths");
+    expect(getSeniorGroup("non-existent")).toBeUndefined();
+
+    const c12Subjects = getSubjectsForStandard(12);
+
+    // 1. Commerce Group: Commerce, Accountancy, Economics, Computer Applications
+    const commerceElectives = filterSubjectsByGroup(c12Subjects, "commerce", false);
+    const commerceCodes = commerceElectives.map((s) => s.code);
+    expect(commerceCodes).toEqual(["COM-12", "ACC-12", "ECO-12", "CAP-12"]);
+
+    // 2. Business Maths Group: Commerce, Accountancy, Economics, Business Mathematics
+    const bmaElectives = filterSubjectsByGroup(c12Subjects, "business_maths", false);
+    const bmaCodes = bmaElectives.map((s) => s.code);
+    expect(bmaCodes).toEqual(["COM-12", "ACC-12", "ECO-12", "BMA-12"]);
+
+    // 3. Computer Science Group: Computer Science, Maths, Physics, Chemistry
+    const csElectives = filterSubjectsByGroup(c12Subjects, "cs", false);
+    const csCodes = csElectives.map((s) => s.code);
+    expect(csCodes).toEqual(["MAT-12", "PHY-12", "CHE-12", "CSC-12"]);
+
+    // When languages are included, Tamil & English are also present
+    const commerceFull = filterSubjectsByGroup(c12Subjects, "commerce", true);
+    expect(commerceFull.map((s) => s.code)).toEqual(["TAM-12", "ENG-12", "COM-12", "ACC-12", "ECO-12", "CAP-12"]);
+  });
+
+  it("Scenario 14: Student profile with Higher Secondary Group persists and parses cleanly", () => {
+    const profile: Profile = {
+      name: "Sanjay",
+      avatar: "cat",
+      grade: 11,
+      studentId: "KV-2026-7890",
+      seniorGroup: "commerce",
+    };
+
+    const p = setProfile(EMPTY_PROGRESS, profile);
+    expect(p.profile?.seniorGroup).toBe("commerce");
+
+    const serialized = JSON.stringify(p);
+    const parsed = parseProgress(JSON.parse(serialized));
+    expect(parsed.profile?.seniorGroup).toBe("commerce");
   });
 });

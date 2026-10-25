@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { EMPTY_PROGRESS, completeLesson, recordQuiz, type Progress } from "./progress";
+import { EMPTY_PROGRESS, completeLesson, localDay, recordQuiz, type Progress } from "./progress";
 import { getLearningTrackStats } from "./learning-track";
 import { getSubjectsForStandard } from "./curriculum";
 
-const TODAY = "2026-10-23";
+const TODAY = localDay();
 
 describe("getLearningTrackStats", () => {
   it("computes stats for default standard 6 when no profile is present", () => {

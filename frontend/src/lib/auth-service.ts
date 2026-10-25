@@ -46,6 +46,7 @@ export const authService = {
     grade: number;
     avatar: Profile["avatar"];
     preferredLanguage?: Profile["preferredLanguage"];
+    seniorGroup?: string;
     studentId?: string;
   }): Profile {
     const studentId = data.studentId || generateStudentId();
@@ -55,6 +56,7 @@ export const authService = {
       grade: data.grade,
       avatar: data.avatar,
       preferredLanguage: data.preferredLanguage,
+      seniorGroup: data.seniorGroup,
       studentId,
     };
 
@@ -74,13 +76,18 @@ export const authService = {
     return profile;
   },
 
-  updateStandard(grade: number): void {
-    updateProgress((p) => updateStudentProfile(p, { grade }));
+  updateStandard(grade: number, seniorGroup?: string): void {
+    updateProgress((p) =>
+      updateStudentProfile(p, {
+        grade,
+        ...(seniorGroup !== undefined ? { seniorGroup } : {}),
+      }),
+    );
     if (typeof window !== "undefined") {
       fetch("/api/profile", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ grade }),
+        body: JSON.stringify({ grade, seniorGroup }),
       }).catch(() => {});
     }
   },
