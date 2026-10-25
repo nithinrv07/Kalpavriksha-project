@@ -97,6 +97,7 @@ import {
   getSubjectsForStandard,
   isSupportedStandard,
   SENIOR_GROUPS,
+  type SeniorGroupId,
   TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL,
   TN_NEW_SYLLABUS_2026_27_URL,
   TN_TEXTBOOK_PORTAL_URL,
@@ -1012,18 +1013,28 @@ function PersonalisedLearnDashboard({
   const currentStandard = isSupportedStandard(profile.grade) ? profile.grade : 6;
   const isSenior = currentStandard >= 11;
 
-  // Selected Group Filter for Class 11 and 12 (defaults to profile's group or "all")
-  const [seniorGroupFilter, setSeniorGroupFilter] = useState<string>(
-    profile.seniorGroup ?? "all",
-  );
+  // Selected Group Filter for Class 11 and 12 (strictly cs, commerce, or business_maths)
+  const [seniorGroupFilter, setSeniorGroupFilter] = useState<SeniorGroupId>(() => {
+    if (profile.seniorGroup === "cs" || profile.seniorGroup === "commerce" || profile.seniorGroup === "business_maths") {
+      return profile.seniorGroup;
+    }
+    return "cs";
+  });
+
+  // Keep group filter state synchronized with profile
+  useEffect(() => {
+    if (profile.seniorGroup === "cs" || profile.seniorGroup === "commerce" || profile.seniorGroup === "business_maths") {
+      setSeniorGroupFilter(profile.seniorGroup);
+    }
+  }, [profile.seniorGroup]);
 
   // All subjects for this standard
   const allStandardSubjects = useMemo(() => getSubjectsForStandard(currentStandard), [currentStandard]);
 
-  // Displayed subjects (filtered by group for Class 11/12)
+  // Displayed subjects (strictly filtered by group for Class 11/12)
   const subjects = useMemo(() => {
-    if (!isSenior || seniorGroupFilter === "all") return allStandardSubjects;
-    return filterSubjectsByGroup(allStandardSubjects, seniorGroupFilter, true);
+    if (!isSenior) return allStandardSubjects;
+    return filterSubjectsByGroup(allStandardSubjects, seniorGroupFilter || "cs", true);
   }, [isSenior, seniorGroupFilter, allStandardSubjects]);
 
   // Flattened chapters across displayed subjects
@@ -1076,7 +1087,7 @@ function PersonalisedLearnDashboard({
 
   const handleStandardChange = (newStd: number, newGroup?: string) => {
     authService.updateStandard(newStd, newGroup);
-    if (newGroup) {
+    if (newGroup === "cs" || newGroup === "commerce" || newGroup === "business_maths") {
       setSeniorGroupFilter(newGroup);
     }
     setFilter("subjects");
@@ -1087,7 +1098,7 @@ function PersonalisedLearnDashboard({
       {/* Standard Selector Modal */}
       <StandardSwitcherModal
         currentGrade={currentStandard}
-        currentSeniorGroup={profile.seniorGroup ?? (seniorGroupFilter !== "all" ? seniorGroupFilter : undefined)}
+        currentSeniorGroup={seniorGroupFilter}
         isOpen={switcherOpen}
         onClose={() => setSwitcherOpen(false)}
         onSelectStandard={handleStandardChange}
@@ -1252,29 +1263,8 @@ function PersonalisedLearnDashboard({
             )}
           </div>
 
-          <div className="grid gap-2.5 sm:grid-cols-4">
-            {/* All Subjects button */}
-            <button
-              type="button"
-              onClick={() => {
-                setSeniorGroupFilter("all");
-                setFilter("subjects");
-              }}
-              className={`flex flex-col rounded-2xl border p-3 text-left transition-all ${
-                seniorGroupFilter === "all"
-                  ? "border-teal bg-teal/20 text-teal shadow-[0_0_20px_-5px_var(--teal)] font-medium"
-                  : "border-line bg-surface text-muted hover:border-line-strong hover:bg-white/[0.04] hover:text-text"
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[10.5px] uppercase tracking-wider opacity-75">All Electives</span>
-                <span className="rounded-full bg-white/[0.08] px-1.5 py-0.2 font-mono text-[10px]">12</span>
-              </div>
-              <span className="font-display text-sm font-bold text-text mt-1">All Subjects</span>
-              <span className="text-[11px] text-muted line-clamp-1 mt-0.5">All 12 Subjects & Streams</span>
-            </button>
-
-            {/* 3 User-Specified Groups */}
+          <div className="grid gap-3 sm:grid-cols-3">
+            {/* The 3 Official Groups: Computer Science, Commerce, Business Maths */}
             {SENIOR_GROUPS.map((grp) => {
               const active = seniorGroupFilter === grp.id;
               return (
@@ -1284,9 +1274,10 @@ function PersonalisedLearnDashboard({
                   onClick={() => {
                     setSeniorGroupFilter(grp.id);
                     setFilter("subjects");
+                    authService.updateStandard(currentStandard, grp.id);
                   }}
                   style={{ "--grp": grp.accent } as React.CSSProperties}
-                  className={`flex flex-col rounded-2xl border p-3 text-left transition-all ${
+                  className={`flex flex-col rounded-2xl border p-3.5 text-left transition-all ${
                     active
                       ? "border-[var(--grp)] bg-[color-mix(in_srgb,var(--grp)_18%,var(--surface))] shadow-[0_0_20px_-5px_var(--grp)] font-medium"
                       : "border-line bg-surface text-muted hover:border-line-strong hover:bg-white/[0.04] hover:text-text"
@@ -1294,12 +1285,12 @@ function PersonalisedLearnDashboard({
                 >
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[10.5px] font-semibold text-[var(--grp)]">{grp.badge}</span>
-                    {active && <CheckCircle size={14} weight="fill" className="text-[var(--grp)]" />}
+                    {active && <CheckCircle size={15} weight="fill" className="text-[var(--grp)]" />}
                   </div>
-                  <span className="font-display text-sm font-bold text-text mt-1 line-clamp-1">
+                  <span className="font-display text-sm font-bold text-text mt-1.5 line-clamp-1">
                     {grp.name[locale]}
                   </span>
-                  <span className="text-[11px] text-muted line-clamp-1 mt-0.5">
+                  <span className="text-[11.5px] text-muted line-clamp-2 mt-1">
                     {grp.description[locale]}
                   </span>
                 </button>

@@ -210,7 +210,7 @@ describe("Standard-wise Curriculum Engine (Class 1 to 12)", () => {
     expect(c10Social?.chapters.length).toBe(10);
   });
 
-  it("Scenario 4: Class 12 student sees higher secondary elective and language subjects", () => {
+  it("Scenario 4: Class 12 student sees higher secondary elective and language subjects for CS, Commerce, and Business Maths groups", () => {
     const subjects = getSubjectsForStandard(12);
     const codes = subjects.map((s) => s.code);
     expect(codes).toContain("TAM-12");
@@ -218,11 +218,12 @@ describe("Standard-wise Curriculum Engine (Class 1 to 12)", () => {
     expect(codes).toContain("MAT-12");
     expect(codes).toContain("PHY-12");
     expect(codes).toContain("CHE-12");
-    expect(codes).toContain("BIO-12");
     expect(codes).toContain("CSC-12");
     expect(codes).toContain("COM-12");
     expect(codes).toContain("ACC-12");
     expect(codes).toContain("ECO-12");
+    expect(codes).toContain("CAP-12");
+    expect(codes).toContain("BMA-12");
   });
 
   it("links every subject and chapter to the official TN Textbook portal", () => {
