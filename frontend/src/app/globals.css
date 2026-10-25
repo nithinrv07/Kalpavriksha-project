@@ -46,6 +46,7 @@
   --font-sans: var(--font-geist), var(--font-anek-tamil), var(--font-anek-deva), ui-sans-serif, sans-serif;
   --font-mono: var(--font-plex-mono), var(--font-anek-tamil), var(--font-anek-deva), ui-monospace, monospace;
   --font-headline: var(--font-fraunces), var(--font-anek-tamil), var(--font-anek-deva), Georgia, "Times New Roman", serif;
+  --font-title: var(--font-title-serif), var(--font-anek-tamil), var(--font-anek-deva), Georgia, "Times New Roman", serif;
   --ease-premium: var(--ease-out);
 }
 
