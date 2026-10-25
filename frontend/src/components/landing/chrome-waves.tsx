@@ -37,13 +37,10 @@ export function ChromeWaves() {
                 <stop offset="0.7" stopColor="#a855f7" stopOpacity="0.65" />
                 <stop offset="1" stopColor="#7c3aed" stopOpacity="0" />
               </linearGradient>
-              <filter id="soft-glow" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="12" />
-              </filter>
             </defs>
             <g transform="rotate(-22)">
               {/* Radiant violet-fuchsia halo behind the brightest ribbons */}
-              <g filter="url(#soft-glow)" opacity="0.85">
+              <g style={{ filter: "blur(12px)" }} opacity="0.85">
                 {RINGS.filter((i) => i % 4 === 0).map((i) => (
                   <ellipse
                     key={i}

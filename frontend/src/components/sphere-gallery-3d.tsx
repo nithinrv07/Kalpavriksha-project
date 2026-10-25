@@ -1041,8 +1041,13 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
 
     let raf = 0;
     let prev = performance.now();
+    let isVisible = true;
 
     const frame = () => {
+      if (!isVisible) {
+        raf = 0;
+        return;
+      }
       raf = requestAnimationFrame(frame);
 
       const now = performance.now();
@@ -1354,11 +1359,24 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
       drawQuads(split, n);
       gl.disableVertexAttribArray(qLoc.aCorner);
     };
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = !!entry?.isIntersecting;
+        if (isVisible && !raf) {
+          prev = performance.now();
+          raf = requestAnimationFrame(frame);
+        }
+      },
+      { threshold: 0.05 }
+    );
+    io.observe(host);
+
     raf = requestAnimationFrame(frame);
 
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
+      io.disconnect();
       canvas.removeEventListener("pointerdown", onPointerDown);
       canvas.removeEventListener("pointerleave", onLeave);
       window.removeEventListener("pointermove", onPointerMove);

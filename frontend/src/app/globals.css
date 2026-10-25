@@ -50,15 +50,16 @@
 
 html {
   background: var(--bg);
+  scroll-behavior: smooth;
 }
 
 body {
   background: radial-gradient(circle at 50% 0%, #1e0d38 0%, #0e061c 50%, #07030e 100%);
-  background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 ::selection {
