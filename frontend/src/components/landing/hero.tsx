@@ -8,7 +8,6 @@ import { BrandMark } from "@/components/brand-mark";
 import { useLocale } from "@/components/locale-provider";
 import { ParticleCanvas } from "@/components/particle-canvas";
 import { FlipCard } from "@/components/flip-card";
-import { PulsatingBorder } from "@/components/pulsating-border";
 import { SparkleButton } from "@/components/sparkle-button";
 import { SphereGallery3D } from "@/components/sphere-gallery-3d";
 import type { ShapeName } from "@/lib/shapes";
@@ -82,11 +81,7 @@ export function Hero() {
           ariaLabel="Kalpavriksha hero frame"
           front={
             /* DEFAULT FRONTPAGE: Luminous 3D Sphere Gallery View */
-            <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[22px] border border-line bg-surface/95 shadow-[0_40px_120px_-20px_rgb(0_0_0/0.85),0_0_90px_-25px_rgb(124_58_237/0.45),inset_0_1px_0_rgb(255_255_255/0.05)] lg:block lg:rounded-[28px]">
-              {/* Pulsating border glow around the hero frame */}
-              <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
-                <PulsatingBorder colors={["#000000", "#ffffff", "#a855f7"]} thickness={0.35} />
-              </div>
+            <div className="relative flex h-full w-full flex-col overflow-hidden bg-transparent lg:block">
 
               {/* Top bar — flows on mobile, pinned on desktop */}
               <div className="z-20 flex items-center justify-between gap-3 p-3 sm:p-4 lg:absolute lg:inset-x-6 lg:top-6 lg:justify-end lg:p-0">
@@ -257,11 +252,7 @@ export function Hero() {
           }
           back={
             /* FLIP SIDE: Particle Tree View */
-            <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[22px] border border-line bg-surface/95 shadow-[0_40px_120px_-20px_rgb(0_0_0/0.85),0_0_90px_-25px_rgb(124_58_237/0.45),inset_0_1px_0_rgb(255_255_255/0.05)] lg:block lg:rounded-[28px]">
-              {/* Pulsating border glow around the hero frame */}
-              <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
-                <PulsatingBorder colors={["#000000", "#ffffff", "#a855f7"]} thickness={0.35} />
-              </div>
+            <div className="relative flex h-full w-full flex-col overflow-hidden bg-transparent lg:block">
 
               {/* Top bar — flows on mobile, pinned on desktop */}
               <div className="z-20 flex items-center justify-between gap-3 p-3 sm:p-4 lg:absolute lg:inset-x-6 lg:top-6 lg:justify-end lg:p-0">
