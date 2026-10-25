@@ -86,7 +86,7 @@ export function Hero() {
 
               {/* Top bar — flows on mobile, pinned on desktop */}
               <div className="z-20 flex items-center justify-between gap-3 p-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
-                <span className="flex items-center gap-2 font-display text-lg tracking-tight lg:hidden">
+                <span className="flex items-center gap-2 font-headline font-semibold text-lg tracking-tight lg:hidden">
                   <BrandMark className="size-6 text-amber-400" strokeWidth={1.8} />
                   Kalpavriksha
                 </span>
@@ -146,7 +146,7 @@ export function Hero() {
                 <DepthText
                   text="Kalpavriksha"
                   fontSize="clamp(46px, 6vw, 86px)"
-                  fontWeight={900}
+                  fontWeight={700}
                   faceColor="#FFFFFF"
                   depthColor="#6d28d9"
                   layers={18}
@@ -159,7 +159,7 @@ export function Hero() {
                   pointerTracking={true}
                   shadow={true}
                   active={!isFlipped}
-                  className="font-display tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
+                  className="font-headline [--depth-text-letter-spacing:-0.015em] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
                 />
               </div>
 
@@ -180,47 +180,48 @@ export function Hero() {
               {/* Right-side content column: harmoniously proportioned, cohesive right rail */}
               <div
                 data-no-flip="true"
-                className="pointer-events-auto absolute right-4 top-20 bottom-6 z-20 flex w-full max-w-[340px] flex-col justify-center gap-5 sm:gap-6 lg:gap-7 items-end sm:right-8 sm:top-24 sm:bottom-8 sm:max-w-[380px] lg:right-8 xl:right-12 lg:top-24 lg:bottom-8 lg:max-w-[400px] xl:max-w-[420px]"
+                className="pointer-events-auto absolute right-4 top-20 bottom-6 z-20 flex w-full max-w-[340px] flex-col items-center justify-center gap-5 text-center sm:right-8 sm:top-24 sm:bottom-8 sm:max-w-[380px] sm:gap-6 lg:right-8 lg:top-24 lg:bottom-8 lg:max-w-[400px] lg:gap-7 xl:right-12 xl:max-w-[420px]"
               >
                 {/* 1. Crystal Glow "Rooted to Rise" headline */}
-                <div className="w-full flex justify-end">
+                <div className="flex w-full justify-center">
                   <SparkleButton
                     as="h2"
                     lines={[line1, line2]}
-                    align="right"
+                    align="center"
                     fontSize={
                       locale === "en"
                         ? "clamp(36px, 4.2vw, 70px)"
                         : "clamp(28px, 3.4vw, 56px)"
                     }
-                    fontFamily="var(--font-display), var(--font-geist), sans-serif"
-                    fontWeight={800}
-                    letterSpacing={locale === "en" ? "-0.045em" : "-0.01em"}
-                    lineHeight={0.94}
+                    fontFamily="var(--font-fraunces), var(--font-anek-tamil), var(--font-anek-deva), Georgia, serif"
+                    fontWeight={600}
+                    letterSpacing={locale === "en" ? "-0.015em" : "-0.005em"}
+                    lineHeight={locale === "en" ? 0.98 : 1.1}
                     textColor="#C3AFD4"
                     shadowColor="#1E0028"
                     glareColor="#4A105DBF"
+                    className="w-full"
                   />
                 </div>
 
-                {/* 2. Middle interactive showcase: flush aligned with matching card width */}
-                <div className="hidden w-full flex-col items-end gap-3 sm:flex">
+                {/* 2. Middle interactive showcase: cards span the rail, contents centred */}
+                <div className="hidden w-full flex-col items-center gap-3 sm:flex">
                   {/* Tagline / Subtitle */}
-                  <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-ink/80 text-right">
+                  <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-ink/80 text-center">
                     {t.tagline[0]} — {t.tagline[1]}
                   </p>
 
                   {/* Quick module access cards with custom icons */}
-                  <div className="flex flex-col items-end gap-2.5 w-full">
+                  <div className="flex flex-col items-center gap-2.5 w-full">
                     {MODULES.map((m) => {
                       const Icon = m.icon;
                       return (
                         <Link
                           key={m.id}
                           href={`/m/${m.slug}`}
-                          className="group flex w-full max-w-[340px] sm:max-w-[360px] items-center justify-between gap-3 rounded-2xl border border-white/12 bg-[#140d28]/90 backdrop-blur-xl px-3.5 py-2.5 text-right shadow-[0_8px_24px_-4px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-violet/50 hover:bg-[#1e133c] hover:shadow-[0_12px_28px_-4px_rgba(147,51,234,0.3)] hover:-translate-x-1"
+                          className="group flex w-full items-center justify-between gap-3 rounded-2xl border border-white/12 bg-[#140d28]/90 px-3.5 py-2.5 text-center shadow-[0_8px_24px_-4px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-violet/50 hover:bg-[#1e133c] hover:shadow-[0_12px_28px_-4px_rgba(147,51,234,0.3)]"
                         >
-                          <span className="font-mono text-[11px] font-semibold text-amber-400 group-hover:text-amber-300 transition-colors">
+                          <span className="w-8 shrink-0 text-center font-mono text-[11px] font-semibold text-amber-400 group-hover:text-amber-300 transition-colors">
                             {m.index}
                           </span>
                           <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-text group-hover:text-violet-ink transition-colors">
@@ -245,7 +246,7 @@ export function Hero() {
                   </div>
 
                   {/* Key statistics row: neatly bounded to card width */}
-                  <div className="flex w-full max-w-[340px] sm:max-w-[360px] flex-wrap items-center justify-end gap-1.5 pt-0.5">
+                  <div className="flex w-full flex-wrap items-center justify-center gap-1.5 pt-0.5">
                     {t.stats.map((stat, i) => (
                       <span
                         key={i}
@@ -259,8 +260,8 @@ export function Hero() {
                 </div>
 
                 {/* 3. Bottom copy & explore link */}
-                <div className="w-full max-w-[340px] sm:max-w-[360px] text-right flex flex-col items-end">
-                  <p className="font-sans text-[13px] leading-relaxed text-muted/90">{t.lead}</p>
+                <div className="flex w-full flex-col items-center text-center">
+                  <p className="w-full font-sans text-[13px] leading-relaxed text-muted/90">{t.lead}</p>
                   <a
                     href="#modules"
                     className="group mt-3.5 inline-flex items-center gap-2 rounded-full border border-violet/30 bg-violet/10 px-4 py-2 font-mono text-[12px] font-medium text-violet-ink backdrop-blur-md shadow-[0_4px_16px_rgba(147,51,234,0.2)] transition-all duration-300 hover:border-violet/60 hover:bg-violet-deep hover:text-white hover:shadow-[0_6px_25px_rgba(168,85,247,0.35)] active:scale-[0.98]"
@@ -278,7 +279,7 @@ export function Hero() {
 
               {/* Top bar — flows on mobile, pinned on desktop */}
               <div className="z-20 flex items-center justify-between gap-3 p-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
-                <span className="flex items-center gap-2 font-display text-lg tracking-tight lg:hidden">
+                <span className="flex items-center gap-2 font-headline font-semibold text-lg tracking-tight lg:hidden">
                   <BrandMark className="size-6 text-amber-400" strokeWidth={1.8} />
                   Kalpavriksha
                 </span>
@@ -338,7 +339,7 @@ export function Hero() {
                 <DepthText
                   text="Kalpavriksha"
                   fontSize="clamp(46px, 6vw, 86px)"
-                  fontWeight={900}
+                  fontWeight={700}
                   faceColor="#FFFFFF"
                   depthColor="#6d28d9"
                   layers={18}
@@ -351,7 +352,7 @@ export function Hero() {
                   pointerTracking={true}
                   shadow={true}
                   active={isFlipped}
-                  className="font-display tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
+                  className="font-headline [--depth-text-letter-spacing:-0.015em] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
                 />
               </div>
 
@@ -395,10 +396,10 @@ export function Hero() {
                         ? "clamp(56px, 26cqi, 136px)"
                         : "clamp(40px, 17cqi, 104px)"
                     }
-                    fontFamily="var(--font-display), var(--font-geist), sans-serif"
-                    fontWeight={700}
-                    letterSpacing={locale === "en" ? "-0.055em" : "-0.01em"}
-                    lineHeight={locale === "en" ? 0.9 : 1.08}
+                    fontFamily="var(--font-fraunces), var(--font-anek-tamil), var(--font-anek-deva), Georgia, serif"
+                    fontWeight={600}
+                    letterSpacing={locale === "en" ? "-0.025em" : "-0.01em"}
+                    lineHeight={locale === "en" ? 0.92 : 1.08}
                     textColor="#FFFFFF"
                     shadowColor="#3b0764"
                     glareColor="rgba(255, 255, 255, 0.85)"

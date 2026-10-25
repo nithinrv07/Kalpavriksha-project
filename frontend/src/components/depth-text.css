@@ -21,7 +21,7 @@
   font-size: var(--depth-text-font-size);
   font-weight: var(--depth-text-font-weight);
   line-height: 0.86;
-  letter-spacing: -0.04em;
+  letter-spacing: var(--depth-text-letter-spacing, -0.04em);
   white-space: nowrap;
   user-select: none;
   transform-style: preserve-3d;
