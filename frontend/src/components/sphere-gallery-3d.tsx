@@ -3,7 +3,6 @@
 "use client";
 
 import * as React from "react";
-import { clampDpr, detectQualityTier, getQualityBudget } from "@/lib/perf/quality";
 
 export interface GalleryItem {
   image?: string;
@@ -731,13 +730,12 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
     const host = hostRef.current;
     if (!canvas || !host) return;
 
-    const budget = getQualityBudget(detectQualityTier());
     const attrs: WebGLContextAttributes = {
-      antialias: budget.antialias,
+      antialias: true,
       alpha: true,
       premultipliedAlpha: true,
       depth: true,
-      powerPreference: "default",
+      powerPreference: "high-performance",
     };
     const gl = (canvas.getContext("webgl2", attrs) ||
       canvas.getContext("webgl", attrs) ||
@@ -857,7 +855,7 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
     const resize = () => {
       const w = Math.max(1, host.clientWidth);
       const h = Math.max(1, host.clientHeight);
-      const dpr = clampDpr(window.devicePixelRatio || 1);
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
       vw = Math.max(1, Math.round(w * dpr));
       vh = Math.max(1, Math.round(h * dpr));
       if (canvas.width !== vw) canvas.width = vw;
@@ -1078,7 +1076,7 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
 
       const curW = Math.max(1, host.clientWidth);
       const curH = Math.max(1, host.clientHeight);
-      const dpr = clampDpr(window.devicePixelRatio || 1);
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
       const expectedVw = Math.max(1, Math.round(curW * dpr));
       const expectedVh = Math.max(1, Math.round(curH * dpr));
       if (vw !== expectedVw || vh !== expectedVh || canvas.width !== expectedVw || canvas.height !== expectedVh) {
