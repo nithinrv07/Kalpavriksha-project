@@ -1334,6 +1334,19 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
           const sx = nd.hx * 2;
           compose(model, nd.px, nd.py, nd.pz, nd.q, sx, sy, 1);
           mul(mvp, viewProj, model);
+
+          // 5. Frustum culling: skip drawing if quad is outside clip boundaries
+          const cw = mvp[15] ?? 1;
+          if (cw > 0.01) {
+            const cx = mvp[12] ?? 0;
+            const cy = mvp[13] ?? 0;
+            const cz = mvp[14] ?? 0;
+            const margin = Math.max(sx, sy) * 2.2;
+            if (Math.abs(cx) > (cw + margin) || Math.abs(cy) > (cw + margin) || cz < -cw * 1.5 || cz > (cw + margin)) {
+              continue;
+            }
+          }
+
           gl.uniformMatrix4fv(qLoc.uMVP, false, mvp);
 
           const depth = R[6]! * nd.px + R[7]! * nd.py + R[8]! * nd.pz;
