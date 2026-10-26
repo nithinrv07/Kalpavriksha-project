@@ -12,6 +12,7 @@ import { useLocale } from "@/components/locale-provider";
 import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
 import { PulsatingBorder } from "@/components/pulsating-border";
 import { useProgress } from "@/components/progress-store";
+import { SoundToggle } from "@/components/sound-toggle";
 import { BAND_INFO } from "@/lib/bands";
 import { bandOf, levelOf, localDay, streak, type Band, type Profile } from "@/lib/progress";
 import { MODULES, type KalpaModule } from "@/modules/registry";
@@ -25,7 +26,7 @@ function ProgressPill() {
   const days = streak(progress.activeDays, localDay());
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2" data-xp-pill>
       <div
         className="hidden h-11 items-center gap-3 rounded-xl border border-line bg-white/[0.04] px-3.5 sm:flex"
         title={`${progress.xp} XP`}
@@ -138,6 +139,7 @@ export function ModuleShell({
             </div>
             <div className="flex items-center gap-2">
               <ProgressPill />
+              <SoundToggle />
               <LangSelect />
             </div>
           </header>

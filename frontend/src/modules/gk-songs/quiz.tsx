@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { Burst } from "@/components/burst";
 import { useLocale } from "@/components/locale-provider";
 import { updateProgress, useProgress } from "@/components/progress-store";
+import { cue } from "@/lib/feedback";
 import { XP, localDay, recordQuiz, type Band } from "@/lib/progress";
 import {
   bandToGkLevel,
@@ -108,10 +109,13 @@ export function Quiz({
     setPhase("play");
   };
 
-  const choose = (p: Pick) => {
+  const choose = (p: Pick, at?: { x: number; y: number }) => {
     if (answered) return;
     setPick(p);
     setPicks((all) => [...all, p]);
+    if (p !== "timeout" && question) {
+      cue(p === question.answer ? "correct" : "wrong", at);
+    }
   };
 
   const advance = () => {
@@ -371,7 +375,7 @@ export function Quiz({
                   key={i}
                   type="button"
                   disabled={answered}
-                  onClick={() => choose(i)}
+                  onClick={(e) => choose(i, { x: e.clientX, y: e.clientY })}
                   style={{ "--tint": LETTER_TINT[i] } as React.CSSProperties}
                   className={`flex items-center gap-3 rounded-2xl border text-left transition-all duration-200 min-h-14 px-4 py-3 text-[15.5px] ${
                     correctOpt

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Anek_Devanagari, Anek_Tamil, DM_Serif_Display, Fraunces, Geist, IBM_Plex_Mono } from "next/font/google";
 import { LocaleProvider } from "@/components/locale-provider";
+import { FeedbackLayer } from "@/components/feedback-layer";
 import "./globals.css";
 
 const geist = Geist({ variable: "--font-geist", subsets: ["latin"] });
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-svh">
         <LocaleProvider>{children}</LocaleProvider>
+        <FeedbackLayer />
       </body>
     </html>
   );

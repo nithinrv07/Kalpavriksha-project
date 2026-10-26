@@ -339,6 +339,21 @@ body {
   animation: shake 0.4s ease-in-out;
 }
 
+@keyframes feedback-ring {
+  from {
+    opacity: 0.75;
+    transform: scale(0.45);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+.feedback-ring {
+  animation: feedback-ring 0.6s var(--ease-out) both;
+}
+
 @keyframes float-up {
   0% {
     opacity: 0;
