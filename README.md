@@ -1,6 +1,6 @@
 # Kalpavriksha
 
-One learning app for Kalpavriksha Seva Trust students — digital learning, holistic growth, and GK & patriotic songs — in Tamil, English and Hindi. Built with the GSX Chennai Chapter.
+One learning app for Kalpavriksha Seva Trust students — digital learning, holistic growth, and GK & patriotic songs — in Tamil and English. Built with the GSX Chennai Chapter.
 
 ## Repository layout
 

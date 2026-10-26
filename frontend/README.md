@@ -29,7 +29,7 @@ src/
 ├── lib/
 │   ├── progress.ts       XP, levels, streaks, badges, grade bands (pure, tested)
 │   ├── bands.ts          Seedlings (1–5) · Saplings (6–10) · Tall Trees (11–12)
-│   └── i18n.ts           English / Tamil / Hindi copy
+│   └── i18n.ts           English / Tamil copy
 └── modules/
     ├── registry.ts       The module list (menu, tiles and routes come from here)
     ├── screens.tsx       Module slug → screen

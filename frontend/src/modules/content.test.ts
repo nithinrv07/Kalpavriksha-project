@@ -70,7 +70,6 @@ describe("GK quiz", () => {
     expect(QUESTION_SECONDS.primary).toBeNull(); // Untimed for foundational learners
     expect(GK_LEVEL_CONFIG.primary.name.en).toBe("Primary Level");
     expect(GK_LEVEL_CONFIG.primary.name.ta).toBe("ஆரம்ப நிலை");
-    expect(GK_LEVEL_CONFIG.primary.name.hi).toBe("प्राथमिक स्तर");
 
     // Level 2: Intermediate Level
     expect(INTERMEDIATE_QUIZ.length).toBe(12);
@@ -78,7 +77,6 @@ describe("GK quiz", () => {
     expect(QUESTION_SECONDS.intermediate).toBe(45);
     expect(GK_LEVEL_CONFIG.intermediate.name.en).toBe("Intermediate Level");
     expect(GK_LEVEL_CONFIG.intermediate.name.ta).toBe("இடைநிலை");
-    expect(GK_LEVEL_CONFIG.intermediate.name.hi).toBe("मध्यम स्तर");
 
     // Level 3: Advanced Level
     expect(ADVANCED_QUIZ.length).toBe(12);
@@ -86,7 +84,6 @@ describe("GK quiz", () => {
     expect(QUESTION_SECONDS.advanced).toBe(30);
     expect(GK_LEVEL_CONFIG.advanced.name.en).toBe("Advanced Level");
     expect(GK_LEVEL_CONFIG.advanced.name.ta).toBe("மேல்நிலை");
-    expect(GK_LEVEL_CONFIG.advanced.name.hi).toBe("उन्नत स्तर");
 
     // Bi-directional level mappings
     expect(bandToGkLevel("junior")).toBe("primary");

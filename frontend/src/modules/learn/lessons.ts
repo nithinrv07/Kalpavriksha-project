@@ -12,7 +12,7 @@ export const CATEGORY_INFO: Record<CategoryId, { readonly name: LocalizedText; r
 };
 
 /** Original-language text (read as written) or the same lesson written in every locale. */
-type LessonText = { readonly lang: Locale; readonly lines: readonly string[] } | Readonly<Record<Locale, readonly string[]>>;
+type LessonText = { readonly lang: Locale; readonly lines: readonly string[] } | Readonly<Record<Locale, readonly string[]> & { hi?: readonly string[] }>;
 
 export type Lesson = {
   readonly id: string;
@@ -378,23 +378,5 @@ export const LEARN_COPY: Record<Locale, LearnCopy> = {
       middle: "ஒரு தலைப்பைத் தேர்ந்தெடுத்து, கேட்டுப் படி, கற்றதைக் குறி.",
       senior: "மீள்பார்வை முறை: தேர்வுக்கு ஏற்ற சிறு பாடங்கள், குறிப்புகளுடன்.",
     },
-  },
-  hi: {
-    all: "सभी",
-    learned: "सीख लिया",
-    listen: "सुनो",
-    stop: "रोको",
-    slower: "धीमे",
-    markDone: "मैंने सीख लिया!",
-    notes: { meaning: "अर्थ", try: "करके देखो", tip: "परीक्षा टिप" },
-    minutes: "मिनट",
-    progress: (d, t) => `${t} में से ${d} सीखे`,
-    silent: "इस डिवाइस पर इस भाषा की आवाज़ नहीं है — चमकते शब्दों के साथ चलो!",
-    allDone: "तुमने यहाँ के सारे पाठ सीख लिए। शानदार!",
-    bandHint: {
-      junior: "कोई कार्ड दबाओ, फिर 'सुनो' दबाओ। मैं तुम्हारे साथ पढ़ूँगा!",
-      middle: "कोई विषय चुनो, साथ में सुनो और जो सीखा उसे चिह्नित करो।",
-      senior: "दोहराई मोड: परीक्षा के लिए छोटे पाठ, टिप्स के साथ।",
     },
-  },
 };

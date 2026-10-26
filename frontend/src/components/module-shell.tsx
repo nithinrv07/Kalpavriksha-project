@@ -83,6 +83,7 @@ export function ModuleShell({
   const Icon = module.icon;
   const profile = progress.profile;
   const band = profile ? bandOf(profile.grade) : null;
+  const isJuniorLearn = module.slug === "learn" && profile && profile.grade >= 1 && profile.grade <= 3;
 
   return (
     <div className="relative isolate min-h-[100dvh] w-full px-2 py-3 sm:px-4 sm:py-6 lg:px-8 lg:py-8">
@@ -100,7 +101,7 @@ export function ModuleShell({
         </div>
 
         {/* Solid deep black layout container */}
-        <div className="relative z-10 flex min-h-[calc(100dvh-4rem)] w-full flex-col overflow-hidden rounded-[22px] border border-line bg-black p-4 shadow-[0_40px_120px_-20px_rgb(0_0_0/0.95),0_0_90px_-25px_rgb(124_58_237/0.35),inset_0_1px_0_rgb(255_255_255/0.06)] sm:p-7 lg:rounded-[28px] lg:p-9">
+        <div className={`relative z-10 flex min-h-[calc(100dvh-4rem)] w-full flex-col overflow-hidden rounded-[22px] border border-line ${isJuniorLearn ? "bg-gradient-to-b from-[#130722] via-[#090314] to-[#04010a]" : "bg-black"} p-4 shadow-[0_40px_120px_-20px_rgb(0_0_0/0.95),0_0_90px_-25px_rgb(124_58_237/0.35),inset_0_1px_0_rgb(255_255_255/0.06)] sm:p-7 lg:rounded-[28px] lg:p-9`}>
           {/* 1. Header: Back to home, module switcher tabs, XP pill & language selector */}
           <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-4 sm:pb-6">
             <div className="flex items-center gap-2">
@@ -140,7 +141,8 @@ export function ModuleShell({
           </header>
 
           {/* 2. Module Banner: Icon, Title, Summary & Grade Badge */}
-          <div className="fade-up mt-6 flex items-start gap-4 sm:mt-8 sm:items-center">
+          {!isJuniorLearn && (
+            <div className="fade-up mt-6 flex items-start gap-4 sm:mt-8 sm:items-center">
             <span className="hidden size-14 shrink-0 place-items-center overflow-hidden rounded-2xl bg-violet-deep/70 text-violet-ink shadow-[0_0_40px_-8px_rgb(124_58_237/0.7)] sm:grid">
               {module.iconImage ? (
                 <Image
@@ -177,9 +179,10 @@ export function ModuleShell({
               )}
             </div>
           </div>
+          )}
 
           {/* 3. Main Content: Everything inside this black layout */}
-          <main className="mt-8 flex-1 sm:mt-10">
+          <main className={`${module.slug === "learn" ? "mt-5 sm:mt-6" : "mt-8 sm:mt-10"} flex-1`}>
             {!hydrated ? (
               <div aria-hidden className="h-72 animate-pulse rounded-3xl border border-line bg-surface/60" />
             ) : profile && band ? (
