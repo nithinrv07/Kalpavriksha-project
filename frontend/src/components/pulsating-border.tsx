@@ -4,6 +4,7 @@
 
 import * as React from "react";
 import { PulsingBorder } from "@paper-design/shaders-react";
+import { useComfort } from "@/lib/comfort";
 
 export interface PulsatingBorderProps {
   colors?: string[];
@@ -69,6 +70,8 @@ function OriginkitBasePulsatingBorder(props: PulsatingBorderProps) {
       ? props.colors
       : DEFAULT_COLORS;
 
+  const calm = useComfort().calm;
+
   const hostRef = React.useRef<HTMLDivElement>(null);
   const [size, setSize] = React.useState({ w: 0, h: 0 });
 
@@ -128,7 +131,7 @@ function OriginkitBasePulsatingBorder(props: PulsatingBorderProps) {
     <PulsingBorder
       colors={colors}
       colorBack={colorBack}
-      speed={speed}
+      speed={calm ? 0 : speed}
       roundness={roundness}
       thickness={thickness / 100}
       softness={softness / 100}

@@ -5,6 +5,7 @@ import type { CSSProperties } from "react";
 import * as React from "react";
 import { useEffect, useRef } from "react";
 import { getQualityBudget } from "@/lib/perf/quality";
+import { isCalm } from "@/lib/comfort";
 
 const ADVANCED_DEFAULTS = {
     seed: 7,
@@ -998,6 +999,10 @@ function OriginkitBaseNightSceneBacklit(props: NightSceneBacklitProps) {
                 return;
             }
             raf = requestAnimationFrame(frame);
+            if (isCalm()) {
+                last = now;
+                return;
+            }
             if (!gateOpen) {
                 // Scrolled past the hero: keep the petals drifting, at a fraction of the cost.
                 if (now - lastAmbient < (1000 / Math.max(1, ambientFps)) * 0.8) return;

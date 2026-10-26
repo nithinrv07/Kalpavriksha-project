@@ -432,3 +432,48 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------- Comfort switches (menu → Comfort) ---------- */
+
+/* Calm: freeze every CSS animation/transition and drop the moving glows. */
+html[data-calm="true"] *,
+html[data-calm="true"] *::before,
+html[data-calm="true"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+html[data-calm="true"] .glow-drift,
+html[data-calm="true"] .beam-border::before,
+html[data-calm="true"] .glow-tile::before,
+html[data-calm="true"] .glow-tile::after {
+  display: none !important;
+}
+
+/* Keep the XP chip readable without its float animation. */
+html[data-calm="true"] .float-up {
+  animation: none !important;
+  opacity: 1;
+  transform: none;
+}
+
+/* Projector: readable from the back row, with glass panels made solid. */
+html[data-projector="true"] {
+  --muted: #f4f1ff;
+  --line: rgb(255 255 255 / 0.34);
+  --line-strong: rgb(255 255 255 / 0.6);
+}
+
+html[data-projector="true"] [class*="backdrop-blur"] {
+  backdrop-filter: none !important;
+}
+
+html[data-projector="true"] main p {
+  font-size: max(16px, 1em) !important;
+}
+
+html[data-projector="true"] main a,
+html[data-projector="true"] main button {
+  font-size: max(15px, 1em) !important;
+}

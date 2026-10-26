@@ -4,6 +4,7 @@
 
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
+import { isCalm } from "@/lib/comfort";
 
 type Movement = "continuous" | "step";
 
@@ -235,6 +236,10 @@ export function NeonBorder(props: NeonBorderProps) {
             }
             const dt = Math.min(0.05, Math.max(0, (now - last) / 1000));
             last = now;
+            if (isCalm()) {
+                raf = requestAnimationFrame(frame);
+                return;
+            }
             const p = live.current;
             const s = Math.max(0, Math.min(20, p.speed));
 

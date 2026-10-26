@@ -3,6 +3,7 @@
 "use client";
 
 import * as React from "react";
+import { isCalm } from "@/lib/comfort";
 
 export interface GalleryItem {
   image?: string;
@@ -1056,6 +1057,11 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
         return;
       }
       raf = requestAnimationFrame(frame);
+
+      if (isCalm()) {
+        prev = performance.now();
+        return;
+      }
 
       const now = performance.now();
       const dt = Math.min(0.05, (now - prev) / 1000);

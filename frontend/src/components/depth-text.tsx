@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { isCalm } from "@/lib/comfort";
 import "./depth-text.css";
 
 const MAX_LAYERS = 64;
@@ -201,6 +202,12 @@ export function DepthText({
     const tick = (now: number) => {
       const delta = lastTime ? Math.min(now - lastTime, 50) : 16;
       lastTime = now;
+
+      if (isCalm() && introRef.current >= 1) {
+        frameId = requestAnimationFrame(tick);
+        lastTime = now;
+        return;
+      }
 
       if (introRef.current < 1) {
         introRef.current = Math.min(1, introRef.current + delta / INTRO_MS);

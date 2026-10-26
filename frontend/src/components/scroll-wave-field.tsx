@@ -7,6 +7,7 @@ import { useEffect, useRef } from "react";
 import { animate, motionValue } from "motion/react";
 import { clampDpr, getQualityBudget } from "@/lib/perf/quality";
 import { useSceneVisibility } from "@/lib/perf/use-scene-visibility";
+import { isCalm } from "@/lib/comfort";
 
 type Motion = {
   type?: "spring" | "tween" | "keyframes" | "inertia";
@@ -590,6 +591,11 @@ function OriginkitBaseScrollWaveField(props: ScrollWaveFieldProps) {
         return;
       }
       raf = requestAnimationFrame(frame);
+
+      if (isCalm()) {
+        last = now;
+        return;
+      }
 
       // Ambient decoration does not need every display refresh.
       // Small tolerance so a 60 Hz display is not rounded down to 30 fps.

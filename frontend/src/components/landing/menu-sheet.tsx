@@ -1,19 +1,70 @@
 "use client";
 
-import { ArrowUpRight, X } from "@phosphor-icons/react/ssr";
+import { ArrowUpRight, MoonStars, ProjectorScreen, X } from "@phosphor-icons/react/ssr";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { BrandMark } from "@/components/brand-mark";
 import { useLocale } from "@/components/locale-provider";
+import { setComfort, useComfort } from "@/lib/comfort";
 import { LOCALES, LOCALE_LABEL } from "@/lib/i18n";
 import { accentOf } from "@/modules/accents";
 import { MODULES } from "@/modules/registry";
+
+/** One on/off row for the two comfort switches. */
+function ComfortRow({
+  checked,
+  label,
+  hint,
+  icon,
+  onChange,
+}: {
+  checked: boolean;
+  label: string;
+  hint: string;
+  icon: ReactNode;
+  onChange: (on: boolean) => void;
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      onClick={() => onChange(!checked)}
+      className="flex w-full items-center gap-3 rounded-2xl border border-transparent p-3 text-left transition-colors duration-200 hover:border-line hover:bg-white/[0.04]"
+    >
+      <span
+        className={`grid size-11 shrink-0 place-items-center rounded-xl transition-colors duration-200 ${
+          checked ? "bg-violet-deep/60 text-violet-ink" : "bg-white/[0.05] text-muted"
+        }`}
+      >
+        {icon}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-[15px] text-text">{label}</span>
+        <span className="block text-[12px] text-muted">{hint}</span>
+      </span>
+      <span
+        aria-hidden
+        className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${
+          checked ? "bg-violet" : "bg-white/15"
+        }`}
+      >
+        <span
+          className={`absolute top-0.5 size-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${
+            checked ? "translate-x-[22px]" : "translate-x-0.5"
+          }`}
+        />
+      </span>
+    </button>
+  );
+}
 
 /** Glass side sheet built on native <dialog>: focus trap, Esc and inert page for free. */
 export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
   const { locale, setLocale, t } = useLocale();
+  const comfort = useComfort();
 
   useEffect(() => {
     const dialog = ref.current;
@@ -32,7 +83,7 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
       aria-label={t.menu}
       className="fixed inset-y-3 left-3 m-0 h-auto max-h-none w-[min(420px,calc(100%-1.5rem))] rounded-3xl border border-line-strong bg-surface/85 p-0 text-text shadow-[0_30px_80px_-10px_rgb(0_0_0/0.8)] backdrop-blur-2xl backdrop:bg-black/60 backdrop:backdrop-blur-sm open:animate-[fade-up_0.45s_var(--ease-out)_both]"
     >
-      <div className="flex h-full flex-col p-5">
+      <div className="flex h-full flex-col overflow-y-auto p-5">
         <div className="flex items-center justify-between">
           <span className="flex items-center gap-2.5 font-display text-lg tracking-tight">
             <BrandMark className="size-6 text-violet" />
@@ -85,7 +136,27 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
           })}
         </nav>
 
-        <div className="mt-8 border-t border-line pt-6">
+        <div className="mt-6 border-t border-line pt-5">
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">{t.comfort}</p>
+          <div className="mt-2 flex flex-col gap-0.5">
+            <ComfortRow
+              checked={comfort.calm}
+              label={t.calm}
+              hint={t.calmHint}
+              icon={<MoonStars size={20} weight="duotone" />}
+              onChange={(on) => setComfort("calm", on)}
+            />
+            <ComfortRow
+              checked={comfort.projector}
+              label={t.projector}
+              hint={t.projectorHint}
+              icon={<ProjectorScreen size={20} weight="duotone" />}
+              onChange={(on) => setComfort("projector", on)}
+            />
+          </div>
+        </div>
+
+        <div className="mt-6 border-t border-line pt-5">
           <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">{t.language}</p>
           <div role="radiogroup" aria-label={t.language} className="mt-3 grid grid-cols-3 gap-2">
             {LOCALES.map((l) => (

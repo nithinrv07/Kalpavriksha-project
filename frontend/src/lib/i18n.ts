@@ -39,6 +39,11 @@ export type Copy = {
   readonly partner: string;
   readonly close: string;
   readonly language: string;
+  readonly comfort: string;
+  readonly calm: string;
+  readonly calmHint: string;
+  readonly projector: string;
+  readonly projectorHint: string;
   readonly comingSoon: string;
   readonly signInSoon: string;
   readonly back: string;
@@ -87,6 +92,11 @@ export const COPY = {
     partner: "Technology partner: GSX Chennai Chapter",
     close: "Close",
     language: "Language",
+    comfort: "Comfort",
+    calm: "Calm mode",
+    calmHint: "Stops motion and glow",
+    projector: "Projector mode",
+    projectorHint: "Bigger, brighter text",
     comingSoon: "This module is being built. It will open right here.",
     signInSoon: "Student and staff sign-in arrives with the shared student profile.",
     back: "Back to home",
@@ -130,6 +140,11 @@ export const COPY = {
     partner: "தொழில்நுட்பக் கூட்டாளர்: GSX சென்னை",
     close: "மூடு",
     language: "மொழி",
+    comfort: "வசதி",
+    calm: "அமைதிப் பயன்முறை",
+    calmHint: "இயக்கமும் ஒளிர்வும் நிற்கும்",
+    projector: "ப்ரொஜெக்டர் பயன்முறை",
+    projectorHint: "பெரிய, தெளிவான எழுத்து",
     comingSoon: "இந்தத் தொகுதி உருவாக்கப்பட்டு வருகிறது. விரைவில் இங்கே திறக்கும்.",
     signInSoon: "மாணவர் மற்றும் ஆசிரியர் உள்நுழைவு, பொதுவான மாணவர் சுயவிவரத்துடன் வரும்.",
     back: "முகப்புக்குத் திரும்பு",
@@ -173,6 +188,11 @@ export const COPY = {
     partner: "तकनीकी साझेदार: GSX चेन्नई चैप्टर",
     close: "बंद करें",
     language: "भाषा",
+    comfort: "आराम",
+    calm: "शांत मोड",
+    calmHint: "गति और चमक बंद",
+    projector: "प्रोजेक्टर मोड",
+    projectorHint: "बड़ा, चमकीला टेक्स्ट",
     comingSoon: "यह मॉड्यूल अभी बनाया जा रहा है। जल्द ही यहीं खुलेगा।",
     signInSoon: "विद्यार्थी और स्टाफ़ साइन-इन साझा विद्यार्थी प्रोफ़ाइल के साथ आएगा।",
     back: "मुख पृष्ठ पर लौटें",

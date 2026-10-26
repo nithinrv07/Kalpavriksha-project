@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText as GSAPSplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
+import { isCalm } from "@/lib/comfort";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, GSAPSplitText, useGSAP);
@@ -264,6 +265,11 @@ export const SplitText: React.FC<SplitTextProps> = ({
 
       const tick = (now: number) => {
         raf = 0;
+        if (isCalm()) {
+          raf = requestAnimationFrame(tick);
+          last = now;
+          return;
+        }
         const dt = Math.min(0.032, Math.max(0.001, (now - last) / 1000));
         last = now;
         const spots = liveRef.current.hoverEffect === "lift" && pointer.inside && revealed ? centers : null;

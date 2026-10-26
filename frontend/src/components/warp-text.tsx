@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Renderer, Program, Mesh, Triangle, Texture } from "ogl";
+import { isCalm } from "@/lib/comfort";
 import "./warp-text.css";
 
 export const LENS_MODES = { bulge: 0, pinch: 1, swirl: 2 } as const;
@@ -646,6 +647,11 @@ export const WarpText = ({
 
     const loop = (now: number) => {
       if (disposed || contextLost) return;
+      if (isCalm()) {
+        lastFrame = now;
+        raf = requestAnimationFrame(loop);
+        return;
+      }
 
       const elapsed = (now - startTime) * 0.001;
       const delta = lastFrame ? Math.min(now - lastFrame, 50) : 16;
