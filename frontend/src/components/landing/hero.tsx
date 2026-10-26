@@ -86,7 +86,7 @@ export function Hero() {
             <div className="relative flex h-full w-full flex-col overflow-hidden bg-transparent lg:block">
 
               {/* Top bar — flows on mobile, pinned on desktop */}
-              <div className="z-20 flex items-center justify-between gap-3 p-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
+              <div className="z-20 flex items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
                 <span className="flex items-center gap-2 font-headline font-semibold text-lg tracking-tight lg:hidden">
                   <BrandMark className="size-6 text-amber-400" strokeWidth={1.8} />
                   Kalpavriksha
@@ -99,7 +99,7 @@ export function Hero() {
                       e.stopPropagation();
                       setIsFlipped(true);
                     }}
-                    className="flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.06] px-3.5 font-mono text-[13px] text-text transition-colors duration-200 hover:border-violet/40 hover:bg-violet-deep hover:text-violet-ink active:scale-[0.98]"
+                    className="flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.06] px-3.5 font-mono text-[14px] text-text transition-colors duration-200 hover:border-violet/40 hover:bg-violet-deep hover:text-violet-ink active:scale-[0.98]"
                     title="Explore Particle Tree View"
                   >
                     <ArrowsClockwise size={15} />
@@ -107,7 +107,7 @@ export function Hero() {
                   </button>
                   <Link
                     href="/sign-in"
-                    className="hidden h-11 items-center rounded-xl border border-violet/25 bg-violet-deep px-5 font-mono text-[13px] text-violet-ink transition-colors duration-200 hover:bg-[#4c1d95] active:scale-[0.98] sm:flex"
+                    className="hidden h-11 items-center rounded-xl border border-violet/25 bg-violet-deep px-5 font-mono text-[14px] text-violet-ink transition-colors duration-200 hover:bg-[#4c1d95] active:scale-[0.98] sm:flex"
                   >
                     {t.signIn}
                   </Link>
@@ -208,7 +208,7 @@ export function Hero() {
                 {/* 2. Middle interactive showcase: cards span the rail, contents centred */}
                 <div className="hidden w-full flex-col items-center gap-3 sm:flex">
                   {/* Tagline / Subtitle */}
-                  <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-ink/80 text-center">
+                  <p className="font-mono text-[12px] font-semibold uppercase tracking-[0.18em] text-violet-ink/80 text-center">
                     {t.tagline[0]} — {t.tagline[1]}
                   </p>
 
@@ -221,12 +221,12 @@ export function Hero() {
                         <Link
                           key={m.id}
                           href={`/m/${m.slug}`}
-                          className="group flex w-full items-center justify-between gap-3 rounded-2xl border border-white/12 bg-[#140d28]/90 px-3.5 py-2.5 text-center shadow-[0_8px_24px_-4px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-violet/50 hover:bg-[#1e133c] hover:shadow-[0_12px_28px_-4px_rgba(147,51,234,0.3)]"
+                          className="group flex min-h-11 w-full items-center justify-between gap-3 rounded-2xl border border-white/12 bg-[#140d28]/90 px-3.5 py-3 text-center shadow-[0_8px_24px_-4px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-violet/50 hover:bg-[#1e133c] hover:shadow-[0_12px_28px_-4px_rgba(147,51,234,0.3)]"
                         >
                           <span className={`w-8 shrink-0 text-center font-mono text-[11px] font-semibold ${accent.text} transition-colors`}>
                             {m.index}
                           </span>
-                          <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-text group-hover:text-violet-ink transition-colors">
+                          <span className="min-w-0 flex-1 truncate text-[14px] font-medium text-text group-hover:text-violet-ink transition-colors">
                             {m.title[locale]}
                           </span>
                           <span className={`grid size-8 shrink-0 place-items-center overflow-hidden rounded-xl border border-white/10 bg-surface-2 ${accent.text} shadow-sm transition-transform duration-200 group-hover:scale-105`}>
@@ -252,7 +252,7 @@ export function Hero() {
                     {t.stats.map((stat, i) => (
                       <span
                         key={i}
-                        className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.05] px-2.5 py-1 font-mono text-[10.5px] text-muted backdrop-blur-md shadow-sm transition-colors hover:border-white/20"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 font-mono text-[11.5px] text-muted backdrop-blur-md shadow-sm transition-colors hover:border-white/20"
                       >
                         <strong className="font-semibold text-amber-300">{stat.value}</strong>
                         <span className="text-muted/90">{stat.label}</span>
@@ -263,10 +263,10 @@ export function Hero() {
 
                 {/* 3. Bottom copy & explore link */}
                 <div className="flex w-full flex-col items-center text-center">
-                  <p className="w-full font-sans text-[13px] leading-relaxed text-muted/90">{t.lead}</p>
+                  <p className="w-full font-sans text-[14px] leading-relaxed text-muted/90">{t.lead}</p>
                   <a
                     href="#modules"
-                    className="group mt-3.5 inline-flex items-center gap-2 rounded-full border border-violet/30 bg-violet/10 px-4 py-2 font-mono text-[12px] font-medium text-violet-ink backdrop-blur-md shadow-[0_4px_16px_rgba(147,51,234,0.2)] transition-all duration-300 hover:border-violet/60 hover:bg-violet-deep hover:text-white hover:shadow-[0_6px_25px_rgba(168,85,247,0.35)] active:scale-[0.98]"
+                    className="group mt-3.5 inline-flex min-h-11 items-center gap-2 rounded-full border border-violet/30 bg-violet/10 px-5 py-2 font-mono text-[13px] font-medium text-violet-ink backdrop-blur-md shadow-[0_4px_16px_rgba(147,51,234,0.2)] transition-all duration-300 hover:border-violet/60 hover:bg-violet-deep hover:text-white hover:shadow-[0_6px_25px_rgba(168,85,247,0.35)] active:scale-[0.98]"
                   >
                     <span>{t.explore}</span>
                     <ArrowDown size={13} className="transition-transform duration-200 group-hover:translate-y-0.5 text-amber-300" />
@@ -280,7 +280,7 @@ export function Hero() {
             <div className="relative flex h-full w-full flex-col overflow-hidden bg-transparent lg:block">
 
               {/* Top bar — flows on mobile, pinned on desktop */}
-              <div className="z-20 flex items-center justify-between gap-3 p-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
+              <div className="z-20 flex items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
                 <span className="flex items-center gap-2 font-headline font-semibold text-lg tracking-tight lg:hidden">
                   <BrandMark className="size-6 text-amber-400" strokeWidth={1.8} />
                   Kalpavriksha
@@ -293,7 +293,7 @@ export function Hero() {
                       e.stopPropagation();
                       setIsFlipped(false);
                     }}
-                    className="flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.06] px-3.5 font-mono text-[13px] text-text transition-colors duration-200 hover:border-violet/40 hover:bg-violet-deep hover:text-violet-ink active:scale-[0.98]"
+                    className="flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.06] px-3.5 font-mono text-[14px] text-text transition-colors duration-200 hover:border-violet/40 hover:bg-violet-deep hover:text-violet-ink active:scale-[0.98]"
                     title="Return to 3D Sphere Gallery"
                   >
                     <ArrowsClockwise size={15} />
@@ -301,7 +301,7 @@ export function Hero() {
                   </button>
                   <Link
                     href="/sign-in"
-                    className="hidden h-11 items-center rounded-xl border border-violet/25 bg-violet-deep px-5 font-mono text-[13px] text-violet-ink transition-colors duration-200 hover:bg-[#4c1d95] active:scale-[0.98] sm:flex"
+                    className="hidden h-11 items-center rounded-xl border border-violet/25 bg-violet-deep px-5 font-mono text-[14px] text-violet-ink transition-colors duration-200 hover:bg-[#4c1d95] active:scale-[0.98] sm:flex"
                   >
                     {t.signIn}
                   </Link>
@@ -367,8 +367,8 @@ export function Hero() {
                     className={`fade-up absolute ${STAT_POSITIONS[i] ?? ""} text-center`}
                     style={{ animationDelay: `${900 + i * 120}ms` }}
                   >
-                    <span className="block font-mono text-[13px] text-text">{stat.value}</span>
-                    <span className="block max-w-[9rem] font-mono text-[10px] leading-tight text-muted">{stat.label}</span>
+                    <span className="block font-mono text-[14px] text-text">{stat.value}</span>
+                    <span className="block max-w-[9rem] font-mono text-[11px] leading-tight text-muted">{stat.label}</span>
                   </div>
                 ))}
               </div>
@@ -414,7 +414,7 @@ export function Hero() {
                 className="fade-up relative z-10 px-5 pt-5 sm:px-8 lg:absolute lg:bottom-10 lg:right-8 xl:right-12 lg:max-w-[380px] lg:p-0 lg:text-right"
                 style={{ animationDelay: "1100ms" }}
               >
-                <p className="font-mono text-[12.5px] leading-relaxed text-muted">{t.lead}</p>
+                <p className="font-mono text-[13.5px] leading-relaxed text-muted">{t.lead}</p>
                 <a
                   href="#modules"
                   className="group mt-4 inline-flex items-center gap-2 text-sm text-text underline decoration-line-strong underline-offset-4 transition-colors duration-200 hover:decoration-violet"
@@ -448,12 +448,12 @@ export function Hero() {
                       }}
                       onBlur={() => setHovering(false)}
                       aria-current={active ? "true" : undefined}
-                      className={`relative flex shrink-0 items-center gap-2.5 overflow-hidden rounded-full border py-2 pl-2 pr-4 text-[13px] transition-colors duration-300 ${
+                      className={`relative flex min-h-11 shrink-0 items-center gap-2.5 overflow-hidden rounded-full border py-2.5 pl-2 pr-5 text-[14px] transition-colors duration-300 ${
                         active ? "border-line-strong bg-white/[0.08] text-text" : "border-line text-muted hover:text-text"
                       }`}
                     >
                       <span
-                        className={`grid size-7 place-items-center rounded-full font-mono text-[10px] transition-colors duration-300 ${
+                        className={`grid size-8 place-items-center rounded-full font-mono text-[10.5px] transition-colors duration-300 ${
                           active ? accent.solid : `bg-white/[0.06] text-muted`
                         }`}
                       >

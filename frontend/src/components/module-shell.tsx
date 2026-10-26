@@ -126,7 +126,7 @@ export function ModuleShell({
                       href={`/m/${m.slug}`}
                       aria-current={active ? "page" : undefined}
                       title={m.title[locale]}
-                      className={`grid size-9 place-items-center rounded-lg transition-colors duration-200 ${
+                      className={`grid size-10 place-items-center rounded-lg transition-colors duration-200 ${
                         active ? tabAccent.tabActive : "text-muted hover:bg-white/[0.06] hover:text-text"
                       }`}
                     >

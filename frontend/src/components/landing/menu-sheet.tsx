@@ -74,7 +74,7 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className={`block font-mono text-[11px] ${accent.text}`}>{m.index}</span>
-                  <span className="block truncate text-[15px]">{m.title[locale]}</span>
+                  <span className="block truncate text-[16px]">{m.title[locale]}</span>
                 </span>
                 <ArrowUpRight
                   size={16}

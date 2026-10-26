@@ -28,7 +28,7 @@ export function BentoModules() {
           text={t.modulesTitle}
           className="font-display text-[clamp(36px,5vw,72px)] leading-[0.98] tracking-[-0.04em] text-balance text-text"
         />
-        <p data-reveal="up" className="max-w-md text-[15px] leading-relaxed text-muted lg:justify-self-end">
+        <p data-reveal="up" className="max-w-md text-[16px] leading-relaxed text-muted lg:justify-self-end">
           {t.modulesLead}
         </p>
       </div>
@@ -99,10 +99,10 @@ export function BentoModules() {
               <h3 className={`font-display text-[clamp(26px,2.6vw,40px)] font-semibold leading-tight tracking-[-0.03em] text-text transition-colors duration-300 ${a1.textHover}`}>
                 {m1.title[locale]}
               </h3>
-              <p className="mt-3 max-w-md text-[14.5px] leading-relaxed text-muted">
+              <p className="mt-3 max-w-md text-[15.5px] leading-relaxed text-muted">
                 {m1.summary[locale]}
               </p>
-              <div className={`mt-5 hidden items-center gap-2 font-mono text-[12.5px] font-medium ${a1.text} transition-colors duration-200 ${a1.textHover} md:inline-flex`}>
+              <div className={`mt-5 hidden items-center gap-2 font-mono text-[13.5px] font-medium ${a1.text} transition-colors duration-200 ${a1.textHover} md:inline-flex`}>
                 <span>{t.open ?? "Explore module"}</span>
                 <ArrowUpRight size={15} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </div>
@@ -149,10 +149,10 @@ export function BentoModules() {
               <h3 className={`font-display text-[clamp(26px,2.6vw,40px)] font-semibold leading-tight tracking-[-0.03em] text-text transition-colors duration-300 ${a2.textHover}`}>
                 {m2.title[locale]}
               </h3>
-              <p className="mt-3 max-w-md text-[14.5px] leading-relaxed text-muted">
+              <p className="mt-3 max-w-md text-[15.5px] leading-relaxed text-muted">
                 {m2.summary[locale]}
               </p>
-              <div className={`mt-5 hidden items-center gap-2 font-mono text-[12.5px] font-medium ${a2.text} transition-colors duration-200 ${a2.textHover} md:inline-flex`}>
+              <div className={`mt-5 hidden items-center gap-2 font-mono text-[13.5px] font-medium ${a2.text} transition-colors duration-200 ${a2.textHover} md:inline-flex`}>
                 <span>{t.open ?? "Explore module"}</span>
                 <ArrowUpRight size={15} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </div>
@@ -288,10 +288,10 @@ export function BentoModules() {
               <h3 className="font-display text-[clamp(26px,2.6vw,40px)] font-semibold leading-tight tracking-[-0.03em] text-text transition-colors duration-300 group-hover:text-amber-300">
                 {m3.title[locale]}
               </h3>
-              <p className="mt-3 max-w-md text-[14.5px] leading-relaxed text-muted">
+              <p className="mt-3 max-w-md text-[15.5px] leading-relaxed text-muted">
                 {m3.summary[locale]}
               </p>
-              <div className="mt-5 hidden items-center gap-2 font-mono text-[12.5px] font-medium text-amber-400 transition-colors duration-200 group-hover:text-amber-300 md:inline-flex">
+              <div className="mt-5 hidden items-center gap-2 font-mono text-[13.5px] font-medium text-amber-400 transition-colors duration-200 group-hover:text-amber-300 md:inline-flex">
                 <span>{t.open ?? "Explore module"}</span>
                 <ArrowUpRight size={15} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </div>
@@ -306,7 +306,7 @@ export function BentoModules() {
           <span className="grid size-7 place-items-center rounded-lg border border-white/15 bg-white/[0.04] text-muted">
             <Plus size={14} />
           </span>
-          <p className="text-[13px] text-muted">
+          <p className="text-[14px] text-muted">
             <strong className="font-medium text-text">{t.soonTitle}</strong> — {t.soonBody}
           </p>
         </div>
