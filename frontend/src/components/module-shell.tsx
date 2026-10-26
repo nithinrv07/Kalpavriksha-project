@@ -15,6 +15,7 @@ import { useProgress } from "@/components/progress-store";
 import { BAND_INFO } from "@/lib/bands";
 import { bandOf, levelOf, localDay, streak, type Band, type Profile } from "@/lib/progress";
 import { MODULES, type KalpaModule } from "@/modules/registry";
+import { accentOf } from "@/modules/accents";
 
 /** XP, level and streak: the shared student profile, visible on every module. */
 function ProgressPill() {
@@ -81,6 +82,7 @@ export function ModuleShell({
   const progress = useProgress();
   const hydrated = useHydrated();
   const Icon = module.icon;
+  const accent = accentOf(module.accent);
   const profile = progress.profile;
   const band = profile ? bandOf(profile.grade) : null;
 
@@ -96,7 +98,7 @@ export function ModuleShell({
       >
         {/* Pulsating border glow around the module frame boundaries */}
         <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
-          <PulsatingBorder colors={["#000000", "#ffffff", "#a855f7"]} thickness={0.35} />
+          <PulsatingBorder colors={["#000000", "#ffffff", accent.hex]} thickness={0.35} />
         </div>
 
         {/* Solid deep black layout container */}
@@ -116,6 +118,7 @@ export function ModuleShell({
                 {MODULES.map((m) => {
                   const ModIcon = m.icon;
                   const active = m.slug === module.slug;
+                  const tabAccent = accentOf(m.accent);
                   return (
                     <Link
                       key={m.id}
@@ -123,7 +126,7 @@ export function ModuleShell({
                       aria-current={active ? "page" : undefined}
                       title={m.title[locale]}
                       className={`grid size-9 place-items-center rounded-lg transition-colors duration-200 ${
-                        active ? "bg-violet-deep text-violet-ink" : "text-muted hover:bg-white/[0.06] hover:text-text"
+                        active ? tabAccent.tabActive : "text-muted hover:bg-white/[0.06] hover:text-text"
                       }`}
                     >
                       <ModIcon size={18} weight={active ? "fill" : "regular"} aria-hidden />
@@ -141,7 +144,7 @@ export function ModuleShell({
 
           {/* 2. Module Banner: Icon, Title, Summary & Grade Badge */}
           <div className="fade-up mt-6 flex items-start gap-4 sm:mt-8 sm:items-center">
-            <span className="hidden size-14 shrink-0 place-items-center overflow-hidden rounded-2xl bg-violet-deep/70 text-violet-ink shadow-[0_0_40px_-8px_rgb(124_58_237/0.7)] sm:grid">
+            <span className={`hidden size-14 shrink-0 place-items-center overflow-hidden rounded-2xl sm:grid ${accent.banner}`}>
               {module.iconImage ? (
                 <Image
                   src={module.iconImage}
@@ -155,7 +158,7 @@ export function ModuleShell({
               )}
             </span>
             <div>
-              <p className="font-mono text-[12px] text-violet">{module.index}</p>
+              <p className={`font-mono text-[12px] ${accent.text}`}>{module.index}</p>
               <h1
                 className={`font-display text-text ${
                   locale === "en"

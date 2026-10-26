@@ -13,6 +13,7 @@ import { SparkleButton } from "@/components/sparkle-button";
 import { SphereGallery3D } from "@/components/sphere-gallery-3d";
 import type { ShapeName } from "@/lib/shapes";
 import { MODULES } from "@/modules/registry";
+import { accentOf } from "@/modules/accents";
 import { LangSelect } from "./lang-select";
 import { MenuSheet } from "./menu-sheet";
 
@@ -215,19 +216,20 @@ export function Hero() {
                   <div className="flex flex-col items-center gap-2.5 w-full">
                     {MODULES.map((m) => {
                       const Icon = m.icon;
+                      const accent = accentOf(m.accent);
                       return (
                         <Link
                           key={m.id}
                           href={`/m/${m.slug}`}
                           className="group flex w-full items-center justify-between gap-3 rounded-2xl border border-white/12 bg-[#140d28]/90 px-3.5 py-2.5 text-center shadow-[0_8px_24px_-4px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-violet/50 hover:bg-[#1e133c] hover:shadow-[0_12px_28px_-4px_rgba(147,51,234,0.3)]"
                         >
-                          <span className="w-8 shrink-0 text-center font-mono text-[11px] font-semibold text-amber-400 group-hover:text-amber-300 transition-colors">
+                          <span className={`w-8 shrink-0 text-center font-mono text-[11px] font-semibold ${accent.text} transition-colors`}>
                             {m.index}
                           </span>
                           <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-text group-hover:text-violet-ink transition-colors">
                             {m.title[locale]}
                           </span>
-                          <span className="grid size-8 shrink-0 place-items-center overflow-hidden rounded-xl border border-white/10 bg-surface-2 text-violet-ink shadow-sm transition-transform duration-200 group-hover:scale-105">
+                          <span className={`grid size-8 shrink-0 place-items-center overflow-hidden rounded-xl border border-white/10 bg-surface-2 ${accent.text} shadow-sm transition-transform duration-200 group-hover:scale-105`}>
                             {m.iconImage ? (
                               <Image
                                 src={m.iconImage}
@@ -434,6 +436,7 @@ export function Hero() {
               >
                 {MODULES.map((m, i) => {
                   const active = slot === i;
+                  const accent = accentOf(m.accent);
                   return (
                     <Link
                       key={m.id}
@@ -451,7 +454,7 @@ export function Hero() {
                     >
                       <span
                         className={`grid size-7 place-items-center rounded-full font-mono text-[10px] transition-colors duration-300 ${
-                          active ? "bg-violet text-bg" : "bg-white/[0.06] text-muted"
+                          active ? accent.solid : `bg-white/[0.06] text-muted`
                         }`}
                       >
                         {m.index}
@@ -460,7 +463,7 @@ export function Hero() {
                       {active && !hovering && (
                         <span
                           aria-hidden
-                          className="absolute inset-x-3 bottom-0 h-px origin-left bg-violet"
+                          className={`absolute inset-x-3 bottom-0 h-px origin-left ${accent.bar}`}
                           style={{ animation: `chip-progress ${CYCLE_MS}ms linear both` }}
                         />
                       )}

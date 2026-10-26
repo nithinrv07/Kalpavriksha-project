@@ -2,6 +2,7 @@ import type { Icon } from "@phosphor-icons/react";
 import { BookOpenText, Flag, Plant } from "@phosphor-icons/react/ssr";
 import type { LocalizedText } from "@/lib/i18n";
 import type { ShapeName } from "@/lib/shapes";
+import type { AccentKey } from "@/modules/accents";
 
 /**
  * Every feature of the Kalpavriksha app is a module described here.
@@ -20,6 +21,8 @@ export type KalpaModule = {
   readonly shape: ShapeName;
   /** Bento tile footprint on large screens. */
   readonly tile: "feature" | "tall" | "standard";
+  /** Colour identity for this module, used across every screen. */
+  readonly accent: AccentKey;
 };
 
 export const MODULES: readonly KalpaModule[] = [
@@ -37,6 +40,7 @@ export const MODULES: readonly KalpaModule[] = [
     iconImage: "/images/modules/digital-learning-icon.png",
     shape: "play",
     tile: "feature",
+    accent: "violet",
   },
   {
     id: "evaluation",
@@ -52,6 +56,7 @@ export const MODULES: readonly KalpaModule[] = [
     iconImage: "/images/modules/holistic-growth-icon.png",
     shape: "bars",
     tile: "tall",
+    accent: "teal",
   },
   {
     id: "gk-songs",
@@ -71,6 +76,7 @@ export const MODULES: readonly KalpaModule[] = [
     iconImage: "/images/modules/gk-songs-icon.png",
     shape: "chakra",
     tile: "standard",
+    accent: "amber",
   },
 ] as const satisfies readonly KalpaModule[];
 

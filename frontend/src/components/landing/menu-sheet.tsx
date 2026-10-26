@@ -7,6 +7,7 @@ import { useEffect, useRef } from "react";
 import { BrandMark } from "@/components/brand-mark";
 import { useLocale } from "@/components/locale-provider";
 import { LOCALES, LOCALE_LABEL } from "@/lib/i18n";
+import { accentOf } from "@/modules/accents";
 import { MODULES } from "@/modules/registry";
 
 /** Glass side sheet built on native <dialog>: focus trap, Esc and inert page for free. */
@@ -50,6 +51,7 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
         <nav className="mt-8 flex flex-col gap-1.5">
           {MODULES.map((m) => {
             const Icon = m.icon;
+            const accent = accentOf(m.accent);
             return (
               <Link
                 key={m.id}
@@ -57,7 +59,7 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
                 onClick={onClose}
                 className="group flex items-center gap-4 rounded-2xl border border-transparent p-3 transition-colors duration-200 hover:border-line hover:bg-white/[0.04]"
               >
-                <span className="grid size-11 shrink-0 place-items-center overflow-hidden rounded-xl bg-violet-deep/60 text-violet-ink">
+                <span className={`grid size-11 shrink-0 place-items-center overflow-hidden rounded-xl ${accent.chip}`}>
                   {m.iconImage ? (
                     <Image
                       src={m.iconImage}
@@ -71,7 +73,7 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
                   )}
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block font-mono text-[11px] text-violet">{m.index}</span>
+                  <span className={`block font-mono text-[11px] ${accent.text}`}>{m.index}</span>
                   <span className="block truncate text-[15px]">{m.title[locale]}</span>
                 </span>
                 <ArrowUpRight

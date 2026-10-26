@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useLocale } from "@/components/locale-provider";
 import { NeonBorder } from "@/components/neon-border";
 import { RevealWords } from "@/components/scroll-fx";
+import { accentOf } from "@/modules/accents";
 import { MODULES } from "@/modules/registry";
 
 export function BentoModules() {
@@ -14,6 +15,10 @@ export function BentoModules() {
   const m1 = MODULES[0]!; // Digital Learning (01)
   const m2 = MODULES[1]!; // Holistic Growth (02)
   const m3 = MODULES[2]!; // GK & Patriotic Songs (03)
+
+  const a1 = accentOf(m1.accent);
+  const a2 = accentOf(m2.accent);
+  const a3 = accentOf(m3.accent);
 
   return (
     <section id="modules" className="relative mx-auto w-full max-w-[1360px] scroll-mt-12 px-4 py-20 sm:px-6 lg:px-8 lg:py-32">
@@ -40,7 +45,7 @@ export function BentoModules() {
           {/* Animated Neon Border */}
           <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
             <NeonBorder
-              color="#D0A2F4"
+              color={a1.hex}
               rounded={24}
               thickness={4}
               glow={95}
@@ -52,21 +57,21 @@ export function BentoModules() {
 
           <Link
             href={`/m/${m1.slug}`}
-            className="group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl border border-white/15 bg-[#120a24]/92 px-6 py-8 shadow-[0_16px_50px_-5px_rgba(0,0,0,0.85),0_0_30px_rgba(147,51,234,0.18)] backdrop-blur-2xl transition-all duration-300 hover:bg-[#1a0e33] hover:shadow-[0_20px_60px_-5px_rgba(0,0,0,0.95),0_0_45px_rgba(168,85,247,0.35)] sm:px-8 sm:py-10 md:grid-cols-[120px_1fr_1.2fr] lg:grid-cols-[160px_1.05fr_1.2fr] lg:gap-10 lg:px-12 lg:py-12"
+            className={`group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl border border-white/15 bg-[#120a24]/92 px-6 py-8 shadow-[0_16px_50px_-5px_rgba(0,0,0,0.85),0_0_30px_rgba(147,51,234,0.18)] backdrop-blur-2xl transition-all duration-300 hover:bg-[#1a0e33] ${a1.cardHover} sm:px-8 sm:py-10 md:grid-cols-[120px_1fr_1.2fr] lg:grid-cols-[160px_1.05fr_1.2fr] lg:gap-10 lg:px-12 lg:py-12`}
           >
             {/* Left: Big Number 01 */}
             <div className="flex items-center justify-between md:justify-start">
               <span className="font-display text-[clamp(60px,7.5vw,118px)] font-light leading-none tracking-tight text-white/50 transition-colors duration-300 group-hover:text-white">
                 01
               </span>
-              <span className="grid size-10 place-items-center rounded-full border border-line bg-white/[0.04] text-muted transition-all duration-300 group-hover:border-violet group-hover:bg-violet-deep group-hover:text-violet-ink md:hidden">
+              <span className={`grid size-10 place-items-center rounded-full border border-line bg-white/[0.04] text-muted transition-all duration-300 ${a1.chipHover} md:hidden`}>
                 <ArrowUpRight size={18} />
               </span>
             </div>
 
             {/* Middle: Media Preview Container */}
             <div className="flex items-center justify-center">
-              <div className="relative aspect-[16/10] w-full max-w-[380px] overflow-hidden rounded-2xl border border-white/15 bg-surface/90 shadow-[0_12px_40px_-10px_rgba(0,0,0,0.8)] transition-all duration-500 group-hover:scale-[1.03] group-hover:border-violet/40 group-hover:shadow-[0_20px_50px_-10px_rgba(124,58,237,0.3)]">
+              <div className={`relative aspect-[16/10] w-full max-w-[380px] overflow-hidden rounded-2xl border border-white/15 bg-surface/90 shadow-[0_12px_40px_-10px_rgba(0,0,0,0.8)] transition-all duration-500 group-hover:scale-[1.03] ${a1.frameHover}`}>
                 <Image
                   src="/images/modules/digital-learning.png"
                   alt={m1.title[locale]}
@@ -78,12 +83,12 @@ export function BentoModules() {
 
                 {/* Pill badge */}
                 <div className="absolute bottom-3 left-3 z-10 flex items-center gap-2 rounded-full border border-white/10 bg-black/65 px-3 py-1 backdrop-blur-md">
-                  <Play size={11} weight="fill" className="text-violet animate-pulse" />
+                  <Play size={11} weight="fill" className={`${a1.text} animate-pulse`} />
                   <span className="font-mono text-[10.5px] tracking-wide text-white/90">Interactive Lessons</span>
                 </div>
 
                 {/* Top-right icon badge */}
-                <div className="absolute right-3 top-3 z-10 grid size-8 place-items-center rounded-lg border border-white/10 bg-black/65 text-violet-ink backdrop-blur-md shadow-sm">
+                <div className={`absolute right-3 top-3 z-10 grid size-8 place-items-center rounded-lg border border-white/10 bg-black/65 ${a1.text} backdrop-blur-md shadow-sm`}>
                   <m1.icon size={15} weight="duotone" />
                 </div>
               </div>
@@ -91,13 +96,13 @@ export function BentoModules() {
 
             {/* Right: Title & Description */}
             <div className="flex flex-col justify-center">
-              <h3 className="font-display text-[clamp(26px,2.6vw,40px)] font-semibold leading-tight tracking-[-0.03em] text-text transition-colors duration-300 group-hover:text-violet-ink">
+              <h3 className={`font-display text-[clamp(26px,2.6vw,40px)] font-semibold leading-tight tracking-[-0.03em] text-text transition-colors duration-300 ${a1.textHover}`}>
                 {m1.title[locale]}
               </h3>
               <p className="mt-3 max-w-md text-[14.5px] leading-relaxed text-muted">
                 {m1.summary[locale]}
               </p>
-              <div className="mt-5 hidden items-center gap-2 font-mono text-[12.5px] font-medium text-violet transition-colors duration-200 group-hover:text-violet-ink md:inline-flex">
+              <div className={`mt-5 hidden items-center gap-2 font-mono text-[12.5px] font-medium ${a1.text} transition-colors duration-200 ${a1.textHover} md:inline-flex`}>
                 <span>{t.open ?? "Explore module"}</span>
                 <ArrowUpRight size={15} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </div>
@@ -115,7 +120,7 @@ export function BentoModules() {
           {/* Animated Neon Border */}
           <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
             <NeonBorder
-              color="#D0A2F4"
+              color={a2.hex}
               rounded={24}
               thickness={4}
               glow={95}
@@ -127,27 +132,27 @@ export function BentoModules() {
 
           <Link
             href={`/m/${m2.slug}`}
-            className="group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl border border-white/15 bg-[#120a24]/92 px-6 py-8 shadow-[0_16px_50px_-5px_rgba(0,0,0,0.85),0_0_30px_rgba(147,51,234,0.18)] backdrop-blur-2xl transition-all duration-300 hover:bg-[#1a0e33] hover:shadow-[0_20px_60px_-5px_rgba(0,0,0,0.95),0_0_45px_rgba(168,85,247,0.35)] sm:px-8 sm:py-10 md:grid-cols-[1.2fr_1.05fr_120px] lg:grid-cols-[1.2fr_1.05fr_160px] lg:gap-10 lg:px-12 lg:py-12"
+            className={`group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl border border-white/15 bg-[#120a24]/92 px-6 py-8 shadow-[0_16px_50px_-5px_rgba(0,0,0,0.85),0_0_30px_rgba(147,51,234,0.18)] backdrop-blur-2xl transition-all duration-300 hover:bg-[#1a0e33] ${a2.cardHover} sm:px-8 sm:py-10 md:grid-cols-[1.2fr_1.05fr_120px] lg:grid-cols-[1.2fr_1.05fr_160px] lg:gap-10 lg:px-12 lg:py-12`}
           >
             {/* Mobile Header: Number 02 shows at top on small screens */}
             <div className="flex items-center justify-between md:hidden">
               <span className="font-display text-[clamp(60px,7.5vw,118px)] font-light leading-none tracking-tight text-white/50 transition-colors duration-300 group-hover:text-white">
                 02
               </span>
-              <span className="grid size-10 place-items-center rounded-full border border-line bg-white/[0.04] text-muted transition-all duration-300 group-hover:border-violet group-hover:bg-violet-deep group-hover:text-violet-ink">
+              <span className={`grid size-10 place-items-center rounded-full border border-line bg-white/[0.04] text-muted transition-all duration-300 ${a2.chipHover}`}>
                 <ArrowUpRight size={18} />
               </span>
             </div>
 
             {/* Left Column on Desktop: Title & Description */}
             <div className="order-3 flex flex-col justify-center md:order-1">
-              <h3 className="font-display text-[clamp(26px,2.6vw,40px)] font-semibold leading-tight tracking-[-0.03em] text-text transition-colors duration-300 group-hover:text-violet-ink">
+              <h3 className={`font-display text-[clamp(26px,2.6vw,40px)] font-semibold leading-tight tracking-[-0.03em] text-text transition-colors duration-300 ${a2.textHover}`}>
                 {m2.title[locale]}
               </h3>
               <p className="mt-3 max-w-md text-[14.5px] leading-relaxed text-muted">
                 {m2.summary[locale]}
               </p>
-              <div className="mt-5 hidden items-center gap-2 font-mono text-[12.5px] font-medium text-violet transition-colors duration-200 group-hover:text-violet-ink md:inline-flex">
+              <div className={`mt-5 hidden items-center gap-2 font-mono text-[12.5px] font-medium ${a2.text} transition-colors duration-200 ${a2.textHover} md:inline-flex`}>
                 <span>{t.open ?? "Explore module"}</span>
                 <ArrowUpRight size={15} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </div>
@@ -157,28 +162,28 @@ export function BentoModules() {
             <div className="order-2 flex items-center justify-center">
               <div className="flex items-center justify-center gap-2.5 sm:gap-3.5">
                 {/* Vertical Card 1: Academics */}
-                <div className="relative flex h-[160px] w-[80px] flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-surface/90 p-2.5 shadow-md transition-all duration-300 group-hover:-translate-y-1 group-hover:border-violet/40 sm:h-[190px] sm:w-[94px]">
+                <div className="relative flex h-[160px] w-[80px] flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-surface/90 p-2.5 shadow-md transition-all duration-300 group-hover:-translate-y-1 group-hover:border-teal/40 sm:h-[190px] sm:w-[94px]">
                   <div className="flex items-start justify-between">
-                    <span className="font-mono text-[9px] text-violet">01</span>
-                    <span className="size-2 rounded-full bg-violet animate-pulse" />
+                    <span className="font-mono text-[9px] text-teal">01</span>
+                    <span className="size-2 rounded-full bg-teal animate-pulse" />
                   </div>
                   <div className="my-auto text-center">
                     <span className="block font-mono text-[13px] font-bold text-text">98%</span>
                     <span className="mt-0.5 block font-mono text-[8px] uppercase tracking-wider text-muted">Academic</span>
                   </div>
                   <div className="h-1 w-full overflow-hidden rounded-full bg-white/10">
-                    <div className="h-full w-[85%] rounded-full bg-violet" />
+                    <div className="h-full w-[85%] rounded-full bg-teal" />
                   </div>
                 </div>
 
                 {/* Vertical Card 2 (Centerpiece): Tree of Growth */}
-                <div className="relative flex h-[178px] w-[94px] flex-col items-center justify-between overflow-hidden rounded-2xl border border-violet/40 bg-surface-2 p-2.5 shadow-[0_10px_30px_-5px_rgba(124,58,237,0.35)] transition-all duration-300 group-hover:scale-105 group-hover:border-violet group-hover:shadow-[0_15px_35px_-5px_rgba(124,58,237,0.5)] sm:h-[210px] sm:w-[110px]">
+                <div className="relative flex h-[178px] w-[94px] flex-col items-center justify-between overflow-hidden rounded-2xl border border-teal/40 bg-surface-2 p-2.5 shadow-[0_10px_30px_-5px_rgba(45,212,191,0.3)] transition-all duration-300 group-hover:scale-105 group-hover:border-teal group-hover:shadow-[0_15px_35px_-5px_rgba(45,212,191,0.45)] sm:h-[210px] sm:w-[110px]">
                   <div className="z-10 flex w-full items-center justify-between">
-                    <span className="font-mono text-[9px] text-violet-ink">Tree</span>
-                    <Sparkle size={10} weight="fill" className="text-violet-ink animate-pulse" />
+                    <span className="font-mono text-[9px] text-teal">Tree</span>
+                    <Sparkle size={10} weight="fill" className="text-teal animate-pulse" />
                   </div>
                   <div className="relative my-auto flex items-center justify-center">
-                    <div className="pointer-events-none absolute -inset-3 rounded-full bg-[radial-gradient(circle_at_center,rgba(124,58,237,0.4),transparent_70%)] blur-md" />
+                    <div className="pointer-events-none absolute -inset-3 rounded-full bg-[radial-gradient(circle_at_center,rgba(45,212,191,0.35),transparent_70%)] blur-md" />
                     <Image
                       src="/images/modules/tree-growth.png"
                       alt="Tree of growth"
@@ -188,7 +193,7 @@ export function BentoModules() {
                       className="relative z-10 max-h-[85px] max-w-[70px] object-contain sm:max-w-[80px]"
                     />
                   </div>
-                  <span className="z-10 rounded-full border border-violet/30 bg-violet-deep/80 px-2 py-0.5 font-mono text-[8.5px] text-violet-ink">
+                  <span className="z-10 rounded-full border border-teal/30 bg-teal/15 px-2 py-0.5 font-mono text-[8.5px] text-teal">
                     Holistic
                   </span>
                 </div>
@@ -229,7 +234,7 @@ export function BentoModules() {
           {/* Animated Neon Border */}
           <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
             <NeonBorder
-              color="#D0A2F4"
+              color={a3.hex}
               rounded={24}
               thickness={4}
               glow={95}
@@ -241,7 +246,7 @@ export function BentoModules() {
 
           <Link
             href={`/m/${m3.slug}`}
-            className="group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl border border-white/15 bg-[#120a24]/92 px-6 py-8 shadow-[0_16px_50px_-5px_rgba(0,0,0,0.85),0_0_30px_rgba(147,51,234,0.18)] backdrop-blur-2xl transition-all duration-300 hover:bg-[#1a0e33] hover:shadow-[0_20px_60px_-5px_rgba(0,0,0,0.95),0_0_45px_rgba(168,85,247,0.35)] sm:px-8 sm:py-10 md:grid-cols-[120px_1fr_1.2fr] lg:grid-cols-[160px_1.05fr_1.2fr] lg:gap-10 lg:px-12 lg:py-12"
+            className={`group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl border border-white/15 bg-[#120a24]/92 px-6 py-8 shadow-[0_16px_50px_-5px_rgba(0,0,0,0.85),0_0_30px_rgba(147,51,234,0.18)] backdrop-blur-2xl transition-all duration-300 hover:bg-[#1a0e33] ${a3.cardHover} sm:px-8 sm:py-10 md:grid-cols-[120px_1fr_1.2fr] lg:grid-cols-[160px_1.05fr_1.2fr] lg:gap-10 lg:px-12 lg:py-12`}
           >
             {/* Left: Big Number 03 */}
             <div className="flex items-center justify-between md:justify-start">
