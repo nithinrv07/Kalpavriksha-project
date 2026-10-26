@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import { Fragment, useEffect, useRef } from "react";
+import { useComfort } from "@/lib/comfort";
 
 const REVEAL_FROM = {
   up: { y: 40, autoAlpha: 0 },
@@ -25,6 +26,7 @@ const isRevealKind = (v: string | undefined): v is RevealKind => v === "up" || v
  */
 export function ScrollFx() {
   const barRef = useRef<HTMLDivElement>(null);
+  const calm = useComfort().calm;
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -116,6 +118,17 @@ export function ScrollFx() {
 
     return () => mm.revert();
   }, []);
+
+  // Calm mode: pause every scroll-driven timeline. The CSS layer also forces
+  // not-yet-revealed blocks visible so the page stays readable without motion.
+  useEffect(() => {
+    if (calm) {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.disable(false));
+    } else {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.enable(false));
+      ScrollTrigger.refresh();
+    }
+  }, [calm]);
 
   return (
     <div

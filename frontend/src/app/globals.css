@@ -441,7 +441,7 @@ html[data-calm="true"] *::before,
 html[data-calm="true"] *::after {
   animation-duration: 0.01ms !important;
   animation-iteration-count: 1 !important;
-  transition-duration: 0.01ms !important;
+  transition: none !important;
 }
 
 html[data-calm="true"] .glow-drift,
@@ -449,6 +449,18 @@ html[data-calm="true"] .beam-border::before,
 html[data-calm="true"] .glow-tile::before,
 html[data-calm="true"] .glow-tile::after {
   display: none !important;
+}
+
+/* Scroll-triggered reveals stay readable instead of waiting for a trigger that
+   is paused in calm mode. */
+html[data-calm="true"] [data-reveal]:not([data-reveal="words"]) {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+html[data-calm="true"] [data-reveal="words"] .word > span {
+  transform: none !important;
 }
 
 /* Keep the XP chip readable without its float animation. */
