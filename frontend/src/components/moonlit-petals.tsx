@@ -909,25 +909,42 @@ function OriginkitBaseNightSceneBacklit(props: NightSceneBacklitProps) {
         const reduced = !!(mq && mq.matches);
 
         const ptr = { x: 0, y: 0, inside: false, down: false, over: 0, press: 0 };
+        let lastPointerType = "mouse";
+        const track = (e: PointerEvent) => {
+            lastPointerType = e.pointerType || "mouse";
+            const rect = root.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            // Only stir the canopy while the hero is on screen.
+            const inHero = window.scrollY < window.innerHeight * 1.1;
+            const inside = inHero && x >= 0 && y >= 0 && x <= rect.width && y <= rect.height;
+            if (inside) {
+                ptr.x = x;
+                ptr.y = y;
+            }
+            ptr.inside = inside;
+        };
         const onMove = (e: PointerEvent) => {
-            ptr.x = e.offsetX;
-            ptr.y = e.offsetY;
-            ptr.inside = true;
+            track(e);
         };
         const onLeave = () => {
             ptr.inside = false;
         };
         const onDown = (e: PointerEvent) => {
-            onMove(e);
-            ptr.down = true;
+            track(e);
+            ptr.down = ptr.inside;
         };
         const onUp = () => {
             ptr.down = false;
+            // A finger lifts off: let the petals settle instead of holding the push.
+            if (lastPointerType !== "mouse") ptr.inside = false;
         };
-        root.addEventListener("pointermove", onMove);
-        root.addEventListener("pointerenter", onMove);
-        root.addEventListener("pointerleave", onLeave);
-        root.addEventListener("pointerdown", onDown);
+        // The tree sits behind the hero (pointer-events-none), so listen on the
+        // window and map coordinates back to the canvas to keep petals reactive.
+        window.addEventListener("pointermove", onMove, { passive: true });
+        window.addEventListener("pointerdown", onDown, { passive: true });
+        window.addEventListener("blur", onLeave);
+        document.addEventListener("pointerleave", onLeave);
         window.addEventListener("pointerup", onUp);
         window.addEventListener("pointercancel", onUp);
 
@@ -989,6 +1006,7 @@ function OriginkitBaseNightSceneBacklit(props: NightSceneBacklitProps) {
         const updateScrollGate = () => {
             if (throttleAfterViewports === undefined) return;
             gateOpen = window.scrollY < window.innerHeight * throttleAfterViewports;
+            if (!gateOpen) ptr.inside = false;
         };
         updateScrollGate();
         window.addEventListener("scroll", updateScrollGate, { passive: true });
@@ -1398,10 +1416,10 @@ function OriginkitBaseNightSceneBacklit(props: NightSceneBacklitProps) {
             window.removeEventListener("scroll", updateScrollGate);
             disposeScene(scene);
 
-            root.removeEventListener("pointermove", onMove);
-            root.removeEventListener("pointerenter", onMove);
-            root.removeEventListener("pointerleave", onLeave);
-            root.removeEventListener("pointerdown", onDown);
+            window.removeEventListener("pointermove", onMove);
+            window.removeEventListener("pointerdown", onDown);
+            window.removeEventListener("blur", onLeave);
+            document.removeEventListener("pointerleave", onLeave);
             window.removeEventListener("pointerup", onUp);
             window.removeEventListener("pointercancel", onUp);
         };
