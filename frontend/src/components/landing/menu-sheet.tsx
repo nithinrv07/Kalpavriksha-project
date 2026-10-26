@@ -158,7 +158,7 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
 
         <div className="mt-6 border-t border-line pt-5">
           <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">{t.language}</p>
-          <div role="radiogroup" aria-label={t.language} className="mt-3 grid grid-cols-3 gap-2">
+          <div role="radiogroup" aria-label={t.language} className="mt-3 grid grid-cols-2 gap-2">
             {LOCALES.map((l) => (
               <button
                 key={l}

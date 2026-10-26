@@ -35,14 +35,12 @@ export function StandardSwitcherModal({
         <div className="flex items-center justify-between border-b border-line pb-4">
           <div>
             <h3 className="font-display text-2xl font-bold tracking-tight">
-              {locale === "ta" ? "வகுப்பை மாற்று" : locale === "hi" ? "कक्षा बदलें" : "Select Your Standard"}
+              {locale === "ta" ? "வகுப்பை மாற்று" : "Select Your Standard"}
             </h3>
             <p className="mt-1 text-xs text-muted">
               {locale === "ta"
                 ? "வகுப்பு 1 முதல் 12 வரையிலான தமிழ்நாடு சமச்சீர் கல்வி பாடத்திட்டம்."
-                : locale === "hi"
-                  ? "कक्षा 1 से 12 तक तमिलनाडु समचीर कल्वि पाठ्यक्रम।"
-                  : "Tamil Nadu Samacheer Kalvi K-12 Curriculum (Class 1 to 12)."}
+                : "Tamil Nadu Samacheer Kalvi K-12 Curriculum (Class 1 to 12)."}
             </p>
           </div>
           <button
@@ -152,7 +150,7 @@ export function StandardSwitcherModal({
             {currentGrade >= 11 && (
               <div className="mt-3 rounded-2xl border border-teal/30 bg-teal/5 p-3">
                 <p className="font-mono text-[11px] uppercase tracking-wider text-teal mb-2">
-                  {locale === "ta" ? "மேல்நிலைப் பிரிவு (Group):" : locale === "hi" ? "ग्रुप (Group):" : "Group Stream:"}
+                  {locale === "ta" ? "மேல்நிலைப் பிரிவு (Group):" : "Group Stream:"}
                 </p>
                 <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                   {SENIOR_GROUPS.map((grp) => {
@@ -196,7 +194,7 @@ export function StandardSwitcherModal({
             onClick={onClose}
             className="rounded-full border border-line px-5 py-2 font-mono text-xs text-muted hover:text-text"
           >
-            {locale === "ta" ? "மூடு" : locale === "hi" ? "बंद करें" : "Cancel"}
+            {locale === "ta" ? "மூடு" : "Cancel"}
           </button>
         </div>
       </div>

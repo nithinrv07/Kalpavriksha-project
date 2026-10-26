@@ -741,7 +741,7 @@ export type Song = {
   readonly kind: LocalizedText;
   readonly title: LocalizedText;
   readonly credit: LocalizedText;
-  readonly lang: Locale;
+  readonly lang: string;
   readonly lines: readonly string[];
   readonly meaning: LocalizedText;
   readonly fact: LocalizedText;
@@ -927,39 +927,5 @@ export const GK_COPY: Record<Locale, GkCopy> = {
     untimed: "நேர வரம்பற்றது · நிதானமாகக் கற்போம்",
     tryNextLevel: "அடுத்த நிலையை முயல் →",
     switchLevel: "நிலையை மாற்று",
-  },
-  hi: {
-    tabs: { quiz: "प्रश्नोत्तरी", songs: "गीत" },
-    startQuiz: "प्रश्नोत्तरी शुरू करो",
-    best: "सर्वश्रेष्ठ स्कोर",
-    questions: (n) => `${n} प्रश्न`,
-    questionOf: (n, t) => `प्रश्न ${n} / ${t}`,
-    correct: "सही!",
-    wrong: "सही नहीं",
-    timeUp: "समय समाप्त!",
-    perQuestion: (s) => `हर प्रश्न के लिए ${s} सेकंड`,
-    next: "अगला",
-    finish: "परिणाम देखो",
-    result: (n, t) => `${t} में से ${n} सही`,
-    cheer: ["लगे रहो — हर कोशिश कुछ सिखाती है!", "अच्छी कोशिश — फिर खेलो और बेहतर करो!", "बहुत बढ़िया!", "सुपरस्टार!"],
-    again: "फिर से खेलो",
-    review: "उत्तर देखो",
-    singAlong: "साथ गाओ",
-    stop: "रोको",
-    meaning: "अर्थ",
-    fact: "क्या तुम जानते हो?",
-    sung: "गा लिया",
-    silent: "इस डिवाइस पर इस भाषा की आवाज़ नहीं है — चमकते शब्दों के साथ चलो!",
-    bandHint: {
-      junior: "प्रश्नों के उत्तर दो और सितारे जीतो! फिर मेरे साथ गाओ।",
-      middle: "अपना भारत ज्ञान परखो, फिर शब्दों के साथ गाओ।",
-      senior: "समयबद्ध दोहराई: हर प्रश्न के लिए 30 सेकंड। हर उत्तर के बाद व्याख्या।",
-    },
-    levelLabel: "स्तर",
-    levelTitle: "प्रश्नोत्तरी स्तर चुनें",
-    levelSubtitle: "तीन स्तरों में विभाजित: प्राथमिक, मध्यम और उन्नत। कभी भी किसी भी स्तर का अभ्यास करें!",
-    untimed: "बिना समय सीमा · अपनी गति से सीखें",
-    tryNextLevel: "अगला स्तर आज़माएँ →",
-    switchLevel: "स्तर बदलें",
   },
 };

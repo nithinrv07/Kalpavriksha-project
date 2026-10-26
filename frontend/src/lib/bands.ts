@@ -7,46 +7,43 @@ export const BAND_INFO: Record<
   { readonly name: LocalizedText; readonly classes: LocalizedText; readonly tagline: LocalizedText; readonly accent: string }
 > = {
   junior: {
-    name: { en: "Seed (Seedlings)", ta: "விதை (Seed)", hi: "बीज (Seed)" },
-    classes: { en: "Class 1–3", ta: "வகுப்பு 1–3", hi: "कक्षा 1–3" },
+    name: { en: "Seed (Seedlings)", ta: "விதை (Seed)" },
+    classes: { en: "Class 1–3", ta: "வகுப்பு 1–3" },
     tagline: {
       en: "Foundational rhymes, alphabet, pictures and sound learning.",
       ta: "அடிப்படை எழுத்துகள், படங்கள், கதைகள், ஒலிகளுடன் விளையாடிக் கற்போம்.",
-      hi: "मूलभूत अक्षर, चित्रों और आवाज़ों के साथ खेलो और सीखो।",
     },
     accent: "var(--amber)",
   },
   middle: {
-    name: { en: "Plant (Saplings)", ta: "செடி (Plant)", hi: "पौधा (Plant)" },
-    classes: { en: "Class 4–10", ta: "வகுப்பு 4–10", hi: "कक्षा 4–10" },
+    name: { en: "Plant (Saplings)", ta: "செடி (Plant)" },
+    classes: { en: "Class 4–10", ta: "வகுப்பு 4–10" },
     tagline: {
       en: "Samacheer Kalvi core subjects, science experiments and board foundations.",
       ta: "சமச்சீர் கல்வி பாடங்கள், அறிவியல், கணிதம் மற்றும் திறன்கள்.",
-      hi: "समशीर कल्वि मुख्य विषय, विज्ञान, गणित और कौशल विकास।",
     },
     accent: "var(--violet)",
   },
   senior: {
-    name: { en: "Tree (Tall Trees)", ta: "மரம் (Tree)", hi: "वृक्ष (Tree)" },
-    classes: { en: "Class 11–12", ta: "வகுப்பு 11–12", hi: "कक्षा 11–12" },
+    name: { en: "Tree (Tall Trees)", ta: "மரம் (Tree)" },
+    classes: { en: "Class 11–12", ta: "வகுப்பு 11–12" },
     tagline: {
       en: "Higher Secondary specialisations, board revision, and advanced streams.",
       ta: "மேல்நிலைப் பிரிவு சிறப்புப் பாடங்கள் மற்றும் தீவிரப் பயிற்சி.",
-      hi: "उच्चतर माध्यमिक विशेषज्ञता, बोर्ड परीक्षा और उन्नत विषय।",
     },
     accent: "var(--teal)",
   },
 };
 
 export const AVATAR_NAME: Record<AvatarId, LocalizedText> = {
-  cat: { en: "Cat", ta: "பூனை", hi: "बिल्ली" },
-  dog: { en: "Dog", ta: "நாய்", hi: "कुत्ता" },
-  bird: { en: "Bird", ta: "பறவை", hi: "चिड़िया" },
-  butterfly: { en: "Butterfly", ta: "பட்டாம்பூச்சி", hi: "तितली" },
-  fish: { en: "Fish", ta: "மீன்", hi: "மछली" },
-  rabbit: { en: "Rabbit", ta: "முயல்", hi: "खरगोश" },
-  horse: { en: "Horse", ta: "குதிரை", hi: "घोड़ा" },
-  cow: { en: "Cow", ta: "பசு", hi: "गाय" },
+  cat: { en: "Cat", ta: "பூனை" },
+  dog: { en: "Dog", ta: "நாய்" },
+  bird: { en: "Bird", ta: "பறவை" },
+  butterfly: { en: "Butterfly", ta: "பட்டாம்பூச்சி" },
+  fish: { en: "Fish", ta: "மீன்" },
+  rabbit: { en: "Rabbit", ta: "முயல்" },
+  horse: { en: "Horse", ta: "குதிரை" },
+  cow: { en: "Cow", ta: "பசு" },
 };
 
 type SetupCopy = {
@@ -107,24 +104,5 @@ export const SETUP_COPY: Record<Locale, SetupCopy> = {
     continueLearning: "கற்றலைத் தொடர்",
     cardTitle: "மாணவர் அட்டை",
     hello: (name) => `வணக்கம் ${name}!`,
-  },
-  hi: {
-    askTitle: "अपनी अवस्था और कक्षा चुनें",
-    askLead: "बीज (कक्षा 1–3), पौधा (कक्षा 4–10) या वृक्ष (कक्षा 11–12) चुनकर आगे बढ़ें।",
-    pickClass: "अपनी सटीक कक्षा चुनें",
-    classWord: "कक्षा",
-    nameLabel: "तुम्हारा नाम",
-    namePlaceholder: "जैसे प्रिया",
-    avatarLabel: "अपना साथी चुनो",
-    start: "आगे बढ़ें →",
-    save: "सहेजें और आगे बढ़ें →",
-    back: "पीछे",
-    deviceNote: "इस डिवाइस और आपकी छात्र प्रोफ़ाइल में सहेजा गया।",
-    edit: "कार्ड बदलें",
-    remove: "इस डिवाइस से हटाएँ",
-    confirmRemove: "हटाने के लिए फिर टैप करें",
-    continueLearning: "सीखना जारी रखें",
-    cardTitle: "विद्यार्थी कार्ड",
-    hello: (name) => `नमस्ते ${name}!`,
   },
 };

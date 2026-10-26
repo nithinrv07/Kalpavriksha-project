@@ -12,7 +12,7 @@ const IDLE: ReadState = { id: null, line: -1, word: -1, silent: false };
 /** Rough reading pace; long Tamil/Devanagari words get proportionally more time. */
 const wordMs = (word: string, rate: number) => (Math.min(1.8, Math.max(0.7, word.length / 5)) * 520) / rate;
 
-function findVoice(voices: readonly SpeechSynthesisVoice[], lang: Locale) {
+function findVoice(voices: readonly SpeechSynthesisVoice[], lang: string) {
   return voices.find((v) => v.lang.toLowerCase().replace("_", "-").startsWith(lang));
 }
 
@@ -49,7 +49,7 @@ export function useReadAloud() {
   }, []);
 
   const play = useCallback(
-    (id: string, lines: readonly string[], lang: Locale, opts: { rate?: number; onDone?: () => void } = {}) => {
+    (id: string, lines: readonly string[], lang: string, opts: { rate?: number; onDone?: () => void } = {}) => {
       const rate = opts.rate ?? 1;
       const token = ++run.current;
       window.clearTimeout(timer.current);
@@ -132,7 +132,7 @@ export function KaraokeLines({
   className = "",
 }: {
   lines: readonly string[];
-  lang: Locale;
+  lang: string;
   activeLine: number;
   activeWord: number;
   className?: string;

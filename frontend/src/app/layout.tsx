@@ -18,7 +18,7 @@ const anekDeva = Anek_Devanagari({ variable: "--font-anek-deva", subsets: ["deva
 export const metadata: Metadata = {
   title: "Kalpavriksha — One app for every learner",
   description:
-    "Digital learning, holistic growth, GK and patriotic songs in one app for Kalpavriksha Seva Trust students. Tamil, English and Hindi.",
+    "Digital learning, holistic growth, GK and patriotic songs in one app for Kalpavriksha Seva Trust students. Tamil and English.",
   applicationName: "Kalpavriksha",
 };
 

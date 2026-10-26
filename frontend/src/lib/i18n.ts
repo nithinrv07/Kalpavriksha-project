@@ -1,11 +1,10 @@
-export const LOCALES = ["en", "ta", "hi"] as const;
+export const LOCALES = ["en", "ta"] as const;
 export type Locale = (typeof LOCALES)[number];
-export type LocalizedText = Readonly<Record<Locale, string>>;
+export type LocalizedText = Readonly<Record<Locale, string> & { hi?: string }>;
 
 export const LOCALE_LABEL = {
   en: { short: "Eng", native: "English" },
   ta: { short: "தமிழ்", native: "தமிழ்" },
-  hi: { short: "हिन्दी", native: "हिन्दी" },
 } as const satisfies Record<Locale, { short: string; native: string }>;
 
 export function isLocale(value: unknown): value is Locale {
@@ -54,7 +53,7 @@ export type Copy = {
   readonly makeCard: string;
 };
 
-const LANGS = "தமிழ் · English · हिन्दी";
+const LANGS = "தமிழ் · English";
 
 export const COPY = {
   en: {
@@ -67,7 +66,7 @@ export const COPY = {
     explore: "Explore modules",
     stats: [
       { value: "03", label: "modules" },
-      { value: "03", label: "languages" },
+      { value: "02", label: "languages" },
       { value: "01", label: "student identity" },
       { value: "₹0", label: "for students" },
     ],
@@ -116,7 +115,7 @@ export const COPY = {
     explore: "தொகுதிகளைப் பார்க்க",
     stats: [
       { value: "03", label: "தொகுதிகள்" },
-      { value: "03", label: "மொழிகள்" },
+      { value: "02", label: "மொழிகள்" },
       { value: "01", label: "மாணவர் அடையாளம்" },
       { value: "₹0", label: "மாணவர்களுக்கு" },
     ],
@@ -153,53 +152,5 @@ export const COPY = {
     streak: "நாள் தொடர்",
     myCard: "என் மாணவர் அட்டை",
     makeCard: "உன் அட்டையை உருவாக்கு",
-  },
-  hi: {
-    menu: "मेनू",
-    signIn: "साइन इन",
-    eyebrow: "हर विद्यार्थी के लिए एक ऐप",
-    tagline: ["विद्यार्थी शिक्षण", "मंच"],
-    headline: ["जड़ों से", "ऊँचाई तक"],
-    lead: "सीखना, विकास और ज्ञान — एक ही जगह, आपकी अपनी भाषा में। एक बार प्रवेश करें, हर जगह उपयोग करें।",
-    explore: "मॉड्यूल देखें",
-    stats: [
-      { value: "03", label: "मॉड्यूल" },
-      { value: "03", label: "भाषाएँ" },
-      { value: "01", label: "विद्यार्थी पहचान" },
-      { value: "₹0", label: "विद्यार्थियों के लिए" },
-    ],
-    modulesTitle: "तीन मॉड्यूल। एक ऐप।",
-    modulesLead: "हर मॉड्यूल स्वतंत्र रूप से चलता है, और सभी एक ही विद्यार्थी प्रोफ़ाइल साझा करते हैं।",
-    open: "खोलें",
-    soonTitle: "और मॉड्यूल आने वाले हैं",
-    soonBody: "उपस्थिति, कार्यक्रम और भविष्य की परियोजनाएँ सीधे जुड़ेंगी।",
-    identityTitle: "एक बार प्रवेश करें। हर जगह उपयोग करें।",
-    identityBody: "एक ही विद्यार्थी पहचान हर मॉड्यूल में साथ चलती है — आज भी और भविष्य की कल्पवृक्ष परियोजनाओं में भी।",
-    identityCenter: "विद्यार्थी प्रोफ़ाइल",
-    principles: [
-      { title: LANGS, body: "जिस भाषा में सोचते हैं, उसी में सीखें।" },
-      { title: "हर स्क्रीन पर", body: "फ़ोन, टैबलेट, डेस्कटॉप या स्मार्ट पैनल।" },
-      { title: "विद्यार्थियों के लिए निःशुल्क", body: "किसी भी विद्यार्थी के लिए कोई शुल्क नहीं।" },
-      { title: "कम काग़ज़ी काम", body: "शिक्षक कम टैप में ज़्यादा दर्ज करें।" },
-    ],
-    ctaTitle: "कल्पवृक्ष के साथ बढ़ें।",
-    cta: "सीखना शुरू करें",
-    trust: "कल्पवृक्ष सेवा ट्रस्ट",
-    partner: "तकनीकी साझेदार: GSX चेन्नई चैप्टर",
-    close: "बंद करें",
-    language: "भाषा",
-    comfort: "आराम",
-    calm: "शांत मोड",
-    calmHint: "गति और चमक बंद",
-    projector: "प्रोजेक्टर मोड",
-    projectorHint: "बड़ा, चमकीला टेक्स्ट",
-    comingSoon: "यह मॉड्यूल अभी बनाया जा रहा है। जल्द ही यहीं खुलेगा।",
-    signInSoon: "विद्यार्थी और स्टाफ़ साइन-इन साझा विद्यार्थी प्रोफ़ाइल के साथ आएगा।",
-    back: "मुख पृष्ठ पर लौटें",
-    home: "मुख पृष्ठ",
-    level: "स्तर",
-    streak: "दिन लगातार",
-    myCard: "मेरा विद्यार्थी कार्ड",
-    makeCard: "अपना कार्ड बनाएँ",
   },
 } as const satisfies Record<Locale, Copy>;

@@ -87,6 +87,32 @@ import { Burst } from "@/components/burst";
 import { GrowthStage, useHydrated } from "@/components/learner-setup";
 import { useLocale } from "@/components/locale-provider";
 import { updateProgress, useProgress } from "@/components/progress-store";
+import {
+  AlienMascot,
+  BabyElephantMascot,
+  BlastingRocket,
+  BoardGameTrailSvg,
+  BookMascot,
+  CalculatorMascot,
+  CheeringAstronautKid,
+  ComputerMascot,
+  CosmicBackgroundDoodles,
+  DinosaurMascot,
+  HappyStarBadge,
+  KidBoyMascot,
+  KidGirlMascot,
+  LaptopMascot,
+  LionCubMascot,
+  MathMonsterMascot,
+  PeekingSpaceship,
+  RulerMascot,
+  SpaceBear,
+  SpaceKitty,
+  SpacePuppy,
+  TamilLetterA,
+  TreasureChestMascot,
+} from "./cosmic-mascots";
+import { JuniorCosmicLessonPlayer } from "./junior-lesson-scene";
 import { KaraokeLines, useReadAloud } from "@/components/read-aloud";
 import { authService } from "@/lib/auth-service";
 import { BAND_INFO } from "@/lib/bands";
@@ -447,7 +473,443 @@ function ProgressRing({ done, total }: { done: number; total: number }) {
 // ----------------------------------------------------------------------------
 // Interactive Lesson Dialog (Reader, Karaoke Audio, Textbook Link & Quiz)
 // ----------------------------------------------------------------------------
-function CurriculumLessonDialog({
+
+function CosmicCurriculumLessonDialog({
+  standard,
+  subject,
+  chapter,
+  allChapters,
+  onClose,
+  onSelectChapter,
+}: {
+  standard: number;
+  subject: CurriculumSubject | null;
+  chapter: CurriculumChapter | null;
+  allChapters: { subject: CurriculumSubject; chapter: CurriculumChapter }[];
+  onClose: () => void;
+  onSelectChapter: (chId: string) => void;
+}) {
+  const ref = useRef<HTMLDialogElement>(null);
+  const { locale } = useLocale();
+  const progress = useProgress();
+  const { state, play, stop } = useReadAloud();
+  const [slow, setSlow] = useState(false);
+  const [celebrate, setCelebrate] = useState(0);
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<string, number>>({});
+  const [showExplanation, setShowExplanation] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    const dialog = ref.current;
+    if (!dialog) return;
+    if (chapter && !dialog.open) {
+      dialog.showModal();
+    }
+    if (!chapter && dialog.open) {
+      dialog.close();
+    }
+  }, [chapter]);
+
+  // Record last accessed when chapter opens
+  useEffect(() => {
+    if (chapter && subject) {
+      updateProgress((p) => {
+        if (typeof setLastAccessed === "function") {
+          return setLastAccessed(p, {
+            standard,
+            subjectId: subject.id,
+            chapterId: chapter.id,
+          });
+        }
+        if (!p.profile) return p;
+        return {
+          ...p,
+          profile: {
+            ...p.profile,
+            lastAccessed: {
+              standard,
+              subjectId: subject.id,
+              chapterId: chapter.id,
+              timestamp: new Date().toISOString(),
+            },
+          },
+        };
+      });
+    }
+  }, [chapter, subject, standard]);
+
+  const close = () => {
+    stop();
+    setCelebrate(0);
+    onClose();
+  };
+
+  if (!chapter || !subject) return null;
+
+  const done = progress.lessonsDone.includes(chapter.id);
+  const reading = state.id === chapter.id;
+
+  // Next / Previous navigation
+  const currentIndex = allChapters.findIndex((item) => item.chapter.id === chapter.id);
+  const prevItem = currentIndex > 0 ? allChapters[currentIndex - 1] : null;
+  const nextItem = currentIndex >= 0 && currentIndex < allChapters.length - 1 ? allChapters[currentIndex + 1] : null;
+
+  const markComplete = () => {
+    updateProgress((p) => {
+      let next = completeLesson(p, chapter.id, localDay());
+      if (typeof setLastAccessed === "function") {
+        next = setLastAccessed(next, {
+          standard,
+          subjectId: subject.id,
+          chapterId: chapter.id,
+        });
+      } else if (next.profile) {
+        next = {
+          ...next,
+          profile: {
+            ...next.profile,
+            lastAccessed: {
+              standard,
+              subjectId: subject.id,
+              chapterId: chapter.id,
+              timestamp: new Date().toISOString(),
+            },
+          },
+        };
+      }
+      return next;
+    });
+    setCelebrate((n) => n + 1);
+  };
+
+  const handleAnswerSelect = (qId: string, optIndex: number) => {
+    setSelectedAnswers((prev) => ({ ...prev, [qId]: optIndex }));
+    setShowExplanation((prev) => ({ ...prev, [qId]: true }));
+  };
+
+  return (
+    <dialog
+      ref={ref}
+      onClose={close}
+      onClick={(e) => {
+        if (e.target === ref.current) close();
+      }}
+      aria-label={chapter.title[locale]}
+      className="fixed inset-x-0 bottom-0 top-auto m-0 max-h-[92dvh] w-full max-w-none overflow-y-auto rounded-t-[32px] border-2 border-violet-500/80 bg-[#0e0524] p-0 text-white shadow-[0_0_80px_rgba(168,85,247,0.5)] backdrop:bg-black/80 backdrop:backdrop-blur-md open:animate-[fade-up_0.45s_var(--ease-out)_both] md:inset-0 md:m-auto md:max-h-[88dvh] md:w-[min(860px,calc(100%-3rem))] md:rounded-[32px]"
+    >
+      <div className="relative flex flex-col p-5 sm:p-8">
+        {/* Glow backdrop with stars */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-[radial-gradient(70%_100%_at_50%_0%,rgba(168,85,247,0.35),transparent_70%)]"
+        />
+
+        {/* Floating sparkles */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden select-none">
+          <span className="absolute top-5 right-20 text-pink-400 text-lg animate-ping">✦</span>
+          <span className="absolute top-12 left-16 text-amber-300 text-base animate-pulse">✨</span>
+          <span className="absolute bottom-20 right-10 text-cyan-300 text-sm">✦</span>
+        </div>
+
+        {/* Header */}
+        <div className="relative flex items-start justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <span className="grid size-14 shrink-0 place-items-center rounded-2xl border-2 border-pink-400/80 bg-pink-950/60 text-pink-300 shadow-[0_0_20px_rgba(244,114,182,0.4)]">
+              <ChapterIcon name={resolveChapterIcon(subject, chapter)} className="size-7" />
+            </span>
+            <div>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-violet-400/70 bg-violet-950/80 px-3 py-0.5 font-mono text-[11px] font-bold text-violet-200 shadow-[0_0_10px_rgba(168,85,247,0.3)]">
+                  <span>✨</span>
+                  <span>Class {standard} · {subject.name[locale]} · Chapter {chapter.chapterNumber}</span>
+                  <span>✨</span>
+                </span>
+              </div>
+              <h2 className="font-display text-[clamp(22px,3vw,30px)] font-black leading-tight tracking-[-0.02em] text-white mt-1">
+                {chapter.title[locale]}
+              </h2>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={close}
+            aria-label="Close dialog"
+            className="grid size-11 shrink-0 place-items-center rounded-2xl border border-violet-400/50 bg-violet-950/60 text-violet-200 transition-all hover:bg-violet-900/80 hover:text-white shadow-[0_0_15px_rgba(168,85,247,0.25)]"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        {/* Summary Description */}
+        <p className="relative mt-3 text-sm text-purple-200/90 leading-relaxed">
+          {chapter.summary[locale]}
+        </p>
+
+        {/* Read-Aloud Karaoke Text */}
+        {chapter.lessonLines && chapter.lessonLines.length > 0 && (
+          <div className="relative mt-6 rounded-3xl border-2 border-violet-500/40 bg-[#160932]/95 p-5 sm:p-7 shadow-[0_0_25px_rgba(168,85,247,0.25)]">
+            <KaraokeLines
+              lines={chapter.lessonLines}
+              lang={chapter.lessonLang}
+              activeLine={reading ? state.line : -1}
+              activeWord={reading ? state.word : -1}
+              className="flex flex-col gap-2.5 font-display text-[clamp(18px,2.4vw,25px)] leading-relaxed text-purple-100"
+            />
+          </div>
+        )}
+
+        {/* Audio Controls */}
+        {chapter.lessonLines && chapter.lessonLines.length > 0 && (
+          <div className="relative mt-4 flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() =>
+                reading
+                  ? stop()
+                  : play(chapter.id, chapter.lessonLines, chapter.lessonLang, { rate: slow ? 0.8 : 1 })
+              }
+              className={`inline-flex h-12 items-center gap-2 rounded-full px-6 font-mono text-sm font-bold shadow-[0_0_20px_rgba(236,72,153,0.7)] transition-all hover:scale-105 active:scale-95 ${
+                reading
+                  ? "bg-violet-900/80 text-white border border-pink-400"
+                  : "bg-gradient-to-r from-pink-500 via-purple-600 to-violet-600 text-white"
+              }`}
+            >
+              {reading ? <Stop size={18} weight="fill" /> : <SpeakerHigh size={18} weight="fill" />}
+              {reading ? "Stop Audio" : "Listen / Read Aloud 🎵"}
+            </button>
+            <label className="inline-flex h-12 cursor-pointer items-center gap-2 rounded-full border border-violet-400/50 bg-violet-950/60 px-4 text-[13px] text-purple-200 has-[:checked]:border-pink-400 has-[:checked]:text-white">
+              <input
+                type="checkbox"
+                checked={slow}
+                onChange={(e) => setSlow(e.target.checked)}
+                className="accent-pink-500"
+              />
+              Slower
+            </label>
+            {reading && state.silent && (
+              <p className="w-full text-[12.5px] text-amber-300">
+                Speech audio synthesis unavailable on this device.
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Tamil Nadu State Board Textbooks Section */}
+        <div className="relative mt-6 rounded-3xl border border-violet-500/40 bg-[#14072b]/90 p-5 shadow-[0_0_20px_rgba(168,85,247,0.25)]">
+          <div className="mb-3 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <FilePdf size={18} weight="duotone" className="text-pink-400" />
+              <h4 className="font-mono text-xs uppercase tracking-wider text-purple-200 font-bold">
+                Official Tamil Nadu Textbooks & References
+              </h4>
+            </div>
+            <span className="rounded-full border border-violet-400/50 bg-violet-950/70 px-2.5 py-0.5 font-mono text-[10px] text-violet-200">
+              Samacheer Kalvi 2026–27 ✨
+            </span>
+          </div>
+
+          <div className="grid gap-2 sm:grid-cols-2">
+            <a
+              href={TN_NEW_SYLLABUS_2026_27_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center justify-between gap-3 rounded-2xl border border-violet-500/50 bg-[#1c0c3c]/80 p-3.5 transition-all hover:border-pink-400 hover:bg-violet-900/60 shadow-[0_0_12px_rgba(168,85,247,0.2)]"
+            >
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
+                  <p className="truncate text-xs font-semibold text-white group-hover:text-pink-300">
+                    New Syllabus Textbooks (From 2026 - 27)
+                  </p>
+                  <span className="shrink-0 rounded bg-pink-500/20 px-1.5 py-0.5 font-mono text-[9px] text-pink-300 border border-pink-400/40">
+                    Tnkalvi .net
+                  </span>
+                </div>
+                <p className="mt-0.5 truncate text-[11px] text-purple-200/70">
+                  Direct Download Link for New Syllabus Textbooks
+                </p>
+              </div>
+              <ArrowSquareOut size={14} className="shrink-0 text-purple-300 group-hover:text-pink-300" />
+            </a>
+
+            <a
+              href={TN_TEXTBOOK_PORTAL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center justify-between gap-3 rounded-2xl border border-violet-500/50 bg-[#1c0c3c]/80 p-3.5 transition-all hover:border-pink-400 hover:bg-violet-900/60 shadow-[0_0_12px_rgba(168,85,247,0.2)]"
+            >
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
+                  <p className="truncate text-xs font-semibold text-white group-hover:text-pink-300">
+                    Tamilnadu School Textbooks
+                  </p>
+                  <span className="shrink-0 rounded bg-cyan-500/20 px-1.5 py-0.5 font-mono text-[9px] text-cyan-300 border border-cyan-400/40">
+                    Official
+                  </span>
+                </div>
+                <p className="mt-0.5 truncate text-[11px] text-purple-200/70">
+                  Complete State Board Textbooks Repository
+                </p>
+              </div>
+              <ArrowSquareOut size={14} className="shrink-0 text-purple-300 group-hover:text-pink-300" />
+            </a>
+          </div>
+
+          <div className="mt-2">
+            <a
+              href={TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center justify-between gap-3 rounded-2xl border border-violet-500/40 bg-[#1a0a38]/80 p-3 transition-all hover:border-pink-400 hover:bg-[#200d44]"
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <span className="shrink-0 rounded-full border border-amber-400/60 bg-amber-500/20 px-2 py-0.5 font-mono text-[10px] text-amber-300">
+                  Class 1, 2, 3
+                </span>
+                <p className="truncate text-xs text-purple-200 group-hover:text-white">
+                  TN Class 1, 2, 3 New Textbooks 2026–2027 PDF Download – Tamil & English Medium ✨
+                </p>
+              </div>
+              <ArrowSquareOut size={13} className="shrink-0 text-purple-300 group-hover:text-pink-300" />
+            </a>
+          </div>
+        </div>
+
+        {/* Practice Questions */}
+        {chapter.practiceQuestions && chapter.practiceQuestions.length > 0 && (
+          <div className="relative mt-6 rounded-3xl border border-violet-500/40 bg-[#14072b]/90 p-5 sm:p-6 shadow-[0_0_20px_rgba(168,85,247,0.25)]">
+            <div className="flex items-center gap-2 text-pink-400">
+              <Question size={18} weight="fill" />
+              <h4 className="font-mono text-xs uppercase tracking-wider font-bold">
+                Practice Questions 🌟
+              </h4>
+            </div>
+
+            <div className="mt-4 flex flex-col gap-4">
+              {chapter.practiceQuestions.map((q, qIndex) => {
+                const selected = selectedAnswers[q.id];
+                const isAnswered = selected !== undefined;
+                const isCorrect = selected === q.answerIndex;
+
+                return (
+                  <div key={q.id} className="rounded-2xl border border-violet-500/30 bg-[#1c0c3c]/80 p-4">
+                    <p className="text-sm font-semibold text-white">
+                      <span className="mr-2 font-mono text-xs text-pink-300">Q{qIndex + 1}.</span>
+                      {q.question[locale]}
+                    </p>
+
+                    <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                      {q.options.map((opt, optIndex) => {
+                        const isOptionSelected = selected === optIndex;
+                        let btnStyle = "border-violet-500/40 bg-violet-950/60 text-purple-200 hover:border-pink-400 hover:text-white";
+
+                        if (isAnswered) {
+                          if (optIndex === q.answerIndex) {
+                            btnStyle = "border-2 border-emerald-400 bg-emerald-950/80 text-emerald-300 font-bold shadow-[0_0_15px_rgba(52,211,153,0.4)]";
+                          } else if (isOptionSelected) {
+                            btnStyle = "border-2 border-rose-500 bg-rose-950/80 text-rose-300 shadow-[0_0_15px_rgba(244,63,94,0.4)]";
+                          }
+                        }
+
+                        return (
+                          <button
+                            key={optIndex}
+                            type="button"
+                            onClick={() => handleAnswerSelect(q.id, optIndex)}
+                            className={`flex items-center gap-2 rounded-xl border p-2.5 text-left text-xs transition-colors ${btnStyle}`}
+                          >
+                            <span className="font-mono text-[11px] opacity-75">
+                              {String.fromCharCode(65 + optIndex)}.
+                            </span>
+                            <span>{opt[locale]}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {showExplanation[q.id] && (
+                      <div
+                        className={`mt-3 rounded-xl border p-2.5 text-xs leading-relaxed ${
+                          isCorrect
+                            ? "border-emerald-400/50 bg-emerald-950/60 text-emerald-300"
+                            : "border-amber-400/50 bg-amber-950/60 text-amber-300"
+                        }`}
+                      >
+                        <p className="font-bold">{isCorrect ? "✓ Correct! Amazing job! ⭐" : "Hint / Explanation:"}</p>
+                        <p className="mt-0.5">{q.explanation[locale]}</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Footer controls: Navigation & Complete */}
+        <div className="relative mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-violet-500/30 pt-5">
+          <div>
+            {prevItem ? (
+              <button
+                type="button"
+                onClick={() => onSelectChapter(prevItem.chapter.id)}
+                className="inline-flex items-center gap-1.5 rounded-full border border-violet-500/50 bg-violet-950/60 px-4 py-2 font-mono text-xs text-purple-200 hover:text-white hover:border-pink-400 transition-all"
+              >
+                <ArrowLeft size={13} />
+                Previous Chapter
+              </button>
+            ) : (
+              <div />
+            )}
+          </div>
+
+          <div className="flex items-center gap-2.5">
+            {done ? (
+              <span className="pop-in relative inline-flex h-12 items-center gap-2 rounded-full border border-emerald-400 bg-emerald-950/80 px-5 font-mono text-xs font-bold text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.4)]">
+                <CheckCircle size={18} weight="fill" />
+                Learned (+{XP.lesson} XP)
+                {celebrate > 0 && (
+                  <>
+                    <Burst key={celebrate} />
+                    <span
+                      key={`xp-${celebrate}`}
+                      className="float-up absolute -top-5 right-4 font-mono text-xs text-amber-300"
+                    >
+                      +{XP.lesson} XP
+                    </span>
+                  </>
+                )}
+              </span>
+            ) : (
+              <button
+                type="button"
+                onClick={markComplete}
+                className="inline-flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 px-6 font-mono text-xs font-bold text-white shadow-[0_0_20px_rgba(52,211,153,0.6)] hover:scale-105 active:scale-95 transition-transform"
+              >
+                <CheckCircle size={18} />
+                Mark Chapter Complete (+{XP.lesson} XP)
+              </button>
+            )}
+
+            {nextItem && (
+              <button
+                type="button"
+                onClick={() => onSelectChapter(nextItem.chapter.id)}
+                className="inline-flex items-center gap-1.5 rounded-full border border-pink-400/80 bg-gradient-to-r from-pink-500/30 to-purple-500/30 px-5 py-2.5 font-mono text-xs font-bold text-pink-200 hover:text-white shadow-[0_0_15px_rgba(244,114,182,0.4)] transition-all"
+              >
+                Next Chapter
+                <ArrowRight size={13} />
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </dialog>
+  );
+}
+// ----------------------------------------------------------------------------
+// Subject Card (Rendered in "this place" for All Subjects view)
+// ----------------------------------------------------------------------------
+
+function StandardCurriculumLessonDialog({
   standard,
   subject,
   chapter,
@@ -874,7 +1336,172 @@ function CurriculumLessonDialog({
 // ----------------------------------------------------------------------------
 // Subject Card (Rendered in "this place" for All Subjects view)
 // ----------------------------------------------------------------------------
-function SubjectCard({
+
+function CurriculumLessonDialog(props: {
+  standard: number;
+  subject: CurriculumSubject | null;
+  chapter: CurriculumChapter | null;
+  allChapters: { subject: CurriculumSubject; chapter: CurriculumChapter }[];
+  onClose: () => void;
+  onSelectChapter: (chId: string) => void;
+}) {
+  if (props.standard <= 3) {
+    if (!props.chapter || !props.subject) return null;
+    return (
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={props.chapter.title.en}
+        className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/85 p-2 sm:p-4 backdrop-blur-md"
+      >
+        <div className="relative w-full max-w-[1240px] my-auto">
+          <JuniorCosmicLessonPlayer {...props} />
+        </div>
+      </div>
+    );
+  }
+  return <StandardCurriculumLessonDialog {...props} />;
+}
+
+function CosmicSubjectCard({
+  subject,
+  standard,
+  doneCount,
+  onOpen,
+}: {
+  subject: CurriculumSubject;
+  standard: number;
+  doneCount: number;
+  onOpen: () => void;
+}) {
+  const { locale } = useLocale();
+  const allDone = doneCount === subject.chapters.length && subject.chapters.length > 0;
+
+  const isTamil = subject.code === "TAM" || subject.id.includes("tamil");
+  const isEnglish = subject.code === "ENG" || subject.id.includes("english");
+  const isMaths = subject.code === "MAT" || subject.id.includes("math");
+
+  const borderClass = isTamil
+    ? "border-2 border-purple-500/80 shadow-[0_0_25px_-5px_rgba(168,85,247,0.5)] hover:border-purple-400"
+    : isEnglish
+    ? "border-2 border-cyan-400/80 shadow-[0_0_25px_-5px_rgba(34,211,238,0.5)] hover:border-cyan-300"
+    : isMaths
+    ? "border-2 border-amber-400/80 shadow-[0_0_25px_-5px_rgba(251,191,36,0.5)] hover:border-amber-300"
+    : "border-2 border-violet-500/60 shadow-[0_0_20px_-5px_rgba(168,85,247,0.4)] hover:border-violet-400";
+
+  return (
+    <button
+      type="button"
+      onClick={onOpen}
+      className={`group relative flex flex-col overflow-hidden rounded-[26px] bg-[#140828] text-left transition-all duration-300 hover:-translate-y-1.5 ${borderClass}`}
+    >
+      <span className="relative grid h-36 place-items-center overflow-hidden bg-gradient-to-b from-white/[0.05] to-transparent">
+        {isTamil ? (
+          <TamilLetterA />
+        ) : isEnglish ? (
+          <BookOpen size={60} weight="duotone" className="text-cyan-300 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]" />
+        ) : isMaths ? (
+          <Calculator size={60} weight="duotone" className="text-amber-300 drop-shadow-[0_0_15px_rgba(251,191,36,0.8)]" />
+        ) : (
+          <SubjectIcon
+            icon={subject.icon}
+            className="size-16 text-cyan-300 drop-shadow-[0_0_15px_rgba(34,211,238,0.7)] transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110"
+          />
+        )}
+        <PeekingSpaceship className="absolute -top-1 -right-1 size-12 opacity-80 pointer-events-none group-hover:scale-110 transition-transform" />
+        {allDone && (
+          <span className="pop-in absolute right-3 top-3 flex items-center gap-1 rounded-full bg-emerald-500/25 border border-emerald-400 px-2.5 py-1 font-mono text-[11px] text-emerald-300 shadow-[0_0_10px_rgba(52,211,153,0.5)]">
+            <CheckCircle size={14} weight="fill" />
+            Completed
+          </span>
+        )}
+      </span>
+      <span className="flex flex-1 flex-col gap-2 p-5">
+        <span className="font-mono text-[11.5px] uppercase tracking-wider text-purple-300 font-bold">
+          Class {standard} · {subject.code}
+        </span>
+        <span className="text-[20px] font-bold leading-snug text-white group-hover:text-fuchsia-300 transition-colors">
+          {subject.name[locale]}
+        </span>
+        <span className="line-clamp-2 text-xs text-purple-200/70">
+          {subject.description[locale]}
+        </span>
+        <span className="mt-auto flex items-center justify-between pt-3 font-mono text-[11.5px] text-purple-200/80">
+          <span>
+            {subject.chapters.length} Chapters · {doneCount}/{subject.chapters.length} Done
+          </span>
+          <span className="flex items-center gap-1 text-fuchsia-300 font-bold transition-transform group-hover:translate-x-1">
+            Open Subject <CaretRight size={13} weight="bold" />
+          </span>
+        </span>
+      </span>
+    </button>
+  );
+}
+
+// ----------------------------------------------------------------------------
+// Chapter Card (Rendered in "this place" for Subject / All Chapters view)
+// ----------------------------------------------------------------------------
+function CosmicChapterCard({
+  subject,
+  chapter,
+  done,
+  onOpen,
+}: {
+  subject: CurriculumSubject;
+  chapter: CurriculumChapter;
+  done: boolean;
+  onOpen: () => void;
+}) {
+  const { locale } = useLocale();
+  const style = { "--cat": subject.accent } as React.CSSProperties;
+  const iconName = resolveChapterIcon(subject, chapter);
+
+  return (
+    <button
+      type="button"
+      onClick={onOpen}
+      style={style}
+      className="group relative flex flex-col overflow-hidden rounded-[26px] border-2 border-violet-500/60 bg-[#140828] text-left transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(34,211,238,0.45)]"
+    >
+      <span className="relative grid h-36 place-items-center overflow-hidden bg-gradient-to-b from-white/[0.06] to-transparent">
+        <ChapterIcon
+          name={iconName}
+          className="size-16 text-cyan-300 drop-shadow-[0_0_15px_rgba(34,211,238,0.7)] transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110"
+        />
+        <PeekingSpaceship className="absolute -top-1 -right-1 size-12 opacity-80 pointer-events-none group-hover:scale-110 transition-transform" />
+        {done && (
+          <span className="pop-in absolute right-3 top-3 flex items-center gap-1 rounded-full bg-emerald-500/25 border border-emerald-400 px-2.5 py-1 font-mono text-[11px] text-emerald-300 shadow-[0_0_10px_rgba(52,211,153,0.5)]">
+            <CheckCircle size={14} weight="fill" />
+            Learned
+          </span>
+        )}
+      </span>
+      <span className="flex flex-1 flex-col gap-2 p-5">
+        <span className="font-mono text-[11.5px] uppercase tracking-wider text-purple-300 font-bold">
+          {subject.name[locale]} · Ch {chapter.chapterNumber}
+        </span>
+        <span className="text-[20px] font-bold leading-snug text-white group-hover:text-cyan-300 transition-colors">
+          {chapter.title[locale]}
+        </span>
+        <span className="line-clamp-2 text-xs text-purple-200/70">
+          {chapter.summary[locale]}
+        </span>
+        <span className="mt-auto flex items-center justify-between pt-3 font-mono text-[11.5px] text-purple-200/80">
+          <span className="flex items-center gap-1.5">
+            <Clock size={13} aria-hidden />
+            {chapter.estimatedMinutes} min
+          </span>
+          <span className="font-mono text-[11px] text-cyan-300 font-bold opacity-0 transition-opacity group-hover:opacity-100 flex items-center gap-1">
+            Listen / Read ➔
+          </span>
+        </span>
+      </span>
+    </button>
+  );
+}
+
+function StandardSubjectCard({
   subject,
   standard,
   doneCount,
@@ -934,7 +1561,7 @@ function SubjectCard({
 // ----------------------------------------------------------------------------
 // Chapter Card (Rendered in "this place" for Subject / All Chapters view)
 // ----------------------------------------------------------------------------
-function ChapterCard({
+function StandardChapterCard({
   subject,
   chapter,
   done,
@@ -995,6 +1622,32 @@ function ChapterCard({
 // ----------------------------------------------------------------------------
 // Main Personalised Learn Screen Dashboard
 // ----------------------------------------------------------------------------
+
+function SubjectCard(props: {
+  subject: CurriculumSubject;
+  standard: number;
+  doneCount: number;
+  onOpen: () => void;
+}) {
+  if (props.standard <= 3) {
+    return <CosmicSubjectCard {...props} />;
+  }
+  return <StandardSubjectCard {...props} />;
+}
+
+function ChapterCard(props: {
+  subject: CurriculumSubject;
+  chapter: CurriculumChapter;
+  standard?: number;
+  done: boolean;
+  onOpen: () => void;
+}) {
+  if (props.standard !== undefined && props.standard <= 3) {
+    return <CosmicChapterCard {...props} />;
+  }
+  return <StandardChapterCard {...props} />;
+}
+
 function PersonalisedLearnDashboard({
   band,
   profile,
@@ -1011,6 +1664,7 @@ function PersonalisedLearnDashboard({
 
   // Active Standard (fallback to 6)
   const currentStandard = isSupportedStandard(profile.grade) ? profile.grade : 6;
+  const isJunior = currentStandard <= 3; // Class 1 to 3 gets cosmic gamified interface!
   const isSenior = currentStandard >= 11;
 
   // Selected Group Filter for Class 11 and 12 (strictly cs, commerce, or business_maths)
@@ -1094,7 +1748,7 @@ function PersonalisedLearnDashboard({
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className={isJunior ? "relative flex flex-col gap-8" : "flex flex-col gap-8"}>
       {/* Standard Selector Modal */}
       <StandardSwitcherModal
         currentGrade={currentStandard}
@@ -1103,6 +1757,447 @@ function PersonalisedLearnDashboard({
         onClose={() => setSwitcherOpen(false)}
         onSelectStandard={handleStandardChange}
       />
+
+      {isJunior ? (
+        // CLASS 1 TO 3: Cosmic Gamified Dashboard
+        <>
+
+      {/* Cosmic background doodles */}
+      <CosmicBackgroundDoodles />
+
+      {/* [Top Navigation & Header: Class 1-3 Junior Cosmic View] */}
+      <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between border-b border-purple-500/20 pb-7">
+        {/* Left Column: Bubbly Neon Title, Laptop Mascot, Subtitle & Action Badges */}
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-3">
+            <h1 className="font-display text-[clamp(32px,4.5vw,54px)] font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-300 to-cyan-300 drop-shadow-[0_0_20px_rgba(244,114,182,0.7)]">
+              Digital Learning!
+            </h1>
+            <LaptopMascot className="size-16 sm:size-20 -mt-2 animate-bounce" />
+            <BlastingRocket className="hidden sm:block size-14 -mt-4 animate-pulse" />
+          </div>
+          <p className="text-sm sm:text-base text-purple-200/90 font-medium">
+            Videos, lessons, songs and stories. Read or listen.
+          </p>
+          <div className="flex flex-wrap items-center gap-3 pt-1">
+            {/* Green capsule with seedling / tree icon */}
+            <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/80 bg-emerald-950/70 px-4 py-1.5 font-mono text-xs font-semibold text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.35)]">
+              <Tree size={15} weight="fill" className="text-emerald-400" />
+              <span>Seed (Seedlings) - Class 1-3 🌱</span>
+            </span>
+            {/* Bouncing pink/violet pill */}
+            <button
+              type="button"
+              onClick={() => setSwitcherOpen(true)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-pink-400/80 bg-gradient-to-r from-pink-500/25 via-purple-500/30 to-violet-500/25 px-4 py-1.5 font-mono text-xs font-semibold text-pink-200 shadow-[0_0_18px_rgba(244,114,182,0.45)] hover:scale-105 active:scale-95 transition-all"
+            >
+              <span>Change Standard ✏️</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Right Column: Gamified Board-Game Progress Tracker Trail */}
+        <div className="flex flex-col items-start lg:items-end gap-1.5">
+          <span className="font-mono text-xs uppercase tracking-wider text-purple-200/90 font-bold">
+            Progress tracker
+          </span>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <BoardGameTrailSvg done={completedChaptersCount} total={totalChapters} />
+            <HappyStarBadge done={completedChaptersCount} total={totalChapters} />
+            <CheeringAstronautKid className="size-20 sm:size-24 -ml-2" />
+          </div>
+          <p className="font-mono text-xs text-purple-200/90 font-medium">
+            {completedChaptersCount === totalChapters
+              ? "🌟 All caught up! Class completed!"
+              : `${totalChapters - completedChaptersCount} more to complete Class ${currentStandard}!`}
+          </p>
+        </div>
+      </div>
+
+      {/* [The Interactive 2-Column Split: Lesson Adventure Gate + Textbooks & Study Worlds] */}
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        {/* Left Column: The Interactive Lesson Gate ("Adventure Gate") (col-span-12 lg:col-span-5) */}
+        {continueRecord && (
+          <div className="lg:col-span-5 relative overflow-hidden rounded-[28px] border-2 border-violet-500/80 bg-[#160a2f] p-5 sm:p-7 shadow-[0_0_40px_-5px_rgba(168,85,247,0.55),inset_0_0_30px_rgba(168,85,247,0.18)] flex flex-col justify-between">
+            {/* Background magical sparkles and cosmic floaters */}
+            <div className="pointer-events-none absolute inset-0 overflow-hidden select-none">
+              <span className="absolute top-4 left-6 text-pink-400 text-lg animate-ping">✦</span>
+              <span className="absolute top-10 right-8 text-amber-300 text-base animate-pulse">✨</span>
+              <span className="absolute bottom-16 left-8 text-cyan-300 text-sm">✦</span>
+              <span className="absolute bottom-8 right-16 text-yellow-300 text-base animate-pulse">⭐</span>
+            </div>
+
+            <div>
+              {/* Title Badge: ✨ IYAL 5: ADVENTURE GATE! ✨ */}
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-pink-400/80 bg-gradient-to-r from-pink-500/30 via-purple-500/35 to-violet-500/30 px-3.5 py-1 font-mono text-xs font-bold text-pink-200 shadow-[0_0_15px_rgba(244,114,182,0.45)] animate-pulse">
+                  <span>✨</span>
+                  <span>IYAL {continueRecord.chapter.chapterNumber}: ADVENTURE GATE!</span>
+                  <span>✨</span>
+                </span>
+                <BookMascot className="size-10 sm:size-12 shrink-0 -mt-1" />
+              </div>
+
+              {/* Continue Learning Subtitle */}
+              <p className="font-mono text-xs uppercase tracking-[0.18em] text-fuchsia-300 font-extrabold flex items-center gap-1.5">
+                <span>🪐</span>
+                <span>CONTINUE LEARNING</span>
+              </p>
+
+              {/* Chapter Title */}
+              <h2 className="font-display text-lg sm:text-2xl font-bold tracking-tight text-white mt-1.5 text-balance leading-snug">
+                {continueRecord.chapter.title[locale]} - {continueRecord.subject.name[locale]} - Chapter {continueRecord.chapter.chapterNumber}
+              </h2>
+
+              {/* Mascot Ensemble Around the Gate */}
+              <div className="relative my-5 flex items-center justify-center gap-2 sm:gap-4 py-3 px-2 rounded-2xl bg-[#0f0522]/80 border border-violet-500/30 overflow-hidden">
+                <BabyElephantMascot className="size-14 sm:size-18 shrink-0 transform hover:scale-110 transition-transform" />
+                <LionCubMascot className="size-12 sm:size-14 shrink-0 transform hover:scale-110 transition-transform" />
+
+                {/* Big Cartoon Circular Interactive Button in the center */}
+                <button
+                  type="button"
+                  onClick={() => setOpenChapterId(continueRecord.chapter.id)}
+                  className="group relative flex flex-col items-center justify-center size-24 sm:size-28 shrink-0 rounded-full bg-gradient-to-tr from-violet-600 via-fuchsia-500 to-pink-500 p-2 text-center text-white shadow-[0_0_30px_rgba(236,72,153,0.85)] hover:shadow-[0_0_45px_rgba(236,72,153,1)] hover:scale-105 active:scale-95 transition-all border-2 border-pink-300"
+                >
+                  <span className="text-xl sm:text-2xl animate-bounce">⭐</span>
+                  <span className="font-display text-[10px] sm:text-[11px] font-black leading-tight text-yellow-200">
+                    Tap to Enter & Start Learning!
+                  </span>
+                  <span className="text-[9px] text-pink-100 font-mono">Click Here!</span>
+                </button>
+
+                <KidBoyMascot className="size-12 sm:size-14 shrink-0 transform hover:scale-110 transition-transform" />
+                <KidGirlMascot className="size-12 sm:size-14 shrink-0 transform hover:scale-110 transition-transform" />
+              </div>
+            </div>
+
+            {/* Irresistible Oversized 3D-styled Pink & Purple Resume Play Button */}
+            <div className="mt-4 pt-2">
+              <button
+                type="button"
+                onClick={() => setOpenChapterId(continueRecord.chapter.id)}
+                className="w-full inline-flex h-14 items-center justify-center gap-3 rounded-full bg-gradient-to-r from-pink-500 via-purple-600 to-violet-600 px-8 font-display text-base sm:text-lg font-black text-white shadow-[0_0_35px_rgba(236,72,153,0.85)] hover:shadow-[0_0_50px_rgba(236,72,153,1)] hover:scale-[1.02] active:scale-[0.98] transition-all border-2 border-pink-300/80 animate-pulse"
+              >
+                <span>Resume Play!</span>
+                <span className="text-xl">➔</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Right Column: Textbooks + Study Worlds */}
+        <div className="lg:col-span-7 flex flex-col gap-5 justify-between">
+          {/* Top: Official TN Textbooks */}
+          <div className="relative overflow-hidden rounded-[26px] border border-violet-500/40 bg-[#120726]/90 p-4 sm:p-5 shadow-[0_0_25px_-5px_rgba(168,85,247,0.35)]">
+            <div className="flex items-center justify-between gap-3 mb-3">
+              <div className="flex items-center gap-2">
+                <TreasureChestMascot className="size-9" />
+                <h3 className="font-display text-base sm:text-lg font-bold text-white flex items-center gap-1.5">
+                  <span>Official TN Textbooks!</span>
+                  <span>📚</span>
+                </h3>
+              </div>
+              <div className="flex items-center gap-1">
+                <SpacePuppy className="size-7" />
+                <SpaceBear className="size-7" />
+                <SpaceKitty className="size-7" />
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2.5 font-mono text-xs">
+              <a
+                href={TN_NEW_SYLLABUS_2026_27_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-violet-500/60 bg-violet-950/70 px-4 py-2 text-violet-200 hover:border-pink-400 hover:bg-violet-900/80 hover:text-white shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all hover:scale-105"
+              >
+                <span>New Syllabus 2026–27 ✨</span>
+              </a>
+              <a
+                href={TN_TEXTBOOK_PORTAL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-violet-500/60 bg-violet-950/70 px-4 py-2 text-violet-200 hover:border-pink-400 hover:bg-violet-900/80 hover:text-white shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all hover:scale-105"
+              >
+                <span>TN School Textbooks Portal 🎒</span>
+              </a>
+              <a
+                href={TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-violet-500/60 bg-violet-950/70 px-4 py-2 text-violet-200 hover:border-pink-400 hover:bg-violet-900/80 hover:text-white shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all hover:scale-105"
+              >
+                <span>Class 1, 2, 3 PDF ✨</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Bottom: Choose Your Study Adventure Worlds */}
+          <div className="relative flex flex-col gap-3">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <GraduationCap size={22} weight="fill" className="text-cyan-400" />
+                <h3 className="font-display text-base sm:text-lg font-bold text-white tracking-tight">
+                  Choose Your Study Adventure! 🌟
+                </h3>
+              </div>
+
+              <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/80 bg-emerald-950/80 px-3.5 py-1 font-mono text-xs font-semibold text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.35)]">
+                <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>
+                  Enrolled: {seniorGroupFilter === "commerce" ? "Commerce Group" : seniorGroupFilter === "business_maths" ? "Business Maths Group" : "Computer Science Group"}
+                </span>
+              </span>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-3">
+              {/* World 1: Science Quest 🧪 */}
+              <button
+                type="button"
+                onClick={() => {
+                  setSeniorGroupFilter("cs");
+                  setFilter("subjects");
+                  authService.updateStandard(currentStandard, "cs");
+                }}
+                className={`relative overflow-hidden rounded-2xl border-2 p-4 text-left transition-all duration-300 hover:scale-[1.02] flex flex-col justify-between min-h-[140px] ${
+                  seniorGroupFilter === "cs"
+                    ? "border-cyan-400 bg-gradient-to-br from-[#0c2e42] via-[#081c2e] to-[#06121f] shadow-[0_0_30px_-5px_rgba(34,211,238,0.55)]"
+                    : "border-cyan-900/50 bg-[#091522]/80 hover:border-cyan-500/60"
+                }`}
+              >
+                <div className="z-10">
+                  <h4 className="font-display text-sm sm:text-base font-bold text-white flex items-center gap-1.5">
+                    <span>Science Quest</span>
+                    <span>🧪</span>
+                  </h4>
+                  <p className="mt-1.5 text-[11px] leading-relaxed text-cyan-100/80">
+                    Computer Science, Mathematics, Physics, Chemistry (+ Tamil & English)
+                  </p>
+                </div>
+                <div className="flex items-end justify-between mt-2 pt-1 border-t border-cyan-500/20 z-10">
+                  <DinosaurMascot className="size-10 pointer-events-none" />
+                  <ComputerMascot className="size-11 pointer-events-none" />
+                </div>
+              </button>
+
+              {/* World 2: Merchant World 🪙 */}
+              <button
+                type="button"
+                onClick={() => {
+                  setSeniorGroupFilter("commerce");
+                  setFilter("subjects");
+                  authService.updateStandard(currentStandard, "commerce");
+                }}
+                className={`relative overflow-hidden rounded-2xl border-2 p-4 text-left transition-all duration-300 hover:scale-[1.02] flex flex-col justify-between min-h-[140px] ${
+                  seniorGroupFilter === "commerce"
+                    ? "border-blue-400 bg-gradient-to-br from-[#142354] via-[#0f173f] to-[#0a0d2a] shadow-[0_0_30px_-5px_rgba(96,165,250,0.55)]"
+                    : "border-blue-900/50 bg-[#0a102b]/80 hover:border-blue-500/60"
+                }`}
+              >
+                <div className="z-10">
+                  <h4 className="font-display text-sm sm:text-base font-bold text-white flex items-center gap-1.5">
+                    <span>Merchant World</span>
+                    <span>🪙</span>
+                  </h4>
+                  <p className="mt-1.5 text-[11px] leading-relaxed text-blue-100/80">
+                    Commerce, Accountancy, Economics, Computer Applications (+ Tamil & English)
+                  </p>
+                </div>
+                <div className="flex items-end justify-between mt-2 pt-1 border-t border-blue-500/20 z-10">
+                  <TreasureChestMascot className="size-9 pointer-events-none" />
+                  <CalculatorMascot className="size-11 pointer-events-none" />
+                </div>
+              </button>
+
+              {/* World 3: Math Maze 📐 */}
+              <button
+                type="button"
+                onClick={() => {
+                  setSeniorGroupFilter("business_maths");
+                  setFilter("subjects");
+                  authService.updateStandard(currentStandard, "business_maths");
+                }}
+                className={`relative overflow-hidden rounded-2xl border-2 p-4 text-left transition-all duration-300 hover:scale-[1.02] flex flex-col justify-between min-h-[140px] ${
+                  seniorGroupFilter === "business_maths"
+                    ? "border-purple-400 bg-gradient-to-br from-[#2f124d] via-[#1f0b37] to-[#120524] shadow-[0_0_30px_-5px_rgba(192,132,252,0.55)]"
+                    : "border-purple-900/50 bg-[#160826]/80 hover:border-purple-500/60"
+                }`}
+              >
+                <div className="z-10">
+                  <h4 className="font-display text-sm sm:text-base font-bold text-white flex items-center gap-1.5">
+                    <span>Math Maze</span>
+                    <span>📐</span>
+                  </h4>
+                  <p className="mt-1.5 text-[11px] leading-relaxed text-purple-100/80">
+                    Commerce, Accountancy, Economics, Business Mathematics (+ Tamil & English)
+                  </p>
+                </div>
+                <div className="flex items-end justify-between mt-2 pt-1 border-t border-purple-500/20 z-10">
+                  <MathMonsterMascot className="size-10 pointer-events-none" />
+                  <RulerMascot className="size-11 pointer-events-none" />
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* [Footer Navigation: Filter Capsules Row] */}
+      <div
+        role="radiogroup"
+        aria-label="Filter subjects and chapters"
+        className="relative z-10 flex items-center gap-2.5 overflow-x-auto pb-3 [scrollbar-width:none]"
+      >
+        {/* All Subjects */}
+        <button
+          type="button"
+          role="radio"
+          aria-checked={filter === "subjects"}
+          onClick={() => setFilter("subjects")}
+          className={`relative flex h-12 shrink-0 items-center gap-2 rounded-full border px-5 text-sm font-semibold transition-all duration-200 ${
+            filter === "subjects"
+              ? "border-2 border-violet-400 bg-violet-600/35 text-white shadow-[0_0_20px_rgba(168,85,247,0.6)]"
+              : "border-white/10 bg-[#140828] text-purple-200/80 hover:text-white hover:border-violet-400/60"
+          }`}
+        >
+          <span>All Subjects</span>
+          <span className="font-mono text-xs opacity-75">{subjects.length}</span>
+          <span className="text-base">🎒</span>
+          {filter === "subjects" && (
+            <span className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-violet-400" />
+          )}
+        </button>
+
+        {/* All Chapters */}
+        <button
+          type="button"
+          role="radio"
+          aria-checked={filter === "all"}
+          onClick={() => setFilter("all")}
+          className={`relative flex h-12 shrink-0 items-center gap-2 rounded-full border px-5 text-sm font-semibold transition-all duration-200 ${
+            filter === "all"
+              ? "border-2 border-violet-400 bg-violet-600/35 text-white shadow-[0_0_20px_rgba(168,85,247,0.6)]"
+              : "border-white/10 bg-[#140828] text-purple-200/80 hover:text-white hover:border-violet-400/60"
+          }`}
+        >
+          <span>All Chapters</span>
+          <span className="font-mono text-xs opacity-75">{totalChapters}</span>
+          <span className="text-base">🌟</span>
+          {filter === "all" && (
+            <span className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-violet-400" />
+          )}
+        </button>
+
+        {/* Subject Specific Pills */}
+        {subjects.map((sub) => {
+          const active = filter === sub.id;
+          const count = sub.chapters.length;
+          const iconEmoji =
+            sub.code === "TAM" || sub.id.includes("tamil")
+              ? "🐯"
+              : sub.code === "ENG" || sub.id.includes("english")
+              ? "🦜"
+              : sub.code === "MAT" || sub.id.includes("math")
+              ? "🍎"
+              : sub.code === "PHY" || sub.id.includes("physics")
+              ? "🚀"
+              : sub.code === "CHE" || sub.id.includes("chem")
+              ? "🧪"
+              : sub.code === "CS" || sub.id.includes("computer")
+              ? "💻"
+              : "📚";
+
+          const label = (sub.code === "TAM" || sub.id.includes("tamil"))
+            ? `${sub.name[locale]} (பொதுத்தமிழ்)`
+            : sub.name[locale];
+
+          return (
+            <button
+              key={sub.id}
+              type="button"
+              role="radio"
+              aria-checked={active}
+              onClick={() => setFilter(sub.id)}
+              className={`relative flex h-12 shrink-0 items-center gap-2 rounded-full border px-5 text-sm font-semibold transition-all duration-200 ${
+                active
+                  ? "border-2 border-cyan-400 bg-cyan-600/30 text-white shadow-[0_0_20px_rgba(34,211,238,0.6)]"
+                  : "border-white/10 bg-[#140828] text-purple-200/80 hover:text-white hover:border-violet-400/60"
+              }`}
+            >
+              <span>{label}</span>
+              <span className="font-mono text-xs opacity-75">{count}</span>
+              <span className="text-base">{iconEmoji}</span>
+              {active && (
+                <span className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-cyan-400" />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* The Cards Grid */}
+      <div className="relative z-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {filter === "subjects" &&
+          subjects.map((sub, i) => {
+            const doneCount = sub.chapters.filter((c) =>
+              progress.lessonsDone.includes(c.id),
+            ).length;
+
+            return (
+              <div key={sub.id} className="fade-up" style={{ animationDelay: `${i * 50}ms` }}>
+                <SubjectCard
+                  subject={sub}
+                  standard={currentStandard}
+                  doneCount={doneCount}
+                  onOpen={() => setFilter(sub.id)}
+                />
+              </div>
+            );
+          })}
+
+        {filter === "all" &&
+          allFlatChapters.map((item, i) => {
+            const isDone = progress.lessonsDone.includes(item.chapter.id);
+            return (
+              <div key={item.chapter.id} className="fade-up" style={{ animationDelay: `${i * 50}ms` }}>
+                <ChapterCard
+                  subject={item.subject}
+                  chapter={item.chapter}
+                  standard={currentStandard}
+                  done={isDone}
+                  onOpen={() => setOpenChapterId(item.chapter.id)}
+                />
+              </div>
+            );
+          })}
+
+        {filter !== "subjects" &&
+          filter !== "all" &&
+          (() => {
+            const sub = subjects.find((s) => s.id === filter);
+            if (!sub) return null;
+            return sub.chapters.map((ch, i) => {
+              const isDone = progress.lessonsDone.includes(ch.id);
+              return (
+                <div key={ch.id} className="fade-up" style={{ animationDelay: `${i * 50}ms` }}>
+                  <ChapterCard
+                    subject={sub}
+                    chapter={ch}
+                    standard={currentStandard}
+                    done={isDone}
+                    onOpen={() => setOpenChapterId(ch.id)}
+                  />
+                </div>
+              );
+            });
+          })()}
+      </div>
+
+        </>
+      ) : (
+        // CLASS 4 TO 12: Clean Standard Educational Portal
+        <>
 
       {/* 1. Top Row: Progress Ring & Speech Bubble Mascot / Standard Hint */}
       <div className="grid gap-3 md:grid-cols-[auto_1fr] md:items-center">
@@ -1241,16 +2336,12 @@ function PersonalisedLearnDashboard({
                 <h3 className="font-display text-base font-bold text-text">
                   {locale === "ta"
                     ? "மேல்நிலைப் பிரிவு பாடங்கள் (Class 11 & 12 Streams)"
-                    : locale === "hi"
-                      ? "हायर सेकेंडरी स्ट्रीम्स और ग्रुप्स"
-                      : "Higher Secondary Stream Groups"}
+                    : "Higher Secondary Stream Groups"}
                 </h3>
                 <p className="text-xs text-muted">
                   {locale === "ta"
                     ? "தமிழ்நாடு மாநிலப் பாடத்திட்டத்தின் முக்கியப் பாடப்பிரிவுகள்"
-                    : locale === "hi"
-                      ? "तमिलनाडु स्टेट बोर्ड स्ट्रीम-वार विषय"
-                      : "Tamil Nadu Samacheer Kalvi standard-wise group tracks"}
+                    : "Tamil Nadu Samacheer Kalvi standard-wise group tracks"}
                 </p>
               </div>
             </div>
@@ -1264,7 +2355,6 @@ function PersonalisedLearnDashboard({
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3">
-            {/* The 3 Official Groups: Computer Science, Commerce, Business Maths */}
             {SENIOR_GROUPS.map((grp) => {
               const active = seniorGroupFilter === grp.id;
               return (
@@ -1300,53 +2390,49 @@ function PersonalisedLearnDashboard({
         </div>
       )}
 
-      {/* 4. Filter Pills Row: All Subjects, All Chapters, and Subjects for this Standard */}
+      {/* 4. Filter Capsules: All Subjects vs All Chapters vs Individual Subject */}
       <div
         role="radiogroup"
         aria-label="Filter subjects and chapters"
-        className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none]"
+        className="flex items-center gap-2 overflow-x-auto pb-2 [scrollbar-width:none]"
       >
-        {/* Pill 1: All Subjects */}
         <button
           type="button"
           role="radio"
           aria-checked={filter === "subjects"}
           onClick={() => setFilter("subjects")}
-          style={{ "--cat": "var(--violet)" } as React.CSSProperties}
-          className={`flex h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-[14px] transition-colors duration-200 ${
+          className={`flex h-10 shrink-0 items-center gap-2 rounded-full border px-4 font-mono text-xs transition-colors ${
             filter === "subjects"
-              ? "border-[var(--cat)] bg-[color-mix(in_srgb,var(--cat)_16%,transparent)] text-text font-medium"
-              : "border-line text-muted hover:text-text"
+              ? "border-violet bg-violet-deep text-violet-ink"
+              : "border-line bg-surface text-muted hover:text-text"
           }`}
         >
-          <Books size={16} weight="duotone" className="text-violet" aria-hidden />
           <span>All Subjects</span>
-          <span className="font-mono text-[11px] opacity-60">{subjects.length}</span>
+          <span className="rounded-full bg-white/[0.08] px-1.5 py-0.5 text-[10px]">
+            {subjects.length}
+          </span>
         </button>
 
-        {/* Pill 2: All Chapters */}
         <button
           type="button"
           role="radio"
           aria-checked={filter === "all"}
           onClick={() => setFilter("all")}
-          style={{ "--cat": "var(--violet)" } as React.CSSProperties}
-          className={`flex h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-[14px] transition-colors duration-200 ${
+          className={`flex h-10 shrink-0 items-center gap-2 rounded-full border px-4 font-mono text-xs transition-colors ${
             filter === "all"
-              ? "border-[var(--cat)] bg-[color-mix(in_srgb,var(--cat)_16%,transparent)] text-text font-medium"
-              : "border-line text-muted hover:text-text"
+              ? "border-violet bg-violet-deep text-violet-ink"
+              : "border-line bg-surface text-muted hover:text-text"
           }`}
         >
-          <Sparkle size={16} weight="duotone" className="text-violet" aria-hidden />
           <span>All Chapters</span>
-          <span className="font-mono text-[11px] opacity-60">{totalChapters}</span>
+          <span className="rounded-full bg-white/[0.08] px-1.5 py-0.5 text-[10px]">
+            {totalChapters}
+          </span>
         </button>
 
-        {/* Subject Pills */}
         {subjects.map((sub) => {
           const active = filter === sub.id;
           const count = sub.chapters.length;
-
           return (
             <button
               key={sub.id}
@@ -1354,24 +2440,24 @@ function PersonalisedLearnDashboard({
               role="radio"
               aria-checked={active}
               onClick={() => setFilter(sub.id)}
-              style={{ "--cat": sub.accent } as React.CSSProperties}
-              className={`flex h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-[14px] transition-colors duration-200 ${
+              className={`flex h-10 shrink-0 items-center gap-2 rounded-full border px-4 font-mono text-xs transition-colors ${
                 active
-                  ? "border-[var(--cat)] bg-[color-mix(in_srgb,var(--cat)_16%,transparent)] text-text font-medium"
-                  : "border-line text-muted hover:text-text"
+                  ? "border-[var(--cat)] bg-[color-mix(in_srgb,var(--cat)_15%,transparent)] text-[var(--cat)]"
+                  : "border-line bg-surface text-muted hover:text-text"
               }`}
+              style={{ "--cat": sub.accent } as React.CSSProperties}
             >
-              <SubjectIcon icon={sub.icon} className="size-4 text-[var(--cat)]" />
               <span>{sub.name[locale]}</span>
-              <span className="font-mono text-[11px] opacity-60">{count}</span>
+              <span className="rounded-full bg-white/[0.08] px-1.5 py-0.5 text-[10px]">
+                {count}
+              </span>
             </button>
           );
         })}
       </div>
 
-      {/* 4. The Cards Grid ("In this place") */}
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {/* CASE A: All Subjects view */}
+      {/* The Cards Grid */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {filter === "subjects" &&
           subjects.map((sub, i) => {
             const doneCount = sub.chapters.filter((c) =>
@@ -1390,7 +2476,6 @@ function PersonalisedLearnDashboard({
             );
           })}
 
-        {/* CASE B: All Chapters view */}
         {filter === "all" &&
           allFlatChapters.map((item, i) => {
             const isDone = progress.lessonsDone.includes(item.chapter.id);
@@ -1399,6 +2484,7 @@ function PersonalisedLearnDashboard({
                 <ChapterCard
                   subject={item.subject}
                   chapter={item.chapter}
+                  standard={currentStandard}
                   done={isDone}
                   onOpen={() => setOpenChapterId(item.chapter.id)}
                 />
@@ -1406,7 +2492,6 @@ function PersonalisedLearnDashboard({
             );
           })}
 
-        {/* CASE C: Specific Subject view */}
         {filter !== "subjects" &&
           filter !== "all" &&
           (() => {
@@ -1419,6 +2504,7 @@ function PersonalisedLearnDashboard({
                   <ChapterCard
                     subject={sub}
                     chapter={ch}
+                    standard={currentStandard}
                     done={isDone}
                     onOpen={() => setOpenChapterId(ch.id)}
                   />
@@ -1428,7 +2514,10 @@ function PersonalisedLearnDashboard({
           })()}
       </div>
 
-      {/* 5. Interactive Lesson Dialog (Reader & Quiz) */}
+        </>
+      )}
+
+      {/* Interactive Lesson Dialog (Reader & Quiz) */}
       <CurriculumLessonDialog
         standard={currentStandard}
         subject={activeChapterItem?.subject ?? null}
@@ -1458,7 +2547,7 @@ export function LearnScreen({ band }: { band: Band }) {
       <div className="rounded-[28px] border border-line bg-surface/80 p-6 text-center sm:p-12">
         <h2 className="font-display text-3xl font-bold">Please complete your student profile</h2>
         <p className="mt-2 text-sm text-muted">
-          Select your school standard (Class 4 to Class 12) to access your personalised curriculum.
+          Select your school standard (Class 1 to Class 12) to access your personalised curriculum.
         </p>
         <div className="mt-6">
           <Link

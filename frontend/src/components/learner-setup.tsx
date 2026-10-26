@@ -179,15 +179,13 @@ export function LearnerSetup({
       <div>
         <h2 className="font-display text-[clamp(26px,3.8vw,44px)] leading-[1.05] tracking-[-0.035em] text-balance">
           {existing
-            ? (locale === "ta" ? "உன் சுயவிவரத்தைப் புதுப்பி" : locale === "hi" ? "अपनी प्रोफ़ाइल अपडेट करें" : "Update your student profile")
+            ? (locale === "ta" ? "உன் சுயவிவரத்தைப் புதுப்பி" : "Update your student profile")
             : c.askTitle}
         </h2>
         <p className="mt-2 max-w-xl text-[14.5px] leading-relaxed text-muted">
           {locale === "ta"
             ? "விதை (வகுப்பு 1–3), செடி (வகுப்பு 4–10) அல்லது மரம் (வகுப்பு 11–12) தேர்ந்தெடுத்துத் தொடர்க."
-            : locale === "hi"
-              ? "बीज (कक्षा 1–3), पौधा (कक्षा 4–10) या वृक्ष (कक्षा 11–12) चुनकर आगे बढ़ें।"
-              : "Choose Seed for Class 1–3, Plant for Class 4–10, or Tree for Class 11–12, then proceed."}
+            : "Choose Seed for Class 1–3, Plant for Class 4–10, or Tree for Class 11–12, then proceed."}
         </p>
       </div>
 
@@ -195,7 +193,7 @@ export function LearnerSetup({
       <fieldset>
         <div className="flex items-center justify-between mb-3">
           <legend className="font-mono text-[12px] uppercase tracking-[0.14em] text-violet font-semibold">
-            1. {locale === "ta" ? "படிநிலையைத் தேர்ந்தெடு" : locale === "hi" ? "अवस्था चुनें" : "Select Your Growth Stage"} *
+            1. {locale === "ta" ? "படிநிலையைத் தேர்ந்தெடு" : "Select Your Growth Stage"} *
           </legend>
           {grade && (
             <span className="font-mono text-[12px] text-muted">
@@ -295,9 +293,7 @@ export function LearnerSetup({
               <span className="font-mono text-[11.5px] uppercase tracking-wider text-teal font-semibold">
                 {locale === "ta"
                   ? "மேல்நிலைப் பாடப்பிரிவைத் தேர்ந்தெடு (Class 11 & 12 Group):"
-                  : locale === "hi"
-                    ? "हायर सेकेंडरी ग्रुप चुनें (Class 11 & 12 Group):"
-                    : "Select Your Higher Secondary Group (Class 11 & 12):"}
+                  : "Select Your Higher Secondary Group (Class 11 & 12):"}
               </span>
               <span className="rounded-full bg-teal/20 px-2 py-0.5 font-mono text-[10.5px] text-teal">
                 4 Core Electives
@@ -366,7 +362,7 @@ export function LearnerSetup({
 
         <label className="flex flex-col gap-2">
           <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-            3. {locale === "ta" ? "மின்னஞ்சல் அல்லது மாணவர் எண்" : locale === "hi" ? "ईमेल या छात्र आईडी" : "Email or Student Login ID"}
+            3. {locale === "ta" ? "மின்னஞ்சல் அல்லது மாணவர் எண்" : "Email or Student Login ID"}
           </span>
           <input
             type="email"
@@ -382,7 +378,7 @@ export function LearnerSetup({
         {/* Preferred Language */}
         <div className="flex flex-col gap-2">
           <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-            4. {locale === "ta" ? "விருப்ப மொழி" : locale === "hi" ? "पसंदीदा भाषा" : "Preferred Language"}
+            4. {locale === "ta" ? "விருப்ப மொழி" : "Preferred Language"}
           </span>
           <div className="flex gap-2">
             {LOCALES.map((l) => {
