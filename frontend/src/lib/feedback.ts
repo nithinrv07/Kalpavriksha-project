@@ -92,20 +92,24 @@ function audio(): AudioContext | null {
 
 function play(kind: CueKind) {
   if (!getSoundOn()) return;
-  const ac = audio();
-  if (!ac) return;
-  const now = ac.currentTime + 0.01;
-  for (const n of CUES[kind]) {
-    const osc = ac.createOscillator();
-    const env = ac.createGain();
-    osc.type = n.type ?? "sine";
-    osc.frequency.value = n.freq;
-    env.gain.setValueAtTime(0.0001, now + n.at);
-    env.gain.exponentialRampToValueAtTime(n.gain, now + n.at + 0.012);
-    env.gain.exponentialRampToValueAtTime(0.0001, now + n.at + n.len);
-    osc.connect(env).connect(ac.destination);
-    osc.start(now + n.at);
-    osc.stop(now + n.at + n.len + 0.02);
+  try {
+    const ac = audio();
+    if (!ac) return;
+    const now = ac.currentTime + 0.01;
+    for (const n of CUES[kind]) {
+      const osc = ac.createOscillator();
+      const env = ac.createGain();
+      osc.type = n.type ?? "sine";
+      osc.frequency.setValueAtTime(n.freq, now + n.at);
+      env.gain.setValueAtTime(0.0001, now + n.at);
+      env.gain.exponentialRampToValueAtTime(n.gain, now + n.at + 0.012);
+      env.gain.exponentialRampToValueAtTime(0.0001, now + n.at + n.len);
+      osc.connect(env).connect(ac.destination);
+      osc.start(now + n.at);
+      osc.stop(now + n.at + n.len + 0.02);
+    }
+  } catch {
+    // Sound is a bonus: never let an audio quirk break a lesson.
   }
 }
 

@@ -25,6 +25,9 @@ export function FeedbackLayer() {
   const nextId = useRef(1);
   const timers = useRef<number[]>([]);
   const seenXp = useRef<number | null>(null);
+  const xpNow = useRef(progress.xp);
+  xpNow.current = progress.xp;
+  const ready = useRef(false);
 
   const add = useCallback((pop: Omit<Pop, "id">) => {
     const id = nextId.current++;
@@ -47,13 +50,20 @@ export function FeedbackLayer() {
     return () => window.removeEventListener(CUE_EVENT, onCue);
   }, [add]);
 
+  // Stored progress replaces the empty server snapshot right after hydration.
+  // Take the baseline on the next tick so that swap isn't read as a gain.
   useEffect(() => {
+    const t = window.setTimeout(() => {
+      seenXp.current = xpNow.current;
+      ready.current = true;
+    }, 0);
+    return () => window.clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (!ready.current) return;
     const xp = progress.xp;
-    if (seenXp.current === null) {
-      seenXp.current = xp;
-      return;
-    }
-    const delta = xp - seenXp.current;
+    const delta = xp - (seenXp.current ?? xp);
     seenXp.current = xp;
     if (delta <= 0) return;
 
