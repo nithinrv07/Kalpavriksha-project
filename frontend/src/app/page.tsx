@@ -3,6 +3,7 @@ import { ChromeWaves } from "@/components/landing/chrome-waves";
 import { CtaFooter } from "@/components/landing/cta-footer";
 import { Hero } from "@/components/landing/hero";
 import { IdentitySection } from "@/components/landing/identity-section";
+import { KolamDivider } from "@/components/landing/kolam-divider";
 import { LivingTree } from "@/components/landing/living-tree";
 import { ScrollFx } from "@/components/scroll-fx";
 
@@ -25,6 +26,7 @@ export default function Home() {
         <ScrollFx />
         <Hero />
         <BentoModules />
+        <KolamDivider />
         <IdentitySection />
         <CtaFooter />
       </main>
