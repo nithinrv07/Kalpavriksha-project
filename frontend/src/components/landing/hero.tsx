@@ -277,7 +277,7 @@ export function Hero() {
           }
           back={
             /* FLIP SIDE: Particle Tree View */
-            <div className="relative flex h-full w-full flex-col overflow-hidden bg-transparent lg:block">
+            <div className="relative flex h-full w-full flex-col overflow-y-auto bg-transparent lg:block lg:overflow-hidden">
 
               {/* Top bar — flows on mobile, pinned on desktop */}
               <div className="z-20 flex items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
@@ -359,7 +359,7 @@ export function Hero() {
               </div>
 
               {/* Particle stage — shifted down for harmonious breathing room */}
-              <div className="hero-stage relative mx-auto aspect-square w-full max-w-[560px] translate-y-6 sm:translate-y-8 lg:translate-y-10 lg:absolute lg:bottom-28 lg:left-[9%] lg:top-0 lg:aspect-auto lg:w-[54%] lg:max-w-none">
+              <div className="hero-stage relative mx-auto aspect-square w-full max-w-[560px] shrink-0 translate-y-6 sm:translate-y-8 lg:translate-y-10 lg:absolute lg:bottom-28 lg:left-[9%] lg:top-0 lg:aspect-auto lg:w-[54%] lg:max-w-none">
                 <ParticleCanvas shape={shape} className="absolute inset-0 h-full w-full" active={isFlipped} />
                 {t.stats.map((stat, i) => (
                   <div
@@ -382,7 +382,7 @@ export function Hero() {
               </p>
 
               {/* Copy block */}
-              <div className="hero-copy relative z-10 px-5 pb-2 sm:px-8 lg:absolute lg:right-8 xl:right-12 lg:top-[27%] lg:w-[44%] lg:p-0 lg:text-right [container-type:inline-size]">
+              <div className="hero-copy relative z-10 shrink-0 px-5 pb-2 sm:px-8 lg:absolute lg:right-8 xl:right-12 lg:top-[27%] lg:w-[44%] lg:p-0 lg:text-right [container-type:inline-size]">
                 <p className="fade-up font-mono text-[13px] leading-relaxed text-violet" style={{ animationDelay: "500ms" }}>
                   {t.tagline[0]}
                   <br />
@@ -411,7 +411,7 @@ export function Hero() {
               </div>
 
               <div
-                className="fade-up relative z-10 px-5 pt-5 sm:px-8 lg:absolute lg:bottom-10 lg:right-8 xl:right-12 lg:max-w-[380px] lg:p-0 lg:text-right"
+                className="fade-up relative z-10 shrink-0 px-5 pt-5 sm:px-8 lg:absolute lg:bottom-10 lg:right-8 xl:right-12 lg:max-w-[380px] lg:p-0 lg:text-right"
                 style={{ animationDelay: "1100ms" }}
               >
                 <p className="font-mono text-[13.5px] leading-relaxed text-muted">{t.lead}</p>
@@ -432,7 +432,7 @@ export function Hero() {
                   setHovering(false);
                   setSlot(-1);
                 }}
-                className="relative z-10 flex gap-2 overflow-x-auto px-5 pb-5 pt-6 [scrollbar-width:none] sm:px-8 lg:absolute lg:bottom-10 lg:left-[112px] xl:left-[128px] lg:max-w-[52%] lg:flex-wrap lg:overflow-visible lg:p-0"
+                className="relative z-10 flex shrink-0 touch-auto gap-2 overflow-x-auto px-5 pb-5 pt-6 [scrollbar-width:none] sm:px-8 lg:absolute lg:bottom-10 lg:left-[112px] xl:left-[128px] lg:max-w-[52%] lg:flex-wrap lg:overflow-visible lg:p-0"
               >
                 {MODULES.map((m, i) => {
                   const active = slot === i;
