@@ -3,7 +3,7 @@ import { ChromeWaves } from "@/components/landing/chrome-waves";
 import { CtaFooter } from "@/components/landing/cta-footer";
 import { Hero } from "@/components/landing/hero";
 import { IdentitySection } from "@/components/landing/identity-section";
-import { MoonlitPetals } from "@/components/moonlit-petals";
+import { LivingTree } from "@/components/landing/living-tree";
 import { ScrollFx } from "@/components/scroll-fx";
 
 export default function Home() {
@@ -19,25 +19,7 @@ export default function Home() {
           WebkitMaskImage: "linear-gradient(to right, #000 88%, transparent 100%)",
         }}
       >
-        <MoonlitPetals
-          background="transparent"
-          scale={68}
-          blossomColor="#D8B4FE"
-          petals={80}
-          wind={20}
-          direction="left"
-          throttleAfterViewports={1.15}
-          advanced={{
-            flowers: 11000,
-            crownReach: 100,
-            twigs: 30,
-            clumpSize: 11,
-            flowerSize: 6,
-            hazeOpacity: 0,
-            vignette: 0,
-            grain: 0,
-          }}
-        />
+        <LivingTree />
       </div>
       <main className="relative z-10">
         <ScrollFx />
