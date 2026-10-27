@@ -172,20 +172,7 @@ export function DepthText({
       motion.velocity = 0;
       motion.float = 0;
       applyGrow();
-      current.x = baseRotation.x;
-      current.y = baseRotation.y;
-      applyTransform();
-      return undefined;
-    }
-
-    // Static mode: when animation features are disabled, render resting pose and skip loops.
-    const hasAnimation = (autoOrbit || float || canTrackPointer || safePush > 0 || intro) && !reducedMotion;
-    if (!hasAnimation) {
-      introRef.current = 1;
-      motion.push = 0;
-      motion.velocity = 0;
-      motion.float = 0;
-      applyGrow();
+      setIntroDone(true);
       current.x = baseRotation.x;
       current.y = baseRotation.y;
       applyTransform();
@@ -200,6 +187,7 @@ export function DepthText({
       motion.velocity = 0;
       motion.float = 0;
       applyGrow();
+      setIntroDone(true);
       current.x = baseRotation.x + Math.sin(0) * safeTilt * 0.18;
       current.y = baseRotation.y + Math.cos(0) * safeTilt * 0.18;
       applyTransform();
@@ -375,7 +363,7 @@ export function DepthText({
       resizeObserver?.disconnect();
       stop();
     };
-  }, [autoOrbit, baseRotation, pointerTracking, safeOrbitSpeed, safeSmoothing, safeTilt, safePush, float, extent, active, intro]);
+  }, [autoOrbit, baseRotation, pointerTracking, safeOrbitSpeed, safeSmoothing, safeTilt, safePush, float, extent, active]);
 
   const rootStyle = {
     ...style,

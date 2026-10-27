@@ -52,6 +52,7 @@
 
 html {
   background: var(--bg);
+  scroll-behavior: smooth;
 }
 
 body {
@@ -61,336 +62,12 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
-  overscroll-behavior-y: none;
 }
 
-/* Dual Theme Support: Light Mode Overrides */
-[data-theme="light"],
-.light {
-  color-scheme: light;
-  --bg: #f8f6fc;
-  --surface: #ffffff;
-  --surface-2: #f1ecfa;
-  --line: rgb(76 29 149 / 0.14);
-  --line-strong: rgb(76 29 149 / 0.28);
-  --text: #110826;
-  --muted: #4a3e63;
-  --violet: #7c3aed;
-  --violet-deep: #ede9fe;
-  --violet-ink: #310c59;
-  --glow-a: #a855f7;
-  --glow-b: #ec4899;
-  --amber: #b45309;
-  --teal: #0f766e;
-  --pink: #be185d;
-  --success: #15803d;
-  --danger: #b91c1c;
-}
-
-[data-theme="light"] body,
-.light body {
-  background: radial-gradient(circle at 50% 0%, #ede5f8 0%, #f6f2fd 38%, #fbf9fe 70%, #ffffff 100%) !important;
-  color: var(--text) !important;
-}
-
-[data-theme="light"] ::selection,
-.light ::selection {
-  background: rgb(124 58 237 / 0.22);
-  color: #110826;
-}
-
-/* Chrome Waves & Module Background Shading adaptation */
-.chrome-light-shade,
-.module-light-shade {
-  display: none;
-}
-
-[data-theme="light"] .chrome-black-shade,
-.light .chrome-black-shade,
-[data-theme="light"] .module-dark-shade,
-.light .module-dark-shade {
-  display: none !important;
-}
-
-[data-theme="light"] .chrome-light-shade,
-.light .chrome-light-shade,
-[data-theme="light"] .module-light-shade,
-.light .module-light-shade {
-  display: block !important;
-}
-
-/* Translucent surfaces light mode enhancements */
-[data-theme="light"] .bg-white\/\[0\.04\],
-.light .bg-white\/\[0\.04\],
-[data-theme="light"] .bg-white\/\[0\.03\],
-.light .bg-white\/\[0\.03\],
-[data-theme="light"] .bg-white\/\[0\.05\],
-.light .bg-white\/\[0\.05\],
-[data-theme="light"] .bg-white\/\[0\.06\],
-.light .bg-white\/\[0\.06\] {
-  background-color: var(--surface) !important;
-  box-shadow: 0 2px 10px -2px rgba(76, 29, 149, 0.05);
-}
-
-[data-theme="light"] .hover\:bg-white\/\[0\.1\]:hover,
-.light .hover\:bg-white\/\[0\.1\]:hover,
-[data-theme="light"] .hover\:bg-white\/\[0\.06\]:hover,
-.light .hover\:bg-white\/\[0\.06\]:hover {
-  background-color: var(--surface-2) !important;
-}
-
-[data-theme="light"] .border-white\/15,
-.light .border-white\/15,
-[data-theme="light"] .border-white\/12,
-.light .border-white\/12,
-[data-theme="light"] .border-white\/10,
-.light .border-white\/10,
-[data-theme="light"] .border-white\/8,
-.light .border-white\/8 {
-  border-color: rgba(76, 29, 149, 0.14) !important;
-}
-
-/* All card containers with dark hex backgrounds become clean white cards in light mode */
-[data-theme="light"] .bg-\[\#120a24\]\/92,
-.light .bg-\[\#120a24\]\/92,
-[data-theme="light"] .bg-\[\#140d28\]\/90,
-.light .bg-\[\#140d28\]\/90,
-[data-theme="light"] .bg-\[\#140828\],
-.light .bg-\[\#140828\],
-[data-theme="light"] .bg-\[\#1e133c\],
-.light .bg-\[\#1e133c\],
-[data-theme="light"] .bg-\[\#1a0e33\],
-.light .bg-\[\#1a0e33\],
-[data-theme="light"] .bg-\[\#0e0524\],
-.light .bg-\[\#0e0524\],
-[data-theme="light"] .bg-\[\#0c041f\],
-.light .bg-\[\#0c041f\],
-[data-theme="light"] .bg-\[\#160932\],
-.light .bg-\[\#160932\],
-[data-theme="light"] .bg-\[\#14072b\],
-.light .bg-\[\#14072b\],
-[data-theme="light"] .bg-\[\#1c0c3c\],
-.light .bg-\[\#1c0c3c\],
-[data-theme="light"] .bg-\[\#1a0a38\],
-.light .bg-\[\#1a0a38\],
-[data-theme="light"] .bg-\[\#200d44\],
-.light .bg-\[\#200d44\],
-[data-theme="light"] .bg-\[\#160a2f\],
-.light .bg-\[\#160a2f\],
-[data-theme="light"] .bg-\[\#120726\],
-.light .bg-\[\#120726\],
-[data-theme="light"] .bg-\[\#0f0522\],
-.light .bg-\[\#0f0522\],
-[data-theme="light"] .bg-\[\#091522\],
-.light .bg-\[\#091522\],
-[data-theme="light"] .bg-\[\#0a102b\],
-.light .bg-\[\#0a102b\],
-[data-theme="light"] .bg-\[\#160826\],
-.light .bg-\[\#160826\] {
-  background-color: rgba(255, 255, 255, 0.95) !important;
-  border-color: rgba(76, 29, 149, 0.14) !important;
-  box-shadow: 0 10px 30px -5px rgba(76, 29, 149, 0.08), 0 2px 8px -2px rgba(76, 29, 149, 0.04) !important;
-  color: var(--text) !important;
-}
-
-[data-theme="light"] .hover\:bg-\[\#1a0e33\]:hover,
-.light .hover\:bg-\[\#1a0e33\]:hover,
-[data-theme="light"] .hover\:bg-\[\#1e133c\]:hover,
-.light .hover\:bg-\[\#1e133c\]:hover {
-  background-color: #ffffff !important;
-}
-
-/* Card titles and body text visibility inside cards */
-[data-theme="light"] .bg-\[\#140828\] .text-white,
-.light .bg-\[\#140828\] .text-white,
-[data-theme="light"] .bg-\[\#140d28\]\/90 .text-white,
-.light .bg-\[\#140d28\]\/90 .text-white,
-[data-theme="light"] .bg-\[\#120a24\]\/92 .text-white,
-.light .bg-\[\#120a24\]\/92 .text-white,
-[data-theme="light"] .bg-\[\#0e0524\] .text-white,
-.light .bg-\[\#0e0524\] .text-white {
-  color: var(--text) !important;
-}
-
-[data-theme="light"] .bg-\[\#140828\] .text-purple-200\/70,
-.light .bg-\[\#140828\] .text-purple-200\/70,
-[data-theme="light"] .bg-\[\#140828\] .text-purple-200\/80,
-.light .bg-\[\#140828\] .text-purple-200\/80,
-[data-theme="light"] .bg-\[\#140d28\]\/90 .text-purple-200\/70,
-.light .bg-\[\#140d28\]\/90 .text-purple-200\/70 {
-  color: var(--muted) !important;
-}
-
-/* Bento module big numbers 01, 02, 03 */
-[data-theme="light"] .text-white\/50,
-.light .text-white\/50 {
-  color: rgba(76, 29, 149, 0.35) !important;
-}
-
-[data-theme="light"] .group:hover .group-hover\:text-white,
-.light .group:hover .group-hover\:text-white,
-[data-theme="light"] .hover\:text-white:hover,
-.light .hover\:text-white:hover {
-  color: #110826 !important;
-}
-
-/* Accents contrast enhancement in light mode */
-[data-theme="light"] .text-amber-300,
-.light .text-amber-300,
-[data-theme="light"] .text-amber-200,
-.light .text-amber-200,
-[data-theme="light"] .text-amber-400,
-.light .text-amber-400 {
-  color: #b45309 !important;
-}
-
-[data-theme="light"] .text-cyan-300,
-.light .text-cyan-300,
-[data-theme="light"] .text-cyan-200,
-.light .text-cyan-200 {
-  color: #0369a1 !important;
-}
-
-[data-theme="light"] .text-purple-200,
-.light .text-purple-200,
-[data-theme="light"] .text-purple-300,
-.light .text-purple-300,
-[data-theme="light"] .text-violet-200,
-.light .text-violet-200 {
-  color: #5b21b6 !important;
-}
-
-[data-theme="light"] .text-pink-200,
-.light .text-pink-200,
-[data-theme="light"] .text-pink-300,
-.light .text-pink-300 {
-  color: #be185d !important;
-}
-
-[data-theme="light"] .text-emerald-300,
-.light .text-emerald-300 {
-  color: #047857 !important;
-}
-
-/* Text on dark gradient buttons stays white */
-[data-theme="light"] [class*="bg-gradient"] .text-white,
-.light [class*="bg-gradient"] .text-white,
-[data-theme="light"] [class*="bg-gradient"].text-white,
-.light [class*="bg-gradient"].text-white,
-[data-theme="light"] [class*="bg-pink-500"] .text-white,
-.light [class*="bg-pink-500"] .text-white,
-[data-theme="light"] [class*="bg-violet-600"] .text-white,
-.light [class*="bg-violet-600"] .text-white,
-[data-theme="light"] [class*="bg-purple-600"] .text-white,
-.light [class*="bg-purple-600"] .text-white,
-[data-theme="light"] [class*="bg-blue-600"] .text-white,
-.light [class*="bg-blue-600"] .text-white,
-[data-theme="light"] [class*="bg-emerald-500"] .text-white,
-.light [class*="bg-emerald-500"] .text-white,
-[data-theme="light"] [class*="bg-black"] .text-white,
-.light [class*="bg-black"] .text-white,
-[data-theme="light"] [class*="bg-black"] .text-white\/90,
-.light [class*="bg-black"] .text-white\/90 {
-  color: #ffffff !important;
-}
 ::selection {
   background: rgb(167 139 250 / 0.35);
   color: #fff;
 }
-
-:focus-visible {
-  outline: 2px solid var(--violet);
-  outline-offset: 3px;
-  border-radius: 10px;
-}
-
-/* ---------- Motion primitives ---------- */
-
-@keyframes type-in {
-  from {
-    opacity: 0;
-    transform: translateY(0.35em);
-  }
-}
-
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    translate: 0 14px;
-  }
-}
-
-@keyframes spin-slow {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes wave {
-  0%,
-  100% {
-    transform: scaleY(0.35);
-  }
-  50% {
-    transform: scaleY(1);
-  }
-}
-
-@keyframes dash-flow {
-  to {
-    stroke-dashoffset: -24;
-  }
-}
-
-@keyframes beam-travel {
-  from {
-    stroke-dashoffset: 100;
-  }
-  to {
-    stroke-dashoffset: -16;
-  }
-}
-
-@keyframes chip-progress {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-@keyframes beam {
-  to {
-    --beam-angle: 360deg;
-  }
-}
-
-@property --beam-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-
-.type-in {
-  display: inline-block;
-  animation: type-in 0.7s var(--ease-out) both;
-}
-
-.fade-up {
-  animation: fade-up 0.9s var(--ease-out) both;
-}
-
-@keyframes glow-drift {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(-6vmax, 5vmax) scale(1.12);
-  }
-}
-
 
 /* Dynamic chromatic nebula shifts for living ambient background */
 @keyframes aurora-shift-1 {
@@ -441,328 +118,169 @@ body {
   transform: translate3d(0, 0, 0);
 }
 
+/* Reduced-motion overrides: pause infinite ambient loops. */
+@media (prefers-reduced-motion: reduce) {
+  .glow-drift,
+  .spin-slow,
+  .aurora-drift-1,
+  .aurora-drift-2,
+  .aurora-drift-3 {
+    animation: none !important;
+  }
+}
+
+/* Calm comfort switch: freeze every ambient background loop. */
+html[data-calm="true"] .glow-drift,
+html[data-calm="true"] .spin-slow,
+html[data-calm="true"] .aurora-drift-1,
+html[data-calm="true"] .aurora-drift-2,
+html[data-calm="true"] .aurora-drift-3 {
+  animation: none !important;
+}
+
+/* Projector comfort switch: higher contrast on washed-out school beams. */
+html[data-projector="true"] {
+  --text: #ffffff;
+  --muted: #e5e1f8;
+  --line: rgb(255 255 255 / 0.28);
+  --line-strong: rgb(255 255 255 / 0.45);
+}
+
+html[data-projector="true"] body {
+  background: #000000 !important;
+}
+
+/* Calm comfort mode: ensure everything hidden behind scroll reveals is visible. */
+html[data-calm="true"] [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+html[data-calm="true"] [data-reveal="words"] .word > span {
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+/* Mobile landscape banner: prompt orientation when vertical space is squeezed. */
+@media (max-height: 480px) and (orientation: landscape) {
+  .portrait-only-tip {
+    display: flex;
+  }
+}
+
 .glow-drift {
   animation: glow-drift 26s ease-in-out infinite;
   transform: translate3d(0, 0, 0);
 }
 
 .spin-slow {
-  animation: spin-slow 60s linear infinite;
+  animation: spin 160s linear infinite;
+  transform: translate3d(0, 0, 0);
 }
 
-/* Luminous, cinematic text animatic for the Kalpavriksha hero headline */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes glow-drift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-4vmax, 3vmax, 0) scale(1.08);
+  }
+}
+
+/* Celestial Animatic Title Shimmer & Kinetic Float */
 @keyframes text-animatic-shimmer {
   0% {
-    background-position: 200% 50%;
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
   100% {
-    background-position: -200% 50%;
+    background-position: 0% 50%;
   }
 }
 
 @keyframes text-animatic-float {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translateY(0px) rotate(0deg);
   }
-  50% {
-    transform: translateY(-5px);
+  33% {
+    transform: translateY(-2px) rotate(0.15deg);
+  }
+  66% {
+    transform: translateY(1.5px) rotate(-0.15deg);
   }
 }
 
 @keyframes text-animatic-glow {
   0%, 100% {
-    filter: drop-shadow(0 4px 22px rgba(192, 132, 252, 0.42)) drop-shadow(0 0 35px rgba(251, 191, 36, 0.28));
+    filter: drop-shadow(0 2px 14px rgba(232, 121, 249, 0.45)) drop-shadow(0 0 25px rgba(168, 85, 247, 0.35));
   }
   50% {
-    filter: drop-shadow(0 8px 32px rgba(192, 132, 252, 0.65)) drop-shadow(0 0 55px rgba(251, 191, 36, 0.5));
+    filter: drop-shadow(0 4px 22px rgba(232, 121, 249, 0.75)) drop-shadow(0 0 35px rgba(245, 158, 11, 0.5));
   }
 }
 
-.text-animatic {
-  background: linear-gradient(
-    108deg,
-    #ffffff 0%,
-    #ffffff 36%,
-    #fef08a 47%,
-    #fbcfe8 53%,
-    #c084fc 60%,
-    #ffffff 68%,
-    #ffffff 100%
-  );
-  background-size: 250% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  display: inline-block;
-  animation:
+.title-animatic {
+  background-size: 200% 200%;
+  animation: 
     text-animatic-shimmer 7s ease-in-out infinite,
     text-animatic-float 6s ease-in-out infinite,
     text-animatic-glow 4.5s ease-in-out infinite;
-  
 }
 
 .grain {
-  display: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
 /* Cursor-following border glow for bento tiles (--mx / --my set from JS). */
-.glow-tile {
-  --mx: 50%;
-  --my: 50%;
+.card-hover-border {
   position: relative;
-  isolation: isolate;
 }
-
-.glow-tile::before,
-.glow-tile::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: var(--glow-o, 0);
-  transition: opacity 300ms var(--ease-out);
-}
-
-.glow-tile::before {
-  padding: 1px;
-  background: radial-gradient(360px circle at var(--mx) var(--my), rgb(192 132 252 / 0.9), transparent 45%);
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  z-index: 1;
-}
-
-.glow-tile::after {
-  background: radial-gradient(520px circle at var(--mx) var(--my), rgb(124 58 237 / 0.1), transparent 45%);
-  z-index: -1;
-}
-
-/* Rotating conic border for the primary call to action. */
-.beam-border {
-  position: relative;
-  isolation: isolate;
-}
-
-.beam-border::before {
+.card-hover-border::before {
   content: "";
   position: absolute;
   inset: -1px;
   border-radius: inherit;
   padding: 1px;
-  background: conic-gradient(from var(--beam-angle), transparent 0 70%, var(--glow-b) 85%, #fff 90%, transparent 100%);
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
+  background: radial-gradient(
+    180px circle at var(--mx, -999px) var(--my, -999px),
+    rgb(232 121 249 / 0.55),
+    rgb(168 85 247 / 0.25) 40%,
+    transparent 70%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
   mask-composite: exclude;
-  animation: beam 4s linear infinite;
-  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.card-hover-border:hover::before {
+  opacity: 1;
 }
 
-/* Mask for word-by-word heading reveals (animated by GSAP in <ScrollFx />). */
-.word {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: top;
-  padding-bottom: 0.1em;
-  margin-bottom: -0.1em;
-}
-
-.word > span {
-  display: inline-block;
-}
-
-/* ---------- Module screens: rewards & feedback ---------- */
-
-@keyframes burst {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.3);
-  }
-}
-
-.burst-spark {
-  animation: burst 0.8s var(--ease-out) both;
-}
-
-@keyframes pop-in {
+/* Shimmer pass for discovery cards on focus / tap. */
+@keyframes shimmer-pass {
   from {
-    opacity: 0;
-    transform: scale(0.6);
-  }
-}
-
-.pop-in {
-  animation: pop-in 0.5s var(--ease-bounce) both;
-}
-
-@keyframes shake {
-  20%,
-  60% {
-    transform: translateX(-6px);
-  }
-  40%,
-  80% {
-    transform: translateX(6px);
-  }
-}
-
-.shake {
-  animation: shake 0.4s ease-in-out;
-}
-
-@keyframes feedback-ring {
-  from {
-    opacity: 0.75;
-    transform: scale(0.45);
+    transform: translateX(-100%);
   }
   to {
-    opacity: 0;
-    transform: scale(1.7);
+    transform: translateX(100%);
   }
 }
-
-.feedback-ring {
-  animation: feedback-ring 0.6s var(--ease-out) both;
-}
-
-@keyframes float-up {
-  0% {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-28px);
-  }
-}
-
-.float-up {
-  animation: float-up 1.2s var(--ease-out) both;
-}
-
-/* Leaves on the Grow tree scale in from their stem. */
-@keyframes leaf-grow {
-  from {
-    transform: scale(0) rotate(-30deg);
-  }
-}
-
-.leaf {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: leaf-grow 0.7s var(--ease-bounce) both;
-}
-
-@keyframes sway {
-  0%,
-  100% {
-    transform: rotate(-1.2deg);
-  }
-  50% {
-    transform: rotate(1.2deg);
-  }
-}
-
-.sway {
-  transform-box: fill-box;
-  transform-origin: 50% 100%;
-  animation: sway 6s ease-in-out infinite;
-}
-
-/* Karaoke word highlight while read-aloud plays. */
-.karaoke-word {
-  transition:
-    color 200ms var(--ease-out),
-    text-shadow 200ms var(--ease-out);
-}
-
-.karaoke-word[data-state="now"] {
-  color: #fff;
-  text-shadow:
-    0 0 18px rgb(192 132 252 / 0.9),
-    0 0 2px rgb(255 255 255 / 0.6);
-}
-
-.karaoke-word[data-state="done"] {
-  color: var(--violet-ink);
-}
-
-.karaoke-word[data-state="next"] {
-  color: var(--muted);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* ---------- Comfort switches (menu → Comfort) ---------- */
-
-/* Calm: freeze every CSS animation/transition and drop the moving glows. */
-html[data-calm="true"] *,
-html[data-calm="true"] *::before,
-html[data-calm="true"] *::after {
-  animation-duration: 0.01ms !important;
-  animation-iteration-count: 1 !important;
-  transition: none !important;
-}
-
-html[data-calm="true"] .glow-drift,
-html[data-calm="true"] .beam-border::before,
-html[data-calm="true"] .glow-tile::before,
-html[data-calm="true"] .glow-tile::after {
-  display: none !important;
-}
-
-/* Scroll-triggered reveals stay readable instead of waiting for a trigger that
-   is paused in calm mode. */
-html[data-calm="true"] [data-reveal]:not([data-reveal="words"]) {
-  opacity: 1 !important;
-  visibility: visible !important;
-  transform: none !important;
-}
-
-html[data-calm="true"] [data-reveal="words"] .word > span {
-  transform: none !important;
-}
-
-/* Keep the XP chip readable without its float animation. */
-html[data-calm="true"] .float-up {
-  animation: none !important;
-  opacity: 1;
-  transform: none;
-}
-
-/* Projector: readable from the back row, with glass panels made solid. */
-html[data-projector="true"] {
-  --muted: #f4f1ff;
-  --line: rgb(255 255 255 / 0.34);
-  --line-strong: rgb(255 255 255 / 0.6);
-}
-
-html[data-projector="true"] [class*="backdrop-blur"] {
-  backdrop-filter: none !important;
-}
-
-html[data-projector="true"] main p {
-  font-size: max(16px, 1em) !important;
-}
-
-html[data-projector="true"] main a,
-html[data-projector="true"] main button {
-  font-size: max(15px, 1em) !important;
+.animate-shimmer {
+  animation: shimmer-pass 1.8s var(--ease-out) infinite;
 }

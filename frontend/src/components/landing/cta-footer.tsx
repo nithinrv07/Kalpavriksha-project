@@ -7,7 +7,6 @@ import { useLocale } from "@/components/locale-provider";
 import { ScrollWaveField } from "@/components/scroll-wave-field";
 import { SplitText } from "@/components/split-text";
 import { WarpText } from "@/components/warp-text";
-import { useTheme } from "@/lib/theme";
 import { StandingPenguin } from "./standing-penguin";
 
 export function CtaFooter() {
@@ -68,7 +67,7 @@ export function CtaFooter() {
         {/* Oversized interactive WebGL warp wordmark, cropped by the page edge. */}
         <div className="footer-mark relative z-10 -mb-[0.16em] w-full select-none overflow-hidden">
           <WarpText
-            text={t.appName}
+            text="Kalpavriksha"
             fontFamily="var(--font-display), var(--font-geist), sans-serif"
             fontSize="clamp(64px, 17vw, 300px)"
             fontWeight={700}

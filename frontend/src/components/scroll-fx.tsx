@@ -8,20 +8,21 @@ import { Fragment, useEffect, useRef } from "react";
 import { useComfort } from "@/lib/comfort";
 
 const REVEAL_FROM = {
-  up: { y: 32, autoAlpha: 0 },
-  scale: { y: 40, scale: 0.96, autoAlpha: 0 },
-  pop: { scale: 0.6, autoAlpha: 0 },
+  up: { y: 40, autoAlpha: 0 },
+  scale: { y: 70, scale: 0.94, autoAlpha: 0 },
+  pop: { scale: 0.4, autoAlpha: 0 },
 } as const satisfies Record<string, gsap.TweenVars>;
 
 type RevealKind = keyof typeof REVEAL_FROM;
 const isRevealKind = (v: string | undefined): v is RevealKind => v === "up" || v === "scale" || v === "pop";
 
 /**
- * High-performance, zero-lag scroll controller.
- * Integrates snappy, responsive Lenis smooth scroll with GSAP ScrollTrigger.
- * - Ultra-low latency wheel response (350ms settle instead of 1000ms float)
- * - Decoupled scrub triggers (scrub: 0.4) prevent main-thread layout thrashing
- * - Intelligent lagSmoothing prevents frame-drop jumps and stutters
+ * Every scroll effect on the landing page, driven by GSAP ScrollTrigger on top of
+ * Lenis smooth scrolling (both share GSAP's ticker, so they never fight).
+ * - `[data-reveal="up|scale|pop"]` blocks reveal in staggered batches.
+ * - `[data-reveal="words"]` headings rise word by word.
+ * - Hero recedes, spiral turns, footer wordmark rises — all scrubbed to scroll.
+ * Nothing is hidden until this runs, and reduced-motion users get static content.
  */
 export function ScrollFx() {
   const barRef = useRef<HTMLDivElement>(null);
@@ -33,26 +34,14 @@ export function ScrollFx() {
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       const lenis = new Lenis({
-        duration: 0.35,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        orientation: "vertical",
-        gestureOrientation: "vertical",
+        lerp: 0.1,
         smoothWheel: true,
-        wheelMultiplier: 1.15,
-        touchMultiplier: 1.0,
-        syncTouch: false,
+        wheelMultiplier: 1.0,
+        touchMultiplier: 1.5,
         anchors: true,
-        autoRaf: false,
       });
-
-      const onScroll = () => {
-        ScrollTrigger.update();
-      };
-      lenis.on("scroll", onScroll);
-
-      const tick = (time: number) => {
-        lenis.raf(time * 1000);
-      };
+      lenis.on("scroll", ScrollTrigger.update);
+      const tick = (time: number) => lenis.raf(time * 1000);
       gsap.ticker.add(tick);
       gsap.ticker.lagSmoothing(500, 33);
 
@@ -60,9 +49,9 @@ export function ScrollFx() {
       for (const el of gsap.utils.toArray<HTMLElement>('[data-reveal="words"]')) {
         gsap.from(el.querySelectorAll(".word > span"), {
           yPercent: 110,
-          duration: 0.9,
+          duration: 1.2,
           ease: "expo.out",
-          stagger: 0.05,
+          stagger: 0.07,
           scrollTrigger: { trigger: el, start: "top 88%", once: true },
         });
       }
@@ -74,28 +63,28 @@ export function ScrollFx() {
         if (isRevealKind(kind)) gsap.set(el, REVEAL_FROM[kind]);
       }
       ScrollTrigger.batch(blocks, {
-        start: "top 92%",
+        start: "top 90%",
         once: true,
         onEnter: (batch) =>
-          gsap.to(batch, { y: 0, scale: 1, autoAlpha: 1, duration: 0.9, ease: "expo.out", stagger: 0.07 }),
+          gsap.to(batch, { y: 0, scale: 1, autoAlpha: 1, duration: 1.2, ease: "expo.out", stagger: 0.1 }),
       });
 
-      // Hero recedes as it scrolls away with smoothed scrub to prevent stutter
+      // Hero recedes as it scrolls away; layers drift at different speeds.
       const hero = document.querySelector("[data-hero]");
       if (hero) {
         gsap
-          .timeline({ scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: 0.4 } })
-          .to(".hero-frame", { yPercent: 8, ease: "none" }, 0)
-          .to(".hero-stage", { y: -100, ease: "none" }, 0)
-          .to(".hero-copy", { y: -50, ease: "none" }, 0);
+          .timeline({ scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } })
+          .to(".hero-frame", { yPercent: 10, ease: "none" }, 0)
+          .to(".hero-stage", { y: -140, ease: "none" }, 0)
+          .to(".hero-copy", { y: -70, ease: "none" }, 0);
       }
 
-      // Background spiral turns gently through the whole page with decoupled scrub
+      // Background spiral turns and swells through the whole page.
       gsap.to(".waves-scroll", {
-        rotation: 60,
-        scale: 1.12,
+        rotation: 110,
+        scale: 1.3,
         ease: "none",
-        scrollTrigger: { start: 0, end: "max", scrub: 0.8 },
+        scrollTrigger: { start: 0, end: "max", scrub: 1.2 },
       });
 
       // Footer wordmark rises into place.
@@ -103,11 +92,11 @@ export function ScrollFx() {
       if (footer) {
         gsap.fromTo(
           ".footer-mark",
-          { yPercent: 40 },
+          { yPercent: 50 },
           {
             yPercent: 0,
             ease: "none",
-            scrollTrigger: { trigger: footer, start: "top bottom", end: "bottom bottom", scrub: 0.4 },
+            scrollTrigger: { trigger: footer, start: "top bottom", end: "bottom bottom", scrub: true },
           },
         );
       }
@@ -117,12 +106,11 @@ export function ScrollFx() {
         gsap.fromTo(
           barRef.current,
           { scaleX: 0 },
-          { scaleX: 1, ease: "none", scrollTrigger: { start: 0, end: "max", scrub: 0.1 } },
+          { scaleX: 1, ease: "none", scrollTrigger: { start: 0, end: "max", scrub: 0.3 } },
         );
       }
 
       return () => {
-        lenis.off("scroll", onScroll);
         gsap.ticker.remove(tick);
         lenis.destroy();
       };
@@ -131,7 +119,8 @@ export function ScrollFx() {
     return () => mm.revert();
   }, []);
 
-  // Calm mode: pause every scroll-driven timeline.
+  // Calm mode: pause every scroll-driven timeline. The CSS layer also forces
+  // not-yet-revealed blocks visible so the page stays readable without motion.
   useEffect(() => {
     if (calm) {
       ScrollTrigger.getAll().forEach((trigger) => trigger.disable(false));

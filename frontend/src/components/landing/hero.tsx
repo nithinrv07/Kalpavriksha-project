@@ -15,8 +15,6 @@ import type { ShapeName } from "@/lib/shapes";
 import { MODULES } from "@/modules/registry";
 import { accentOf } from "@/modules/accents";
 import { LangSelect } from "./lang-select";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { useTheme } from "@/lib/theme";
 import { MenuSheet } from "./menu-sheet";
 
 const CYCLE_MS = 5200;
@@ -37,7 +35,6 @@ function prefersReducedMotion(): boolean {
 
 export function Hero() {
   const { t, locale } = useLocale();
-  const { isDark } = useTheme();
   const [introDone, setIntroDone] = useState(false);
   const [slot, setSlot] = useState<Slot>(-1);
   const [hovering, setHovering] = useState(false);
@@ -92,11 +89,10 @@ export function Hero() {
               <div className="z-20 flex items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
                 <span className="flex items-center gap-2 font-headline font-semibold text-lg tracking-tight lg:hidden">
                   <BrandMark className="size-6 text-amber-400" strokeWidth={1.8} />
-                  {t.appName}
+                  Kalpavriksha
                 </span>
                 <div className="flex items-center gap-2">
                   <LangSelect />
-                  <ThemeToggle />
                   <button
                     type="button"
                     onClick={(e) => {
@@ -137,7 +133,7 @@ export function Hero() {
                   <BrandMark className="size-5" strokeWidth={1.8} />
                 </span>
                 {locale === "en" && (
-                  <span aria-hidden className="font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-text/90 transition-colors group-hover:text-amber-500 [writing-mode:vertical-rl]">
+                  <span aria-hidden className="font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-white/90 transition-colors group-hover:text-amber-200 [writing-mode:vertical-rl]">
                     {t.menu}
                   </span>
                 )}
@@ -146,26 +142,25 @@ export function Hero() {
               {/* Horizontal brand title centered directly above 3D Sphere with 3D DepthText */}
               <div
                 aria-hidden
-                className="pointer-events-none select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center md:flex"
+                className="pointer-events-none select-none absolute top-[8vh] inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
               >
                 <DepthText
                   text="Kalpavriksha"
-                  fontSize="clamp(64px, 8.5vw, 126px)"
+                  fontSize="clamp(40px, 5.15vw, 74px)"
                   fontWeight={400}
-                  faceColor={isDark ? "#FFFFFF" : "#1a0833"}
-                  depthColor={isDark ? "#6d28d9" : "#7c3aed"}
-                  layers={24}
-                  depth={3.6}
+                  faceColor="#FFFFFF"
+                  depthColor="#6d28d9"
+                  layers={17}
+                  depth={3.2}
                   tilt={8}
                   perspective={1000}
-                  autoOrbit={false}
-                  orbitSpeed={0}
-                  float={false}
-                  pointerTracking={false}
-                  intro={false}
+                  autoOrbit={true}
+                  orbitSpeed={0.3}
+                  float={true}
+                  pointerTracking={true}
                   shadow={true}
                   active={!isFlipped}
-                  className="font-title [--depth-text-letter-spacing:-0.01em] drop-shadow-[0_6px_28px_rgba(0,0,0,0.5)]"
+                  className="font-title [--depth-text-letter-spacing:-0.005em] drop-shadow-[0_2px_12px_rgba(0,0,0,0.32)]"
                 />
               </div>
 
@@ -196,16 +191,16 @@ export function Hero() {
                     align="center"
                     fontSize={
                       locale === "en"
-                        ? "clamp(40px, 4.8vw, 78px)"
-                        : "clamp(30px, 3.8vw, 62px)"
+                        ? "clamp(36px, 4.2vw, 70px)"
+                        : "clamp(28px, 3.4vw, 56px)"
                     }
                     fontFamily="var(--font-fraunces), var(--font-anek-tamil), var(--font-anek-deva), Georgia, serif"
                     fontWeight={600}
                     letterSpacing={locale === "en" ? "-0.015em" : "-0.005em"}
                     lineHeight={locale === "en" ? 0.98 : 1.1}
-                    textColor={isDark ? "#C3AFD4" : "#1a0833"}
-                    shadowColor={isDark ? "#1E0028" : "rgba(124, 58, 237, 0.25)"}
-                    glareColor={isDark ? "#4A105DBF" : "rgba(124, 58, 237, 0.55)"}
+                    textColor="#C3AFD4"
+                    shadowColor="#1E0028"
+                    glareColor="#4A105DBF"
                     className="w-full"
                   />
                 </div>
@@ -288,11 +283,10 @@ export function Hero() {
               <div className="z-20 flex items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
                 <span className="flex items-center gap-2 font-headline font-semibold text-lg tracking-tight lg:hidden">
                   <BrandMark className="size-6 text-amber-400" strokeWidth={1.8} />
-                  {t.appName}
+                  Kalpavriksha
                 </span>
                 <div className="flex items-center gap-2">
                   <LangSelect />
-                  <ThemeToggle />
                   <button
                     type="button"
                     onClick={(e) => {
@@ -333,7 +327,7 @@ export function Hero() {
                   <BrandMark className="size-5" strokeWidth={1.8} />
                 </span>
                 {locale === "en" && (
-                  <span aria-hidden className="font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-text/90 transition-colors group-hover:text-amber-500 [writing-mode:vertical-rl]">
+                  <span aria-hidden className="font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-white/90 transition-colors group-hover:text-amber-200 [writing-mode:vertical-rl]">
                     {t.menu}
                   </span>
                 )}
@@ -342,94 +336,95 @@ export function Hero() {
               {/* Horizontal brand title centered directly above 3D Sphere with 3D DepthText */}
               <div
                 aria-hidden
-                className="pointer-events-none select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center md:flex"
+                className="pointer-events-none select-none absolute top-[8vh] inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
               >
                 <DepthText
                   text="Kalpavriksha"
-                  fontSize="clamp(64px, 8.5vw, 126px)"
+                  fontSize="clamp(40px, 5.15vw, 74px)"
                   fontWeight={400}
-                  faceColor={isDark ? "#FFFFFF" : "#1a0833"}
-                  depthColor={isDark ? "#6d28d9" : "#7c3aed"}
-                  layers={24}
-                  depth={3.6}
+                  faceColor="#FFFFFF"
+                  depthColor="#6d28d9"
+                  layers={17}
+                  depth={3.2}
                   tilt={8}
                   perspective={1000}
-                  autoOrbit={false}
-                  orbitSpeed={0}
-                  float={false}
-                  pointerTracking={false}
-                  intro={false}
+                  autoOrbit={true}
+                  orbitSpeed={0.3}
+                  float={true}
+                  pointerTracking={true}
                   shadow={true}
                   active={isFlipped}
-                  className="font-title [--depth-text-letter-spacing:-0.01em] drop-shadow-[0_6px_28px_rgba(0,0,0,0.5)]"
+                  className="font-title [--depth-text-letter-spacing:-0.005em] drop-shadow-[0_2px_12px_rgba(0,0,0,0.32)]"
                 />
               </div>
 
-              {/* Particle stage — Centered horizontally & vertically */}
-              <div className="hero-stage pointer-events-none absolute inset-0 z-10 flex items-center justify-center translate-y-6 sm:translate-y-8 lg:translate-y-10">
-                <div className="relative aspect-square h-[min(82vh,780px)] w-[min(82vh,780px)] max-w-full shrink-0">
-                  <ParticleCanvas shape={shape} className="pointer-events-auto absolute inset-0 h-full w-full" active={isFlipped} />
-                  {t.stats.map((stat, i) => (
-                    <div
-                      key={i}
-                      className={`fade-up pointer-events-auto absolute ${STAT_POSITIONS[i] ?? ""} text-center`}
-                      style={{ animationDelay: `${900 + i * 120}ms` }}
-                    >
-                      <span className="block font-mono text-[14px] text-text">{stat.value}</span>
-                      <span className="block max-w-[9rem] font-mono text-[11px] leading-tight text-muted">{stat.label}</span>
-                    </div>
-                  ))}
-                </div>
+              {/* Particle stage — shifted down for harmonious breathing room */}
+              <div className="hero-stage relative mx-auto aspect-square w-full max-w-[560px] shrink-0 translate-y-6 sm:translate-y-8 lg:translate-y-10 lg:absolute lg:bottom-28 lg:left-[9%] lg:top-0 lg:aspect-auto lg:w-[54%] lg:max-w-none">
+                <ParticleCanvas shape={shape} className="absolute inset-0 h-full w-full" active={isFlipped} />
+                {t.stats.map((stat, i) => (
+                  <div
+                    key={i}
+                    className={`fade-up absolute ${STAT_POSITIONS[i] ?? ""} text-center`}
+                    style={{ animationDelay: `${900 + i * 120}ms` }}
+                  >
+                    <span className="block font-mono text-[14px] text-text">{stat.value}</span>
+                    <span className="block max-w-[9rem] font-mono text-[11px] leading-tight text-muted">{stat.label}</span>
+                  </div>
+                ))}
               </div>
 
               {/* Eyebrow, left of the cloud (desktop) */}
               <p
-                className="fade-up absolute left-6 xl:left-10 top-[22%] z-10 hidden max-w-[210px] text-left text-[13px] leading-snug text-violet lg:block"
+                className="fade-up absolute left-[10%] top-[20%] z-10 hidden max-w-[210px] text-right text-[13px] leading-snug text-violet lg:block"
                 style={{ animationDelay: "700ms" }}
               >
                 {t.eyebrow}
               </p>
 
-              {/* Copy block — compact floating rail on the right */}
-              <div className="hero-copy pointer-events-auto relative z-10 shrink-0 px-5 pb-2 sm:px-8 lg:absolute lg:right-6 xl:right-10 lg:top-1/2 lg:-translate-y-1/2 lg:w-full lg:max-w-[320px] xl:max-w-[360px] lg:p-0 lg:text-right [container-type:inline-size]">
+              {/* Copy block */}
+              <div className="hero-copy relative z-10 shrink-0 px-5 pb-2 sm:px-8 lg:absolute lg:right-8 xl:right-12 lg:top-[27%] lg:w-[44%] lg:p-0 lg:text-right [container-type:inline-size]">
                 <p className="fade-up font-mono text-[13px] leading-relaxed text-violet" style={{ animationDelay: "500ms" }}>
                   {t.tagline[0]}
                   <br />
                   {t.tagline[1]}
                 </p>
-                <div className="mt-3 flex justify-end">
+                <div className="mt-4 flex justify-end">
                   <SparkleButton
                     as="h1"
                     lines={[line1, line2]}
                     align="right"
                     fontSize={
                       locale === "en"
-                        ? "clamp(38px, 4.2vw, 64px)"
-                        : "clamp(28px, 3.4vw, 50px)"
+                        ? "clamp(56px, 26cqi, 136px)"
+                        : "clamp(40px, 17cqi, 104px)"
                     }
                     fontFamily="var(--font-fraunces), var(--font-anek-tamil), var(--font-anek-deva), Georgia, serif"
                     fontWeight={600}
-                    letterSpacing={locale === "en" ? "-0.02em" : "-0.01em"}
-                    lineHeight={locale === "en" ? 0.95 : 1.1}
-                    textColor={isDark ? "#FFFFFF" : "#1a0833"}
-                    shadowColor={isDark ? "#3b0764" : "rgba(124, 58, 237, 0.25)"}
-                    glareColor={isDark ? "rgba(255, 255, 255, 0.85)" : "rgba(124, 58, 237, 0.55)"}
+                    letterSpacing={locale === "en" ? "-0.025em" : "-0.01em"}
+                    lineHeight={locale === "en" ? 0.92 : 1.08}
+                    textColor="#FFFFFF"
+                    shadowColor="#3b0764"
+                    glareColor="rgba(255, 255, 255, 0.85)"
                     className="w-full text-right"
                   />
                 </div>
-                <p className="mt-3 font-mono text-[13px] leading-relaxed text-muted hidden lg:block">{t.lead}</p>
-                <div className="mt-3 hidden lg:flex justify-end">
-                  <a
-                    href="#modules"
-                    className="group inline-flex items-center gap-2 text-sm text-text underline decoration-line-strong underline-offset-4 transition-colors duration-200 hover:decoration-violet"
-                  >
-                    {t.explore}
-                    <ArrowDown size={14} className="transition-transform duration-200 group-hover:translate-y-0.5" />
-                  </a>
-                </div>
               </div>
 
-              {/* Module chips: centered bottom dock to switch shapes */}
+              <div
+                className="fade-up relative z-10 shrink-0 px-5 pt-5 sm:px-8 lg:absolute lg:bottom-10 lg:right-8 xl:right-12 lg:max-w-[380px] lg:p-0 lg:text-right"
+                style={{ animationDelay: "1100ms" }}
+              >
+                <p className="font-mono text-[13.5px] leading-relaxed text-muted">{t.lead}</p>
+                <a
+                  href="#modules"
+                  className="group mt-4 inline-flex items-center gap-2 text-sm text-text underline decoration-line-strong underline-offset-4 transition-colors duration-200 hover:decoration-violet"
+                >
+                  {t.explore}
+                  <ArrowDown size={14} className="transition-transform duration-200 group-hover:translate-y-0.5" />
+                </a>
+              </div>
+
+              {/* Module chips: hover/focus previews the module's particle shape */}
               <nav
                 aria-label={t.explore}
                 onMouseEnter={() => setHovering(true)}
@@ -437,7 +432,7 @@ export function Hero() {
                   setHovering(false);
                   setSlot(-1);
                 }}
-                className="relative z-20 flex shrink-0 touch-auto items-center justify-center gap-2 overflow-x-auto px-4 pb-4 [scrollbar-width:none] lg:absolute lg:bottom-6 lg:inset-x-0 lg:mx-auto lg:w-fit lg:max-w-2xl lg:p-0"
+                className="relative z-10 flex shrink-0 touch-auto gap-2 overflow-x-auto px-5 pb-5 pt-6 [scrollbar-width:none] sm:px-8 lg:absolute lg:bottom-10 lg:left-[112px] xl:left-[128px] lg:max-w-[52%] lg:flex-wrap lg:overflow-visible lg:p-0"
               >
                 {MODULES.map((m, i) => {
                   const active = slot === i;
