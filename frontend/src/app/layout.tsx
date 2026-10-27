@@ -3,6 +3,7 @@ import { Anek_Devanagari, Anek_Tamil, DM_Serif_Display, Fraunces, Geist, IBM_Ple
 import { LocaleProvider } from "@/components/locale-provider";
 import { FeedbackLayer } from "@/components/feedback-layer";
 import { ComfortBoot } from "@/components/comfort-boot";
+import { ThemeBoot } from "@/components/theme-toggle";
 import "./globals.css";
 
 const geist = Geist({ variable: "--font-geist", subsets: ["latin"] });
@@ -23,8 +24,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#050507",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f8f6fc" },
+    { media: "(prefers-color-scheme: dark)", color: "#05020c" },
+  ],
+  colorScheme: "dark light",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -35,16 +39,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geist.variable} ${plexMono.variable} ${fraunces.variable} ${titleSerif.variable} ${anekTamil.variable} ${anekDeva.variable}`}
     >
       <body className="min-h-svh">
-        {/* Apply calm / projector before the first paint so motion never flashes. */}
+        {/* Apply theme / calm / projector before the first paint so UI never flashes. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{var c=JSON.parse(localStorage.getItem('kalpavriksha.comfort')||'{}');var e=document.documentElement;if(c.calm===true)e.dataset.calm='true';if(c.projector===true)e.dataset.projector='true';}catch(e){}",
+              "try{var t=localStorage.getItem('kalpavriksha.theme');var e=document.documentElement;if(t==='light'||(!t&&window.matchMedia('(prefers-color-scheme: light)').matches)){e.dataset.theme='light';e.classList.add('light');e.classList.remove('dark');}else{e.dataset.theme='dark';e.classList.add('dark');e.classList.remove('light');}var c=JSON.parse(localStorage.getItem('kalpavriksha.comfort')||'{}');if(c.calm===true)e.dataset.calm='true';if(c.projector===true)e.dataset.projector='true';}catch(e){}",
           }}
         />
         <LocaleProvider>{children}</LocaleProvider>
         <FeedbackLayer />
         <ComfortBoot />
+        <ThemeBoot />
       </body>
     </html>
   );

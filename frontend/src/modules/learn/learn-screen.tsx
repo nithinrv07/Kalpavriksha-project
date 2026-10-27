@@ -106,9 +106,6 @@ import {
   MathMonsterMascot,
   PeekingSpaceship,
   RulerMascot,
-  SpaceBear,
-  SpaceKitty,
-  SpacePuppy,
   TamilLetterA,
   TreasureChestMascot,
 } from "./cosmic-mascots";
@@ -1648,6 +1645,81 @@ function ChapterCard(props: {
   return <StandardChapterCard {...props} />;
 }
 
+function getJuniorSubjectMeta(sub: CurriculumSubject) {
+  const code = sub.code?.toUpperCase() || "";
+  const id = sub.id.toLowerCase();
+  if (code === "TAM" || id.includes("tamil")) {
+    return {
+      gradient: "from-[#381a07] via-[#240f03] to-[#140802]",
+      borderColor: "border-amber-400/70",
+      activeBorder: "border-amber-300 shadow-[0_0_25px_rgba(251,191,36,0.65)]",
+      textColor: "text-amber-300",
+      icon: "🐯",
+      Mascot: TamilLetterA,
+      mascotClass: "size-10 pointer-events-none",
+      funTag: "கதைகள் & பாடல்கள் 📖",
+    };
+  }
+  if (code === "ENG" || id.includes("english")) {
+    return {
+      gradient: "from-[#08223d] via-[#05172b] to-[#030d19]",
+      borderColor: "border-sky-400/70",
+      activeBorder: "border-sky-300 shadow-[0_0_25px_rgba(56,189,248,0.65)]",
+      textColor: "text-sky-300",
+      icon: "🦜",
+      Mascot: BookMascot,
+      mascotClass: "size-10 pointer-events-none",
+      funTag: "Rhymes & Phonics 🔤",
+    };
+  }
+  if (code === "MAT" || id.includes("math")) {
+    return {
+      gradient: "from-[#2f0c3d] via-[#1d0628] to-[#0f0216]",
+      borderColor: "border-fuchsia-400/70",
+      activeBorder: "border-fuchsia-300 shadow-[0_0_25px_rgba(232,121,249,0.65)]",
+      textColor: "text-fuchsia-300",
+      icon: "🍎",
+      Mascot: MathMonsterMascot,
+      mascotClass: "size-10 pointer-events-none",
+      funTag: "Numbers & Shapes 🔢",
+    };
+  }
+  if (code === "EVS" || id.includes("evs") || id.includes("environment")) {
+    return {
+      gradient: "from-[#072d1f] via-[#041d14] to-[#02100b]",
+      borderColor: "border-emerald-400/70",
+      activeBorder: "border-emerald-300 shadow-[0_0_25px_rgba(52,211,153,0.65)]",
+      textColor: "text-emerald-300",
+      icon: "🌱",
+      Mascot: DinosaurMascot,
+      mascotClass: "size-10 pointer-events-none",
+      funTag: "Nature & Animals 🦕",
+    };
+  }
+  if (code === "SCI" || id.includes("science")) {
+    return {
+      gradient: "from-[#08273b] via-[#051b29] to-[#020e17]",
+      borderColor: "border-cyan-400/70",
+      activeBorder: "border-cyan-300 shadow-[0_0_25px_rgba(34,211,238,0.65)]",
+      textColor: "text-cyan-300",
+      icon: "🧪",
+      Mascot: DinosaurMascot,
+      mascotClass: "size-10 pointer-events-none",
+      funTag: "World & Science 🔬",
+    };
+  }
+  return {
+    gradient: "from-[#1b1542] via-[#100c2a] to-[#090619]",
+    borderColor: "border-violet-400/70",
+    activeBorder: "border-violet-300 shadow-[0_0_25px_rgba(167,139,250,0.65)]",
+    textColor: "text-violet-300",
+    icon: "🗺️",
+    Mascot: TreasureChestMascot,
+    mascotClass: "size-10 pointer-events-none",
+    funTag: "Our World & Stories 🌍",
+  };
+}
+
 function PersonalisedLearnDashboard({
   band,
   profile,
@@ -1886,158 +1958,70 @@ function PersonalisedLearnDashboard({
           </div>
         )}
 
-        {/* Right Column: Textbooks + Study Worlds */}
-        <div className="lg:col-span-7 flex flex-col gap-5 justify-between">
-          {/* Top: Official TN Textbooks */}
-          <div className="relative overflow-hidden rounded-[26px] border border-violet-500/40 bg-[#120726]/90 p-4 sm:p-5 shadow-[0_0_25px_-5px_rgba(168,85,247,0.35)]">
-            <div className="flex items-center justify-between gap-3 mb-3">
-              <div className="flex items-center gap-2">
-                <TreasureChestMascot className="size-9" />
-                <h3 className="font-display text-base sm:text-lg font-bold text-white flex items-center gap-1.5">
-                  <span>Official TN Textbooks!</span>
-                  <span>📚</span>
-                </h3>
-              </div>
-              <div className="flex items-center gap-1">
-                <SpacePuppy className="size-7" />
-                <SpaceBear className="size-7" />
-                <SpaceKitty className="size-7" />
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2.5 font-mono text-xs">
-              <a
-                href={TN_NEW_SYLLABUS_2026_27_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-violet-500/60 bg-violet-950/70 px-4 py-2 text-violet-200 hover:border-pink-400 hover:bg-violet-900/80 hover:text-white shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all hover:scale-105"
-              >
-                <span>New Syllabus 2026–27 ✨</span>
-              </a>
-              <a
-                href={TN_TEXTBOOK_PORTAL_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-violet-500/60 bg-violet-950/70 px-4 py-2 text-violet-200 hover:border-pink-400 hover:bg-violet-900/80 hover:text-white shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all hover:scale-105"
-              >
-                <span>TN School Textbooks Portal 🎒</span>
-              </a>
-              <a
-                href={TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-violet-500/60 bg-violet-950/70 px-4 py-2 text-violet-200 hover:border-pink-400 hover:bg-violet-900/80 hover:text-white shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all hover:scale-105"
-              >
-                <span>Class 1, 2, 3 PDF ✨</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Bottom: Choose Your Study Adventure Worlds */}
-          <div className="relative flex flex-col gap-3">
+        {/* Right Column: Explore Junior Subjects */}
+        <div className="lg:col-span-7 flex flex-col justify-between">
+          <div className="relative flex flex-col gap-3 h-full justify-between">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-2">
-                <GraduationCap size={22} weight="fill" className="text-cyan-400" />
+                <GraduationCap size={22} weight="fill" className="text-pink-400" />
                 <h3 className="font-display text-base sm:text-lg font-bold text-white tracking-tight">
-                  Choose Your Study Adventure! 🌟
+                  {locale === "ta" ? "பாடங்களை ஆராய்க! 🌟" : "Explore Your Subjects! 🌟"}
                 </h3>
               </div>
 
-              <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/80 bg-emerald-950/80 px-3.5 py-1 font-mono text-xs font-semibold text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.35)]">
-                <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="inline-flex items-center gap-2 rounded-full border border-pink-400/80 bg-pink-950/80 px-3.5 py-1 font-mono text-xs font-semibold text-pink-300 shadow-[0_0_15px_rgba(244,114,182,0.35)]">
+                <span className="size-2 rounded-full bg-pink-400 animate-pulse" />
                 <span>
-                  Enrolled: {seniorGroupFilter === "commerce" ? "Commerce Group" : seniorGroupFilter === "business_maths" ? "Business Maths Group" : "Computer Science Group"}
+                  {locale === "ta" ? `வகுப்பு ${currentStandard} • ${subjects.length} பாடங்கள் 🌱` : `Class ${currentStandard} • ${subjects.length} Subjects 🌱`}
                 </span>
               </span>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-3">
-              {/* World 1: Science Quest 🧪 */}
-              <button
-                type="button"
-                onClick={() => {
-                  setSeniorGroupFilter("cs");
-                  setFilter("subjects");
-                  authService.updateStandard(currentStandard, "cs");
-                }}
-                className={`relative overflow-hidden rounded-2xl border-2 p-4 text-left transition-all duration-300 hover:scale-[1.02] flex flex-col justify-between min-h-[140px] ${
-                  seniorGroupFilter === "cs"
-                    ? "border-cyan-400 bg-gradient-to-br from-[#0c2e42] via-[#081c2e] to-[#06121f] shadow-[0_0_30px_-5px_rgba(34,211,238,0.55)]"
-                    : "border-cyan-900/50 bg-[#091522]/80 hover:border-cyan-500/60"
-                }`}
-              >
-                <div className="z-10">
-                  <h4 className="font-display text-sm sm:text-base font-bold text-white flex items-center gap-1.5">
-                    <span>Science Quest</span>
-                    <span>🧪</span>
-                  </h4>
-                  <p className="mt-1.5 text-[11px] leading-relaxed text-cyan-100/80">
-                    Computer Science, Mathematics, Physics, Chemistry (+ Tamil & English)
-                  </p>
-                </div>
-                <div className="flex items-end justify-between mt-2 pt-1 border-t border-cyan-500/20 z-10">
-                  <DinosaurMascot className="size-10 pointer-events-none" />
-                  <ComputerMascot className="size-11 pointer-events-none" />
-                </div>
-              </button>
+            <div className={`grid gap-3 ${subjects.length <= 4 ? "grid-cols-2 sm:grid-cols-2 xl:grid-cols-4" : "grid-cols-2 sm:grid-cols-3 xl:grid-cols-5"}`}>
+              {subjects.map((sub) => {
+                const meta = getJuniorSubjectMeta(sub);
+                const Mascot = meta.Mascot;
+                const isSelected = filter === sub.id;
+                const doneCount = sub.chapters.filter((c) => progress.lessonsDone.includes(c.id)).length;
+                const total = sub.chapters.length;
 
-              {/* World 2: Merchant World 🪙 */}
-              <button
-                type="button"
-                onClick={() => {
-                  setSeniorGroupFilter("commerce");
-                  setFilter("subjects");
-                  authService.updateStandard(currentStandard, "commerce");
-                }}
-                className={`relative overflow-hidden rounded-2xl border-2 p-4 text-left transition-all duration-300 hover:scale-[1.02] flex flex-col justify-between min-h-[140px] ${
-                  seniorGroupFilter === "commerce"
-                    ? "border-blue-400 bg-gradient-to-br from-[#142354] via-[#0f173f] to-[#0a0d2a] shadow-[0_0_30px_-5px_rgba(96,165,250,0.55)]"
-                    : "border-blue-900/50 bg-[#0a102b]/80 hover:border-blue-500/60"
-                }`}
-              >
-                <div className="z-10">
-                  <h4 className="font-display text-sm sm:text-base font-bold text-white flex items-center gap-1.5">
-                    <span>Merchant World</span>
-                    <span>🪙</span>
-                  </h4>
-                  <p className="mt-1.5 text-[11px] leading-relaxed text-blue-100/80">
-                    Commerce, Accountancy, Economics, Computer Applications (+ Tamil & English)
-                  </p>
-                </div>
-                <div className="flex items-end justify-between mt-2 pt-1 border-t border-blue-500/20 z-10">
-                  <TreasureChestMascot className="size-9 pointer-events-none" />
-                  <CalculatorMascot className="size-11 pointer-events-none" />
-                </div>
-              </button>
+                return (
+                  <button
+                    key={sub.id}
+                    type="button"
+                    onClick={() => setFilter(filter === sub.id ? "subjects" : sub.id)}
+                    className={`group relative overflow-hidden rounded-2xl border-2 p-3.5 text-left transition-all duration-300 hover:scale-[1.03] active:scale-95 flex flex-col justify-between min-h-[145px] bg-gradient-to-br ${meta.gradient} ${
+                      isSelected
+                        ? meta.activeBorder
+                        : `${meta.borderColor} hover:border-white/60 shadow-[0_0_15px_rgba(0,0,0,0.4)]`
+                    }`}
+                  >
+                    <div className="z-10 w-full">
+                      <div className="flex items-center justify-between gap-1 mb-1.5">
+                        <span className="text-2xl">{meta.icon}</span>
+                        {isSelected && (
+                          <span className="font-mono text-[10px] font-bold text-white bg-white/20 rounded-full px-2 py-0.5 animate-pulse">
+                            Active ✦
+                          </span>
+                        )}
+                      </div>
+                      <h4 className="font-display text-sm font-bold text-white line-clamp-1">
+                        {sub.name[locale]}
+                      </h4>
+                      <p className={`mt-0.5 text-[11px] font-mono ${meta.textColor} line-clamp-1`}>
+                        {meta.funTag}
+                      </p>
+                    </div>
 
-              {/* World 3: Math Maze 📐 */}
-              <button
-                type="button"
-                onClick={() => {
-                  setSeniorGroupFilter("business_maths");
-                  setFilter("subjects");
-                  authService.updateStandard(currentStandard, "business_maths");
-                }}
-                className={`relative overflow-hidden rounded-2xl border-2 p-4 text-left transition-all duration-300 hover:scale-[1.02] flex flex-col justify-between min-h-[140px] ${
-                  seniorGroupFilter === "business_maths"
-                    ? "border-purple-400 bg-gradient-to-br from-[#2f124d] via-[#1f0b37] to-[#120524] shadow-[0_0_30px_-5px_rgba(192,132,252,0.55)]"
-                    : "border-purple-900/50 bg-[#160826]/80 hover:border-purple-500/60"
-                }`}
-              >
-                <div className="z-10">
-                  <h4 className="font-display text-sm sm:text-base font-bold text-white flex items-center gap-1.5">
-                    <span>Math Maze</span>
-                    <span>📐</span>
-                  </h4>
-                  <p className="mt-1.5 text-[11px] leading-relaxed text-purple-100/80">
-                    Commerce, Accountancy, Economics, Business Mathematics (+ Tamil & English)
-                  </p>
-                </div>
-                <div className="flex items-end justify-between mt-2 pt-1 border-t border-purple-500/20 z-10">
-                  <MathMonsterMascot className="size-10 pointer-events-none" />
-                  <RulerMascot className="size-11 pointer-events-none" />
-                </div>
-              </button>
+                    <div className="flex items-end justify-between mt-3 pt-1.5 border-t border-white/10 z-10 w-full">
+                      <span className="font-mono text-[11px] text-white/70">
+                        {doneCount}/{total} {locale === "ta" ? "முடிந்தது" : "done"}
+                      </span>
+                      <Mascot className={meta.mascotClass} />
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>

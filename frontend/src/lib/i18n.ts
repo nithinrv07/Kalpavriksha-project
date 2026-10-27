@@ -15,6 +15,7 @@ type Stat = { readonly value: string; readonly label: string };
 type Principle = { readonly title: string; readonly body: string };
 
 export type Copy = {
+  readonly appName: string;
   readonly menu: string;
   readonly signIn: string;
   readonly eyebrow: string;
@@ -57,6 +58,7 @@ const LANGS = "தமிழ் · English";
 
 export const COPY = {
   en: {
+    appName: "Kalpavriksha",
     menu: "Menu",
     signIn: "Sign In",
     eyebrow: "One app for every learner",
@@ -106,6 +108,7 @@ export const COPY = {
     makeCard: "Make your card",
   },
   ta: {
+    appName: "கல்பவிருக்ஷா",
     menu: "பட்டியல்",
     signIn: "உள்நுழை",
     eyebrow: "ஒவ்வொரு மாணவருக்கும் ஒரே செயலி",

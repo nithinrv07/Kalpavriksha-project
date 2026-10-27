@@ -461,4 +461,66 @@ describe("Standard-wise Curriculum Engine (Class 1 to 12)", () => {
     const parsed = parseProgress(JSON.parse(serialized));
     expect(parsed.profile?.seniorGroup).toBe("commerce");
   });
+
+  it("Scenario 15: Class 11 and 12 provide exact 6 subjects tailored to the selected Higher Secondary Group", () => {
+    const testGrades = [11, 12] as const;
+
+    for (const grade of testGrades) {
+      const allSubjects = getSubjectsForStandard(grade);
+
+      // Computer Science Group: TAM, ENG, MAT, PHY, CHE, CSC
+      const csGroup = filterSubjectsByGroup(allSubjects, "cs", true);
+      expect(csGroup.length).toBe(6);
+      const csCodes = csGroup.map((s) => s.code);
+      expect(csCodes).toContain(`TAM-${grade}`);
+      expect(csCodes).toContain(`ENG-${grade}`);
+      expect(csCodes).toContain(`MAT-${grade}`);
+      expect(csCodes).toContain(`PHY-${grade}`);
+      expect(csCodes).toContain(`CHE-${grade}`);
+      expect(csCodes).toContain(`CSC-${grade}`);
+
+      // Commerce Group: TAM, ENG, COM, ACC, ECO, CAP
+      const commerceGroup = filterSubjectsByGroup(allSubjects, "commerce", true);
+      expect(commerceGroup.length).toBe(6);
+      const commerceCodes = commerceGroup.map((s) => s.code);
+      expect(commerceCodes).toContain(`TAM-${grade}`);
+      expect(commerceCodes).toContain(`ENG-${grade}`);
+      expect(commerceCodes).toContain(`COM-${grade}`);
+      expect(commerceCodes).toContain(`ACC-${grade}`);
+      expect(commerceCodes).toContain(`ECO-${grade}`);
+      expect(commerceCodes).toContain(`CAP-${grade}`);
+
+      // Business Maths Group: TAM, ENG, COM, ACC, ECO, BMA
+      const bmaGroup = filterSubjectsByGroup(allSubjects, "business_maths", true);
+      expect(bmaGroup.length).toBe(6);
+      const bmaCodes = bmaGroup.map((s) => s.code);
+      expect(bmaCodes).toContain(`TAM-${grade}`);
+      expect(bmaCodes).toContain(`ENG-${grade}`);
+      expect(bmaCodes).toContain(`COM-${grade}`);
+      expect(bmaCodes).toContain(`ACC-${grade}`);
+      expect(bmaCodes).toContain(`ECO-${grade}`);
+      expect(bmaCodes).toContain(`BMA-${grade}`);
+    }
+  });
+
+  it("Scenario 16: Switching standard to Class 11 or 12 with group updates progress state properly", () => {
+    let p = setProfile(EMPTY_PROGRESS, {
+      name: "Lakshmi",
+      avatar: "butterfly",
+      studentId: "KV-2026-1234",
+      grade: 10,
+    });
+    expect(p.profile?.grade).toBe(10);
+    expect(p.profile?.seniorGroup).toBeUndefined();
+
+    // Switch to Class 11 Commerce Group
+    p = updateStudentProfile(p, { grade: 11, seniorGroup: "commerce" });
+    expect(p.profile?.grade).toBe(11);
+    expect(p.profile?.seniorGroup).toBe("commerce");
+
+    // Switch to Class 12 Business Maths Group
+    p = updateStudentProfile(p, { grade: 12, seniorGroup: "business_maths" });
+    expect(p.profile?.grade).toBe(12);
+    expect(p.profile?.seniorGroup).toBe("business_maths");
+  });
 });

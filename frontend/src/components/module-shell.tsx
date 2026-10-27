@@ -6,42 +6,26 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Avatar } from "@/components/avatar";
 import { BrandMark } from "@/components/brand-mark";
-import { ChromeWaves } from "@/components/landing/chrome-waves";
+import { ModuleBackground } from "@/components/module-background";
 import { LangSelect } from "@/components/landing/lang-select";
 import { useLocale } from "@/components/locale-provider";
 import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
-import { PulsatingBorder } from "@/components/pulsating-border";
 import { useProgress } from "@/components/progress-store";
 import { SoundToggle } from "@/components/sound-toggle";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { BAND_INFO } from "@/lib/bands";
-import { bandOf, levelOf, localDay, streak, type Band, type Profile } from "@/lib/progress";
+import { bandOf, localDay, streak, type Band, type Profile } from "@/lib/progress";
 import { MODULES, type KalpaModule } from "@/modules/registry";
 import { accentOf } from "@/modules/accents";
 
-/** XP, level and streak: the shared student profile, visible on every module. */
+/** Streak and profile avatar: the shared student profile, visible on every module. */
 function ProgressPill() {
   const { t } = useLocale();
   const progress = useProgress();
-  const { level, into, span } = levelOf(progress.xp);
   const days = streak(progress.activeDays, localDay());
 
   return (
     <div className="flex items-center gap-2" data-xp-pill>
-      <div
-        className="hidden h-11 items-center gap-3 rounded-xl border border-line bg-white/[0.04] px-3.5 sm:flex"
-        title={`${progress.xp} XP`}
-      >
-        <span className="font-mono text-[12px] text-muted">
-          {t.level} <span className="text-text">{level}</span>
-        </span>
-        <span className="h-1.5 w-16 overflow-hidden rounded-full bg-white/[0.08]">
-          <span
-            className="block h-full rounded-full bg-gradient-to-r from-glow-a to-glow-b transition-[width] duration-700"
-            style={{ width: `${Math.round((into / span) * 100)}%` }}
-          />
-        </span>
-        <span className="font-mono text-[12px] text-violet-ink">{progress.xp} XP</span>
-      </div>
       {days > 0 && (
         <span
           className="flex h-11 items-center gap-1.5 rounded-xl border border-amber/25 bg-amber/10 px-3 font-mono text-[12px] text-amber"
@@ -68,9 +52,9 @@ function ProgressPill() {
 }
 
 /**
- * Page frame shared by every module screen:
- * Encased in a dedicated solid black layout frame with pulsating structural border glow,
- * housing the header, module title banner, and entire module content.
+ * Full-screen edge-to-edge layout shared by every module screen.
+ * Houses the top navigation header, module banner, and entire module content
+ * without artificial bounding boxes or borders.
  */
 export function ModuleShell({
   module,
@@ -89,66 +73,60 @@ export function ModuleShell({
   const isJuniorLearn = module.slug === "learn" && profile && profile.grade >= 1 && profile.grade <= 3;
 
   return (
-    <div className="relative isolate min-h-[100dvh] w-full px-2 py-3 sm:px-4 sm:py-6 lg:px-8 lg:py-8">
-      <ChromeWaves />
+    <div
+      data-band={band ?? undefined}
+      style={band ? ({ "--band": BAND_INFO[band].accent } as React.CSSProperties) : undefined}
+      className="relative isolate min-h-[100dvh] w-full"
+    >
+      <ModuleBackground accent={module.accent} />
 
-      {/* Main Module Layout Frame */}
-      <div
-        data-band={band ?? undefined}
-        style={band ? ({ "--band": BAND_INFO[band].accent } as React.CSSProperties) : undefined}
-        className="hero-frame fade-up relative z-10 mx-auto w-full max-w-[1280px]"
-      >
-        {/* Pulsating border glow around the module frame boundaries */}
-        <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
-          <PulsatingBorder colors={["#000000", "#ffffff", accent.hex]} thickness={0.35} />
-        </div>
+      {/* Main Full-Screen Content Layer */}
+      <div className="relative z-10 flex min-h-[100dvh] w-full flex-col px-4 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-10 xl:px-14">
+        {/* 1. Header: Back to home, module switcher tabs, XP pill & language selector */}
+        <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-4 sm:pb-5">
+          <div className="flex items-center gap-2">
+            <Link
+              href="/"
+              className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.04] px-3 text-sm transition-colors duration-200 hover:bg-white/[0.1]"
+            >
+              <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
+              <BrandMark className="size-5 text-violet" />
+              <span className="sr-only sm:not-sr-only">{t.home}</span>
+            </Link>
+            <nav aria-label={t.modulesTitle} className="flex gap-1 rounded-xl border border-line bg-white/[0.03] p-1">
+              {MODULES.map((m) => {
+                const ModIcon = m.icon;
+                const active = m.slug === module.slug;
+                const tabAccent = accentOf(m.accent);
+                return (
+                  <Link
+                    key={m.id}
+                    href={`/m/${m.slug}`}
+                    aria-current={active ? "page" : undefined}
+                    title={m.title[locale]}
+                    className={`grid size-10 place-items-center rounded-lg transition-colors duration-200 ${
+                      active ? tabAccent.tabActive : "text-muted hover:bg-white/[0.06] hover:text-text"
+                    }`}
+                  >
+                    <ModIcon size={18} weight={active ? "fill" : "regular"} aria-hidden />
+                    <span className="sr-only">{m.title[locale]}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+          <div className="flex items-center gap-2">
+            <ProgressPill />
+            <SoundToggle />
+            <ThemeToggle />
+            <LangSelect />
+          </div>
+        </header>
 
-        {/* Solid deep black layout container */}
-        <div className={`relative z-10 flex min-h-[calc(100dvh-4rem)] w-full flex-col overflow-hidden rounded-[22px] border border-line ${isJuniorLearn ? "bg-gradient-to-b from-[#130722] via-[#090314] to-[#04010a]" : "bg-black"} p-4 shadow-[0_40px_120px_-20px_rgb(0_0_0/0.95),0_0_90px_-25px_rgb(124_58_237/0.35),inset_0_1px_0_rgb(255_255_255/0.06)] sm:p-7 lg:rounded-[28px] lg:p-9`}>
-          {/* 1. Header: Back to home, module switcher tabs, XP pill & language selector */}
-          <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-4 sm:pb-6">
-            <div className="flex items-center gap-2">
-              <Link
-                href="/"
-                className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.04] px-3 text-sm transition-colors duration-200 hover:bg-white/[0.1]"
-              >
-                <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
-                <BrandMark className="size-5 text-violet" />
-                <span className="sr-only sm:not-sr-only">{t.home}</span>
-              </Link>
-              <nav aria-label={t.modulesTitle} className="flex gap-1 rounded-xl border border-line bg-white/[0.03] p-1">
-                {MODULES.map((m) => {
-                  const ModIcon = m.icon;
-                  const active = m.slug === module.slug;
-                  const tabAccent = accentOf(m.accent);
-                  return (
-                    <Link
-                      key={m.id}
-                      href={`/m/${m.slug}`}
-                      aria-current={active ? "page" : undefined}
-                      title={m.title[locale]}
-                      className={`grid size-10 place-items-center rounded-lg transition-colors duration-200 ${
-                        active ? tabAccent.tabActive : "text-muted hover:bg-white/[0.06] hover:text-text"
-                      }`}
-                    >
-                      <ModIcon size={18} weight={active ? "fill" : "regular"} aria-hidden />
-                      <span className="sr-only">{m.title[locale]}</span>
-                    </Link>
-                  );
-                })}
-              </nav>
-            </div>
-            <div className="flex items-center gap-2">
-              <ProgressPill />
-              <SoundToggle />
-              <LangSelect />
-            </div>
-          </header>
-
-          {/* 2. Module Banner: Icon, Title, Summary & Grade Badge */}
-          {!isJuniorLearn && (
-            <div className="fade-up mt-6 flex items-start gap-4 sm:mt-8 sm:items-center">
-              <span className={`hidden size-14 shrink-0 place-items-center overflow-hidden rounded-2xl sm:grid ${accent.banner}`}>
+        {/* 2. Module Banner: Icon, Title, Summary & Grade Badge */}
+        {!isJuniorLearn && (
+          <div className="fade-up mt-6 flex items-start gap-4 sm:mt-8 sm:items-center">
+            <span className={`hidden size-14 shrink-0 place-items-center overflow-hidden rounded-2xl sm:grid ${accent.banner}`}>
               {module.iconImage ? (
                 <Image
                   src={module.iconImage}
@@ -184,21 +162,20 @@ export function ModuleShell({
               )}
             </div>
           </div>
-          )}
+        )}
 
-          {/* 3. Main Content: Everything inside this black layout */}
-          <main className={`${module.slug === "learn" ? "mt-5 sm:mt-6" : "mt-8 sm:mt-10"} flex-1`}>
-            {!hydrated ? (
-              <div aria-hidden className="h-72 animate-pulse rounded-3xl border border-line bg-surface/60" />
-            ) : profile && band ? (
-              children(band, profile)
-            ) : (
-              <div className="rounded-[28px] border border-line bg-surface/80 p-5 backdrop-blur-sm sm:p-10">
-                <LearnerSetup />
-              </div>
-            )}
-          </main>
-        </div>
+        {/* 3. Main Content: Full Screen Width across all modules */}
+        <main className={`${module.slug === "learn" ? "mt-5 sm:mt-6" : "mt-8 sm:mt-10"} flex-1 w-full pb-8 sm:pb-12`}>
+          {!hydrated ? (
+            <div aria-hidden className="h-72 animate-pulse rounded-3xl border border-line bg-surface/60" />
+          ) : profile && band ? (
+            children(band, profile)
+          ) : (
+            <div className="mx-auto max-w-4xl rounded-[28px] border border-line bg-surface/80 p-5 backdrop-blur-sm sm:p-10">
+              <LearnerSetup />
+            </div>
+          )}
+        </main>
       </div>
     </div>
   );

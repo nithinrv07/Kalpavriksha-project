@@ -1,12 +1,13 @@
 "use client";
 
-import { ArrowUpRight, MoonStars, ProjectorScreen, X } from "@phosphor-icons/react/ssr";
+import { ArrowUpRight, Moon, MoonStars, ProjectorScreen, Sun, X } from "@phosphor-icons/react/ssr";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, type ReactNode } from "react";
 import { BrandMark } from "@/components/brand-mark";
 import { useLocale } from "@/components/locale-provider";
 import { setComfort, useComfort } from "@/lib/comfort";
+import { setTheme, useTheme } from "@/lib/theme";
 import { LOCALES, LOCALE_LABEL } from "@/lib/i18n";
 import { accentOf } from "@/modules/accents";
 import { MODULES } from "@/modules/registry";
@@ -65,6 +66,7 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
   const ref = useRef<HTMLDialogElement>(null);
   const { locale, setLocale, t } = useLocale();
   const comfort = useComfort();
+  const { theme } = useTheme();
 
   useEffect(() => {
     const dialog = ref.current;
@@ -87,7 +89,7 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
         <div className="flex items-center justify-between">
           <span className="flex items-center gap-2.5 font-display text-lg tracking-tight">
             <BrandMark className="size-6 text-violet" />
-            Kalpavriksha
+            {t.appName}
           </span>
           <button
             type="button"
@@ -153,6 +155,34 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
               icon={<ProjectorScreen size={20} weight="duotone" />}
               onChange={(on) => setComfort("projector", on)}
             />
+          </div>
+        </div>
+
+        <div className="mt-6 border-t border-line pt-5">
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
+            {locale === "ta" ? "தோற்றம்" : "Theme"}
+          </p>
+          <div role="radiogroup" aria-label={locale === "ta" ? "தோற்றம்" : "Theme"} className="mt-3 grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              role="radio"
+              aria-checked={theme === "dark"}
+              onClick={() => setTheme("dark")}
+              className="flex h-11 items-center justify-center gap-2 rounded-xl border border-line text-sm transition-colors duration-200 hover:bg-white/[0.06] aria-checked:border-violet/50 aria-checked:bg-violet-deep/50 aria-checked:text-violet-ink"
+            >
+              <Moon size={17} weight={theme === "dark" ? "fill" : "regular"} />
+              <span>{locale === "ta" ? "இருள்" : "Dark"}</span>
+            </button>
+            <button
+              type="button"
+              role="radio"
+              aria-checked={theme === "light"}
+              onClick={() => setTheme("light")}
+              className="flex h-11 items-center justify-center gap-2 rounded-xl border border-line text-sm transition-colors duration-200 hover:bg-white/[0.06] aria-checked:border-violet/50 aria-checked:bg-violet-deep/50 aria-checked:text-violet-ink"
+            >
+              <Sun size={17} weight={theme === "light" ? "fill" : "regular"} />
+              <span>{locale === "ta" ? "ஒளி" : "Light"}</span>
+            </button>
           </div>
         </div>
 
