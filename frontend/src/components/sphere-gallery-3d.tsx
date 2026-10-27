@@ -1058,14 +1058,11 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
       }
       raf = requestAnimationFrame(frame);
 
-      if (isCalm()) {
-        prev = performance.now();
-        return;
-      }
-
       const now = performance.now();
-      const dt = Math.min(0.05, (now - prev) / 1000);
+      const rawDt = Math.min(0.05, (now - prev) / 1000);
       prev = now;
+      // In calm mode, freeze motion (dt = 0) so the sphere is rendered in resting pose, never left blank
+      const dt = isCalm() ? 0 : rawDt;
 
       const L = live.current;
       const media = mediaRef.current;
@@ -1387,13 +1384,13 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
     };
     const io = new IntersectionObserver(
       ([entry]) => {
-        isVisible = !!entry?.isIntersecting;
+        isVisible = entry ? entry.isIntersecting : true;
         if (isVisible && !raf) {
           prev = performance.now();
           raf = requestAnimationFrame(frame);
         }
       },
-      { threshold: 0.05 }
+      { threshold: 0 }
     );
     io.observe(host);
 

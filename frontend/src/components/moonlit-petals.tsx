@@ -1017,17 +1017,15 @@ function OriginkitBaseNightSceneBacklit(props: NightSceneBacklitProps) {
                 return;
             }
             raf = requestAnimationFrame(frame);
-            if (isCalm()) {
-                last = now;
-                return;
-            }
             if (!gateOpen) {
                 // Scrolled past the hero: keep the petals drifting, at a fraction of the cost.
                 if (now - lastAmbient < (1000 / Math.max(1, ambientFps)) * 0.8) return;
                 lastAmbient = now;
             }
-            const dt = last < 0 ? 0 : Math.min((now - last) / 1000, 0.05);
+            const rawDt = last < 0 ? 0 : Math.min((now - last) / 1000, 0.05);
             last = now;
+            // In calm mode, freeze motion (dt = 0) but still bake and render the tree so it is never blank
+            const dt = isCalm() ? 0 : rawDt;
             if (Wd < 2 || Hd < 2) return;
             const P = propsRef.current;
             const adv: any = { ...ADVANCED_DEFAULTS, ...(P.advanced ?? {}) };

@@ -15,6 +15,8 @@ const LocaleContext = createContext<LocaleContextValue | null>(null);
 
 function readStoredLocale(): Locale | null {
   try {
+    const urlLang = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('lang') : null;
+    if (isLocale(urlLang)) return urlLang;
     const stored = window.localStorage.getItem(STORAGE_KEY);
     return isLocale(stored) ? stored : null;
   } catch {
