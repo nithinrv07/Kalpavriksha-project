@@ -53,6 +53,24 @@
 html {
   background: var(--bg);
   scroll-behavior: smooth;
+  /* Glows and 3D canvases bleed past the edges on purpose; never let them add a
+     sideways scroll. `clip` (unlike `hidden`) keeps sticky positioning working. */
+  overflow-x: clip;
+}
+
+/* CSS stand-in for the WebGL pulsating border when WebGL is unavailable. */
+@keyframes border-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.border-pulse {
+  animation: border-pulse 3.2s ease-in-out infinite;
 }
 
 body {

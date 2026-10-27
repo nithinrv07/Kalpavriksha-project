@@ -104,6 +104,19 @@ function probeWebGL(): { webgl: boolean; webgl2: boolean } {
   return cachedGLSupport;
 }
 
+/**
+ * Whether this browser can create a WebGL context at all (cached probe).
+ * QA: set localStorage `kalpavriksha.noWebGL` = "1" to preview the no-WebGL fallbacks.
+ */
+export function supportsWebGL(): boolean {
+  try {
+    if (window.localStorage.getItem("kalpavriksha.noWebGL") === "1") return false;
+  } catch {
+    // Storage blocked: fall through to the real probe.
+  }
+  return probeWebGL().webgl;
+}
+
 /** Classify the current device once per session. Safe to call during SSR. */
 export function detectQualityTier(): QualityTier {
   if (cachedTier !== null) return cachedTier;

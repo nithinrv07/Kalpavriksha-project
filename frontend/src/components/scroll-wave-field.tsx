@@ -362,7 +362,11 @@ function OriginkitBaseScrollWaveField(props: ScrollWaveFieldProps) {
       premultipliedAlpha: true,
       depth: false,
     }) as WebGLRenderingContext | null;
-    if (!gl) return;
+    if (!gl) {
+      // Without WebGL the empty canvas can paint as a blank box; the footer looks fine without it.
+      canvas.style.display = "none";
+      return;
+    }
 
     const prog = gl.createProgram()!;
     gl.attachShader(prog, compile(gl, gl.VERTEX_SHADER, VERT));

@@ -5,6 +5,7 @@
 import * as React from "react";
 import { PulsingBorder } from "@paper-design/shaders-react";
 import { useComfort } from "@/lib/comfort";
+import { useWebGLSupport } from "@/lib/perf/use-webgl-support";
 
 export interface PulsatingBorderProps {
   colors?: string[];
@@ -127,7 +128,25 @@ function OriginkitBasePulsatingBorder(props: PulsatingBorderProps) {
       ? Math.max(0, Math.min(1, (targetRadiusPx * 2) / minDimension))
       : 0.08;
 
-  const layer = measured ? (
+  const webgl = useWebGLSupport();
+  // Brightest colour in the palette (the accent) tints the CSS fallback glow.
+  const accent = colors[colors.length - 1] ?? "#a855f7";
+
+  const layer = !measured ? null : !webgl ? (
+    <div
+      aria-hidden
+      className={calm ? undefined : "border-pulse"}
+      style={{
+        position: "absolute",
+        inset: 0,
+        borderRadius: targetRadiusPx,
+        border: `1px solid color-mix(in srgb, ${accent} 70%, white)`,
+        boxShadow: `0 0 28px -6px ${accent}, inset 0 0 20px -12px ${accent}`,
+        zIndex: (style?.zIndex as number | undefined) ?? 20,
+        pointerEvents: "none",
+      }}
+    />
+  ) : (
     <PulsingBorder
       colors={colors}
       colorBack={colorBack}
@@ -166,7 +185,7 @@ function OriginkitBasePulsatingBorder(props: PulsatingBorderProps) {
         pointerEvents: "none",
       }}
     />
-  ) : null;
+  );
 
   return (
     <div
