@@ -340,10 +340,10 @@ export function Hero() {
                 )}
                 <DotsNine size={14} className="text-amber-400/80 transition-colors group-hover:text-amber-300" aria-hidden />
               </button>
-              {/* Horizontal brand title centered directly above 3D Sphere with 3D DepthText */}
+              {/* Horizontal brand title centered directly above particle tree with 3D DepthText */}
               <div
                 aria-hidden
-                className="pointer-events-none select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
+                className="pointer-events-none select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center lg:flex"
               >
                 <DepthText
                   text={t.appName ?? "Kalpavriksha"}
@@ -366,13 +366,13 @@ export function Hero() {
                 />
               </div>
 
-              {/* Particle stage — shifted down for harmonious breathing room */}
-              <div className="hero-stage relative mx-auto aspect-square w-full max-w-[560px] shrink-0 translate-y-6 sm:translate-y-8 lg:translate-y-10 lg:absolute lg:bottom-28 lg:left-[9%] lg:top-0 lg:aspect-auto lg:w-[54%] lg:max-w-none">
-                <ParticleCanvas shape={shape} className="absolute inset-0 h-full w-full" active={isFlipped} />
+              {/* Particle stage — centered towards viewport middle */}
+              <div className="hero-stage relative mx-auto aspect-square w-full max-w-[560px] shrink-0 translate-y-6 sm:translate-y-8 lg:translate-y-6 lg:absolute lg:inset-x-0 lg:bottom-16 lg:top-8 lg:mx-auto lg:aspect-auto lg:w-full lg:max-w-[760px] xl:max-w-[860px] 2xl:max-w-[960px] lg:left-1/2 lg:-translate-x-1/2">
+                <ParticleCanvas shape={shape} className="absolute inset-0 h-full w-full pointer-events-none" active={isFlipped} />
                 {t.stats.map((stat, i) => (
                   <div
                     key={i}
-                    className={`fade-up absolute ${STAT_POSITIONS[i] ?? ""} text-center`}
+                    className={`fade-up absolute ${STAT_POSITIONS[i] ?? ""} text-center pointer-events-auto`}
                     style={{ animationDelay: `${900 + i * 120}ms` }}
                   >
                     <span className="block font-mono text-[14px] text-text">{stat.value}</span>
@@ -383,14 +383,14 @@ export function Hero() {
 
               {/* Eyebrow, left of the cloud (desktop) */}
               <p
-                className="fade-up absolute left-[10%] top-[20%] z-10 hidden max-w-[210px] text-right text-[13px] leading-snug text-violet lg:block"
+                className="fade-up absolute left-6 xl:left-8 top-[20%] z-10 hidden max-w-[210px] text-left text-[13px] leading-snug text-violet lg:block"
                 style={{ animationDelay: "700ms" }}
               >
                 {t.eyebrow}
               </p>
 
               {/* Copy block */}
-              <div className="hero-copy relative z-10 shrink-0 px-5 pb-2 sm:px-8 lg:absolute lg:right-8 xl:right-12 lg:top-[27%] lg:w-[44%] lg:p-0 lg:text-right [container-type:inline-size]">
+              <div className="hero-copy pointer-events-auto relative z-10 shrink-0 px-5 pb-2 sm:px-8 lg:absolute lg:right-8 xl:right-12 lg:top-[27%] lg:w-[38%] xl:w-[34%] lg:p-0 lg:text-right [container-type:inline-size]">
                 <p className="fade-up font-mono text-[13px] leading-relaxed text-violet" style={{ animationDelay: "500ms" }}>
                   {t.tagline[0]}
                   <br />
@@ -440,7 +440,7 @@ export function Hero() {
                   setHovering(false);
                   setSlot(-1);
                 }}
-                className="relative z-10 flex shrink-0 touch-auto gap-2 overflow-x-auto px-5 pb-5 pt-6 [scrollbar-width:none] sm:px-8 lg:absolute lg:bottom-10 lg:left-[112px] xl:left-[128px] lg:max-w-[52%] lg:flex-wrap lg:overflow-visible lg:p-0"
+                className="relative z-10 flex shrink-0 touch-auto gap-2 overflow-x-auto px-5 pb-5 pt-6 [scrollbar-width:none] sm:px-8 lg:absolute lg:bottom-8 lg:left-6 xl:left-8 lg:max-w-[42%] lg:flex-wrap lg:overflow-visible lg:p-0"
               >
                 {MODULES.map((m, i) => {
                   const active = slot === i;
