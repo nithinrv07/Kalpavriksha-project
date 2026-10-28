@@ -949,7 +949,7 @@ export function JuniorCosmicLessonPlayer({
               <span className="text-xl animate-pulse">🚀</span>
             </h1>
             <p className="text-xs sm:text-sm text-purple-200/90 font-medium">
-              {subject.name[locale]} - Chapter {chapter.chapterNumber}: "{chapter.summary[locale]}"
+              {subject.name[locale]} - Chapter {chapter.chapterNumber}: &ldquo;{chapter.summary[locale]}&rdquo;
             </p>
           </div>
         </div>
@@ -964,7 +964,7 @@ export function JuniorCosmicLessonPlayer({
           <div className="flex flex-col">
             <span className="font-display text-xs sm:text-sm font-black text-yellow-300 flex items-center gap-1.5">
               <span>Task 1 of 5:</span>
-              <span className="text-white">Let's Watch & Listen!</span>
+              <span className="text-white">Let&apos;s Watch & Listen!</span>
             </span>
             <ShootingStarBanner className="h-6 w-36 -mt-1" />
           </div>

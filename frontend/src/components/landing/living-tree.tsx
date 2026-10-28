@@ -10,8 +10,11 @@ import { NIGHT_CANOPY, canopyFor, type Canopy } from "@/lib/canopy";
  * with drifting petals throughout the left side of the landing page.
  * The canopy harmoniously follows the local time of day.
  */
+import { getQualityBudget } from "@/lib/perf/quality";
+
 export function LivingTree() {
   const [canopy, setCanopy] = useState<Canopy>(NIGHT_CANOPY);
+  const budget = getQualityBudget();
 
   useEffect(() => {
     const update = () => setCanopy(canopyFor(new Date()));
@@ -25,12 +28,13 @@ export function LivingTree() {
       background="transparent"
       scale={85}
       blossomColor={canopy.blossom}
-      petals={85}
+      petals={Math.min(85, budget.petals)}
       wind={20}
       direction="left"
       throttleAfterViewports={1.15}
+      ambientFps={10}
       advanced={{
-        flowers: 14000,
+        flowers: Math.min(8000, budget.flowers),
         crownReach: 75,
         twigs: 30,
         clumpSize: 12,
@@ -40,6 +44,7 @@ export function LivingTree() {
         vignette: 0,
         grain: 0,
       }}
+      className="will-change-transform contain-strict"
     />
   );
 }

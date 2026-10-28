@@ -4,7 +4,7 @@
 import type { CSSProperties } from "react";
 import * as React from "react";
 import { useEffect, useRef } from "react";
-import { getQualityBudget } from "@/lib/perf/quality";
+import { getQualityBudget, clampDpr } from "@/lib/perf/quality";
 import { isCalm } from "@/lib/comfort";
 
 const ADVANCED_DEFAULTS = {
@@ -859,6 +859,7 @@ export interface NightSceneBacklitProps {
         vignette?: number;
     };
     style?: CSSProperties;
+    className?: string;
     /** After this many viewport heights of scroll, drop to `ambientFps` (keeps petals alive, cuts cost). */
     throttleAfterViewports?: number;
     ambientFps?: number;
@@ -876,6 +877,7 @@ function OriginkitBaseNightSceneBacklit(props: NightSceneBacklitProps) {
         background = "#000000",
         direction = "left",
         style,
+        className,
         throttleAfterViewports,
         ambientFps = 15,
     } = props;
@@ -895,7 +897,7 @@ function OriginkitBaseNightSceneBacklit(props: NightSceneBacklitProps) {
         let Hd = 0;
         let dpr = 1;
         const resize = () => {
-            dpr = Math.min(1.5, window.devicePixelRatio || 1);
+            dpr = clampDpr(window.devicePixelRatio);
             Wd = Math.max(1, Math.round(root.offsetWidth * dpr));
             Hd = Math.max(1, Math.round(root.offsetHeight * dpr));
             if (canvas.width !== Wd) canvas.width = Wd;
@@ -1001,7 +1003,6 @@ function OriginkitBaseNightSceneBacklit(props: NightSceneBacklitProps) {
         let isVisible = true;
         const budget = getQualityBudget();
         let gateOpen = true;
-        let lastAmbient = 0;
 
         const updateScrollGate = () => {
             if (throttleAfterViewports === undefined) return;
@@ -1018,9 +1019,9 @@ function OriginkitBaseNightSceneBacklit(props: NightSceneBacklitProps) {
             }
             raf = requestAnimationFrame(frame);
             if (!gateOpen) {
-                // Scrolled past the hero: keep the petals drifting, at a fraction of the cost.
-                if (now - lastAmbient < (1000 / Math.max(1, ambientFps)) * 0.8) return;
-                lastAmbient = now;
+                // Scrolled past the hero: completely pause rendering to save CPU/GPU.
+                // The static baked scene remains visible via CSS, no need to re-render.
+                return;
             }
             const rawDt = last < 0 ? 0 : Math.min((now - last) / 1000, 0.05);
             last = now;
@@ -1426,6 +1427,7 @@ function OriginkitBaseNightSceneBacklit(props: NightSceneBacklitProps) {
     return (
         <div
             ref={rootRef}
+            className={className}
             style={{
                 position: "relative",
                 width: "100%",

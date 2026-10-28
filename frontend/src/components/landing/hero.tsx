@@ -18,6 +18,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { useTheme } from "@/lib/theme";
 import { LangSelect } from "./lang-select";
 import { MenuSheet } from "./menu-sheet";
+import { getQualityBudget } from "@/lib/perf/quality";
 
 const CYCLE_MS = 5200;
 const INTRO_MS = 1100;
@@ -38,6 +39,8 @@ function prefersReducedMotion(): boolean {
 export function Hero() {
   const { t, locale } = useLocale();
   const { isDark } = useTheme();
+  const budget = getQualityBudget();
+  const maxDepthLayers = budget.depthLayers;
   const [introDone, setIntroDone] = useState(false);
   const [slot, setSlot] = useState<Slot>(-1);
   const [hovering, setHovering] = useState(false);
@@ -155,7 +158,7 @@ export function Hero() {
                   fontWeight={isDark ? 700 : 600}
                   faceColor={isDark ? "#FFFFFF" : "#110826"}
                   depthColor={isDark ? "#6d28d9" : "#c4b5fd"}
-                  layers={isDark ? 22 : 4}
+                  layers={isDark ? Math.min(22, maxDepthLayers) : Math.min(4, maxDepthLayers)}
                   depth={isDark ? 3.6 : 0.8}
                   tilt={isDark ? 8 : 2}
                   perspective={1000}
@@ -177,7 +180,7 @@ export function Hero() {
               {/* 3D Sphere Gallery canvas — normal full size */}
               <div
                 data-no-flip="true"
-                className="absolute inset-0 z-10 h-full w-full -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 translate-y-12 sm:translate-y-14 lg:translate-y-16"
+                className="absolute inset-0 z-10 h-full w-full -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 translate-y-12 sm:translate-y-14 lg:translate-y-16 will-change-transform contain-strict"
               >
                 <SphereGallery3D
                   scale={76}
@@ -355,7 +358,7 @@ export function Hero() {
                   fontWeight={isDark ? 700 : 600}
                   faceColor={isDark ? "#FFFFFF" : "#110826"}
                   depthColor={isDark ? "#6d28d9" : "#c4b5fd"}
-                  layers={isDark ? 22 : 4}
+                  layers={isDark ? Math.min(22, maxDepthLayers) : Math.min(4, maxDepthLayers)}
                   depth={isDark ? 3.6 : 0.8}
                   tilt={isDark ? 8 : 2}
                   perspective={1000}
@@ -375,8 +378,8 @@ export function Hero() {
               </div>
 
               {/* Particle stage — centered towards viewport middle */}
-              <div className="hero-stage relative mx-auto aspect-square w-full max-w-[560px] shrink-0 translate-y-6 sm:translate-y-8 lg:translate-y-6 lg:absolute lg:inset-x-0 lg:bottom-16 lg:top-8 lg:mx-auto lg:aspect-auto lg:w-full lg:max-w-[760px] xl:max-w-[860px] 2xl:max-w-[960px] lg:left-1/2 lg:-translate-x-1/2">
-                <ParticleCanvas shape={shape} className="absolute inset-0 h-full w-full pointer-events-none" active={isFlipped} />
+              <div className="hero-stage relative mx-auto aspect-square w-full max-w-[560px] shrink-0 translate-y-6 sm:translate-y-8 lg:translate-y-6 lg:absolute lg:inset-x-0 lg:bottom-16 lg:top-8 lg:mx-auto lg:aspect-auto lg:w-full lg:max-w-[760px] xl:max-w-[860px] 2xl:max-w-[960px] lg:left-1/2 lg:-translate-x-1/2 will-change-transform contain-strict">
+                <ParticleCanvas shape={shape} className="absolute inset-0 h-full w-full pointer-events-none will-change-transform contain-strict" active={isFlipped} />
                 {t.stats.map((stat, i) => (
                   <div
                     key={i}

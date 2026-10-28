@@ -4,6 +4,7 @@
 
 import * as React from "react";
 import { isCalm } from "@/lib/comfort";
+import { getQualityBudget } from "@/lib/perf/quality";
 
 export interface GalleryItem {
   image?: string;
@@ -645,9 +646,12 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
 
   const spinSign = direction === "clockwise" ? -1 : 1;
 
+  const budget = getQualityBudget();
+  const maxBranches = Math.min(MAX_BRANCHES, budget.particles / 100);
+
   const live = React.useRef<Live>({} as Live);
   live.current = {
-    count: branches,
+    count: Math.min(branches, maxBranches),
     radius,
     depthRand: clamp(scatter / 100, 0, 1),
     itemSize: radius * clamp(size / 100, 0.01, 2),
@@ -731,8 +735,12 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
     const host = hostRef.current;
     if (!canvas || !host) return;
 
+    const budget = getQualityBudget();
+    const sphereW = budget.tier >= 2 ? SPHERE_W : Math.max(16, SPHERE_W / 2);
+    const sphereH = budget.tier >= 2 ? SPHERE_H : Math.max(12, SPHERE_H / 2);
+
     const attrs: WebGLContextAttributes = {
-      antialias: true,
+      antialias: budget.antialias,
       alpha: true,
       premultipliedAlpha: true,
       depth: true,
@@ -783,7 +791,7 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
       gl.STATIC_DRAW
     );
 
-    const ball = buildSphere(SPHERE_W, SPHERE_H);
+    const ball = buildSphere(sphereW, sphereH);
     const ballBuf = gl.createBuffer()!;
     gl.bindBuffer(gl.ARRAY_BUFFER, ballBuf);
     gl.bufferData(gl.ARRAY_BUFFER, ball.positions, gl.STATIC_DRAW);
@@ -1453,6 +1461,7 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
     >
       <canvas
         ref={canvasRef}
+        className="will-change-transform contain-strict"
         style={{
           position: "absolute",
           inset: 0,

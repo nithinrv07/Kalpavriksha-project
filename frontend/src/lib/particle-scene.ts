@@ -1,5 +1,5 @@
 import { SHAPES, generateShape, type ShapeName } from "./shapes";
-import { getQualityBudget } from "./perf/quality";
+import { getQualityBudget, clampDpr } from "./perf/quality";
 
 /**
  * Framework-free Canvas 2D particle renderer: a point cloud that morphs
@@ -72,9 +72,9 @@ export function createParticleScene(canvas: HTMLCanvasElement, initial: ShapeNam
   let tiltX = 0;
   let tiltY = 0;
 
-  const resize = () => {
+const resize = () => {
     const rect = canvas.getBoundingClientRect();
-    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    dpr = clampDpr(window.devicePixelRatio);
     width = rect.width;
     height = rect.height;
     canvas.width = Math.max(1, Math.round(width * dpr));
