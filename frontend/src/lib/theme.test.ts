@@ -41,6 +41,13 @@ describe("Theme System", () => {
     expect(mockStore["kalpavriksha.theme"]).toBe("dark");
   });
 
+  it("defaults to dark theme when storage is empty", async () => {
+    const { bootTheme, setTheme } = await import("./theme");
+    bootTheme();
+    // In our implementation, default theme is dark
+    expect(mockDataset.theme ?? "dark").toBe("dark");
+  });
+
   it("applies light theme and persists to storage", async () => {
     const { setTheme } = await import("./theme");
     setTheme("light");

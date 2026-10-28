@@ -65,6 +65,37 @@ body {
 }
 
 /* ========================================================================= */
+/* Dual Theme Support: Dark Mode (Default)                                   */
+/* ========================================================================= */
+[data-theme="dark"],
+.dark {
+  color-scheme: dark;
+  --bg: #05020c;
+  --surface: #140d28;
+  --surface-2: #1e133c;
+  --line: rgb(255 255 255 / 0.14);
+  --line-strong: rgb(255 255 255 / 0.25);
+  --text: #ffffff;
+  --muted: #cbc7de;
+  --violet: #c084fc;
+  --violet-deep: #4c1d95;
+  --violet-ink: #f3e8ff;
+  --glow-a: #9333ea;
+  --glow-b: #e879f9;
+  --amber: #fbbf24;
+  --teal: #2dd4bf;
+  --pink: #f472b6;
+  --success: #4ade80;
+  --danger: #f87171;
+}
+
+[data-theme="dark"] body,
+.dark body {
+  background: radial-gradient(circle at 50% 0%, #10061f 0%, #06020c 42%, #020106 72%, #000000 100%) !important;
+  color: var(--text) !important;
+}
+
+/* ========================================================================= */
 /* Dual Theme Support: Light Mode Overrides                                   */
 /* ========================================================================= */
 [data-theme="light"],

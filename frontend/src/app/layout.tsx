@@ -32,15 +32,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      data-theme="dark"
       suppressHydrationWarning
-      className={`${geist.variable} ${plexMono.variable} ${fraunces.variable} ${titleSerif.variable} ${anekTamil.variable} ${anekDeva.variable}`}
+      className={`dark ${geist.variable} ${plexMono.variable} ${fraunces.variable} ${titleSerif.variable} ${anekTamil.variable} ${anekDeva.variable}`}
     >
       <body className="min-h-svh">
         {/* Apply calm / projector / theme before the first paint so motion and colors never flash. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{var c=JSON.parse(localStorage.getItem('kalpavriksha.comfort')||'{}');var th=localStorage.getItem('kalpavriksha.theme');var e=document.documentElement;if(c.calm===true)e.dataset.calm='true';if(c.projector===true)e.dataset.projector='true';if(th==='light'){e.dataset.theme='light';e.classList.add('light');}}catch(e){}",
+              "try{var c=JSON.parse(localStorage.getItem('kalpavriksha.comfort')||'{}');var th=localStorage.getItem('kalpavriksha.theme')||'dark';var e=document.documentElement;if(c.calm===true)e.dataset.calm='true';if(c.projector===true)e.dataset.projector='true';e.dataset.theme=th;if(th==='light'){e.classList.remove('dark');e.classList.add('light');}else{e.classList.remove('light');e.classList.add('dark');}}catch(e){}",
           }}
         />
         <LocaleProvider>{children}</LocaleProvider>
