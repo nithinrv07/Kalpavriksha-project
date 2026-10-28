@@ -70,7 +70,7 @@ export function ModuleShell({
   const accent = accentOf(module.accent);
   const profile = progress.profile;
   const band = profile ? bandOf(profile.grade) : null;
-  const isJuniorLearn = module.slug === "learn" && profile && profile.grade >= 1 && profile.grade <= 3;
+  const isJuniorLearn = module.slug === "learn" && (!profile || (profile.grade >= 1 && profile.grade <= 3));
 
   return (
     <div
@@ -165,11 +165,18 @@ export function ModuleShell({
         )}
 
         {/* 3. Main Content: Full Screen Width across all modules */}
-        <main className={`${module.slug === "learn" ? "mt-5 sm:mt-6" : "mt-8 sm:mt-10"} flex-1 w-full pb-8 sm:pb-12`}>
-          {!hydrated ? (
-            <div aria-hidden className="h-72 animate-pulse rounded-3xl border border-line bg-surface/60" />
-          ) : profile && band ? (
+        <main className={`${isJuniorLearn ? "mt-3 sm:mt-4" : module.slug === "learn" ? "mt-5 sm:mt-6" : "mt-8 sm:mt-10"} flex-1 w-full pb-8 sm:pb-12`}>
+          {profile && band ? (
             children(band, profile)
+          ) : module.slug === "learn" ? (
+            children("junior", {
+              name: "Learner",
+              grade: 1,
+              avatar: "cat",
+              studentId: "KV-0001",
+            })
+          ) : !hydrated ? (
+            <div aria-hidden className="h-72 animate-pulse rounded-3xl border border-line bg-surface/60" />
           ) : (
             <div className="mx-auto max-w-4xl rounded-[28px] border border-line bg-surface/80 p-5 backdrop-blur-sm sm:p-10">
               <LearnerSetup />

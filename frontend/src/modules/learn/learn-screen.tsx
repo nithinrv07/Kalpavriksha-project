@@ -1735,9 +1735,10 @@ function PersonalisedLearnDashboard({
   const [filter, setFilter] = useState<string>("subjects"); // "subjects" | "all" | subject.id
   const [openChapterId, setOpenChapterId] = useState<string | null>(null);
 
-  // Active Standard (fallback to 6)
-  const currentStandard = isSupportedStandard(profile.grade) ? profile.grade : 6;
-  const isJunior = currentStandard <= 3; // Class 1 to 3 gets cosmic gamified interface!
+  // Active Standard (defaults to 1 for Class 1 so Class 1-3 Super Learning Adventure is immediately active)
+  const [overrideStandard, setOverrideStandard] = useState<number | null>(null);
+  const currentStandard = overrideStandard ?? (isSupportedStandard(profile.grade) ? profile.grade : 1);
+  const isJunior = currentStandard <= 3; // Class 1 to 3 gets Super Learning Adventure!
   const isSenior = currentStandard >= 11;
 
   // Selected Group Filter for Class 11 and 12 (strictly cs, commerce, or business_maths)
@@ -1813,6 +1814,7 @@ function PersonalisedLearnDashboard({
   }, [profile.lastAccessed, currentStandard, allFlatChapters]);
 
   const handleStandardChange = (newStd: number, newGroup?: string) => {
+    setOverrideStandard(newStd);
     authService.updateStandard(newStd, newGroup);
     if (newGroup === "cs" || newGroup === "commerce" || newGroup === "business_maths") {
       setSeniorGroupFilter(newGroup);
@@ -1841,6 +1843,7 @@ function PersonalisedLearnDashboard({
           setFilter={setFilter}
           onOpenChapter={(chapterId) => setOpenChapterId(chapterId)}
           onOpenStandardSwitcher={() => setSwitcherOpen(true)}
+          onSelectStandard={handleStandardChange}
           continueRecord={continueRecord}
           totalChapters={totalChapters}
           completedChaptersCount={completedChaptersCount}
@@ -1890,14 +1893,23 @@ function PersonalisedLearnDashboard({
             </div>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setSwitcherOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-full border border-violet/40 bg-violet-deep/30 px-3.5 py-1.5 font-mono text-xs font-semibold text-violet-ink hover:bg-violet-deep transition-colors"
-          >
-            <PencilSimple size={13} />
-            <span>Change Standard</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => handleStandardChange(1)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-pink-400/50 bg-pink-500/15 px-3.5 py-1.5 font-mono text-xs font-semibold text-pink-300 hover:bg-pink-500/25 transition-all"
+            >
+              <span>✨ Class 1-3 Adventure</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setSwitcherOpen(true)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-violet/40 bg-violet-deep/30 px-3.5 py-1.5 font-mono text-xs font-semibold text-violet-ink hover:bg-violet-deep transition-colors"
+            >
+              <PencilSimple size={13} />
+              <span>Change Standard</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -2185,33 +2197,15 @@ function PersonalisedLearnDashboard({
 // ----------------------------------------------------------------------------
 export function LearnScreen({ band }: { band: Band }) {
   const { profile } = useProgress();
-  const hydrated = useHydrated();
 
-  // If not signed in or hydrated:
-  if (!hydrated) {
-    return <div aria-hidden className="h-96 animate-pulse rounded-3xl border border-line bg-surface/60" />;
-  }
+  const activeProfile: Profile = profile ?? {
+    name: "Learner",
+    grade: 1,
+    avatar: "cat",
+    studentId: "KV-0001",
+  };
 
-  if (!profile) {
-    return (
-      <div className="rounded-[28px] border border-line bg-surface/80 p-6 text-center sm:p-12">
-        <h2 className="font-display text-3xl font-bold">Please complete your student profile</h2>
-        <p className="mt-2 text-sm text-muted">
-          Select your school standard (Class 1 to Class 12) to access your personalised curriculum.
-        </p>
-        <div className="mt-6">
-          <Link
-            href="/sign-in?redirect=/m/learn"
-            className="beam-border inline-flex h-12 items-center gap-2 rounded-full bg-violet-deep px-6 font-mono text-xs text-violet-ink"
-          >
-            Create Profile & Choose Standard →
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  return <PersonalisedLearnDashboard band={band} profile={profile} />;
+  return <PersonalisedLearnDashboard band={band ?? "junior"} profile={activeProfile} />;
 }
 
 export default LearnScreen;

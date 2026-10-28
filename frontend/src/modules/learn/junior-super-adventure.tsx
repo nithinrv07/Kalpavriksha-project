@@ -27,6 +27,7 @@ interface JuniorSuperAdventureProps {
   setFilter: (f: string) => void;
   onOpenChapter: (chapterId: string) => void;
   onOpenStandardSwitcher: () => void;
+  onSelectStandard?: (std: number) => void;
   continueRecord: {
     subject: CurriculumSubject;
     chapter: CurriculumChapter;
@@ -44,6 +45,7 @@ export function JuniorSuperAdventure({
   setFilter,
   onOpenChapter,
   onOpenStandardSwitcher,
+  onSelectStandard,
   continueRecord,
   totalChapters,
   completedChaptersCount,
@@ -118,7 +120,16 @@ export function JuniorSuperAdventure({
 
   return (
     <div className="relative flex flex-col gap-6 sm:gap-8 pb-16 text-white select-none">
-      {/* Background Ambience: Dreamy floating fantasy islands in corners */}
+      {/* Background Ambience: Dreamy floating cosmic planet and fantasy islands */}
+      <div className="pointer-events-none absolute -left-4 top-24 z-0 hidden lg:block opacity-85">
+        <Image
+          src="/images/junior/cosmic-planet.png"
+          alt="Cosmic ringed planet and moon"
+          width={48}
+          height={100}
+          className="animate-[float_5s_ease-in-out_infinite]"
+        />
+      </div>
       <div className="pointer-events-none absolute -left-6 top-64 z-0 hidden lg:block opacity-75">
         <Image
           src="/images/junior/island-left.png"
@@ -142,7 +153,7 @@ export function JuniorSuperAdventure({
       {/* 1. TOP HEADER BAR                                                         */}
       {/* ========================================================================= */}
       <header className="relative z-10 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between pt-1">
-        {/* Left: Learner Profile Badge */}
+        {/* Left: Learner Profile Badge + Direct Class 1-3 switcher */}
         <div className="flex items-center gap-3.5">
           <div className="relative size-12 sm:size-14 shrink-0 overflow-hidden rounded-full border-2 border-pink-300/80 bg-gradient-to-tr from-purple-600 to-pink-400 p-0.5 shadow-[0_0_20px_rgba(244,114,182,0.6)]">
             <Image
@@ -155,20 +166,35 @@ export function JuniorSuperAdventure({
             <span className="absolute bottom-0 right-0 size-3.5 rounded-full border-2 border-white bg-emerald-400" />
           </div>
           <div className="flex flex-col">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="font-display text-lg sm:text-xl font-black tracking-tight text-white drop-shadow-sm">
                 Hi, Learner!
               </span>
-              {/* Class Pill with Switcher */}
-              <button
-                type="button"
-                onClick={onOpenStandardSwitcher}
-                className="inline-flex items-center gap-1 rounded-full border border-pink-300/60 bg-pink-500/30 px-2.5 py-0.5 font-mono text-[11px] font-bold text-pink-200 shadow-[0_0_12px_rgba(244,114,182,0.4)] hover:bg-pink-500/50 hover:scale-105 active:scale-95 transition-all"
-                title="Change Class"
-              >
-                <span>Class {currentStandard}</span>
-                <PencilSimple size={11} weight="bold" />
-              </button>
+              {/* Direct Class 1-3 Segmented Tabs */}
+              <div className="flex items-center gap-1 rounded-full border border-white/20 bg-white/10 p-0.5 backdrop-blur-md">
+                {[1, 2, 3].map((std) => (
+                  <button
+                    key={std}
+                    type="button"
+                    onClick={() => onSelectStandard ? onSelectStandard(std) : onOpenStandardSwitcher()}
+                    className={`rounded-full px-2.5 py-0.5 font-mono text-[11px] font-bold transition-all ${
+                      currentStandard === std
+                        ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-[0_0_10px_rgba(244,114,182,0.6)] scale-105"
+                        : "text-purple-200 hover:text-white"
+                    }`}
+                  >
+                    Class {std}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={onOpenStandardSwitcher}
+                  className="rounded-full px-2 py-0.5 font-mono text-[10.5px] font-medium text-purple-200 hover:text-white transition-colors"
+                  title="Switch to Class 4 to 12"
+                >
+                  4-12 ▾
+                </button>
+              </div>
             </div>
             <p className="font-display text-xs sm:text-[13px] font-semibold text-purple-200 drop-shadow-sm flex items-center gap-1">
               <span>Keep going, you&apos;re doing great!</span>
@@ -470,34 +496,38 @@ export function JuniorSuperAdventure({
       </section>
 
       {/* ========================================================================= */}
-      {/* 3. MIDDLE SECTION: "PICK A JOURNEY" (3 3D ADVENTURE CARDS)                */}
+      {/* 3. MIDDLE SECTION: "PICK A JOURNEY" (ENCLOSING FROSTED GLASS CONTAINER)   */}
       {/* ========================================================================= */}
-      <section className="relative z-10 flex flex-col gap-4">
+      <section className="relative z-10 overflow-hidden rounded-3xl border-2 border-white/25 bg-gradient-to-br from-blue-600/35 via-indigo-700/40 to-purple-800/40 p-5 sm:p-7 shadow-[0_20px_50px_rgba(20,10,50,0.55),inset_0_1px_20px_rgba(255,255,255,0.2)] backdrop-blur-2xl flex flex-col gap-5">
         {/* Section Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="grid size-9 place-items-center rounded-2xl border border-cyan-300/60 bg-cyan-400/20 text-cyan-300 shadow-[0_0_12px_rgba(34,211,238,0.5)]">
-              <Compass size={20} weight="fill" />
+            <span className="grid size-10 place-items-center rounded-2xl border border-cyan-300/60 bg-cyan-400/25 text-cyan-200 shadow-[0_0_15px_rgba(34,211,238,0.5)]">
+              <Compass size={22} weight="fill" />
             </span>
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-black tracking-tight text-white drop-shadow-sm">
+              <h2 className="font-display text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-md">
                 Pick a Journey
               </h2>
-              <p className="font-display text-xs text-purple-200 font-medium drop-shadow-sm">
+              <p className="mt-0.5 font-display text-xs sm:text-sm font-medium text-purple-100 leading-snug drop-shadow-sm">
                 Choose your adventure and learn something new!
               </p>
             </div>
           </div>
-          <span className="hidden sm:inline-flex items-center gap-1.5 font-mono text-xs font-bold text-pink-300">
-            <span>Explore all 3 paths</span>
-            <CaretRight size={14} weight="bold" />
-          </span>
+          <button
+            type="button"
+            onClick={() => setActiveTab("all")}
+            className="grid size-8 place-items-center rounded-full border border-white/20 bg-white/10 text-white/80 hover:bg-white/20 hover:text-white transition-colors"
+            aria-label="Explore all journeys"
+          >
+            <CaretRight size={16} weight="bold" />
+          </button>
         </div>
 
-        {/* 3 Frosted Adventure Cards */}
+        {/* 3 Frosted Adventure Cards Inside Container */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
           {/* Card 1: Science Quest (Rocket flying) */}
-          <div className="group relative overflow-hidden rounded-3xl border-2 border-white/20 bg-gradient-to-br from-blue-600/30 via-indigo-700/35 to-purple-800/35 p-5 shadow-[0_15px_35px_rgba(20,10,45,0.45)] backdrop-blur-xl flex flex-col justify-between min-h-[175px] transition-transform duration-300 hover:-translate-y-1">
+          <div className="group relative overflow-hidden rounded-2xl border-2 border-white/20 bg-gradient-to-br from-blue-600/30 via-indigo-700/35 to-purple-800/35 p-5 shadow-[0_10px_25px_rgba(20,10,45,0.4)] backdrop-blur-xl flex flex-col justify-between min-h-[175px] transition-transform duration-300 hover:-translate-y-1">
             <div className="flex items-start justify-between gap-2">
               <div>
                 <h3 className="font-display text-lg sm:text-xl font-black tracking-tight text-white drop-shadow-sm">
@@ -532,7 +562,7 @@ export function JuniorSuperAdventure({
           </div>
 
           {/* Card 2: Math Maze (Treasure chest with math symbols) */}
-          <div className="group relative overflow-hidden rounded-3xl border-2 border-white/20 bg-gradient-to-br from-blue-600/30 via-indigo-700/35 to-purple-800/35 p-5 shadow-[0_15px_35px_rgba(20,10,45,0.45)] backdrop-blur-xl flex flex-col justify-between min-h-[175px] transition-transform duration-300 hover:-translate-y-1">
+          <div className="group relative overflow-hidden rounded-2xl border-2 border-white/20 bg-gradient-to-br from-blue-600/30 via-indigo-700/35 to-purple-800/35 p-5 shadow-[0_10px_25px_rgba(20,10,45,0.4)] backdrop-blur-xl flex flex-col justify-between min-h-[175px] transition-transform duration-300 hover:-translate-y-1">
             <div className="flex items-start justify-between gap-2">
               <div>
                 <h3 className="font-display text-lg sm:text-xl font-black tracking-tight text-white drop-shadow-sm">
@@ -567,7 +597,7 @@ export function JuniorSuperAdventure({
           </div>
 
           {/* Card 3: Craft & Sports (Soccer ball, basketball, paint palette) */}
-          <div className="group relative overflow-hidden rounded-3xl border-2 border-white/20 bg-gradient-to-br from-blue-600/30 via-indigo-700/35 to-purple-800/35 p-5 shadow-[0_15px_35px_rgba(20,10,45,0.45)] backdrop-blur-xl flex flex-col justify-between min-h-[175px] transition-transform duration-300 hover:-translate-y-1">
+          <div className="group relative overflow-hidden rounded-2xl border-2 border-white/20 bg-gradient-to-br from-blue-600/30 via-indigo-700/35 to-purple-800/35 p-5 shadow-[0_10px_25px_rgba(20,10,45,0.4)] backdrop-blur-xl flex flex-col justify-between min-h-[175px] transition-transform duration-300 hover:-translate-y-1">
             <div className="flex items-start justify-between gap-2">
               <div>
                 <h3 className="font-display text-lg sm:text-xl font-black tracking-tight text-white drop-shadow-sm">
