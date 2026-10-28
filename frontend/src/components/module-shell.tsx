@@ -6,13 +6,12 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Avatar } from "@/components/avatar";
 import { BrandMark } from "@/components/brand-mark";
-import { ModuleBackground } from "@/components/module-background";
+import { ChromeWaves } from "@/components/landing/chrome-waves";
 import { LangSelect } from "@/components/landing/lang-select";
 import { useLocale } from "@/components/locale-provider";
 import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
 import { useProgress } from "@/components/progress-store";
 import { SoundToggle } from "@/components/sound-toggle";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { BAND_INFO } from "@/lib/bands";
 import { bandOf, localDay, streak, type Band, type Profile } from "@/lib/progress";
 import { MODULES, type KalpaModule } from "@/modules/registry";
@@ -78,7 +77,7 @@ export function ModuleShell({
       style={band ? ({ "--band": BAND_INFO[band].accent } as React.CSSProperties) : undefined}
       className="relative isolate min-h-[100dvh] w-full"
     >
-      <ModuleBackground accent={module.accent} />
+      <ChromeWaves />
 
       {/* Main Full-Screen Content Layer */}
       <div className="relative z-10 flex min-h-[100dvh] w-full flex-col px-4 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-10 xl:px-14">
@@ -118,7 +117,6 @@ export function ModuleShell({
           <div className="flex items-center gap-2">
             <ProgressPill />
             <SoundToggle />
-            <ThemeToggle />
             <LangSelect />
           </div>
         </header>

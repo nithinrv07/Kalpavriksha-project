@@ -29,8 +29,8 @@ export function bootTheme() {
     const saved = window.localStorage.getItem(KEY);
     if (saved === "light" || saved === "dark") {
       currentTheme = saved;
-    } else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
-      currentTheme = "light";
+    } else {
+      currentTheme = "dark";
     }
   } catch {
     currentTheme = "dark";
