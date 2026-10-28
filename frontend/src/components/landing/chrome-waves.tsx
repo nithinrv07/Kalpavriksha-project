@@ -82,15 +82,20 @@ export function ChromeWaves() {
         </div>
       </div>
 
-      {/* 7. Deep Black Shading Layers for High Contrast & Obsidian Space Depth */}
+      {/* 7. Deep Black Shading Layers for High Contrast & Obsidian Space Depth (Dark Mode) */}
       {/* A. Deep black radial vignette from center outwards */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(3,1,8,0.45)_58%,rgba(0,0,0,0.85)_95%)]" />
+      <div className="chrome-black-shade pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(3,1,8,0.45)_58%,rgba(0,0,0,0.85)_95%)]" />
 
       {/* B. Vertical black shading veil from top and bottom */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
+      <div className="chrome-black-shade pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
 
       {/* C. Bottom floor deep black shadow fade */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black via-black/60 to-transparent" />
+      <div className="chrome-black-shade pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black via-black/60 to-transparent" />
+
+      {/* 8. Pearlescent Ambient Veil (Light Mode) */}
+      <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-white/70 backdrop-blur-[1px]" />
+      <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-gradient-to-b from-white/80 via-transparent to-white/90" />
+      <div className="chrome-light-shade pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-white via-white/80 to-transparent" />
     </div>
   );
 }

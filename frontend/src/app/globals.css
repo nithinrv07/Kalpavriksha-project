@@ -64,6 +64,349 @@ body {
   overflow-x: hidden;
 }
 
+/* ========================================================================= */
+/* Dual Theme Support: Light Mode Overrides                                   */
+/* ========================================================================= */
+[data-theme="light"],
+.light {
+  color-scheme: light;
+  --bg: #f8f6fc;
+  --surface: #ffffff;
+  --surface-2: #f3effa;
+  --line: rgb(76 29 149 / 0.16);
+  --line-strong: rgb(76 29 149 / 0.35);
+  --text: #110826;
+  --muted: #4a3e63;
+  --violet: #7c3aed;
+  --violet-deep: #ede9fe;
+  --violet-ink: #310c59;
+  --glow-a: #a855f7;
+  --glow-b: #ec4899;
+  --amber: #b45309;
+  --teal: #0f766e;
+  --pink: #be185d;
+  --success: #15803d;
+  --danger: #b91c1c;
+}
+
+[data-theme="light"] body,
+.light body {
+  background: radial-gradient(circle at 50% 0%, #ede5f8 0%, #f6f2fd 38%, #fbf9fe 70%, #ffffff 100%) !important;
+  color: var(--text) !important;
+}
+
+[data-theme="light"] ::selection,
+.light ::selection {
+  background: rgb(124 58 237 / 0.22);
+  color: #110826;
+}
+
+/* Chrome Waves Shading Adaptation */
+.chrome-light-shade {
+  display: none;
+}
+
+[data-theme="light"] .chrome-black-shade,
+.light .chrome-black-shade {
+  display: none !important;
+}
+
+[data-theme="light"] .chrome-light-shade,
+.light .chrome-light-shade {
+  display: block !important;
+}
+
+/* ========================================================================= */
+/* High-Contrast Text Legibility in Light Mode                               */
+/* ========================================================================= */
+[data-theme="light"] .text-text,
+.light .text-text {
+  color: #110826 !important;
+}
+
+[data-theme="light"] .text-muted,
+.light .text-muted {
+  color: #4a3e63 !important;
+}
+
+[data-theme="light"] .text-muted\/90,
+.light .text-muted\/90,
+[data-theme="light"] .text-muted\/80,
+.light .text-muted\/80 {
+  color: #3b2f54 !important;
+}
+
+[data-theme="light"] .text-violet-ink,
+.light .text-violet-ink {
+  color: #310c59 !important;
+}
+
+[data-theme="light"] .text-violet-ink\/80,
+.light .text-violet-ink\/80 {
+  color: #4c1d95 !important;
+}
+
+/* Hardcoded white text visibility in Light Mode */
+[data-theme="light"] .text-white\/90,
+.light .text-white\/90,
+[data-theme="light"] .text-white\/80,
+.light .text-white\/80 {
+  color: #110826 !important;
+}
+
+[data-theme="light"] .text-white\/70,
+.light .text-white\/70,
+[data-theme="light"] .text-white\/60,
+.light .text-white\/60 {
+  color: #3b2f54 !important;
+}
+
+[data-theme="light"] .text-white\/50,
+.light .text-white\/50 {
+  color: rgba(76, 29, 149, 0.45) !important;
+}
+
+/* Accent text visibility */
+[data-theme="light"] .text-purple-200,
+.light .text-purple-200,
+[data-theme="light"] .text-purple-300,
+.light .text-purple-300,
+[data-theme="light"] .text-violet-200,
+.light .text-violet-200 {
+  color: #5b21b6 !important;
+}
+
+[data-theme="light"] .text-purple-100,
+.light .text-purple-100,
+[data-theme="light"] .text-indigo-100,
+.light .text-indigo-100,
+[data-theme="light"] .text-pink-100,
+.light .text-pink-100 {
+  color: #310c59 !important;
+}
+
+[data-theme="light"] .text-purple-200\/90,
+.light .text-purple-200\/90,
+[data-theme="light"] .text-purple-200\/70,
+.light .text-purple-200\/70,
+[data-theme="light"] .text-purple-200\/80,
+.light .text-purple-200\/80 {
+  color: #4a3e63 !important;
+}
+
+[data-theme="light"] .text-indigo-300,
+.light .text-indigo-300 {
+  color: #3730a3 !important;
+}
+
+[data-theme="light"] .text-pink-200,
+.light .text-pink-200,
+[data-theme="light"] .text-pink-300,
+.light .text-pink-300 {
+  color: #be185d !important;
+}
+
+[data-theme="light"] .text-amber-200,
+.light .text-amber-200,
+[data-theme="light"] .text-amber-300,
+.light .text-amber-300,
+[data-theme="light"] .text-amber-400,
+.light .text-amber-400 {
+  color: #b45309 !important;
+}
+
+[data-theme="light"] .text-cyan-200,
+.light .text-cyan-200,
+[data-theme="light"] .text-cyan-300,
+.light .text-cyan-300 {
+  color: #0369a1 !important;
+}
+
+[data-theme="light"] .text-emerald-300,
+.light .text-emerald-300 {
+  color: #047857 !important;
+}
+
+/* Translucent surfaces in Light Mode */
+[data-theme="light"] .bg-white\/\[0\.03\],
+.light .bg-white\/\[0\.03\],
+[data-theme="light"] .bg-white\/\[0\.04\],
+.light .bg-white\/\[0\.04\],
+[data-theme="light"] .bg-white\/\[0\.05\],
+.light .bg-white\/\[0\.05\],
+[data-theme="light"] .bg-white\/\[0\.06\],
+.light .bg-white\/\[0\.06\],
+[data-theme="light"] .bg-white\/\[0\.08\],
+.light .bg-white\/\[0\.08\] {
+  background-color: var(--surface) !important;
+  border-color: rgba(76, 29, 149, 0.16) !important;
+  color: #110826 !important;
+  box-shadow: 0 2px 10px -2px rgba(76, 29, 149, 0.05);
+}
+
+[data-theme="light"] .border-white\/15,
+.light .border-white\/15,
+[data-theme="light"] .border-white\/12,
+.light .border-white\/12,
+[data-theme="light"] .border-white\/10,
+.light .border-white\/10,
+[data-theme="light"] .border-white\/8,
+.light .border-white\/8 {
+  border-color: rgba(76, 29, 149, 0.16) !important;
+}
+
+/* All dark card containers transform into clean white cards */
+[data-theme="light"] .bg-\[\#120a24\]\/92,
+.light .bg-\[\#120a24\]\/92,
+[data-theme="light"] .bg-\[\#140d28\]\/90,
+.light .bg-\[\#140d28\]\/90,
+[data-theme="light"] .bg-\[\#140828\],
+.light .bg-\[\#140828\],
+[data-theme="light"] .bg-\[\#14082c\],
+.light .bg-\[\#14082c\],
+[data-theme="light"] .bg-\[\#12072a\],
+.light .bg-\[\#12072a\],
+[data-theme="light"] .bg-\[\#1e133c\],
+.light .bg-\[\#1e133c\],
+[data-theme="light"] .bg-\[\#1a0e33\],
+.light .bg-\[\#1a0e33\],
+[data-theme="light"] .bg-\[\#0e0524\],
+.light .bg-\[\#0e0524\],
+[data-theme="light"] .bg-\[\#0c041f\],
+.light .bg-\[\#0c041f\],
+[data-theme="light"] .bg-\[\#160932\],
+.light .bg-\[\#160932\],
+[data-theme="light"] .bg-\[\#14072b\],
+.light .bg-\[\#14072b\],
+[data-theme="light"] .bg-\[\#1c0c3c\],
+.light .bg-\[\#1c0c3c\],
+[data-theme="light"] .bg-\[\#1a0a38\],
+.light .bg-\[\#1a0a38\],
+[data-theme="light"] .bg-\[\#200d44\],
+.light .bg-\[\#200d44\],
+[data-theme="light"] .bg-\[\#160a2f\],
+.light .bg-\[\#160a2f\],
+[data-theme="light"] .bg-\[\#120726\],
+.light .bg-\[\#120726\],
+[data-theme="light"] .bg-\[\#0f0522\],
+.light .bg-\[\#0f0522\],
+[data-theme="light"] .bg-\[\#091522\],
+.light .bg-\[\#091522\],
+[data-theme="light"] .bg-\[\#0a102b\],
+.light .bg-\[\#0a102b\],
+[data-theme="light"] .bg-\[\#160826\],
+.light .bg-\[\#160826\] {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+  border-color: rgba(76, 29, 149, 0.16) !important;
+  box-shadow: 0 10px 30px -5px rgba(76, 29, 149, 0.1), 0 2px 8px -2px rgba(76, 29, 149, 0.05) !important;
+  color: var(--text) !important;
+}
+
+/* Ensure text inside converted cards is dark and legible */
+[data-theme="light"] .bg-\[\#120a24\]\/92 h1,
+.light .bg-\[\#120a24\]\/92 h1,
+[data-theme="light"] .bg-\[\#120a24\]\/92 h2,
+.light .bg-\[\#120a24\]\/92 h2,
+[data-theme="light"] .bg-\[\#120a24\]\/92 h3,
+.light .bg-\[\#120a24\]\/92 h3,
+[data-theme="light"] .bg-\[\#120a24\]\/92 p,
+.light .bg-\[\#120a24\]\/92 p,
+[data-theme="light"] .bg-\[\#140d28\]\/90 h1,
+.light .bg-\[\#140d28\]\/90 h1,
+[data-theme="light"] .bg-\[\#140d28\]\/90 h2,
+.light .bg-\[\#140d28\]\/90 h2,
+[data-theme="light"] .bg-\[\#140d28\]\/90 h3,
+.light .bg-\[\#140d28\]\/90 h3,
+[data-theme="light"] .bg-\[\#140d28\]\/90 p,
+.light .bg-\[\#140d28\]\/90 p,
+[data-theme="light"] .bg-\[\#140d28\]\/90 span,
+.light .bg-\[\#140d28\]\/90 span,
+[data-theme="light"] .bg-\[\#0e0524\] h1,
+.light .bg-\[\#0e0524\] h1,
+[data-theme="light"] .bg-\[\#0e0524\] h2,
+.light .bg-\[\#0e0524\] h2,
+[data-theme="light"] .bg-\[\#0e0524\] h3,
+.light .bg-\[\#0e0524\] h3,
+[data-theme="light"] .bg-\[\#0e0524\] p,
+.light .bg-\[\#0e0524\] p,
+[data-theme="light"] .bg-\[\#0e0524\] span:not([class*="bg-"]),
+.light .bg-\[\#0e0524\] span:not([class*="bg-"]),
+[data-theme="light"] .bg-\[\#160932\] h1,
+.light .bg-\[\#160932\] h1,
+[data-theme="light"] .bg-\[\#160932\] h2,
+.light .bg-\[\#160932\] h2,
+[data-theme="light"] .bg-\[\#160932\] h3,
+.light .bg-\[\#160932\] h3,
+[data-theme="light"] .bg-\[\#160932\] p,
+.light .bg-\[\#160932\] p,
+[data-theme="light"] .bg-\[\#160932\] span:not([class*="bg-"]),
+.light .bg-\[\#160932\] span:not([class*="bg-"]) {
+  color: #110826 !important;
+}
+
+[data-theme="light"] .bg-\[\#120a24\]\/92 .text-white,
+.light .bg-\[\#120a24\]\/92 .text-white,
+[data-theme="light"] .bg-\[\#0e0524\] .text-white,
+.light .bg-\[\#0e0524\] .text-white,
+[data-theme="light"] .bg-\[\#140d28\]\/90 .text-white,
+.light .bg-\[\#140d28\]\/90 .text-white,
+[data-theme="light"] .bg-\[\#160932\] .text-white,
+.light .bg-\[\#160932\] .text-white {
+  color: #110826 !important;
+}
+
+/* Saturated buttons and chips KEEP white text for high contrast against color fills */
+[data-theme="light"] [class*="bg-gradient"] .text-white,
+.light [class*="bg-gradient"] .text-white,
+[data-theme="light"] [class*="bg-gradient"].text-white,
+.light [class*="bg-gradient"].text-white,
+[data-theme="light"] [class*="bg-pink-500"] .text-white,
+.light [class*="bg-pink-500"] .text-white,
+[data-theme="light"] [class*="bg-pink-600"] .text-white,
+.light [class*="bg-pink-600"] .text-white,
+[data-theme="light"] [class*="bg-violet-600"] .text-white,
+.light [class*="bg-violet-600"] .text-white,
+[data-theme="light"] [class*="bg-purple-600"] .text-white,
+.light [class*="bg-purple-600"] .text-white,
+[data-theme="light"] [class*="bg-purple-700"] .text-white,
+.light [class*="bg-purple-700"] .text-white,
+[data-theme="light"] [class*="bg-blue-600"] .text-white,
+.light [class*="bg-blue-600"] .text-white,
+[data-theme="light"] [class*="bg-emerald-500"] .text-white,
+.light [class*="bg-emerald-500"] .text-white,
+[data-theme="light"] [class*="bg-emerald-600"] .text-white,
+.light [class*="bg-emerald-600"] .text-white,
+[data-theme="light"] [class*="bg-teal-500"] .text-white,
+.light [class*="bg-teal-500"] .text-white,
+[data-theme="light"] [class*="bg-teal-600"] .text-white,
+.light [class*="bg-teal-600"] .text-white {
+  color: #ffffff !important;
+}
+
+/* Hover state on module big numbers and links inside light cards */
+[data-theme="light"] .group:hover .group-hover\:text-white,
+.light .group:hover .group-hover\:text-white {
+  color: #110826 !important;
+}
+
+/* Badges and pills overlaid on dark media/images retain crisp white text */
+[data-theme="light"] [class*="bg-black"] .text-white,
+.light [class*="bg-black"] .text-white,
+[data-theme="light"] [class*="bg-black"] .text-white\/90,
+.light [class*="bg-black"] .text-white\/90,
+[data-theme="light"] [class*="bg-black"] .text-white\/80,
+.light [class*="bg-black"] .text-white\/80,
+[data-theme="light"] [class*="bg-black"] span,
+.light [class*="bg-black"] span,
+[data-theme="light"] [class*="bg-black\/"] .text-white,
+.light [class*="bg-black\/"] .text-white,
+[data-theme="light"] [class*="bg-black\/"] .text-white\/90,
+.light [class*="bg-black\/"] .text-white\/90,
+[data-theme="light"] [class*="bg-black\/"] span,
+.light [class*="bg-black\/"] span {
+  color: #ffffff !important;
+}
+
 ::selection {
   background: rgb(167 139 250 / 0.35);
   color: #fff;

@@ -12,6 +12,7 @@ import { useLocale } from "@/components/locale-provider";
 import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
 import { useProgress } from "@/components/progress-store";
 import { SoundToggle } from "@/components/sound-toggle";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { BAND_INFO } from "@/lib/bands";
 import { bandOf, localDay, streak, type Band, type Profile } from "@/lib/progress";
 import { MODULES, type KalpaModule } from "@/modules/registry";
@@ -117,6 +118,7 @@ export function ModuleShell({
           <div className="flex items-center gap-2">
             <ProgressPill />
             <SoundToggle />
+            <ThemeToggle />
             <LangSelect />
           </div>
         </header>

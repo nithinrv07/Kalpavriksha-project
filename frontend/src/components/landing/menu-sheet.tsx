@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect, useRef, type ReactNode } from "react";
 import { BrandMark } from "@/components/brand-mark";
 import { useLocale } from "@/components/locale-provider";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { setComfort, useComfort } from "@/lib/comfort";
 import { LOCALES, LOCALE_LABEL } from "@/lib/i18n";
 import { accentOf } from "@/modules/accents";
@@ -89,14 +90,17 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
             <BrandMark className="size-6 text-violet" />
             Kalpavriksha
           </span>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label={t.close}
-            className="grid size-11 place-items-center rounded-xl border border-line bg-white/[0.04] transition-colors duration-200 hover:bg-white/[0.1]"
-          >
-            <X size={18} />
-          </button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label={t.close}
+              className="grid size-11 place-items-center rounded-xl border border-line bg-white/[0.04] transition-colors duration-200 hover:bg-white/[0.1]"
+            >
+              <X size={18} />
+            </button>
+          </div>
         </div>
 
         <nav className="mt-8 flex flex-col gap-1.5">
@@ -153,6 +157,13 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
               icon={<ProjectorScreen size={20} weight="duotone" />}
               onChange={(on) => setComfort("projector", on)}
             />
+          </div>
+        </div>
+
+        <div className="mt-6 border-t border-line pt-5">
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">{locale === "ta" ? "தோற்றம்" : "Theme & Appearance"}</p>
+          <div className="mt-3">
+            <ThemeToggle showLabel className="w-full justify-between px-4" />
           </div>
         </div>
 

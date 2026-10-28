@@ -7,10 +7,12 @@ import { useLocale } from "@/components/locale-provider";
 import { ScrollWaveField } from "@/components/scroll-wave-field";
 import { SplitText } from "@/components/split-text";
 import { WarpText } from "@/components/warp-text";
+import { useTheme } from "@/lib/theme";
 import { StandingPenguin } from "./standing-penguin";
 
 export function CtaFooter() {
   const { t } = useLocale();
+  const { isDark } = useTheme();
   const firstModule = "/m/learn";
 
   return (
@@ -74,9 +76,9 @@ export function CtaFooter() {
             letterSpacing="-0.06em"
             lineHeight={0.9}
             outline={true}
-            strokeColor="rgba(255, 255, 255, 0.55)"
+            strokeColor={isDark ? "rgba(255, 255, 255, 0.55)" : "rgba(76, 29, 149, 0.45)"}
             strokeWidth={2.2}
-            color="rgba(255, 255, 255, 0.55)"
+            color={isDark ? "rgba(255, 255, 255, 0.55)" : "rgba(76, 29, 149, 0.45)"}
             warpStrength={0.08}
             warpScale={1.7}
             speed={0.55}

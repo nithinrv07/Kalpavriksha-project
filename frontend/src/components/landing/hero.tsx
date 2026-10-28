@@ -14,6 +14,8 @@ import { SphereGallery3D } from "@/components/sphere-gallery-3d";
 import type { ShapeName } from "@/lib/shapes";
 import { MODULES } from "@/modules/registry";
 import { accentOf } from "@/modules/accents";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { useTheme } from "@/lib/theme";
 import { LangSelect } from "./lang-select";
 import { MenuSheet } from "./menu-sheet";
 
@@ -35,6 +37,7 @@ function prefersReducedMotion(): boolean {
 
 export function Hero() {
   const { t, locale } = useLocale();
+  const { isDark } = useTheme();
   const [introDone, setIntroDone] = useState(false);
   const [slot, setSlot] = useState<Slot>(-1);
   const [hovering, setHovering] = useState(false);
@@ -93,6 +96,7 @@ export function Hero() {
                 </span>
                 <div className="flex items-center gap-2">
                   <LangSelect />
+                  <ThemeToggle />
                   <button
                     type="button"
                     onClick={(e) => {
@@ -149,8 +153,8 @@ export function Hero() {
                   text={t.appName ?? "Kalpavriksha"}
                   fontSize={locale === "ta" ? "clamp(48px, 6.4vw, 92px)" : "clamp(60px, 8vw, 116px)"}
                   fontWeight={700}
-                  faceColor="#FFFFFF"
-                  depthColor="#6d28d9"
+                  faceColor={isDark ? "#FFFFFF" : "#110826"}
+                  depthColor={isDark ? "#6d28d9" : "#7c3aed"}
                   layers={22}
                   depth={3.6}
                   tilt={8}
@@ -200,9 +204,9 @@ export function Hero() {
                     fontWeight={600}
                     letterSpacing={locale === "en" ? "-0.015em" : "-0.005em"}
                     lineHeight={locale === "en" ? 0.98 : 1.1}
-                    textColor="#C3AFD4"
-                    shadowColor="#1E0028"
-                    glareColor="#4A105DBF"
+                    textColor={isDark ? "#C3AFD4" : "#1a0833"}
+                    shadowColor={isDark ? "#1E0028" : "rgba(124, 58, 237, 0.25)"}
+                    glareColor={isDark ? "#4A105DBF" : "rgba(124, 58, 237, 0.55)"}
                     className="w-full"
                   />
                 </div>
@@ -289,6 +293,7 @@ export function Hero() {
                 </span>
                 <div className="flex items-center gap-2">
                   <LangSelect />
+                  <ThemeToggle />
                   <button
                     type="button"
                     onClick={(e) => {
@@ -344,8 +349,8 @@ export function Hero() {
                   text={t.appName ?? "Kalpavriksha"}
                   fontSize={locale === "ta" ? "clamp(48px, 6.4vw, 92px)" : "clamp(60px, 8vw, 116px)"}
                   fontWeight={700}
-                  faceColor="#FFFFFF"
-                  depthColor="#6d28d9"
+                  faceColor={isDark ? "#FFFFFF" : "#110826"}
+                  depthColor={isDark ? "#6d28d9" : "#7c3aed"}
                   layers={22}
                   depth={3.6}
                   tilt={8}
@@ -405,9 +410,9 @@ export function Hero() {
                     fontWeight={600}
                     letterSpacing={locale === "en" ? "-0.025em" : "-0.01em"}
                     lineHeight={locale === "en" ? 0.92 : 1.08}
-                    textColor="#FFFFFF"
-                    shadowColor="#3b0764"
-                    glareColor="rgba(255, 255, 255, 0.85)"
+                    textColor={isDark ? "#FFFFFF" : "#1a0833"}
+                    shadowColor={isDark ? "#3b0764" : "rgba(124, 58, 237, 0.25)"}
+                    glareColor={isDark ? "rgba(255, 255, 255, 0.85)" : "rgba(124, 58, 237, 0.55)"}
                     className="w-full text-right"
                   />
                 </div>
