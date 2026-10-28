@@ -143,25 +143,26 @@ export function Hero() {
               {/* Horizontal brand title centered directly above 3D Sphere with 3D DepthText */}
               <div
                 aria-hidden
-                className="pointer-events-none select-none absolute top-[8vh] inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
+                className="pointer-events-none select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
               >
                 <DepthText
                   text={t.appName ?? "Kalpavriksha"}
-                  fontSize={locale === "ta" ? "clamp(34px, 4.4vw, 64px)" : "clamp(40px, 5.15vw, 74px)"}
-                  fontWeight={400}
+                  fontSize={locale === "ta" ? "clamp(48px, 6.4vw, 92px)" : "clamp(60px, 8vw, 116px)"}
+                  fontWeight={700}
                   faceColor="#FFFFFF"
                   depthColor="#6d28d9"
-                  layers={17}
-                  depth={3.2}
+                  layers={22}
+                  depth={3.6}
                   tilt={8}
                   perspective={1000}
-                  autoOrbit={true}
-                  orbitSpeed={0.3}
-                  float={true}
-                  pointerTracking={true}
+                  autoOrbit={false}
+                  orbitSpeed={0}
+                  float={false}
+                  pointerTracking={false}
+                  intro={false}
                   shadow={true}
                   active={!isFlipped}
-                  className="font-title [--depth-text-letter-spacing:-0.005em] drop-shadow-[0_2px_12px_rgba(0,0,0,0.32)]"
+                  className="font-title [--depth-text-letter-spacing:-0.005em] drop-shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
                 />
               </div>
 
@@ -337,25 +338,26 @@ export function Hero() {
               {/* Horizontal brand title centered directly above 3D Sphere with 3D DepthText */}
               <div
                 aria-hidden
-                className="pointer-events-none select-none absolute top-[8vh] inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
+                className="pointer-events-none select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
               >
                 <DepthText
-                  text="Kalpavriksha"
-                  fontSize="clamp(40px, 5.15vw, 74px)"
-                  fontWeight={400}
+                  text={t.appName ?? "Kalpavriksha"}
+                  fontSize={locale === "ta" ? "clamp(48px, 6.4vw, 92px)" : "clamp(60px, 8vw, 116px)"}
+                  fontWeight={700}
                   faceColor="#FFFFFF"
                   depthColor="#6d28d9"
-                  layers={17}
-                  depth={3.2}
+                  layers={22}
+                  depth={3.6}
                   tilt={8}
                   perspective={1000}
-                  autoOrbit={true}
-                  orbitSpeed={0.3}
-                  float={true}
-                  pointerTracking={true}
+                  autoOrbit={false}
+                  orbitSpeed={0}
+                  float={false}
+                  pointerTracking={false}
+                  intro={false}
                   shadow={true}
                   active={isFlipped}
-                  className="font-title [--depth-text-letter-spacing:-0.005em] drop-shadow-[0_2px_12px_rgba(0,0,0,0.32)]"
+                  className="font-title [--depth-text-letter-spacing:-0.005em] drop-shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
                 />
               </div>
 
