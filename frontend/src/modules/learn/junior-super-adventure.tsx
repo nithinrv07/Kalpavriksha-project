@@ -2,21 +2,26 @@
 
 import React, { useMemo, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
+  ArrowRight,
   BookOpen,
   CaretRight,
+  Check,
   Compass,
-  Gift,
-  GraduationCap,
-  Heart,
+  DownloadSimple,
+  FileText,
+  LightbulbFilament,
+  Lightning,
   PencilSimple,
   Play,
-  Rocket,
   Sparkle,
   Star,
-  Trophy,
 } from "@phosphor-icons/react/ssr";
 import { useLocale } from "@/components/locale-provider";
+import { BrandMark } from "@/components/brand-mark";
+import { SoundToggle } from "@/components/sound-toggle";
+import { LangSelect } from "@/components/landing/lang-select";
 import type { CurriculumChapter, CurriculumSubject } from "@/lib/curriculum";
 
 interface JuniorSuperAdventureProps {
@@ -50,20 +55,20 @@ export function JuniorSuperAdventure({
   totalChapters,
   completedChaptersCount,
 }: JuniorSuperAdventureProps) {
-  const { locale } = useLocale();
+  const { locale, t } = useLocale();
 
-  // Active category filter: "all" | "favourites" | "recent" | subjectId
-  const [activeTab, setActiveTab] = useState<string>("all");
+  // Active category filter: "all" | subjectId
+  const [activeSubject, setActiveSubject] = useState<string>("all");
 
-  // Subject matching helpers for the 3 Journey Quest cards
-  const scienceSubject = useMemo(
-    () => subjects.find((s) => s.id.includes("science") || s.id.includes("evs") || s.name.en.toLowerCase().includes("science")),
-    [subjects]
-  );
-  const mathSubject = useMemo(
-    () => subjects.find((s) => s.id.includes("math") || s.name.en.toLowerCase().includes("math")),
-    [subjects]
-  );
+  // Filtered chapters list for display
+  const displayedChapters = useMemo(() => {
+    if (activeSubject === "all") {
+      return allFlatChapters;
+    }
+    return allFlatChapters.filter((item) => item.subject.id === activeSubject);
+  }, [activeSubject, allFlatChapters]);
+
+  // Subject matching helpers
   const tamilSubject = useMemo(
     () => subjects.find((s) => s.id.includes("tamil")),
     [subjects]
@@ -72,32 +77,18 @@ export function JuniorSuperAdventure({
     () => subjects.find((s) => s.id.includes("english")),
     [subjects]
   );
-
-  // Filtered chapters list for display
-  const displayedChapters = useMemo(() => {
-    if (activeTab === "all") {
-      return allFlatChapters;
-    }
-    if (activeTab === "favourites") {
-      // First 8 engaging starter chapters
-      return allFlatChapters.slice(0, 8);
-    }
-    if (activeTab === "recent") {
-      return allFlatChapters.slice(0, Math.max(completedChaptersCount, 3));
-    }
-    // Specific subject
-    return allFlatChapters.filter((item) => item.subject.id === activeTab);
-  }, [activeTab, allFlatChapters, completedChaptersCount]);
-
-  // Selected subject or category display title
-  const activeSubjectObject = subjects.find((s) => s.id === activeTab);
-
-  // Quest progress (up to 3 daily stars)
-  const questProgress = Math.min(completedChaptersCount, 3);
-  const questPercent = Math.round((questProgress / 3) * 100);
-
-  // Journey milestones calculation (Start -> Explore -> Learn -> Grow)
-  const journeyStep = completedChaptersCount === 0 ? 1 : completedChaptersCount < 3 ? 2 : completedChaptersCount < 7 ? 3 : 4;
+  const mathSubject = useMemo(
+    () => subjects.find((s) => s.id.includes("math") || s.name.en.toLowerCase().includes("math")),
+    [subjects]
+  );
+  const scienceSubject = useMemo(
+    () => subjects.find((s) => s.id.includes("science") || s.id.includes("evs") || s.name.en.toLowerCase().includes("science")),
+    [subjects]
+  );
+  const socialSubject = useMemo(
+    () => subjects.find((s) => s.id.includes("social")),
+    [subjects]
+  );
 
   const handleLaunchContinue = () => {
     if (continueRecord) {
@@ -107,9 +98,9 @@ export function JuniorSuperAdventure({
     }
   };
 
-  const handleExploreSubject = (sub?: CurriculumSubject) => {
+  const handleSelectSubject = (sub?: CurriculumSubject) => {
     if (sub) {
-      setActiveTab(sub.id);
+      setActiveSubject(sub.id === activeSubject ? "all" : sub.id);
       if (sub.chapters[0]) {
         onOpenChapter(sub.chapters[0].id);
       }
@@ -119,639 +110,652 @@ export function JuniorSuperAdventure({
   };
 
   return (
-    <div className="relative flex flex-col gap-6 sm:gap-8 pb-16 text-white select-none">
+    <div className="relative flex flex-col gap-6 sm:gap-8 pb-20 select-none text-slate-800">
       {/* ========================================================================= */}
-      {/* 1. TOP HEADER BAR                                                         */}
+      {/* 1. TOP HEADER BAR: BRAND LOGO + 3D TITLE + GIRL WITH BUNNY + LEARNER CHIP */}
       {/* ========================================================================= */}
-      <header className="relative z-10 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between pt-1">
-        {/* Left: Learner Profile Badge + Direct Class 1-3 switcher */}
-        <div className="flex items-center gap-3.5">
-          <div className="relative size-12 sm:size-14 shrink-0 overflow-hidden rounded-full border-2 border-pink-300/80 bg-gradient-to-tr from-purple-600 to-pink-400 p-0.5 shadow-[0_0_20px_rgba(244,114,182,0.6)]">
-            <Image
-              src="/images/junior/learner-avatar.png"
-              alt="Learner Avatar"
-              width={56}
-              height={56}
-              className="h-full w-full rounded-full object-cover"
-            />
-            <span className="absolute bottom-0 right-0 size-3.5 rounded-full border-2 border-white bg-emerald-400" />
-          </div>
-          <div className="flex flex-col">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="font-display text-lg sm:text-xl font-black tracking-tight text-white drop-shadow-sm">
-                Hi, Learner!
-              </span>
-              {/* Direct Class 1-3 Segmented Tabs */}
-              <div className="flex items-center gap-1 rounded-full border border-white/20 bg-white/10 p-0.5 backdrop-blur-md">
-                {[1, 2, 3].map((std) => (
-                  <button
-                    key={std}
-                    type="button"
-                    onClick={() => onSelectStandard ? onSelectStandard(std) : onOpenStandardSwitcher()}
-                    className={`rounded-full px-2.5 py-0.5 font-mono text-[11px] font-bold transition-all ${
-                      currentStandard === std
-                        ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-[0_0_10px_rgba(244,114,182,0.6)] scale-105"
-                        : "text-purple-200 hover:text-white"
-                    }`}
-                  >
-                    Class {std}
-                  </button>
-                ))}
-                <button
-                  type="button"
-                  onClick={onOpenStandardSwitcher}
-                  className="rounded-full px-2 py-0.5 font-mono text-[10.5px] font-medium text-purple-200 hover:text-white transition-colors"
-                  title="Switch to Class 4 to 12"
-                >
-                  4-12 ▾
-                </button>
-              </div>
-            </div>
-            <p className="font-display text-xs sm:text-[13px] font-semibold text-purple-200 drop-shadow-sm flex items-center gap-1">
-              <span>Keep going, you&apos;re doing great!</span>
-              <span className="text-amber-300">⭐</span>
-            </p>
-          </div>
-        </div>
-
-        {/* Center: 3D Bubble Title "Super Learning Adventure!" */}
-        <div className="flex items-center justify-center my-1 lg:my-0">
-          <div className="relative group">
-            <Image
-              src="/images/junior/super-learning-title-soft.png"
-              alt="Super Learning Adventure!"
-              width={340}
-              height={115}
-              priority
-              className="w-auto h-16 sm:h-20 lg:h-22 object-contain drop-shadow-[0_8px_25px_rgba(168,85,247,0.7)] transition-transform duration-300 group-hover:scale-105"
-            />
-          </div>
-        </div>
-
-        {/* Right: "Your Learning Journey" Milestone Tracker Card */}
-        <div className="flex items-center justify-start lg:justify-end">
-          <div className="flex flex-col gap-1.5 rounded-2xl border border-white/20 bg-gradient-to-r from-blue-900/40 via-indigo-900/40 to-purple-900/40 px-4 py-2.5 shadow-[0_8px_32px_rgba(30,27,75,0.4)] backdrop-blur-xl">
-            <span className="font-mono text-[10.5px] uppercase tracking-wider text-purple-200/90 font-bold">
-              Your Learning Journey
+      <header className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-4 pt-1 sm:pt-2">
+        {/* Left: Brand Logo */}
+        <div className="flex items-center gap-2.5 self-start lg:self-auto">
+          <Link
+            href="/"
+            className="group flex items-center gap-2.5 rounded-2xl border border-white/80 bg-white/80 px-3.5 py-2 shadow-[0_4px_16px_rgba(30,58,138,0.08)] backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:bg-white"
+            title="Back to Home"
+          >
+            <span className="grid size-9 place-items-center rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white shadow-sm">
+              <BrandMark className="size-5" strokeWidth={2} />
             </span>
-
-            {/* Glowing Milestone Trail */}
-            <div className="relative flex items-center justify-between gap-3 sm:gap-4 pt-1">
-              {/* Connecting Glow Line */}
-              <div className="absolute top-[13px] inset-x-2 h-1 rounded-full bg-white/15 overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-amber-400 via-pink-400 to-cyan-400 shadow-[0_0_10px_rgba(56,189,248,0.8)] transition-all duration-500"
-                  style={{ width: `${(journeyStep / 4) * 100}%` }}
-                />
-              </div>
-
-              {/* Node 1: Start */}
-              <div className="relative z-10 flex flex-col items-center gap-1">
-                <span
-                  className={`grid size-7 place-items-center rounded-full border-2 transition-all ${
-                    journeyStep >= 1
-                      ? "border-amber-300 bg-amber-400 text-amber-950 shadow-[0_0_12px_rgba(251,191,36,0.8)] scale-110"
-                      : "border-white/20 bg-white/10 text-white/50"
-                  }`}
-                >
-                  <Star size={13} weight="fill" />
-                </span>
-                <span className="font-mono text-[9px] font-semibold text-purple-100">Start</span>
-              </div>
-
-              {/* Node 2: Explore */}
-              <div className="relative z-10 flex flex-col items-center gap-1">
-                <span
-                  className={`grid size-7 place-items-center rounded-full border-2 transition-all ${
-                    journeyStep >= 2
-                      ? "border-purple-300 bg-purple-500 text-white shadow-[0_0_12px_rgba(168,85,247,0.8)] scale-110"
-                      : "border-white/20 bg-white/10 text-white/50"
-                  }`}
-                >
-                  <BookOpen size={13} weight="fill" />
-                </span>
-                <span className="font-mono text-[9px] font-semibold text-purple-100">Explore</span>
-              </div>
-
-              {/* Node 3: Learn */}
-              <div className="relative z-10 flex flex-col items-center gap-1">
-                <span
-                  className={`grid size-7 place-items-center rounded-full border-2 transition-all ${
-                    journeyStep >= 3
-                      ? "border-blue-300 bg-blue-500 text-white shadow-[0_0_12px_rgba(59,130,246,0.8)] scale-110"
-                      : "border-white/20 bg-white/10 text-white/50"
-                  }`}
-                >
-                  <Trophy size={13} weight="fill" />
-                </span>
-                <span className="font-mono text-[9px] font-semibold text-purple-100">Learn</span>
-              </div>
-
-              {/* Node 4: Grow */}
-              <div className="relative z-10 flex flex-col items-center gap-1">
-                <span
-                  className={`grid size-7 place-items-center rounded-full border-2 transition-all ${
-                    journeyStep >= 4
-                      ? "border-cyan-300 bg-cyan-400 text-cyan-950 shadow-[0_0_12px_rgba(34,211,238,0.9)] scale-110"
-                      : "border-white/20 bg-white/10 text-white/50"
-                  }`}
-                >
-                  <Rocket size={13} weight="fill" />
-                </span>
-                <span className="font-mono text-[9px] font-semibold text-purple-100">Grow</span>
-              </div>
+            <div className="flex flex-col">
+              <span className="font-display text-sm font-black tracking-tight text-blue-900 leading-none">
+                GSX
+              </span>
+              <span className="font-headline text-[13px] font-bold text-slate-700 leading-tight">
+                Kalpavriksha
+              </span>
             </div>
+          </Link>
+        </div>
+
+        {/* Center: 3D "Digital Learning: Explore ⭐ Learn ⭐ Grow" + Girl Reading */}
+        <div className="flex items-center justify-center gap-2 sm:gap-4 my-1 lg:my-0">
+          <div className="relative group transition-transform duration-300 hover:scale-[1.02]">
+            <Image
+              src="/images/junior/fairytale-title.png"
+              alt="Digital Learning - Explore Learn Grow"
+              width={390}
+              height={110}
+              priority
+              className="w-auto h-16 sm:h-20 lg:h-24 object-contain drop-shadow-[0_8px_20px_rgba(59,130,246,0.25)]"
+            />
           </div>
+          <div className="relative hidden sm:block shrink-0 transition-transform duration-300 hover:scale-105">
+            <Image
+              src="/images/junior/fairytale-girl.png"
+              alt="Little girl reading with bunny"
+              width={90}
+              height={90}
+              className="size-16 sm:size-20 lg:size-22 rounded-2xl object-cover shadow-[0_8px_20px_rgba(59,130,246,0.2)] border-2 border-white/80"
+            />
+          </div>
+        </div>
+
+        {/* Right: Controls & Learner Profile Chip */}
+        <div className="flex items-center gap-2.5 self-end lg:self-auto">
+          <div className="hidden sm:flex items-center gap-1.5 rounded-2xl border border-white/80 bg-white/80 p-1 shadow-[0_4px_16px_rgba(30,58,138,0.06)] backdrop-blur-xl">
+            <SoundToggle />
+            <LangSelect />
+          </div>
+          <Link
+            href="/sign-in"
+            className="group flex items-center gap-3 rounded-full border border-white/80 bg-white/85 px-4 py-2 shadow-[0_4px_16px_rgba(30,58,138,0.1)] backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:bg-white"
+            title="Learner Profile"
+          >
+            <div className="relative size-9 shrink-0 overflow-hidden rounded-full border-2 border-pink-400 bg-pink-100 p-0.5 shadow-sm">
+              <Image
+                src="/images/junior/learner-avatar.png"
+                alt="Learner Avatar"
+                width={36}
+                height={36}
+                className="h-full w-full rounded-full object-cover"
+              />
+            </div>
+            <div className="flex flex-col text-left">
+              <span className="font-display text-xs sm:text-sm font-black text-slate-900 leading-tight">
+                Hello, Deebiga!
+              </span>
+              <span className="font-display text-[10.5px] font-semibold text-purple-600 flex items-center gap-1">
+                Keep going, you&apos;re amazing! <span className="text-pink-500">💜</span>
+              </span>
+            </div>
+            <CaretRight size={14} weight="bold" className="text-slate-400 transition-transform group-hover:translate-x-0.5" />
+          </Link>
         </div>
       </header>
 
       {/* ========================================================================= */}
-      {/* 2. MAIN ROW: DAILY QUEST + MY BOOK SPACE (FROSTED GLASS HERO CARDS)        */}
+      {/* 2. MAIN 2-COLUMN GRID: LEFT MAIN CONTENT (8 cols) + RIGHT SIDEBAR (4 cols)*/}
       {/* ========================================================================= */}
-      <section className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
-        {/* --------------------------------------------------------------------- */}
-        {/* CARD A: DAILY QUEST (Left Hero Card, 6.5 cols)                        */}
-        {/* --------------------------------------------------------------------- */}
-        <div className="lg:col-span-7 relative overflow-hidden rounded-3xl border-2 border-white/25 bg-gradient-to-br from-blue-600/35 via-indigo-700/40 to-purple-800/40 p-5 sm:p-7 shadow-[0_20px_50px_rgba(20,10,50,0.55),inset_0_1px_20px_rgba(255,255,255,0.2)] backdrop-blur-2xl flex flex-col justify-between min-h-[300px]">
-          {/* Ambient Card Glows & Floating Sparkles */}
-          <div className="pointer-events-none absolute -top-10 -left-10 size-48 rounded-full bg-blue-400/20 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-10 -right-10 size-48 rounded-full bg-pink-500/20 blur-3xl" />
-          <span className="pointer-events-none absolute top-4 right-1/2 text-yellow-300 text-sm animate-pulse">✦</span>
-          <span className="pointer-events-none absolute bottom-12 left-1/3 text-pink-300 text-xs animate-ping">✨</span>
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-7 items-start">
+        {/* ===================================================================== */}
+        {/* LEFT MAIN CARD: SELECT CLASS + POPULAR SUBJECTS                       */}
+        {/* ===================================================================== */}
+        <main className="lg:col-span-8 flex flex-col gap-6 rounded-3xl border border-white/90 bg-white/90 p-5 sm:p-7 md:p-8 shadow-[0_20px_50px_rgba(30,58,138,0.12)] backdrop-blur-2xl">
+          {/* ----------------------------------------------------------------- */}
+          {/* A. SELECT YOUR CLASS SECTION                                      */}
+          {/* ----------------------------------------------------------------- */}
+          <section>
+            <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
+              <div className="flex items-center gap-2">
+                <span className="text-xl text-amber-400 drop-shadow-sm">⭐</span>
+                <div>
+                  <h2 className="font-display text-lg sm:text-xl font-black text-[#1e293b] leading-tight">
+                    Select Your Class
+                  </h2>
+                  <p className="font-display text-xs text-[#64748b]">
+                    Choose your class to start your learning journey
+                  </p>
+                </div>
+              </div>
 
-          <div>
-            {/* Header: Star in Bubble + Title */}
-            <div className="flex items-center gap-3">
-              <span className="grid size-10 place-items-center rounded-2xl border border-amber-300/60 bg-amber-400/25 text-amber-300 shadow-[0_0_15px_rgba(251,191,36,0.6)]">
-                <Star size={22} weight="fill" />
-              </span>
-              <h2 className="font-display text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-md">
-                Daily Quest
-              </h2>
+              {/* "Small steps Big dreams" Badge */}
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-purple-200/80 bg-purple-50/80 px-3 py-1 font-display text-[11px] font-bold text-purple-700 shadow-sm">
+                <span>⭐</span>
+                <span>Small steps Big dreams</span>
+                <span className="text-purple-500">💜</span>
+              </div>
             </div>
-            <p className="mt-2 max-w-[280px] sm:max-w-[320px] font-display text-xs sm:text-sm font-medium text-purple-100 leading-snug drop-shadow-sm">
-              Complete your daily tasks, earn stars and unlock new adventures!
+
+            {/* Class Cards Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-3.5">
+              {/* Class 1 (Blue Backpack) */}
+              <button
+                type="button"
+                onClick={() => onSelectStandard ? onSelectStandard(1) : onOpenStandardSwitcher()}
+                className={`group relative flex flex-col items-center justify-center gap-2 rounded-2xl p-3.5 transition-all duration-300 ${
+                  currentStandard === 1
+                    ? "border-2 border-blue-500 bg-blue-50/90 shadow-[0_8px_25px_rgba(59,130,246,0.25)] scale-[1.03]"
+                    : "border border-blue-100 bg-white/80 hover:bg-blue-50/40 hover:border-blue-300 hover:scale-[1.01]"
+                }`}
+              >
+                {currentStandard === 1 && (
+                  <span className="absolute top-2 right-2 grid size-5 place-items-center rounded-full bg-blue-600 text-white shadow-sm">
+                    <Check size={12} weight="bold" />
+                  </span>
+                )}
+                <div className="size-14 sm:size-16 relative flex items-center justify-center transition-transform group-hover:scale-105">
+                  <Image
+                    src="/images/junior/class-backpack-blue.png"
+                    alt="Class 1 Blue Backpack"
+                    width={56}
+                    height={56}
+                    className="size-full object-contain drop-shadow-sm"
+                  />
+                </div>
+                <span className={`font-display text-sm font-black ${currentStandard === 1 ? "text-blue-700" : "text-slate-700"}`}>
+                  Class 1
+                </span>
+              </button>
+
+              {/* Class 2 (Yellow Backpack) */}
+              <button
+                type="button"
+                onClick={() => onSelectStandard ? onSelectStandard(2) : onOpenStandardSwitcher()}
+                className={`group relative flex flex-col items-center justify-center gap-2 rounded-2xl p-3.5 transition-all duration-300 ${
+                  currentStandard === 2
+                    ? "border-2 border-amber-500 bg-amber-50/90 shadow-[0_8px_25px_rgba(245,158,11,0.25)] scale-[1.03]"
+                    : "border border-amber-100 bg-white/80 hover:bg-amber-50/40 hover:border-amber-300 hover:scale-[1.01]"
+                }`}
+              >
+                {currentStandard === 2 && (
+                  <span className="absolute top-2 right-2 grid size-5 place-items-center rounded-full bg-amber-500 text-white shadow-sm">
+                    <Check size={12} weight="bold" />
+                  </span>
+                )}
+                <div className="size-14 sm:size-16 relative flex items-center justify-center transition-transform group-hover:scale-105">
+                  <Image
+                    src="/images/junior/class-backpack-yellow.png"
+                    alt="Class 2 Yellow Backpack"
+                    width={56}
+                    height={56}
+                    className="size-full object-contain drop-shadow-sm"
+                  />
+                </div>
+                <span className={`font-display text-sm font-black ${currentStandard === 2 ? "text-amber-700" : "text-slate-700"}`}>
+                  Class 2
+                </span>
+              </button>
+
+              {/* Class 3 (Globe) */}
+              <button
+                type="button"
+                onClick={() => onSelectStandard ? onSelectStandard(3) : onOpenStandardSwitcher()}
+                className={`group relative flex flex-col items-center justify-center gap-2 rounded-2xl p-3.5 transition-all duration-300 ${
+                  currentStandard === 3
+                    ? "border-2 border-emerald-500 bg-emerald-50/90 shadow-[0_8px_25px_rgba(16,185,129,0.25)] scale-[1.03]"
+                    : "border border-emerald-100 bg-white/80 hover:bg-emerald-50/40 hover:border-emerald-300 hover:scale-[1.01]"
+                }`}
+              >
+                {currentStandard === 3 && (
+                  <span className="absolute top-2 right-2 grid size-5 place-items-center rounded-full bg-emerald-600 text-white shadow-sm">
+                    <Check size={12} weight="bold" />
+                  </span>
+                )}
+                <div className="size-14 sm:size-16 relative flex items-center justify-center transition-transform group-hover:scale-105">
+                  <Image
+                    src="/images/junior/class-globe.png"
+                    alt="Class 3 Globe"
+                    width={56}
+                    height={56}
+                    className="size-full object-contain drop-shadow-sm"
+                  />
+                </div>
+                <span className={`font-display text-sm font-black ${currentStandard === 3 ? "text-emerald-700" : "text-slate-700"}`}>
+                  Class 3
+                </span>
+              </button>
+
+              {/* Class 4-12 ▾ (Telescope) */}
+              <button
+                type="button"
+                onClick={onOpenStandardSwitcher}
+                className="group relative flex flex-col items-center justify-center gap-2 rounded-2xl border border-purple-200/80 bg-gradient-to-b from-purple-50/60 to-indigo-50/60 p-3.5 shadow-sm transition-all duration-300 hover:bg-purple-100/50 hover:scale-[1.01]"
+                title="Explore Classes 4 to 12"
+              >
+                <div className="size-14 sm:size-16 relative flex items-center justify-center transition-transform group-hover:scale-105">
+                  <Image
+                    src="/images/junior/class-telescope.png"
+                    alt="Class 4 to 12 Telescope"
+                    width={56}
+                    height={56}
+                    className="size-full object-contain drop-shadow-sm"
+                  />
+                </div>
+                <span className="font-display text-sm font-black text-purple-800 flex items-center gap-1">
+                  Class 4-12 <span className="text-xs">▾</span>
+                </span>
+              </button>
+            </div>
+          </section>
+
+          {/* ----------------------------------------------------------------- */}
+          {/* B. POPULAR SUBJECTS SECTION                                       */}
+          {/* ----------------------------------------------------------------- */}
+          <section className="pt-2">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <span className="text-xl text-amber-400 drop-shadow-sm">⭐</span>
+                <div>
+                  <h2 className="font-display text-lg sm:text-xl font-black text-[#1e293b] leading-tight">
+                    Popular Subjects
+                  </h2>
+                  <p className="font-display text-xs text-[#64748b]">
+                    Explore subjects based on your class
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Subject Cards Grid with 3D Icons */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+              {/* 1. Tamil / தமிழ் */}
+              <button
+                type="button"
+                onClick={() => handleSelectSubject(tamilSubject)}
+                className={`group flex items-center justify-between gap-3 rounded-2xl border border-pink-200/90 bg-gradient-to-r from-pink-50 via-rose-50 to-pink-100/70 p-3.5 text-left shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_20px_rgba(244,114,182,0.2)] ${
+                  activeSubject === tamilSubject?.id ? "ring-2 ring-pink-400 bg-pink-100" : ""
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="size-13 shrink-0 rounded-xl overflow-hidden shadow-sm transition-transform group-hover:scale-105">
+                    <Image
+                      src="/images/junior/subject-tamil-3d.png"
+                      alt="Tamil 3D Book"
+                      width={52}
+                      height={52}
+                      className="size-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-sm sm:text-[15px] font-black text-pink-900 leading-tight">
+                      தமிழ் <span className="text-xs font-semibold text-pink-700">Tamil</span>
+                    </h3>
+                    <p className="font-display text-[11px] font-semibold text-pink-700/90 leading-snug">
+                      Language & Literature
+                    </p>
+                  </div>
+                </div>
+                <span className="grid size-7 place-items-center rounded-full bg-pink-500 text-white shadow-sm transition-transform group-hover:translate-x-0.5">
+                  <CaretRight size={13} weight="bold" />
+                </span>
+              </button>
+
+              {/* 2. English */}
+              <button
+                type="button"
+                onClick={() => handleSelectSubject(englishSubject)}
+                className={`group flex items-center justify-between gap-3 rounded-2xl border border-sky-200/90 bg-gradient-to-r from-sky-50 via-blue-50 to-sky-100/70 p-3.5 text-left shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_20px_rgba(56,189,248,0.2)] ${
+                  activeSubject === englishSubject?.id ? "ring-2 ring-sky-400 bg-sky-100" : ""
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="size-13 shrink-0 rounded-xl overflow-hidden shadow-sm transition-transform group-hover:scale-105">
+                    <Image
+                      src="/images/junior/subject-english-3d.png"
+                      alt="English 3D ABC block"
+                      width={52}
+                      height={52}
+                      className="size-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-sm sm:text-[15px] font-black text-sky-900 leading-tight">
+                      English
+                    </h3>
+                    <p className="font-display text-[11px] font-semibold text-sky-700/90 leading-snug">
+                      Language & Communication
+                    </p>
+                  </div>
+                </div>
+                <span className="grid size-7 place-items-center rounded-full bg-sky-500 text-white shadow-sm transition-transform group-hover:translate-x-0.5">
+                  <CaretRight size={13} weight="bold" />
+                </span>
+              </button>
+
+              {/* 3. Mathematics */}
+              <button
+                type="button"
+                onClick={() => handleSelectSubject(mathSubject)}
+                className={`group flex items-center justify-between gap-3 rounded-2xl border border-purple-200/90 bg-gradient-to-r from-purple-50 via-indigo-50 to-purple-100/70 p-3.5 text-left shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_20px_rgba(168,85,247,0.2)] ${
+                  activeSubject === mathSubject?.id ? "ring-2 ring-purple-400 bg-purple-100" : ""
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="size-13 shrink-0 rounded-xl overflow-hidden shadow-sm transition-transform group-hover:scale-105">
+                    <Image
+                      src="/images/junior/subject-math-3d.png"
+                      alt="Mathematics 3D calculator"
+                      width={52}
+                      height={52}
+                      className="size-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-sm sm:text-[15px] font-black text-purple-900 leading-tight">
+                      Mathematics
+                    </h3>
+                    <p className="font-display text-[11px] font-semibold text-purple-700/90 leading-snug">
+                      Logic & Problem Solving
+                    </p>
+                  </div>
+                </div>
+                <span className="grid size-7 place-items-center rounded-full bg-purple-600 text-white shadow-sm transition-transform group-hover:translate-x-0.5">
+                  <CaretRight size={13} weight="bold" />
+                </span>
+              </button>
+
+              {/* 4. Science */}
+              <button
+                type="button"
+                onClick={() => handleSelectSubject(scienceSubject)}
+                className={`group flex items-center justify-between gap-3 rounded-2xl border border-emerald-200/90 bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100/70 p-3.5 text-left shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_20px_rgba(16,185,129,0.2)] ${
+                  activeSubject === scienceSubject?.id ? "ring-2 ring-emerald-400 bg-emerald-100" : ""
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="size-13 shrink-0 rounded-xl overflow-hidden shadow-sm transition-transform group-hover:scale-105">
+                    <Image
+                      src="/images/junior/subject-science-3d.png"
+                      alt="Science 3D microscope"
+                      width={52}
+                      height={52}
+                      className="size-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-sm sm:text-[15px] font-black text-emerald-900 leading-tight">
+                      Science
+                    </h3>
+                    <p className="font-display text-[11px] font-semibold text-emerald-700/90 leading-snug">
+                      Explore the Nature
+                    </p>
+                  </div>
+                </div>
+                <span className="grid size-7 place-items-center rounded-full bg-emerald-600 text-white shadow-sm transition-transform group-hover:translate-x-0.5">
+                  <CaretRight size={13} weight="bold" />
+                </span>
+              </button>
+
+              {/* 5. Social Science */}
+              <button
+                type="button"
+                onClick={() => handleSelectSubject(socialSubject)}
+                className={`group flex items-center justify-between gap-3 rounded-2xl border border-amber-200/90 bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-100/70 p-3.5 text-left shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_20px_rgba(245,158,11,0.2)] ${
+                  activeSubject === socialSubject?.id ? "ring-2 ring-amber-400 bg-amber-100" : ""
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="size-13 shrink-0 rounded-xl overflow-hidden shadow-sm transition-transform group-hover:scale-105">
+                    <Image
+                      src="/images/junior/subject-social-3d.png"
+                      alt="Social Science 3D globe"
+                      width={52}
+                      height={52}
+                      className="size-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-sm sm:text-[15px] font-black text-amber-900 leading-tight">
+                      Social Science
+                    </h3>
+                    <p className="font-display text-[11px] font-semibold text-amber-700/90 leading-snug">
+                      Our World & Society
+                    </p>
+                  </div>
+                </div>
+                <span className="grid size-7 place-items-center rounded-full bg-amber-500 text-white shadow-sm transition-transform group-hover:translate-x-0.5">
+                  <CaretRight size={13} weight="bold" />
+                </span>
+              </button>
+
+              {/* 6. Feature Scene Tile: "Learn Today Build Tomorrow" */}
+              <div className="relative overflow-hidden rounded-2xl border border-amber-200/60 bg-gradient-to-br from-amber-50/70 to-orange-50/60 p-2 shadow-sm flex items-center justify-center">
+                <Image
+                  src="/images/junior/fairytale-sign.png"
+                  alt="Learn Today Build Tomorrow sign with globe and books"
+                  width={220}
+                  height={130}
+                  className="w-full h-24 object-contain rounded-xl"
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* ----------------------------------------------------------------- */}
+          {/* C. INTERACTIVE CHAPTER EXPLORER ACCORDION                         */}
+          {/* ----------------------------------------------------------------- */}
+          <section className="pt-2 border-t border-slate-100">
+            <div className="flex items-center justify-between mb-3">
+              <span className="font-display text-sm font-black text-slate-800 flex items-center gap-1.5">
+                <BookOpen size={16} weight="fill" className="text-blue-600" />
+                <span>
+                  {activeSubject === "all" ? "All Chapters" : subjects.find((s) => s.id === activeSubject)?.name[locale]}
+                </span>
+                <span className="font-mono text-xs text-slate-500 font-normal">
+                  ({displayedChapters.length} lessons)
+                </span>
+              </span>
+              {activeSubject !== "all" && (
+                <button
+                  type="button"
+                  onClick={() => setActiveSubject("all")}
+                  className="font-mono text-[11px] font-bold text-blue-600 hover:text-blue-800 hover:underline"
+                >
+                  Show all subjects
+                </button>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-72 overflow-y-auto pr-1">
+              {displayedChapters.slice(0, 10).map((item, idx) => (
+                <button
+                  key={item.chapter.id}
+                  type="button"
+                  onClick={() => onOpenChapter(item.chapter.id)}
+                  className="group flex items-center justify-between gap-3 rounded-xl border border-slate-200/80 bg-white/70 px-3.5 py-2.5 text-left transition-all duration-200 hover:border-blue-300 hover:bg-blue-50/60 hover:shadow-sm"
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <span className="grid size-6 shrink-0 place-items-center rounded-lg bg-blue-100 font-mono text-[11px] font-bold text-blue-700">
+                      {idx + 1}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="truncate font-display text-xs sm:text-[13px] font-bold text-slate-800 group-hover:text-blue-600">
+                        {item.chapter.title[locale]}
+                      </p>
+                      <p className="truncate font-mono text-[10.5px] text-slate-500">
+                        {item.subject.name[locale]} • {item.chapter.summary[locale]}
+                      </p>
+                    </div>
+                  </div>
+                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <Play size={10} weight="fill" className="ml-0.5" />
+                  </span>
+                </button>
+              ))}
+            </div>
+          </section>
+        </main>
+
+        {/* ===================================================================== */}
+        {/* RIGHT SIDEBAR: 3 FROSTED GLASS CARDS                                  */}
+        {/* ===================================================================== */}
+        <aside className="lg:col-span-4 flex flex-col gap-5">
+          {/* ----------------------------------------------------------------- */}
+          {/* CARD 1: YOUR LEARNING PATH                                        */}
+          {/* ----------------------------------------------------------------- */}
+          <div className="rounded-3xl border border-white/90 bg-white/90 p-5 shadow-[0_16px_40px_rgba(30,58,138,0.1)] backdrop-blur-2xl">
+            <div className="flex items-center gap-3 mb-2.5">
+              <div className="size-11 shrink-0 transition-transform hover:rotate-12 duration-300">
+                <Image
+                  src="/images/junior/path-compass.png"
+                  alt="3D Golden Compass"
+                  width={44}
+                  height={44}
+                  className="size-full object-contain drop-shadow-sm"
+                />
+              </div>
+              <h3 className="font-display text-base font-black text-slate-900 leading-tight">
+                Your Learning Path
+              </h3>
+            </div>
+
+            {/* Breadcrumb Path */}
+            <p className="font-mono text-xs font-semibold text-slate-600 mb-3 flex items-center gap-1.5 flex-wrap">
+              <span className="text-blue-700 font-bold">Class {currentStandard}</span>
+              <span>→</span>
+              <span>Term 1</span>
+              <span>→</span>
+              <span className="text-purple-700 font-bold">Chapter 1</span>
             </p>
 
             {/* Progress Bar Row */}
-            <div className="mt-4 flex items-center gap-3">
-              <div className="flex items-center gap-1 font-mono text-xs font-black text-amber-300 bg-amber-400/20 px-2.5 py-1 rounded-full border border-amber-300/40">
-                <Star size={13} weight="fill" />
-                <span>{questProgress}/3</span>
-              </div>
-              <div className="relative h-3 w-36 sm:w-48 overflow-hidden rounded-full border border-white/20 bg-black/30 backdrop-blur-md">
+            <div className="flex items-center gap-3">
+              <div className="relative h-2.5 flex-1 overflow-hidden rounded-full bg-slate-100 border border-slate-200">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 shadow-[0_0_12px_rgba(56,189,248,0.85)] transition-all duration-700"
-                  style={{ width: `${questPercent}%` }}
+                  className="h-full rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 shadow-[0_0_10px_rgba(99,102,241,0.5)] transition-all duration-500"
+                  style={{ width: `${Math.max(15, Math.round((completedChaptersCount / Math.max(totalChapters, 1)) * 100))}%` }}
                 />
               </div>
-            </div>
-
-            {/* Today's Reward Chip */}
-            <div className="mt-4 inline-flex items-center gap-2.5 rounded-2xl border border-purple-300/30 bg-purple-900/40 px-3.5 py-2 backdrop-blur-md shadow-inner">
-              <span className="grid size-7 place-items-center rounded-xl bg-pink-500 text-white shadow-[0_0_10px_rgba(236,72,153,0.7)]">
-                <Gift size={16} weight="fill" />
+              <span className="font-mono text-xs font-bold text-slate-600">
+                {completedChaptersCount}/{totalChapters}
               </span>
-              <div className="flex flex-col">
-                <span className="font-mono text-[9.5px] uppercase tracking-wider text-purple-200">
-                  Today&apos;s Reward
-                </span>
-                <span className="font-display text-xs sm:text-sm font-black text-amber-300">
-                  + 50 Stars
-                </span>
-              </div>
             </div>
           </div>
 
-          {/* Action Row: Big Glossy Pill Button + Mascots on Cloud */}
-          <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
-            {/* Glossy Purple Pill "▶ Start Play!" Button */}
-            <button
-              type="button"
-              onClick={handleLaunchContinue}
-              className="group relative z-10 inline-flex items-center gap-2.5 rounded-full border-2 border-pink-300/80 bg-gradient-to-r from-violet-600 via-purple-600 to-pink-500 px-6 sm:px-8 py-3.5 font-display text-sm sm:text-base font-black text-white shadow-[0_0_25px_rgba(217,70,239,0.75)] hover:shadow-[0_0_35px_rgba(217,70,239,1)] hover:scale-105 active:scale-95 transition-all"
-            >
-              <span className="grid size-6 place-items-center rounded-full bg-white text-purple-700 shadow-sm transition-transform group-hover:scale-110">
+          {/* ----------------------------------------------------------------- */}
+          {/* CARD 2: CONTINUE LEARNING                                         */}
+          {/* ----------------------------------------------------------------- */}
+          <div className="rounded-3xl border border-white/90 bg-white/90 p-5 shadow-[0_16px_40px_rgba(30,58,138,0.1)] backdrop-blur-2xl">
+            <div className="flex items-center gap-2.5 mb-3.5">
+              <span className="grid size-7 place-items-center rounded-full bg-purple-600 text-white shadow-sm">
                 <Play size={12} weight="fill" className="ml-0.5" />
               </span>
-              <span>Start Play!</span>
-            </button>
-
-            {/* Mascots on Cloud (Tiger cub, Blue elephant, Kid astronaut) */}
-            <div className="relative shrink-0 w-52 sm:w-60 lg:w-64 max-w-full self-end sm:self-auto">
-              <Image
-                src="/images/junior/daily-mascots-soft.png"
-                alt="Tiger, Elephant, and Astronaut kid mascots"
-                width={264}
-                height={243}
-                priority
-                className="w-full h-auto object-contain drop-shadow-[0_12px_25px_rgba(0,0,0,0.45)] transition-transform duration-300 hover:scale-105"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* --------------------------------------------------------------------- */}
-        {/* CARD B: MY BOOK SPACE (Right Hero Card, 5.5 cols)                     */}
-        {/* --------------------------------------------------------------------- */}
-        <div className="lg:col-span-5 relative overflow-hidden rounded-3xl border-2 border-white/25 bg-gradient-to-br from-blue-600/35 via-indigo-700/40 to-purple-800/40 p-5 sm:p-7 shadow-[0_20px_50px_rgba(20,10,50,0.55),inset_0_1px_20px_rgba(255,255,255,0.2)] backdrop-blur-2xl flex flex-col justify-between min-h-[300px]">
-          {/* Header: Book Icon + Title + Chevron */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <span className="grid size-10 place-items-center rounded-2xl border border-cyan-300/60 bg-cyan-400/25 text-cyan-200 shadow-[0_0_15px_rgba(34,211,238,0.5)]">
-                <BookOpen size={22} weight="fill" />
-              </span>
-              <h2 className="font-display text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-md">
-                My Book Space
-              </h2>
-            </div>
-            <button
-              type="button"
-              onClick={() => setActiveTab("all")}
-              className="grid size-8 place-items-center rounded-full border border-white/20 bg-white/10 text-white/80 hover:bg-white/20 hover:text-white transition-colors"
-              aria-label="View all books"
-            >
-              <CaretRight size={16} weight="bold" />
-            </button>
-          </div>
-          <p className="mt-2 font-display text-xs sm:text-sm font-medium text-purple-100 leading-snug drop-shadow-sm">
-            Your favourite books, always with you!
-          </p>
-
-          {/* 3 Bubble Pedestals with Cute Animal Mascots */}
-          <div className="mt-5 grid grid-cols-3 gap-2 sm:gap-3.5 items-end justify-center pt-1">
-            {/* 1. Puppy: My Books */}
-            <button
-              type="button"
-              onClick={() => setActiveTab("all")}
-              className={`group relative flex flex-col items-center text-center transition-all duration-300 hover:scale-105 active:scale-95 p-1 ${
-                activeTab === "all"
-                  ? "scale-105 drop-shadow-[0_0_20px_rgba(56,189,248,0.85)]"
-                  : "opacity-85 hover:opacity-100"
-              }`}
-              title="My Books (All chapters)"
-            >
-              <div className="relative w-20 sm:w-24 md:w-26 transition-transform group-hover:-translate-y-1">
-                <Image
-                  src="/images/junior/book-puppy-soft.png"
-                  alt="My Books - Puppy mascot"
-                  width={102}
-                  height={190}
-                  className="w-full h-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]"
-                />
-              </div>
-            </button>
-
-            {/* 2. Bear: My Favourites */}
-            <button
-              type="button"
-              onClick={() => setActiveTab("favourites")}
-              className={`group relative flex flex-col items-center text-center transition-all duration-300 hover:scale-105 active:scale-95 p-1 ${
-                activeTab === "favourites"
-                  ? "scale-105 drop-shadow-[0_0_20px_rgba(244,114,182,0.85)]"
-                  : "opacity-85 hover:opacity-100"
-              }`}
-              title="My Favourites"
-            >
-              <div className="relative w-20 sm:w-24 md:w-26 transition-transform group-hover:-translate-y-1">
-                <Image
-                  src="/images/junior/book-bear-soft.png"
-                  alt="My Favourites - Bear mascot"
-                  width={102}
-                  height={190}
-                  className="w-full h-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]"
-                />
-              </div>
-            </button>
-
-            {/* 3. Kitty: Recently Read */}
-            <button
-              type="button"
-              onClick={() => setActiveTab("recent")}
-              className={`group relative flex flex-col items-center text-center transition-all duration-300 hover:scale-105 active:scale-95 p-1 ${
-                activeTab === "recent"
-                  ? "scale-105 drop-shadow-[0_0_20px_rgba(56,189,248,0.85)]"
-                  : "opacity-85 hover:opacity-100"
-              }`}
-              title="Recently Read"
-            >
-              <div className="relative w-20 sm:w-24 md:w-26 transition-transform group-hover:-translate-y-1">
-                <Image
-                  src="/images/junior/book-kitty-soft.png"
-                  alt="Recently Read - Kitten mascot"
-                  width={102}
-                  height={190}
-                  className="w-full h-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]"
-                />
-              </div>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 3. MIDDLE SECTION: "PICK A JOURNEY" (ENCLOSING FROSTED GLASS CONTAINER)   */}
-      {/* ========================================================================= */}
-      <section className="relative z-10 overflow-hidden rounded-3xl border-2 border-white/25 bg-gradient-to-br from-blue-600/35 via-indigo-700/40 to-purple-800/40 p-5 sm:p-7 shadow-[0_20px_50px_rgba(20,10,50,0.55),inset_0_1px_20px_rgba(255,255,255,0.2)] backdrop-blur-2xl flex flex-col gap-5">
-        {/* Section Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="grid size-10 place-items-center rounded-2xl border border-cyan-300/60 bg-cyan-400/25 text-cyan-200 shadow-[0_0_15px_rgba(34,211,238,0.5)]">
-              <Compass size={22} weight="fill" />
-            </span>
-            <div>
-              <h2 className="font-display text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-md">
-                Pick a Journey
-              </h2>
-              <p className="mt-0.5 font-display text-xs sm:text-sm font-medium text-purple-100 leading-snug drop-shadow-sm">
-                Choose your adventure and learn something new!
-              </p>
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={() => setActiveTab("all")}
-            className="grid size-8 place-items-center rounded-full border border-white/20 bg-white/10 text-white/80 hover:bg-white/20 hover:text-white transition-colors"
-            aria-label="Explore all journeys"
-          >
-            <CaretRight size={16} weight="bold" />
-          </button>
-        </div>
-
-        {/* 3 Frosted Adventure Cards Inside Container */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
-          {/* Card 1: Science Quest (Rocket flying) */}
-          <div className="group relative overflow-hidden rounded-2xl border-2 border-white/20 bg-gradient-to-br from-blue-600/30 via-indigo-700/35 to-purple-800/35 p-5 shadow-[0_10px_25px_rgba(20,10,45,0.4)] backdrop-blur-xl flex flex-col justify-between min-h-[175px] transition-transform duration-300 hover:-translate-y-1">
-            <div className="flex items-start justify-between gap-2">
-              <div>
-                <h3 className="font-display text-lg sm:text-xl font-black tracking-tight text-white drop-shadow-sm">
-                  Science Quest
-                </h3>
-                <p className="mt-1 font-display text-xs font-medium text-cyan-200 drop-shadow-sm">
-                  Explore, discover, be curious!
-                </p>
-              </div>
-              {/* 3D Flying Rocket Artwork */}
-              <div className="relative -mt-1 -mr-2 w-24 sm:w-28 shrink-0 transition-transform duration-300 group-hover:scale-110">
-                <Image
-                  src="/images/junior/journey-rocket-soft.png"
-                  alt="Rocket ship flying with planet"
-                  width={125}
-                  height={130}
-                  className="w-full h-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)]"
-                />
-              </div>
+              <h3 className="font-display text-base font-black text-slate-900 leading-tight">
+                Continue Learning
+              </h3>
             </div>
 
-            <div className="mt-4 pt-1">
-              <button
-                type="button"
-                onClick={() => handleExploreSubject(scienceSubject)}
-                className="inline-flex items-center gap-2 rounded-full border border-cyan-300/80 bg-gradient-to-r from-cyan-500 to-blue-600 px-4 py-1.5 font-display text-xs font-black text-white shadow-[0_0_15px_rgba(6,182,212,0.7)] hover:scale-105 active:scale-95 transition-all"
-              >
-                <span>Explore</span>
-                <span className="text-sm">→</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Card 2: Math Maze (Treasure chest with math symbols) */}
-          <div className="group relative overflow-hidden rounded-2xl border-2 border-white/20 bg-gradient-to-br from-blue-600/30 via-indigo-700/35 to-purple-800/35 p-5 shadow-[0_10px_25px_rgba(20,10,45,0.4)] backdrop-blur-xl flex flex-col justify-between min-h-[175px] transition-transform duration-300 hover:-translate-y-1">
-            <div className="flex items-start justify-between gap-2">
-              <div>
-                <h3 className="font-display text-lg sm:text-xl font-black tracking-tight text-white drop-shadow-sm">
-                  Math Maze
-                </h3>
-                <p className="mt-1 font-display text-xs font-medium text-pink-200 drop-shadow-sm">
-                  Think, solve, be a math hero!
-                </p>
-              </div>
-              {/* 3D Treasure Chest Artwork */}
-              <div className="relative -mt-1 -mr-2 w-22 sm:w-26 shrink-0 transition-transform duration-300 group-hover:scale-110">
-                <Image
-                  src="/images/junior/journey-chest-soft.png"
-                  alt="Treasure chest with math symbols"
-                  width={110}
-                  height={130}
-                  className="w-full h-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)]"
-                />
-              </div>
-            </div>
-
-            <div className="mt-4 pt-1">
-              <button
-                type="button"
-                onClick={() => handleExploreSubject(mathSubject)}
-                className="inline-flex items-center gap-2 rounded-full border border-fuchsia-300/80 bg-gradient-to-r from-purple-600 to-pink-500 px-4 py-1.5 font-display text-xs font-black text-white shadow-[0_0_15px_rgba(217,70,239,0.7)] hover:scale-105 active:scale-95 transition-all"
-              >
-                <span>Explore</span>
-                <span className="text-sm">→</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Card 3: Craft & Sports (Soccer ball, basketball, paint palette) */}
-          <div className="group relative overflow-hidden rounded-2xl border-2 border-white/20 bg-gradient-to-br from-blue-600/30 via-indigo-700/35 to-purple-800/35 p-5 shadow-[0_10px_25px_rgba(20,10,45,0.4)] backdrop-blur-xl flex flex-col justify-between min-h-[175px] transition-transform duration-300 hover:-translate-y-1">
-            <div className="flex items-start justify-between gap-2">
-              <div>
-                <h3 className="font-display text-lg sm:text-xl font-black tracking-tight text-white drop-shadow-sm">
-                  Craft & Sports
-                </h3>
-                <p className="mt-1 font-display text-xs font-medium text-emerald-200 drop-shadow-sm">
-                  Create, build, stay active!
-                </p>
-              </div>
-              {/* 3D Sports & Craft Artwork */}
-              <div className="relative -mt-1 -mr-2 w-24 sm:w-28 shrink-0 transition-transform duration-300 group-hover:scale-110">
-                <Image
-                  src="/images/junior/journey-sports-soft.png"
-                  alt="Soccer ball, basketball, and paint palette"
-                  width={125}
-                  height={130}
-                  className="w-full h-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)]"
-                />
-              </div>
-            </div>
-
-            <div className="mt-4 pt-1">
-              <button
-                type="button"
-                onClick={() => handleExploreSubject(tamilSubject ?? englishSubject)}
-                className="inline-flex items-center gap-2 rounded-full border border-emerald-300/80 bg-gradient-to-r from-emerald-500 to-teal-600 px-4 py-1.5 font-display text-xs font-black text-white shadow-[0_0_15px_rgba(16,185,129,0.7)] hover:scale-105 active:scale-95 transition-all"
-              >
-                <span>Explore</span>
-                <span className="text-sm">→</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 4. BOTTOM FLOATING SUBJECT DOCK (MATCHING SCREENSHOT NAVIGATION)           */}
-      {/* ========================================================================= */}
-      <section className="relative z-10 pt-2">
-        <div className="flex items-center justify-center">
-          <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto p-2 sm:p-2.5 rounded-full border-2 border-white/25 bg-gradient-to-r from-blue-900/50 via-indigo-900/50 to-purple-900/50 shadow-[0_15px_40px_rgba(15,10,40,0.6)] backdrop-blur-2xl max-w-full [scrollbar-width:none]">
-            {/* 1. பொதுத்தமிழ் (Tamil) */}
-            <button
-              type="button"
-              onClick={() => setActiveTab(tamilSubject ? tamilSubject.id : "all")}
-              className={`flex items-center gap-2 rounded-full px-4 sm:px-5 py-2 font-display text-xs sm:text-sm font-black transition-all ${
-                activeTab === (tamilSubject ? tamilSubject.id : "")
-                  ? "border border-cyan-300 bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_18px_rgba(6,182,212,0.85)] scale-105"
-                  : "text-purple-200 hover:text-white hover:bg-white/10"
-              }`}
-            >
-              <BookOpen size={16} weight="fill" />
-              <span>பொதுத்தமிழ்</span>
-            </button>
-
-            {/* 2. English */}
-            <button
-              type="button"
-              onClick={() => setActiveTab(englishSubject ? englishSubject.id : "all")}
-              className={`flex items-center gap-2 rounded-full px-4 sm:px-5 py-2 font-display text-xs sm:text-sm font-black transition-all ${
-                activeTab === (englishSubject ? englishSubject.id : "")
-                  ? "border border-cyan-300 bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_18px_rgba(6,182,212,0.85)] scale-105"
-                  : "text-purple-200 hover:text-white hover:bg-white/10"
-              }`}
-            >
-              <BookOpen size={16} weight="fill" />
-              <span>English</span>
-            </button>
-
-            {/* 3. Mathematics */}
-            <button
-              type="button"
-              onClick={() => setActiveTab(mathSubject ? mathSubject.id : "all")}
-              className={`flex items-center gap-2 rounded-full px-4 sm:px-5 py-2 font-display text-xs sm:text-sm font-black transition-all ${
-                activeTab === (mathSubject ? mathSubject.id : "")
-                  ? "border border-cyan-300 bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_18px_rgba(6,182,212,0.85)] scale-105"
-                  : "text-purple-200 hover:text-white hover:bg-white/10"
-              }`}
-            >
-              <span className="text-sm">🧮</span>
-              <span>Mathematics</span>
-            </button>
-
-            {/* 4. Science */}
-            <button
-              type="button"
-              onClick={() => setActiveTab(scienceSubject ? scienceSubject.id : "all")}
-              className={`flex items-center gap-2 rounded-full px-4 sm:px-5 py-2 font-display text-xs sm:text-sm font-black transition-all ${
-                activeTab === (scienceSubject ? scienceSubject.id : "")
-                  ? "border border-cyan-300 bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_18px_rgba(6,182,212,0.85)] scale-105"
-                  : "text-purple-200 hover:text-white hover:bg-white/10"
-              }`}
-            >
-              <span className="text-sm">🔬</span>
-              <span>Science</span>
-            </button>
-
-            {/* 5. Social Science / EVS */}
-            <button
-              type="button"
-              onClick={() => {
-                const soc = subjects.find((s) => s.id.includes("social") || s.id.includes("evs"));
-                setActiveTab(soc ? soc.id : "all");
-              }}
-              className="flex items-center gap-2 rounded-full px-4 sm:px-5 py-2 font-display text-xs sm:text-sm font-black text-purple-200 hover:text-white hover:bg-white/10 transition-all"
-            >
-              <span className="text-sm">🌍</span>
-              <span>Social Science</span>
-            </button>
-
-            {/* 6. Others */}
-            <button
-              type="button"
-              onClick={() => setActiveTab("all")}
-              className={`flex items-center gap-2 rounded-full px-4 sm:px-5 py-2 font-display text-xs sm:text-sm font-black transition-all ${
-                activeTab === "all"
-                  ? "border border-cyan-300 bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_18px_rgba(6,182,212,0.85)] scale-105"
-                  : "text-purple-200 hover:text-white hover:bg-white/10"
-              }`}
-            >
-              <Star size={16} weight="fill" className="text-amber-300" />
-              <span>Others</span>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 5. CHAPTER SHOWCASE & LESSON LAUNCHER                                     */}
-      {/* ========================================================================= */}
-      <section className="relative z-10 mt-2 flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <GraduationCap size={20} weight="fill" className="text-pink-400" />
-            <h3 className="font-display text-lg sm:text-xl font-black tracking-tight text-white drop-shadow-sm">
-              {activeSubjectObject
-                ? `${activeSubjectObject.name[locale]} Lessons`
-                : activeTab === "favourites"
-                ? "Favourite Star Lessons ⭐"
-                : activeTab === "recent"
-                ? "Recently Practised Lessons 🔖"
-                : `Class ${currentStandard} Adventure Lessons 🌟`}
-            </h3>
-          </div>
-          <span className="font-mono text-xs font-bold text-purple-200 bg-white/10 px-3 py-1 rounded-full border border-white/15">
-            {displayedChapters.length} Lessons Available
-          </span>
-        </div>
-
-        {/* Chapters Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {displayedChapters.slice(0, 16).map(({ subject, chapter }, idx) => {
-            const isFirst = idx === 0;
-            return (
-              <div
-                key={chapter.id}
-                onClick={() => onOpenChapter(chapter.id)}
-                className="group relative cursor-pointer overflow-hidden rounded-3xl border-2 border-white/20 bg-gradient-to-br from-blue-700/30 via-indigo-800/40 to-purple-900/40 p-4 shadow-[0_10px_25px_rgba(15,10,35,0.4)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-pink-300/80 hover:shadow-[0_15px_35px_rgba(236,72,153,0.4)] flex flex-col justify-between min-h-[160px]"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-mono text-[10px] font-black uppercase tracking-wider text-pink-300 bg-pink-500/25 px-2 py-0.5 rounded-full border border-pink-400/40">
-                      Chapter {chapter.chapterNumber}
-                    </span>
-                    <span className="font-mono text-[10px] text-purple-200 flex items-center gap-1">
-                      <span>⏱️</span>
-                      <span>{chapter.estimatedMinutes}m</span>
-                    </span>
-                  </div>
-
-                  <h4 className="mt-2.5 font-display text-sm sm:text-base font-bold text-white line-clamp-2 leading-snug group-hover:text-pink-200 transition-colors">
-                    {chapter.title[locale]}
+            {/* Active Lesson Tile */}
+            <div className="flex items-center justify-between gap-3 rounded-2xl border border-purple-100 bg-gradient-to-r from-purple-50/80 to-indigo-50/70 p-3.5">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="size-12 shrink-0 rounded-xl overflow-hidden shadow-sm">
+                  <Image
+                    src="/images/junior/continue-math-3d.png"
+                    alt="Math Symbols"
+                    width={48}
+                    height={48}
+                    className="size-full object-contain"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <h4 className="font-display text-sm font-black text-slate-900 leading-tight truncate">
+                    {continueRecord ? continueRecord.subject.name[locale] : "Mathematics"}
                   </h4>
-
-                  <p className="mt-1 font-display text-xs text-purple-200 line-clamp-2 leading-relaxed">
-                    {chapter.summary[locale]}
+                  <p className="font-display text-xs font-bold text-purple-700 leading-snug truncate">
+                    {continueRecord ? continueRecord.chapter.title[locale] : "Chapter 1: Integers & Logic"}
+                  </p>
+                  <p className="font-mono text-[10.5px] text-slate-500 mt-0.5">
+                    Lesson 2 • 12 min
                   </p>
                 </div>
-
-                <div className="mt-4 pt-2 border-t border-white/10 flex items-center justify-between">
-                  <span className="font-mono text-[11px] font-semibold text-cyan-300">
-                    {subject.name[locale]}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onOpenChapter(chapter.id);
-                    }}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 px-3 py-1 font-display text-[11px] font-black text-white shadow-[0_0_10px_rgba(236,72,153,0.6)] group-hover:scale-105 transition-transform"
-                  >
-                    <span>Play</span>
-                    <Play size={10} weight="fill" />
-                  </button>
-                </div>
               </div>
-            );
-          })}
-        </div>
-      </section>
+
+              {/* Purple "Continue >" Pill Button */}
+              <button
+                type="button"
+                onClick={handleLaunchContinue}
+                className="group inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 px-4 py-2 font-display text-xs font-black text-white shadow-[0_4px_14px_rgba(147,51,234,0.4)] transition-all duration-200 hover:scale-105 hover:shadow-[0_6px_18px_rgba(147,51,234,0.55)] active:scale-95"
+              >
+                <span>Continue</span>
+                <CaretRight size={12} weight="bold" className="transition-transform group-hover:translate-x-0.5" />
+              </button>
+            </div>
+          </div>
+
+          {/* ----------------------------------------------------------------- */}
+          {/* CARD 3: QUICK ACCESS (NOTES, PRACTICE, DOWNLOADS + MASCOT OWL)    */}
+          {/* ----------------------------------------------------------------- */}
+          <div className="rounded-3xl border border-white/90 bg-white/90 p-5 shadow-[0_16px_40px_rgba(30,58,138,0.1)] backdrop-blur-2xl flex flex-col gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-amber-500">
+                <Lightning size={18} weight="fill" />
+              </span>
+              <h3 className="font-display text-base font-black text-slate-900 leading-tight">
+                Quick Access
+              </h3>
+            </div>
+
+            {/* Quick Action Buttons */}
+            <div className="flex flex-col gap-2">
+              <button
+                type="button"
+                onClick={handleLaunchContinue}
+                className="group flex items-center gap-3 rounded-2xl border border-slate-100 bg-white/70 px-4 py-3 text-left transition-all duration-200 hover:border-blue-200 hover:bg-blue-50/50 hover:shadow-sm"
+              >
+                <span className="grid size-8 place-items-center rounded-xl bg-blue-100 text-blue-600">
+                  <FileText size={18} weight="fill" />
+                </span>
+                <span className="font-display text-xs sm:text-[13px] font-bold text-slate-800 group-hover:text-blue-700">
+                  My Notes
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleLaunchContinue}
+                className="group flex items-center gap-3 rounded-2xl border border-slate-100 bg-white/70 px-4 py-3 text-left transition-all duration-200 hover:border-purple-200 hover:bg-purple-50/50 hover:shadow-sm"
+              >
+                <span className="grid size-8 place-items-center rounded-xl bg-purple-100 text-purple-600">
+                  <PencilSimple size={18} weight="fill" />
+                </span>
+                <span className="font-display text-xs sm:text-[13px] font-bold text-slate-800 group-hover:text-purple-700">
+                  Practice Questions
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleLaunchContinue}
+                className="group flex items-center gap-3 rounded-2xl border border-slate-100 bg-white/70 px-4 py-3 text-left transition-all duration-200 hover:border-emerald-200 hover:bg-emerald-50/50 hover:shadow-sm"
+              >
+                <span className="grid size-8 place-items-center rounded-xl bg-emerald-100 text-emerald-600">
+                  <DownloadSimple size={18} weight="bold" />
+                </span>
+                <span className="font-display text-xs sm:text-[13px] font-bold text-slate-800 group-hover:text-emerald-700">
+                  Download PDFs
+                </span>
+              </button>
+            </div>
+
+            {/* Mascot Owl Quote Card */}
+            <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-100">
+              <div className="rounded-2xl border border-purple-200/80 bg-purple-50/70 p-3 shadow-inner">
+                <p className="font-display text-xs font-bold text-purple-900 leading-snug">
+                  Small progress every day leads to big results! <span className="text-pink-500">💜</span>
+                </p>
+              </div>
+              <div className="size-16 shrink-0 transition-transform hover:scale-105 duration-300">
+                <Image
+                  src="/images/junior/fairytale-owl.png"
+                  alt="Cute 3D Blue Owl on Books"
+                  width={64}
+                  height={64}
+                  className="size-full object-contain drop-shadow-sm"
+                />
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
   );
 }

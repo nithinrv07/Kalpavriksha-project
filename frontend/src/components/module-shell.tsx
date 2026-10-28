@@ -79,60 +79,65 @@ export function ModuleShell({
       className="relative isolate min-h-[100dvh] w-full"
     >
       {isJuniorLearn ? (
-        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-gradient-to-b from-[#140b33] via-[#1b1042] to-[#0d0724]">
-          {/* Dreamy magical celestial ambient lighting for Junior Adventure */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.22),transparent_65%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(56,189,248,0.18),transparent_55%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(236,72,153,0.16),transparent_55%)]" />
-          <div className="absolute -left-12 top-10 size-96 rounded-full bg-blue-500/10 blur-3xl" />
-          <div className="absolute -right-12 top-20 size-96 rounded-full bg-purple-500/10 blur-3xl" />
+        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-gradient-to-b from-[#6cbbf9] via-[#a8d9fc] to-[#e5f2fd]">
+          {/* Sunny magical fairytale sky ambient lighting */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.7),transparent_65%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(251,191,36,0.18),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(236,72,153,0.18),transparent_50%)]" />
+          {/* Fairytale wooden bridge walkway at bottom */}
+          <div
+            className="absolute inset-x-0 bottom-0 h-44 sm:h-60 bg-cover bg-bottom opacity-85"
+            style={{ backgroundImage: `url('/images/junior/fairytale-bottom-path.jpg')` }}
+          />
         </div>
       ) : (
         <ChromeWaves />
       )}
 
       {/* Main Full-Screen Content Layer */}
-      <div className="relative z-10 flex min-h-[100dvh] w-full flex-col px-4 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-10 xl:px-14">
+      <div className={`relative z-10 flex min-h-[100dvh] w-full flex-col ${isJuniorLearn ? "px-3 py-3 sm:px-6 sm:py-5 md:px-8 lg:px-10" : "px-4 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-10 xl:px-14"}`}>
         {/* 1. Header: Back to home, module switcher tabs, XP pill & language selector */}
-        <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-4 sm:pb-5">
-          <div className="flex items-center gap-2">
-            <Link
-              href="/"
-              className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.04] px-3 text-sm transition-colors duration-200 hover:bg-white/[0.1]"
-            >
-              <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
-              <BrandMark className="size-5 text-violet" />
-              <span className="sr-only sm:not-sr-only">{t.home}</span>
-            </Link>
-            <nav aria-label={t.modulesTitle} className="flex gap-1 rounded-xl border border-line bg-white/[0.03] p-1">
-              {MODULES.map((m) => {
-                const ModIcon = m.icon;
-                const active = m.slug === module.slug;
-                const tabAccent = accentOf(m.accent);
-                return (
-                  <Link
-                    key={m.id}
-                    href={`/m/${m.slug}`}
-                    aria-current={active ? "page" : undefined}
-                    title={m.title[locale]}
-                    className={`grid size-10 place-items-center rounded-lg transition-colors duration-200 ${
-                      active ? tabAccent.tabActive : "text-muted hover:bg-white/[0.06] hover:text-text"
-                    }`}
-                  >
-                    <ModIcon size={18} weight={active ? "fill" : "regular"} aria-hidden />
-                    <span className="sr-only">{m.title[locale]}</span>
-                  </Link>
-                );
-              })}
-            </nav>
-          </div>
-          <div className="flex items-center gap-2">
-            <ProgressPill />
-            <SoundToggle />
-            <ThemeToggle />
-            <LangSelect />
-          </div>
-        </header>
+        {!isJuniorLearn && (
+          <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-4 sm:pb-5">
+            <div className="flex items-center gap-2">
+              <Link
+                href="/"
+                className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.04] px-3 text-sm transition-colors duration-200 hover:bg-white/[0.1]"
+              >
+                <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
+                <BrandMark className="size-5 text-violet" />
+                <span className="sr-only sm:not-sr-only">{t.home}</span>
+              </Link>
+              <nav aria-label={t.modulesTitle} className="flex gap-1 rounded-xl border border-line bg-white/[0.03] p-1">
+                {MODULES.map((m) => {
+                  const ModIcon = m.icon;
+                  const active = m.slug === module.slug;
+                  const tabAccent = accentOf(m.accent);
+                  return (
+                    <Link
+                      key={m.id}
+                      href={`/m/${m.slug}`}
+                      aria-current={active ? "page" : undefined}
+                      title={m.title[locale]}
+                      className={`grid size-10 place-items-center rounded-lg transition-colors duration-200 ${
+                        active ? tabAccent.tabActive : "text-muted hover:bg-white/[0.06] hover:text-text"
+                      }`}
+                    >
+                      <ModIcon size={18} weight={active ? "fill" : "regular"} aria-hidden />
+                      <span className="sr-only">{m.title[locale]}</span>
+                    </Link>
+                  );
+                })}
+              </nav>
+            </div>
+            <div className="flex items-center gap-2">
+              <ProgressPill />
+              <SoundToggle />
+              <ThemeToggle />
+              <LangSelect />
+            </div>
+          </header>
+        )}
 
         {/* 2. Module Banner: Icon, Title, Summary & Grade Badge */}
         {!isJuniorLearn && (
