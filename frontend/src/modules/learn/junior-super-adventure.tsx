@@ -120,35 +120,6 @@ export function JuniorSuperAdventure({
 
   return (
     <div className="relative flex flex-col gap-6 sm:gap-8 pb-16 text-white select-none">
-      {/* Background Ambience: Dreamy floating cosmic planet and fantasy islands */}
-      <div className="pointer-events-none absolute -left-4 top-24 z-0 hidden lg:block opacity-85">
-        <Image
-          src="/images/junior/cosmic-planet.png"
-          alt="Cosmic ringed planet and moon"
-          width={48}
-          height={100}
-          className="animate-[float_5s_ease-in-out_infinite]"
-        />
-      </div>
-      <div className="pointer-events-none absolute -left-6 top-64 z-0 hidden lg:block opacity-75">
-        <Image
-          src="/images/junior/island-left.png"
-          alt="Magical floating island"
-          width={80}
-          height={110}
-          className="animate-[float_6s_ease-in-out_infinite]"
-        />
-      </div>
-      <div className="pointer-events-none absolute -right-6 top-72 z-0 hidden lg:block opacity-75">
-        <Image
-          src="/images/junior/island-right.png"
-          alt="Fantasy fairy turret"
-          width={90}
-          height={125}
-          className="animate-[float_7s_ease-in-out_infinite_reverse]"
-        />
-      </div>
-
       {/* ========================================================================= */}
       {/* 1. TOP HEADER BAR                                                         */}
       {/* ========================================================================= */}
@@ -367,13 +338,14 @@ export function JuniorSuperAdventure({
             </button>
 
             {/* Mascots on Cloud (Tiger cub, Blue elephant, Kid astronaut) */}
-            <div className="relative -mb-3 sm:-mb-6 self-end sm:self-auto shrink-0 w-56 sm:w-64 max-w-full">
+            <div className="relative shrink-0 w-52 sm:w-60 lg:w-64 max-w-full self-end sm:self-auto">
               <Image
                 src="/images/junior/daily-mascots-soft.png"
                 alt="Tiger, Elephant, and Astronaut kid mascots"
-                width={280}
-                height={190}
-                className="w-full h-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.45)] transition-transform duration-300 hover:scale-105"
+                width={264}
+                height={243}
+                priority
+                className="w-full h-auto object-contain drop-shadow-[0_12px_25px_rgba(0,0,0,0.45)] transition-transform duration-300 hover:scale-105"
               />
             </div>
           </div>
@@ -407,32 +379,26 @@ export function JuniorSuperAdventure({
           </p>
 
           {/* 3 Bubble Pedestals with Cute Animal Mascots */}
-          <div className="mt-6 grid grid-cols-3 gap-2.5 sm:gap-3.5 items-end justify-center pt-2">
+          <div className="mt-5 grid grid-cols-3 gap-2 sm:gap-3.5 items-end justify-center pt-1">
             {/* 1. Puppy: My Books */}
             <button
               type="button"
               onClick={() => setActiveTab("all")}
-              className="group flex flex-col items-center text-center transition-transform hover:scale-105 active:scale-95"
+              className={`group relative flex flex-col items-center text-center transition-all duration-300 hover:scale-105 active:scale-95 p-1 ${
+                activeTab === "all"
+                  ? "scale-105 drop-shadow-[0_0_20px_rgba(56,189,248,0.85)]"
+                  : "opacity-85 hover:opacity-100"
+              }`}
+              title="My Books (All chapters)"
             >
-              {/* Sitting Puppy Mascot */}
-              <div className="relative -mb-3 z-10 w-16 sm:w-20 transition-transform group-hover:-translate-y-1">
+              <div className="relative w-20 sm:w-24 md:w-26 transition-transform group-hover:-translate-y-1">
                 <Image
                   src="/images/junior/book-puppy-soft.png"
-                  alt="Puppy with backpack"
-                  width={90}
-                  height={85}
-                  className="w-full h-auto object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.4)]"
+                  alt="My Books - Puppy mascot"
+                  width={102}
+                  height={190}
+                  className="w-full h-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]"
                 />
-              </div>
-              {/* Circular Glowing Bubble Button */}
-              <div className="flex flex-col items-center justify-center size-20 sm:size-24 rounded-full border-2 border-blue-300/70 bg-gradient-to-b from-blue-500/60 to-blue-700/80 p-2 shadow-[0_0_20px_rgba(59,130,246,0.65)] backdrop-blur-md">
-                <BookOpen size={16} weight="fill" className="text-white drop-shadow-sm" />
-                <span className="font-display text-[11px] sm:text-xs font-black text-white leading-tight mt-0.5">
-                  My Books
-                </span>
-                <span className="font-mono text-[9px] text-blue-200">
-                  {totalChapters} books
-                </span>
               </div>
             </button>
 
@@ -440,27 +406,21 @@ export function JuniorSuperAdventure({
             <button
               type="button"
               onClick={() => setActiveTab("favourites")}
-              className="group flex flex-col items-center text-center transition-transform hover:scale-105 active:scale-95"
+              className={`group relative flex flex-col items-center text-center transition-all duration-300 hover:scale-105 active:scale-95 p-1 ${
+                activeTab === "favourites"
+                  ? "scale-105 drop-shadow-[0_0_20px_rgba(244,114,182,0.85)]"
+                  : "opacity-85 hover:opacity-100"
+              }`}
+              title="My Favourites"
             >
-              {/* Sitting Teddy Bear Mascot */}
-              <div className="relative -mb-3 z-10 w-16 sm:w-20 transition-transform group-hover:-translate-y-1">
+              <div className="relative w-20 sm:w-24 md:w-26 transition-transform group-hover:-translate-y-1">
                 <Image
                   src="/images/junior/book-bear-soft.png"
-                  alt="Teddy bear with backpack"
-                  width={90}
-                  height={85}
-                  className="w-full h-auto object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.4)]"
+                  alt="My Favourites - Bear mascot"
+                  width={102}
+                  height={190}
+                  className="w-full h-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]"
                 />
-              </div>
-              {/* Circular Glowing Bubble Button */}
-              <div className="flex flex-col items-center justify-center size-20 sm:size-24 rounded-full border-2 border-purple-300/70 bg-gradient-to-b from-purple-500/60 to-purple-700/80 p-2 shadow-[0_0_20px_rgba(168,85,247,0.65)] backdrop-blur-md">
-                <Heart size={16} weight="fill" className="text-pink-300 drop-shadow-sm" />
-                <span className="font-display text-[11px] sm:text-xs font-black text-white leading-tight mt-0.5">
-                  My Favourites
-                </span>
-                <span className="font-mono text-[9px] text-purple-200">
-                  8 books
-                </span>
               </div>
             </button>
 
@@ -468,27 +428,21 @@ export function JuniorSuperAdventure({
             <button
               type="button"
               onClick={() => setActiveTab("recent")}
-              className="group flex flex-col items-center text-center transition-transform hover:scale-105 active:scale-95"
+              className={`group relative flex flex-col items-center text-center transition-all duration-300 hover:scale-105 active:scale-95 p-1 ${
+                activeTab === "recent"
+                  ? "scale-105 drop-shadow-[0_0_20px_rgba(56,189,248,0.85)]"
+                  : "opacity-85 hover:opacity-100"
+              }`}
+              title="Recently Read"
             >
-              {/* Sitting Kitten Mascot */}
-              <div className="relative -mb-3 z-10 w-16 sm:w-20 transition-transform group-hover:-translate-y-1">
+              <div className="relative w-20 sm:w-24 md:w-26 transition-transform group-hover:-translate-y-1">
                 <Image
                   src="/images/junior/book-kitty-soft.png"
-                  alt="Kitty cat with backpack"
-                  width={90}
-                  height={85}
-                  className="w-full h-auto object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.4)]"
+                  alt="Recently Read - Kitten mascot"
+                  width={102}
+                  height={190}
+                  className="w-full h-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]"
                 />
-              </div>
-              {/* Circular Glowing Bubble Button */}
-              <div className="flex flex-col items-center justify-center size-20 sm:size-24 rounded-full border-2 border-cyan-300/70 bg-gradient-to-b from-cyan-500/60 to-blue-600/80 p-2 shadow-[0_0_20px_rgba(6,182,212,0.65)] backdrop-blur-md">
-                <Sparkle size={16} weight="fill" className="text-yellow-300 drop-shadow-sm" />
-                <span className="font-display text-[11px] sm:text-xs font-black text-white leading-tight mt-0.5">
-                  Recently Read
-                </span>
-                <span className="font-mono text-[9px] text-cyan-200">
-                  {Math.max(completedChaptersCount, 1)} books
-                </span>
               </div>
             </button>
           </div>

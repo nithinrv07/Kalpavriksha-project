@@ -78,7 +78,18 @@ export function ModuleShell({
       style={band ? ({ "--band": BAND_INFO[band].accent } as React.CSSProperties) : undefined}
       className="relative isolate min-h-[100dvh] w-full"
     >
-      <ChromeWaves />
+      {isJuniorLearn ? (
+        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-gradient-to-b from-[#140b33] via-[#1b1042] to-[#0d0724]">
+          {/* Dreamy magical celestial ambient lighting for Junior Adventure */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.22),transparent_65%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(56,189,248,0.18),transparent_55%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(236,72,153,0.16),transparent_55%)]" />
+          <div className="absolute -left-12 top-10 size-96 rounded-full bg-blue-500/10 blur-3xl" />
+          <div className="absolute -right-12 top-20 size-96 rounded-full bg-purple-500/10 blur-3xl" />
+        </div>
+      ) : (
+        <ChromeWaves />
+      )}
 
       {/* Main Full-Screen Content Layer */}
       <div className="relative z-10 flex min-h-[100dvh] w-full flex-col px-4 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-10 xl:px-14">
