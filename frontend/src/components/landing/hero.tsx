@@ -152,21 +152,25 @@ export function Hero() {
                 <DepthText
                   text={t.appName ?? "Kalpavriksha"}
                   fontSize={locale === "ta" ? "clamp(48px, 6.4vw, 92px)" : "clamp(60px, 8vw, 116px)"}
-                  fontWeight={700}
+                  fontWeight={isDark ? 700 : 600}
                   faceColor={isDark ? "#FFFFFF" : "#110826"}
-                  depthColor={isDark ? "#6d28d9" : "#7c3aed"}
-                  layers={22}
-                  depth={3.6}
-                  tilt={8}
+                  depthColor={isDark ? "#6d28d9" : "#c4b5fd"}
+                  layers={isDark ? 22 : 4}
+                  depth={isDark ? 3.6 : 0.8}
+                  tilt={isDark ? 8 : 2}
                   perspective={1000}
                   autoOrbit={false}
                   orbitSpeed={0}
                   float={false}
                   pointerTracking={false}
                   intro={false}
-                  shadow={true}
+                  shadow={isDark}
                   active={!isFlipped}
-                  className="font-title [--depth-text-letter-spacing:-0.005em] drop-shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
+                  className={`font-title [--depth-text-letter-spacing:-0.005em] ${
+                    isDark
+                      ? "drop-shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
+                      : "drop-shadow-[0_2px_10px_rgba(124,58,237,0.1)]"
+                  }`}
                 />
               </div>
 
@@ -348,21 +352,25 @@ export function Hero() {
                 <DepthText
                   text={t.appName ?? "Kalpavriksha"}
                   fontSize={locale === "ta" ? "clamp(48px, 6.4vw, 92px)" : "clamp(60px, 8vw, 116px)"}
-                  fontWeight={700}
+                  fontWeight={isDark ? 700 : 600}
                   faceColor={isDark ? "#FFFFFF" : "#110826"}
-                  depthColor={isDark ? "#6d28d9" : "#7c3aed"}
-                  layers={22}
-                  depth={3.6}
-                  tilt={8}
+                  depthColor={isDark ? "#6d28d9" : "#c4b5fd"}
+                  layers={isDark ? 22 : 4}
+                  depth={isDark ? 3.6 : 0.8}
+                  tilt={isDark ? 8 : 2}
                   perspective={1000}
                   autoOrbit={false}
                   orbitSpeed={0}
                   float={false}
                   pointerTracking={false}
                   intro={false}
-                  shadow={true}
+                  shadow={isDark}
                   active={isFlipped}
-                  className="font-title [--depth-text-letter-spacing:-0.005em] drop-shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
+                  className={`font-title [--depth-text-letter-spacing:-0.005em] ${
+                    isDark
+                      ? "drop-shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
+                      : "drop-shadow-[0_2px_10px_rgba(124,58,237,0.1)]"
+                  }`}
                 />
               </div>
 
