@@ -96,6 +96,11 @@ export function ChromeWaves() {
       <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-white/70 backdrop-blur-[1px]" />
       <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-gradient-to-b from-white/80 via-transparent to-white/90" />
       <div className="chrome-light-shade pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-white via-white/80 to-transparent" />
+
+      {/* 9. Light Black Shading across Landing Page (Light Mode: subtle dark depth & contrast) */}
+      <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-black/[0.08]" />
+      <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_28%,rgba(0,0,0,0.10)_65%,rgba(0,0,0,0.22)_100%)]" />
+      <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-gradient-to-b from-black/[0.08] via-transparent to-black/[0.12]" />
     </div>
   );
 }

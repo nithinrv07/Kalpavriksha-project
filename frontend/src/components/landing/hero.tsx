@@ -183,8 +183,8 @@ export function Hero() {
                 className="absolute inset-0 z-10 h-full w-full -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 translate-y-12 sm:translate-y-14 lg:translate-y-16 will-change-transform contain-strict"
               >
                 <SphereGallery3D
-                  scale={76}
-                  size={30}
+                  scale={65}
+                  size={26}
                   background="transparent"
                   active={!isFlipped}
                   style={{ width: "100%", height: "100%", minWidth: 0, minHeight: 0 }}

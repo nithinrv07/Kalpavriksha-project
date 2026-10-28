@@ -122,7 +122,7 @@ body {
 
 [data-theme="light"] body,
 .light body {
-  background: radial-gradient(circle at 50% 0%, #ede5f8 0%, #f6f2fd 38%, #fbf9fe 70%, #ffffff 100%) !important;
+  background: radial-gradient(circle at 50% 0%, #eae3f4 0%, #f1ecf7 38%, #eae4f2 70%, #dcd5e8 100%) !important;
   color: var(--text) !important;
 }
 
@@ -283,7 +283,7 @@ body {
 .light .border-white\/10,
 [data-theme="light"] .border-white\/8,
 .light .border-white\/8 {
-  border-color: rgba(76, 29, 149, 0.16) !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
 }
 
 /* All dark card containers transform into clean white cards */
@@ -328,8 +328,8 @@ body {
 [data-theme="light"] .bg-\[\#160826\],
 .light .bg-\[\#160826\] {
   background-color: rgba(255, 255, 255, 0.96) !important;
-  border-color: rgba(76, 29, 149, 0.16) !important;
-  box-shadow: 0 10px 30px -5px rgba(76, 29, 149, 0.1), 0 2px 8px -2px rgba(76, 29, 149, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.12), 0 2px 8px -2px rgba(0, 0, 0, 0.05) !important;
   color: var(--text) !important;
 }
 
