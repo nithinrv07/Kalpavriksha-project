@@ -36,14 +36,6 @@ function prefersReducedMotion(): boolean {
 export function Hero() {
   const { t, locale } = useLocale();
   const [introDone, setIntroDone] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
   const [slot, setSlot] = useState<Slot>(-1);
   const [hovering, setHovering] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -91,10 +83,10 @@ export function Hero() {
           ariaLabel="Kalpavriksha hero frame"
           front={
             /* DEFAULT FRONTPAGE: Luminous 3D Sphere Gallery View */
-            <div className="relative flex min-h-full h-full w-full flex-col justify-between overflow-y-auto lg:overflow-hidden bg-transparent lg:block">
+            <div className="relative flex h-full w-full flex-col overflow-hidden bg-transparent lg:block">
 
               {/* Top bar — flows on mobile, pinned on desktop */}
-              <div className="z-20 flex shrink-0 items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
+              <div className="z-20 flex items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
                 <span className="flex items-center gap-2 font-headline font-semibold text-lg tracking-tight lg:hidden">
                   <BrandMark className="size-6 text-amber-400" strokeWidth={1.8} />
                   {t.appName ?? "Kalpavriksha"}
@@ -173,59 +165,24 @@ export function Hero() {
                 />
               </div>
 
-              {/* MOBILE ONLY: Clean headline above sphere with zero overlap */}
-              <div className="z-20 flex shrink-0 flex-col items-center text-center px-4 pt-2 pb-1 lg:hidden">
-                <SparkleButton
-                  as="h2"
-                  lines={[line1, line2]}
-                  align="center"
-                  fontSize={locale === "en" ? "clamp(26px, 7vw, 36px)" : "clamp(24px, 6.2vw, 32px)"}
-                  fontFamily="var(--font-fraunces), var(--font-anek-tamil), var(--font-anek-deva), Georgia, serif"
-                  fontWeight={600}
-                  letterSpacing={locale === "en" ? "-0.015em" : "-0.005em"}
-                  lineHeight={locale === "en" ? 1.05 : 1.15}
-                  textColor="#C3AFD4"
-                  shadowColor="#1E0028"
-                  glareColor="#4A105DBF"
-                  className="w-full"
-                />
-                <p className="mt-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-violet-ink/80 text-center">
-                  {t.tagline[0]} — {t.tagline[1]}
-                </p>
-              </div>
-
-              {/* 3D Sphere Gallery canvas — dedicated stage on mobile, full-span on desktop */}
+              {/* 3D Sphere Gallery canvas — normal full size */}
               <div
                 data-no-flip="true"
-                className="relative z-10 my-auto h-[46vh] min-h-[290px] max-h-[380px] w-full shrink-0 flex items-center justify-center lg:absolute lg:inset-0 lg:my-0 lg:h-full lg:w-full lg:right-[420px] xl:right-[460px] lg:w-auto lg:translate-x-0 lg:translate-y-24"
+                className="absolute inset-0 z-10 h-full w-full -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 translate-y-12 sm:translate-y-14 lg:translate-y-16"
               >
                 <SphereGallery3D
-                  scale={isMobile ? 52 : 68}
-                  size={isMobile ? 24 : 28}
+                  scale={76}
+                  size={30}
                   background="transparent"
                   active={!isFlipped}
                   style={{ width: "100%", height: "100%", minWidth: 0, minHeight: 0 }}
                 />
               </div>
 
-              {/* MOBILE ONLY: Clean bottom action & lead copy below sphere with zero overlap */}
-              <div className="z-20 flex shrink-0 flex-col items-center text-center px-4 pb-6 gap-2.5 lg:hidden">
-                <p className="font-sans text-[13px] leading-relaxed text-muted/90 max-w-[340px] text-center">
-                  {t.lead}
-                </p>
-                <a
-                  href="#modules"
-                  className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-violet/30 bg-violet/15 px-6 py-2.5 font-mono text-[13px] font-medium text-violet-ink backdrop-blur-md shadow-[0_4px_16px_rgba(147,51,234,0.25)] transition-all active:scale-[0.98]"
-                >
-                  <span>{t.explore}</span>
-                  <ArrowDown size={13} className="text-amber-300" />
-                </a>
-              </div>
-
-              {/* DESKTOP ONLY: Right-side content column (harmoniously proportioned, cohesive right rail) */}
+              {/* Right-side content column: harmoniously proportioned, cohesive right rail */}
               <div
                 data-no-flip="true"
-                className="pointer-events-auto hidden lg:flex absolute lg:right-8 lg:top-24 lg:bottom-8 lg:max-w-[400px] xl:right-12 xl:max-w-[420px] z-20 flex-col items-center justify-center gap-7 text-center"
+                className="pointer-events-auto absolute right-4 top-20 bottom-6 z-20 flex w-full max-w-[340px] flex-col items-center justify-center gap-5 text-center sm:right-8 sm:top-24 sm:bottom-8 sm:max-w-[380px] sm:gap-6 lg:right-8 lg:top-24 lg:bottom-8 lg:max-w-[400px] lg:gap-7 xl:right-12 xl:max-w-[420px]"
               >
                 {/* 1. Crystal Glow "Rooted to Rise" headline */}
                 <div className="flex w-full justify-center">
@@ -250,7 +207,7 @@ export function Hero() {
                 </div>
 
                 {/* 2. Middle interactive showcase: cards span the rail, contents centred */}
-                <div className="flex w-full flex-col items-center gap-3">
+                <div className="hidden w-full flex-col items-center gap-3 sm:flex">
                   {/* Tagline / Subtitle */}
                   <p className="font-mono text-[12px] font-semibold uppercase tracking-[0.18em] text-violet-ink/80 text-center">
                     {t.tagline[0]} — {t.tagline[1]}
