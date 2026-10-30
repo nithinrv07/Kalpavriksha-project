@@ -8,6 +8,7 @@ import { Avatar } from "@/components/avatar";
 import { BrandMark } from "@/components/brand-mark";
 import { ChromeWaves } from "@/components/landing/chrome-waves";
 import { LivingTree } from "@/components/landing/living-tree";
+import { CosmicParticleLayer } from "@/components/cosmic-particle-layer";
 import { LangSelect } from "@/components/landing/lang-select";
 import { useLocale } from "@/components/locale-provider";
 import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
@@ -110,9 +111,28 @@ export function ModuleShell({
             style={{ backgroundImage: `url('/images/learn/cherry-branch-right.png')` }}
           />
         </div>
+      ) : module.slug === "grow" ? (
+        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#050907]">
+          <ChromeWaves />
+          {/* Growth & Life Emerald-Gold Atmosphere */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#061510]/80 via-[#0a2016]/40 to-[#020704]/90" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.22),transparent_65%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(245,158,11,0.18),transparent_55%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(52,211,153,0.15),transparent_60%)]" />
+        </div>
       ) : (
-        <ChromeWaves />
+        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#080512]">
+          <ChromeWaves />
+          {/* GK & Patriotic Songs Celestial Saffron-Cyan Atmosphere */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1a0f0a]/75 via-[#0e1628]/40 to-[#03060c]/90" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(249,115,22,0.2),transparent_65%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(56,189,248,0.18),transparent_55%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(34,197,94,0.14),transparent_60%)]" />
+        </div>
       )}
+
+      {/* Cosmic Particles & Interactive Petal Bursts Layer (Across All 3 Modules) */}
+      <CosmicParticleLayer moduleSlug={module.slug} />
 
       {/* Main Full-Screen Content Layer */}
       <div className={`relative z-10 flex min-h-[100dvh] w-full flex-col ${module.slug === "learn" ? "px-3 py-3 sm:px-6 sm:py-5 md:px-8 lg:px-10" : "px-4 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-10 xl:px-14"}`}>

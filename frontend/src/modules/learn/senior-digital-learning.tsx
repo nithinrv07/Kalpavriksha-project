@@ -259,7 +259,7 @@ export function SeniorDigitalLearning({
 
         {/* Right: 3D Magical Open Book, Globe, Flask, Microscope & Cherry Blossoms */}
         <div className="lg:col-span-6 relative flex items-center justify-center lg:justify-end">
-          <div className="relative w-full max-w-[460px] aspect-[780/324] transition-transform duration-500 hover:scale-[1.02]">
+          <div className="relative w-full max-w-[460px] aspect-[780/324] cosmic-prop-float transition-transform duration-500 hover:scale-[1.03]">
             <Image
               src="/images/learn/hero-3d-scene.png"
               alt="Magical 3D open book with glowing potions, globe, microscope, and hourglass"
@@ -284,7 +284,7 @@ export function SeniorDigitalLearning({
           {/* ----------------------------------------------------------------- */}
           <section className="flex flex-col gap-3 rounded-2xl border border-purple-900/30 bg-[#140a28]/60 p-4 sm:p-5 backdrop-blur-md">
             <div className="flex items-center gap-2">
-              <Sparkle size={18} weight="fill" className="text-purple-400" />
+              <Sparkle size={18} weight="fill" className="text-purple-400 animate-starlight" />
               <h2 className="font-display text-sm sm:text-base font-bold text-white tracking-wide">
                 Choose Your Learning World
               </h2>
@@ -364,7 +364,7 @@ export function SeniorDigitalLearning({
           <section className="flex flex-col gap-3.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Sparkle size={18} weight="fill" className="text-purple-400" />
+                <Sparkle size={18} weight="fill" className="text-purple-400 animate-starlight" />
                 <h2 className="font-display text-sm sm:text-base font-bold text-white tracking-wide">
                   Explore Your Subjects
                 </h2>
@@ -385,7 +385,7 @@ export function SeniorDigitalLearning({
               {/* 1. Tamil */}
               <div
                 onClick={() => handleSelectSubject(tamilSubject)}
-                className={`group cursor-pointer flex flex-col justify-between rounded-2xl border p-4 transition-all duration-300 hover:scale-[1.02] bg-gradient-to-b from-[#240e30]/80 to-[#16081e]/90 backdrop-blur-md ${
+                className={`group cosmic-card-glow cursor-pointer flex flex-col justify-between rounded-2xl border p-4 bg-gradient-to-b from-[#240e30]/80 to-[#16081e]/90 backdrop-blur-md ${
                   activeSubjectId === tamilSubject?.id
                     ? "border-pink-500 shadow-[0_0_20px_rgba(236,72,153,0.35)] ring-1 ring-pink-400"
                     : "border-pink-900/30 hover:border-pink-600/50"
@@ -425,7 +425,7 @@ export function SeniorDigitalLearning({
               {/* 2. English */}
               <div
                 onClick={() => handleSelectSubject(englishSubject)}
-                className={`group cursor-pointer flex flex-col justify-between rounded-2xl border p-4 transition-all duration-300 hover:scale-[1.02] bg-gradient-to-b from-[#0f1d38]/80 to-[#0a1224]/90 backdrop-blur-md ${
+                className={`group cosmic-card-glow cursor-pointer flex flex-col justify-between rounded-2xl border p-4 bg-gradient-to-b from-[#0f1d38]/80 to-[#0a1224]/90 backdrop-blur-md ${
                   activeSubjectId === englishSubject?.id
                     ? "border-sky-500 shadow-[0_0_20px_rgba(56,189,248,0.35)] ring-1 ring-sky-400"
                     : "border-sky-900/30 hover:border-sky-600/50"
@@ -465,7 +465,7 @@ export function SeniorDigitalLearning({
               {/* 3. Mathematics */}
               <div
                 onClick={() => handleSelectSubject(mathSubject)}
-                className={`group cursor-pointer flex flex-col justify-between rounded-2xl border p-4 transition-all duration-300 hover:scale-[1.02] bg-gradient-to-b from-[#21123a]/80 to-[#140a24]/90 backdrop-blur-md ${
+                className={`group cosmic-card-glow cursor-pointer flex flex-col justify-between rounded-2xl border p-4 bg-gradient-to-b from-[#21123a]/80 to-[#140a24]/90 backdrop-blur-md ${
                   activeSubjectId === mathSubject?.id
                     ? "border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.35)] ring-1 ring-purple-400"
                     : "border-purple-900/30 hover:border-purple-600/50"
@@ -505,7 +505,7 @@ export function SeniorDigitalLearning({
               {/* 4. Science */}
               <div
                 onClick={() => handleSelectSubject(scienceSubject)}
-                className={`group cursor-pointer flex flex-col justify-between rounded-2xl border p-4 transition-all duration-300 hover:scale-[1.02] bg-gradient-to-b from-[#0c2422]/80 to-[#071615]/90 backdrop-blur-md ${
+                className={`group cosmic-card-glow cursor-pointer flex flex-col justify-between rounded-2xl border p-4 bg-gradient-to-b from-[#0c2422]/80 to-[#071615]/90 backdrop-blur-md ${
                   activeSubjectId === scienceSubject?.id
                     ? "border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.35)] ring-1 ring-emerald-400"
                     : "border-emerald-900/30 hover:border-emerald-600/50"
@@ -545,7 +545,7 @@ export function SeniorDigitalLearning({
               {/* 5. Social Science */}
               <div
                 onClick={() => handleSelectSubject(socialSubject)}
-                className={`group cursor-pointer flex flex-col justify-between rounded-2xl border p-4 transition-all duration-300 hover:scale-[1.02] bg-gradient-to-b from-[#2a1b12]/80 to-[#190f09]/90 backdrop-blur-md ${
+                className={`group cosmic-card-glow cursor-pointer flex flex-col justify-between rounded-2xl border p-4 bg-gradient-to-b from-[#2a1b12]/80 to-[#190f09]/90 backdrop-blur-md ${
                   activeSubjectId === socialSubject?.id
                     ? "border-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.35)] ring-1 ring-amber-400"
                     : "border-amber-900/30 hover:border-amber-600/50"
