@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
@@ -79,9 +80,22 @@ export function SeniorDigitalLearning({
   const { locale, setLocale, t } = useLocale();
   const progress = useProgress();
   const { theme, toggleTheme } = useTheme();
+  const router = useRouter();
 
   // Active subject filter: "all" or subjectId
   const [activeSubjectId, setActiveSubjectId] = useState<string>("all");
+
+  const handleBack = () => {
+    if (activeSubjectId !== "all") {
+      setActiveSubjectId("all");
+      return;
+    }
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.back();
+    } else {
+      router.push("/");
+    }
+  };
 
   const displayedChapters = useMemo(() => {
     if (activeSubjectId === "all") return allFlatChapters;
@@ -134,29 +148,41 @@ export function SeniorDigitalLearning({
       {/* 1. TOP NAVBAR: BRAND LOGO + CENTER NAV + LANG / THEME / PROFILE           */}
       {/* ========================================================================= */}
       <header className="relative z-20 flex flex-wrap items-center justify-between gap-4 border-b border-purple-900/40 pb-4 pt-1">
-        {/* Left: GSX Kalpavriksha Brand */}
-        <Link href="/" className="group flex items-center gap-3 transition-opacity hover:opacity-90">
-          <div className="relative size-10 shrink-0 overflow-hidden rounded-xl bg-purple-950/60 p-1 border border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.3)]">
-            <Image
-              src="/images/learn/brand-tree-logo.png"
-              alt="GSX Kalpavriksha Logo"
-              width={40}
-              height={40}
-              className="size-full object-contain"
-            />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-display text-sm font-black tracking-tight text-white leading-none">
-              GSX
-            </span>
-            <span className="font-headline text-[15px] font-bold text-purple-200 leading-tight">
-              Kalpavriksha
-            </span>
-            <span className="font-mono text-[10px] text-purple-300/60 leading-none">
-              Rooted to Rise
-            </span>
-          </div>
-        </Link>
+        {/* Left: Back button + GSX Kalpavriksha Brand */}
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          <button
+            type="button"
+            onClick={handleBack}
+            className="group flex items-center gap-1.5 rounded-xl border border-purple-800/50 bg-purple-950/60 px-3 py-2 text-xs font-semibold text-purple-200 transition-all hover:bg-purple-900/60 hover:text-white hover:border-purple-500 shadow-sm"
+            title="Go Back"
+          >
+            <ArrowLeft size={15} className="transition-transform duration-200 group-hover:-translate-x-0.5 text-purple-400 group-hover:text-purple-200" />
+            <span>Back</span>
+          </button>
+
+          <Link href="/" className="group flex items-center gap-3 transition-opacity hover:opacity-90">
+            <div className="relative size-10 shrink-0 overflow-hidden rounded-xl bg-purple-950/60 p-1 border border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.3)]">
+              <Image
+                src="/images/learn/brand-tree-logo.png"
+                alt="GSX Kalpavriksha Logo"
+                width={40}
+                height={40}
+                className="size-full object-contain"
+              />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-display text-sm font-black tracking-tight text-white leading-none">
+                GSX
+              </span>
+              <span className="font-headline text-[15px] font-bold text-purple-200 leading-tight">
+                Kalpavriksha
+              </span>
+              <span className="font-mono text-[10px] text-purple-300/60 leading-none">
+                Rooted to Rise
+              </span>
+            </div>
+          </Link>
+        </div>
 
         {/* Center: Navigation Pills */}
         <nav aria-label="Module Navigation" className="hidden md:flex items-center gap-1 rounded-full border border-purple-800/40 bg-purple-950/40 px-3 py-1.5 backdrop-blur-md shadow-inner">
@@ -169,8 +195,9 @@ export function SeniorDigitalLearning({
           </Link>
           <button
             type="button"
-            onClick={() => setActiveSubjectId("all")}
+            onClick={handleBack}
             className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-purple-200/80 transition-colors hover:text-white hover:bg-purple-900/40"
+            title="Go Back"
           >
             <ArrowLeft size={14} />
             <span>Back</span>
