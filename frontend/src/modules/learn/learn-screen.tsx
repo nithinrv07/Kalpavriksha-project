@@ -1851,6 +1851,7 @@ function PersonalisedLearnDashboard({
         onSelectSeniorGroup={(grp) => {
           if (grp === "cs" || grp === "commerce" || grp === "business_maths") {
             setSeniorGroupFilter(grp);
+            authService.updateStandard(currentStandard, grp);
           }
         }}
       />

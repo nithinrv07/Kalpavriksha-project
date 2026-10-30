@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -27,7 +27,7 @@ import {
 import { useLocale } from "@/components/locale-provider";
 import { useProgress } from "@/components/progress-store";
 import { useTheme } from "@/lib/theme";
-import type { CurriculumChapter, CurriculumSubject } from "@/lib/curriculum";
+import { SENIOR_GROUPS, type CurriculumChapter, type CurriculumSubject } from "@/lib/curriculum";
 
 interface SeniorDigitalLearningProps {
   currentStandard: number;
@@ -64,6 +64,233 @@ const CLASS_ITEMS = [
   { std: 12, label: "Class 12", image: "/images/learn/class-12-trophy.png" },
 ];
 
+function getSubjectVisual(sub: CurriculumSubject) {
+  const id = sub.id.toLowerCase();
+  const code = (sub.code || "").toUpperCase();
+
+  // 1. Tamil
+  if (id.includes("tamil") || code.startsWith("TAM")) {
+    return {
+      image: "/images/learn/subject-tamil-scroll.png",
+      gradient: "from-[#280f2d]/85 to-[#16081e]/90",
+      borderClass: "border-pink-900/35 hover:border-pink-600/50",
+      activeBorderClass: "border-pink-500 shadow-[0_0_22px_rgba(236,72,153,0.35)] ring-1 ring-pink-400",
+      subtextColor: "text-pink-300/80",
+      tagline: "அறிவு வளர்ச்சி",
+      btnBorder: "border-pink-700/50",
+      btnBg: "bg-pink-950/40",
+      btnHoverBg: "group-hover:bg-pink-900/50",
+      btnText: "text-pink-200 group-hover:text-white",
+    };
+  }
+
+  // 2. English
+  if (id.includes("english") || code.startsWith("ENG")) {
+    return {
+      image: "/images/learn/subject-english-books.png",
+      gradient: "from-[#0f1d38]/85 to-[#0a1224]/90",
+      borderClass: "border-sky-900/35 hover:border-sky-600/50",
+      activeBorderClass: "border-sky-500 shadow-[0_0_22px_rgba(56,189,248,0.35)] ring-1 ring-sky-400",
+      subtextColor: "text-sky-300/80",
+      tagline: "Language & Literature",
+      btnBorder: "border-sky-700/50",
+      btnBg: "bg-sky-950/40",
+      btnHoverBg: "group-hover:bg-sky-900/50",
+      btnText: "text-sky-200 group-hover:text-white",
+    };
+  }
+
+  // 3. Physics (11th & 12th)
+  if (id.includes("physics") || code.startsWith("PHY")) {
+    return {
+      image: "/images/learn/class-11-molecule.png",
+      gradient: "from-[#0b243d]/85 to-[#051424]/90",
+      borderClass: "border-cyan-900/35 hover:border-cyan-500/50",
+      activeBorderClass: "border-cyan-400 shadow-[0_0_22px_rgba(34,211,238,0.35)] ring-1 ring-cyan-300",
+      subtextColor: "text-cyan-300/80",
+      tagline: "Forces, Waves & Cosmos",
+      btnBorder: "border-cyan-700/50",
+      btnBg: "bg-cyan-950/40",
+      btnHoverBg: "group-hover:bg-cyan-900/50",
+      btnText: "text-cyan-200 group-hover:text-white",
+    };
+  }
+
+  // 4. Chemistry (11th & 12th)
+  if (id.includes("chemistry") || code.startsWith("CHE")) {
+    return {
+      image: "/images/learn/subject-science-micro.png",
+      gradient: "from-[#0a2e28]/85 to-[#051c18]/90",
+      borderClass: "border-teal-900/35 hover:border-teal-500/50",
+      activeBorderClass: "border-teal-400 shadow-[0_0_22px_rgba(45,212,191,0.35)] ring-1 ring-teal-300",
+      subtextColor: "text-teal-300/80",
+      tagline: "Elements & Molecular Reactions",
+      btnBorder: "border-teal-700/50",
+      btnBg: "bg-teal-950/40",
+      btnHoverBg: "group-hover:bg-teal-900/50",
+      btnText: "text-teal-200 group-hover:text-white",
+    };
+  }
+
+  // 5. Computer Science (11th & 12th CS Group)
+  if (id.includes("csc") || id.includes("computer-science") || code.startsWith("CSC")) {
+    return {
+      image: "/images/learn/universe-quiz.png",
+      gradient: "from-[#0d2a1d]/85 to-[#061810]/90",
+      borderClass: "border-emerald-900/35 hover:border-emerald-500/50",
+      activeBorderClass: "border-emerald-400 shadow-[0_0_22px_rgba(52,211,153,0.35)] ring-1 ring-emerald-300",
+      subtextColor: "text-emerald-300/80",
+      tagline: "Python, OOP & Data Structures",
+      btnBorder: "border-emerald-700/50",
+      btnBg: "bg-emerald-950/40",
+      btnHoverBg: "group-hover:bg-emerald-900/50",
+      btnText: "text-emerald-200 group-hover:text-white",
+    };
+  }
+
+  // 6. Commerce (11th & 12th Commerce Group)
+  if (id.includes("commerce") || code.startsWith("COM")) {
+    return {
+      image: "/images/learn/class-12-trophy.png",
+      gradient: "from-[#312010]/85 to-[#1c1107]/90",
+      borderClass: "border-amber-900/35 hover:border-amber-500/50",
+      activeBorderClass: "border-amber-400 shadow-[0_0_22px_rgba(251,191,36,0.35)] ring-1 ring-amber-300",
+      subtextColor: "text-amber-300/80",
+      tagline: "Trade, Banking & Management",
+      btnBorder: "border-amber-700/50",
+      btnBg: "bg-amber-950/40",
+      btnHoverBg: "group-hover:bg-amber-900/50",
+      btnText: "text-amber-200 group-hover:text-white",
+    };
+  }
+
+  // 7. Accountancy (11th & 12th)
+  if (id.includes("account") || code.startsWith("ACC")) {
+    return {
+      image: "/images/learn/subject-math-calc.png",
+      gradient: "from-[#1b153b]/85 to-[#0e0b21]/90",
+      borderClass: "border-indigo-900/35 hover:border-indigo-500/50",
+      activeBorderClass: "border-indigo-400 shadow-[0_0_22px_rgba(129,140,248,0.35)] ring-1 ring-indigo-300",
+      subtextColor: "text-indigo-300/80",
+      tagline: "Ledger, P&L & Balance Sheet",
+      btnBorder: "border-indigo-700/50",
+      btnBg: "bg-indigo-950/40",
+      btnHoverBg: "group-hover:bg-indigo-900/50",
+      btnText: "text-indigo-200 group-hover:text-white",
+    };
+  }
+
+  // 8. Economics (11th & 12th)
+  if (id.includes("economic") || code.startsWith("ECO")) {
+    return {
+      image: "/images/learn/subject-social-globe.png",
+      gradient: "from-[#30161a]/85 to-[#1a0a0d]/90",
+      borderClass: "border-rose-900/35 hover:border-rose-500/50",
+      activeBorderClass: "border-rose-400 shadow-[0_0_22px_rgba(251,113,133,0.35)] ring-1 ring-rose-300",
+      subtextColor: "text-rose-300/80",
+      tagline: "National Income, Fiscal & Markets",
+      btnBorder: "border-rose-700/50",
+      btnBg: "bg-rose-950/40",
+      btnHoverBg: "group-hover:bg-rose-900/50",
+      btnText: "text-rose-200 group-hover:text-white",
+    };
+  }
+
+  // 9. Computer Applications (11th & 12th Commerce with CA)
+  if (id.includes("cap") || id.includes("application") || code.startsWith("CAP")) {
+    return {
+      image: "/images/learn/universe-quiz.png",
+      gradient: "from-[#0d272d]/85 to-[#06161a]/90",
+      borderClass: "border-teal-900/35 hover:border-teal-500/50",
+      activeBorderClass: "border-teal-400 shadow-[0_0_22px_rgba(45,212,191,0.35)] ring-1 ring-teal-300",
+      subtextColor: "text-teal-300/80",
+      tagline: "Digital Tools, Web & Database",
+      btnBorder: "border-teal-700/50",
+      btnBg: "bg-teal-950/40",
+      btnHoverBg: "group-hover:bg-teal-900/50",
+      btnText: "text-teal-200 group-hover:text-white",
+    };
+  }
+
+  // 10. Business Mathematics & Statistics (11th & 12th BM Group)
+  if (id.includes("bma") || id.includes("business-math") || code.startsWith("BMA")) {
+    return {
+      image: "/images/learn/subject-math-calc.png",
+      gradient: "from-[#2b1038]/85 to-[#17061f]/90",
+      borderClass: "border-fuchsia-900/35 hover:border-fuchsia-500/50",
+      activeBorderClass: "border-fuchsia-400 shadow-[0_0_22px_rgba(232,121,249,0.35)] ring-1 ring-fuchsia-300",
+      subtextColor: "text-fuchsia-300/80",
+      tagline: "Operations Research & Statistics",
+      btnBorder: "border-fuchsia-700/50",
+      btnBg: "bg-fuchsia-950/40",
+      btnHoverBg: "group-hover:bg-fuchsia-900/50",
+      btnText: "text-fuchsia-200 group-hover:text-white",
+    };
+  }
+
+  // 11. Mathematics (Class 1-12)
+  if (id.includes("math") || code.startsWith("MAT")) {
+    return {
+      image: "/images/learn/subject-math-calc.png",
+      gradient: "from-[#21123a]/85 to-[#140a24]/90",
+      borderClass: "border-purple-900/35 hover:border-purple-600/50",
+      activeBorderClass: "border-purple-500 shadow-[0_0_22px_rgba(168,85,247,0.35)] ring-1 ring-purple-400",
+      subtextColor: "text-purple-300/80",
+      tagline: "Numbers, Algebra & Calculus",
+      btnBorder: "border-purple-700/50",
+      btnBg: "bg-purple-950/40",
+      btnHoverBg: "group-hover:bg-purple-900/50",
+      btnText: "text-purple-200 group-hover:text-white",
+    };
+  }
+
+  // 12. Science (Class 1-10)
+  if (id.includes("science") || code.startsWith("SCI")) {
+    return {
+      image: "/images/learn/subject-science-micro.png",
+      gradient: "from-[#0c2422]/85 to-[#071615]/90",
+      borderClass: "border-emerald-900/35 hover:border-emerald-600/50",
+      activeBorderClass: "border-emerald-500 shadow-[0_0_22px_rgba(16,185,129,0.35)] ring-1 ring-emerald-400",
+      subtextColor: "text-emerald-300/80",
+      tagline: "Discover. Learn. Understand.",
+      btnBorder: "border-emerald-700/50",
+      btnBg: "bg-emerald-950/40",
+      btnHoverBg: "group-hover:bg-emerald-900/50",
+      btnText: "text-emerald-200 group-hover:text-white",
+    };
+  }
+
+  // 13. Social Science (Class 1-10)
+  if (id.includes("social") || code.startsWith("SOC")) {
+    return {
+      image: "/images/learn/subject-social-globe.png",
+      gradient: "from-[#2a1b12]/85 to-[#190f09]/90",
+      borderClass: "border-amber-900/35 hover:border-amber-600/50",
+      activeBorderClass: "border-amber-500 shadow-[0_0_22px_rgba(245,158,11,0.35)] ring-1 ring-amber-400",
+      subtextColor: "text-amber-300/80",
+      tagline: "Our History, Our World",
+      btnBorder: "border-amber-700/50",
+      btnBg: "bg-amber-950/40",
+      btnHoverBg: "group-hover:bg-amber-900/50",
+      btnText: "text-amber-200 group-hover:text-white",
+    };
+  }
+
+  // Default fallback
+  return {
+    image: "/images/learn/continue-sprout.png",
+    gradient: "from-[#1a1230]/85 to-[#0f0920]/90",
+    borderClass: "border-purple-900/35 hover:border-purple-600/50",
+    activeBorderClass: "border-purple-500 shadow-[0_0_22px_rgba(168,85,247,0.35)] ring-1 ring-purple-400",
+    subtextColor: "text-purple-300/80",
+    tagline: sub.description?.en || "Explore & Grow",
+    btnBorder: "border-purple-700/50",
+    btnBg: "bg-purple-950/40",
+    btnHoverBg: "group-hover:bg-purple-900/50",
+    btnText: "text-purple-200 group-hover:text-white",
+  };
+}
+
 export function SeniorDigitalLearning({
   currentStandard,
   subjects,
@@ -76,6 +303,8 @@ export function SeniorDigitalLearning({
   continueRecord,
   totalChapters,
   completedChaptersCount,
+  seniorGroupFilter = "cs",
+  onSelectSeniorGroup,
 }: SeniorDigitalLearningProps) {
   const { locale, setLocale, t } = useLocale();
   const progress = useProgress();
@@ -84,6 +313,13 @@ export function SeniorDigitalLearning({
 
   // Active subject filter: "all" or subjectId
   const [activeSubjectId, setActiveSubjectId] = useState<string>("all");
+
+  // Elongate subjects section view state
+  const [isElongated, setIsElongated] = useState<boolean>(true);
+  const subjectsSectionRef = useRef<HTMLElement | null>(null);
+
+  const isSenior = currentStandard >= 11;
+  const activeSeniorGroup = SENIOR_GROUPS.find((g) => g.id === (seniorGroupFilter || "cs")) || SENIOR_GROUPS[0];
 
   const handleBack = () => {
     if (activeSubjectId !== "all") {
@@ -97,26 +333,20 @@ export function SeniorDigitalLearning({
     }
   };
 
+  const handleClassTouch = (std: number) => {
+    onSelectStandard(std);
+    setActiveSubjectId("all");
+    setIsElongated(true);
+    // Smoothly scroll to elongated subjects section so user sees updated subjects
+    setTimeout(() => {
+      subjectsSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 120);
+  };
+
   const displayedChapters = useMemo(() => {
     if (activeSubjectId === "all") return allFlatChapters;
     return allFlatChapters.filter((item) => item.subject.id === activeSubjectId);
   }, [activeSubjectId, allFlatChapters]);
-
-  // Subject matchers for Class 4-10
-  const tamilSubject = useMemo(() => subjects.find((s) => s.id.includes("tamil")), [subjects]);
-  const englishSubject = useMemo(() => subjects.find((s) => s.id.includes("english")), [subjects]);
-  const mathSubject = useMemo(
-    () => subjects.find((s) => s.id.includes("math") || s.name.en.toLowerCase().includes("math")),
-    [subjects]
-  );
-  const scienceSubject = useMemo(
-    () => subjects.find((s) => s.id.includes("science") || s.id.includes("physics") || s.id.includes("bio")),
-    [subjects]
-  );
-  const socialSubject = useMemo(
-    () => subjects.find((s) => s.id.includes("social") || s.id.includes("history")),
-    [subjects]
-  );
 
   const learnerName = progress.profile?.name || "Kavin";
 
@@ -134,9 +364,6 @@ export function SeniorDigitalLearning({
   const handleSelectSubject = (sub?: CurriculumSubject) => {
     if (sub) {
       setActiveSubjectId((prev) => (prev === sub.id ? "all" : sub.id));
-      if (sub.chapters[0]) {
-        onOpenChapter(sub.chapters[0].id);
-      }
     } else if (allFlatChapters[0]) {
       onOpenChapter(allFlatChapters[0].chapter.id);
     }
@@ -294,7 +521,7 @@ export function SeniorDigitalLearning({
             <div className="relative flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => onSelectStandard(Math.max(1, currentStandard - 1))}
+                onClick={() => handleClassTouch(Math.max(1, currentStandard - 1))}
                 className="grid size-8 shrink-0 place-items-center rounded-xl border border-purple-800/40 bg-purple-950/60 text-purple-300 hover:text-white hover:border-purple-600 transition-colors"
                 title="Previous Class"
               >
@@ -311,7 +538,7 @@ export function SeniorDigitalLearning({
                     <button
                       key={item.std}
                       type="button"
-                      onClick={() => onSelectStandard(item.std)}
+                      onClick={() => handleClassTouch(item.std)}
                       className={`group relative flex flex-col items-center justify-between rounded-xl p-2.5 transition-all duration-300 min-w-[70px] shrink-0 ${
                         isSelected
                           ? "border-2 border-purple-500 bg-purple-900/40 shadow-[0_0_18px_rgba(168,85,247,0.45)] scale-105"
@@ -349,7 +576,7 @@ export function SeniorDigitalLearning({
 
               <button
                 type="button"
-                onClick={() => onSelectStandard(Math.min(12, currentStandard + 1))}
+                onClick={() => handleClassTouch(Math.min(12, currentStandard + 1))}
                 className="grid size-8 shrink-0 place-items-center rounded-xl border border-purple-800/40 bg-purple-950/60 text-purple-300 hover:text-white hover:border-purple-600 transition-colors"
                 title="Next Class"
               >
@@ -361,226 +588,181 @@ export function SeniorDigitalLearning({
           {/* ----------------------------------------------------------------- */}
           {/* B. EXPLORE YOUR SUBJECTS                                          */}
           {/* ----------------------------------------------------------------- */}
-          <section className="flex flex-col gap-3.5">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
+          <section
+            ref={subjectsSectionRef}
+            className="flex flex-col gap-3.5 transition-all duration-500 ease-out"
+          >
+            {/* Header: Title + Badges + Elongate View Toggle */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div className="flex flex-wrap items-center gap-2">
                 <Sparkle size={18} weight="fill" className="text-purple-400 animate-starlight" />
                 <h2 className="font-display text-sm sm:text-base font-bold text-white tracking-wide">
                   Explore Your Subjects
                 </h2>
+                <span className="rounded-full bg-purple-900/60 border border-purple-700/50 px-2.5 py-0.5 font-mono text-[11px] text-purple-300">
+                  {subjects.length} Subjects
+                </span>
+                {isSenior && (
+                  <span className="rounded-full bg-indigo-900/60 border border-indigo-700/50 px-2.5 py-0.5 font-mono text-[11px] text-indigo-200">
+                    {activeSeniorGroup?.badge || "Computer Science"}
+                  </span>
+                )}
               </div>
-              {activeSubjectId !== "all" && (
+
+              <div className="flex items-center gap-2 self-start sm:self-auto">
                 <button
                   type="button"
-                  onClick={() => setActiveSubjectId("all")}
-                  className="font-mono text-xs text-purple-400 hover:text-purple-300 hover:underline"
+                  onClick={() => setIsElongated((prev) => !prev)}
+                  className="flex items-center gap-1.5 rounded-lg border border-purple-800/40 bg-purple-950/40 px-2.5 py-1 font-mono text-[11px] text-purple-300 hover:text-white hover:border-purple-600 transition-colors"
+                  title={isElongated ? "Switch to standard grid" : "Elongate subjects layout"}
                 >
-                  View All Subjects
+                  <span>{isElongated ? "⊟ Compact Cards" : "⊞ Elongate View"}</span>
                 </button>
-              )}
+
+                {activeSubjectId !== "all" && (
+                  <button
+                    type="button"
+                    onClick={() => setActiveSubjectId("all")}
+                    className="font-mono text-xs text-purple-400 hover:text-purple-300 hover:underline"
+                  >
+                    View All Subjects
+                  </button>
+                )}
+              </div>
             </div>
 
-            {/* 5 Subject Cards Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5">
-              {/* 1. Tamil */}
-              <div
-                onClick={() => handleSelectSubject(tamilSubject)}
-                className={`group cosmic-card-glow cursor-pointer flex flex-col justify-between rounded-2xl border p-4 bg-gradient-to-b from-[#240e30]/80 to-[#16081e]/90 backdrop-blur-md ${
-                  activeSubjectId === tamilSubject?.id
-                    ? "border-pink-500 shadow-[0_0_20px_rgba(236,72,153,0.35)] ring-1 ring-pink-400"
-                    : "border-pink-900/30 hover:border-pink-600/50"
-                }`}
-              >
-                <div>
-                  <h3 className="font-display text-base font-black text-pink-100 leading-tight">
-                    Tamil
-                  </h3>
-                  <p className="font-display text-[11px] font-semibold text-pink-300/80 leading-snug">
-                    அறிவு வளர்ச்சி
-                  </p>
-                </div>
-                <div className="relative my-3 size-20 self-center transition-transform group-hover:scale-105">
-                  <Image
-                    src="/images/learn/subject-tamil-scroll.png"
-                    alt="Tamil antique parchment scroll with quill pen"
-                    width={80}
-                    height={80}
-                    className="size-full object-contain drop-shadow-[0_4px_12px_rgba(236,72,153,0.3)]"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <span className="font-mono text-[11px] text-pink-300/70 flex items-center gap-1.5">
-                    <BookOpen size={13} />
-                    <span>{tamilSubject ? tamilSubject.chapters.length : 18} Chapters</span>
+            {/* Senior Secondary Group / Stream Switcher for Class 11 and 12 */}
+            {isSenior && (
+              <div className="flex flex-col gap-2 rounded-2xl border border-purple-800/40 bg-gradient-to-r from-purple-950/60 via-[#180a2c]/60 to-purple-950/60 p-3.5 sm:p-4 backdrop-blur-md animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <GraduationCap size={18} weight="fill" className="text-purple-300" />
+                    <span className="font-display text-xs sm:text-sm font-bold text-white tracking-wide">
+                      Select Class {currentStandard} Stream
+                    </span>
+                  </div>
+                  <span className="font-mono text-[10.5px] text-purple-300/70 hidden sm:inline">
+                    Choose stream to switch electives & subjects
                   </span>
-                  <button
-                    type="button"
-                    className="w-full rounded-xl border border-pink-700/50 bg-pink-950/40 py-1.5 text-center font-display text-xs font-bold text-pink-200 transition-colors group-hover:bg-pink-900/50 group-hover:text-white"
-                  >
-                    Explore
-                  </button>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5">
+                  {SENIOR_GROUPS.map((grp) => {
+                    const isActive = (seniorGroupFilter || "cs") === grp.id;
+                    return (
+                      <button
+                        key={grp.id}
+                        type="button"
+                        onClick={() => {
+                          onSelectSeniorGroup?.(grp.id);
+                          setActiveSubjectId("all");
+                        }}
+                        className={`group relative flex flex-col items-start gap-1 rounded-xl p-3 text-left transition-all duration-200 border ${
+                          isActive
+                            ? "border-purple-400 bg-purple-900/60 shadow-[0_0_20px_rgba(168,85,247,0.4)] ring-1 ring-purple-400/50"
+                            : "border-purple-900/40 bg-purple-950/20 hover:border-purple-700/50 hover:bg-purple-900/30 text-purple-200/80"
+                        }`}
+                      >
+                        <div className="flex w-full items-center justify-between">
+                          <span className="font-display text-xs sm:text-sm font-bold text-white">
+                            {grp.badge}
+                          </span>
+                          {isActive && (
+                            <span className="grid size-4 place-items-center rounded-full bg-purple-400 text-purple-950 shadow-sm">
+                              <Check size={11} weight="bold" />
+                            </span>
+                          )}
+                        </div>
+                        <span className="line-clamp-1 font-mono text-[10.5px] text-purple-300/70">
+                          {grp.description[locale] || grp.description.en}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
+            )}
 
-              {/* 2. English */}
-              <div
-                onClick={() => handleSelectSubject(englishSubject)}
-                className={`group cosmic-card-glow cursor-pointer flex flex-col justify-between rounded-2xl border p-4 bg-gradient-to-b from-[#0f1d38]/80 to-[#0a1224]/90 backdrop-blur-md ${
-                  activeSubjectId === englishSubject?.id
-                    ? "border-sky-500 shadow-[0_0_20px_rgba(56,189,248,0.35)] ring-1 ring-sky-400"
-                    : "border-sky-900/30 hover:border-sky-600/50"
-                }`}
-              >
-                <div>
-                  <h3 className="font-display text-base font-black text-sky-100 leading-tight">
-                    English
-                  </h3>
-                  <p className="font-display text-[11px] font-semibold text-sky-300/80 leading-snug">
-                    Language & Literature
-                  </p>
-                </div>
-                <div className="relative my-3 size-20 self-center transition-transform group-hover:scale-105">
-                  <Image
-                    src="/images/learn/subject-english-books.png"
-                    alt="English classic stacked books with wooden letter A"
-                    width={80}
-                    height={80}
-                    className="size-full object-contain drop-shadow-[0_4px_12px_rgba(56,189,248,0.3)]"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <span className="font-mono text-[11px] text-sky-300/70 flex items-center gap-1.5">
-                    <BookOpen size={13} />
-                    <span>{englishSubject ? englishSubject.chapters.length : 22} Chapters</span>
-                  </span>
-                  <button
-                    type="button"
-                    className="w-full rounded-xl border border-sky-700/50 bg-sky-950/40 py-1.5 text-center font-display text-xs font-bold text-sky-200 transition-colors group-hover:bg-sky-900/50 group-hover:text-white"
-                  >
-                    Explore
-                  </button>
-                </div>
-              </div>
+            {/* Dynamic Subjects Grid (Elongated across all subjects for this Class) */}
+            <div
+              className={`grid gap-3.5 transition-all duration-500 ease-out ${
+                isElongated
+                  ? isSenior
+                    ? "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6"
+                    : subjects.length === 5
+                    ? "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
+                    : "grid-cols-1 sm:grid-cols-2 md:grid-cols-4"
+                  : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3"
+              }`}
+            >
+              {subjects.map((sub) => {
+                const visual = getSubjectVisual(sub);
+                const isSelected = activeSubjectId === sub.id;
+                const completedCount = sub.chapters.filter((ch) =>
+                  progress.lessonsDone.includes(ch.id),
+                ).length;
 
-              {/* 3. Mathematics */}
-              <div
-                onClick={() => handleSelectSubject(mathSubject)}
-                className={`group cosmic-card-glow cursor-pointer flex flex-col justify-between rounded-2xl border p-4 bg-gradient-to-b from-[#21123a]/80 to-[#140a24]/90 backdrop-blur-md ${
-                  activeSubjectId === mathSubject?.id
-                    ? "border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.35)] ring-1 ring-purple-400"
-                    : "border-purple-900/30 hover:border-purple-600/50"
-                }`}
-              >
-                <div>
-                  <h3 className="font-display text-base font-black text-purple-100 leading-tight">
-                    Mathematics
-                  </h3>
-                  <p className="font-display text-[11px] font-semibold text-purple-300/80 leading-snug">
-                    Numbers, Algebra & Geometry
-                  </p>
-                </div>
-                <div className="relative my-3 size-20 self-center transition-transform group-hover:scale-105">
-                  <Image
-                    src="/images/learn/subject-math-calc.png"
-                    alt="Mathematics 3D calculator with geometric blocks"
-                    width={80}
-                    height={80}
-                    className="size-full object-contain drop-shadow-[0_4px_12px_rgba(168,85,247,0.3)]"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <span className="font-mono text-[11px] text-purple-300/70 flex items-center gap-1.5">
-                    <BookOpen size={13} />
-                    <span>{mathSubject ? mathSubject.chapters.length : 24} Chapters</span>
-                  </span>
-                  <button
-                    type="button"
-                    className="w-full rounded-xl border border-purple-700/50 bg-purple-950/40 py-1.5 text-center font-display text-xs font-bold text-purple-200 transition-colors group-hover:bg-purple-900/50 group-hover:text-white"
+                return (
+                  <div
+                    key={sub.id}
+                    onClick={() => handleSelectSubject(sub)}
+                    className={`group cosmic-card-glow cursor-pointer flex flex-col justify-between rounded-2xl border p-4 bg-gradient-to-b ${visual.gradient} backdrop-blur-md transition-all duration-300 ${
+                      isSelected
+                        ? visual.activeBorderClass
+                        : visual.borderClass
+                    }`}
                   >
-                    Explore
-                  </button>
-                </div>
-              </div>
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-mono text-[10px] uppercase font-bold tracking-wider opacity-75">
+                          {sub.code || "SUB"}
+                        </span>
+                        {completedCount > 0 && (
+                          <span className="rounded-full bg-emerald-500/20 border border-emerald-500/40 px-1.5 py-0.2 font-mono text-[9px] text-emerald-300">
+                            {completedCount}/{sub.chapters.length}
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="font-display text-base font-black text-white leading-tight">
+                        {sub.name[locale] || sub.name.en}
+                      </h3>
+                      <p className={`font-display text-[11px] font-semibold ${visual.subtextColor} leading-snug line-clamp-1`}>
+                        {visual.tagline}
+                      </p>
+                    </div>
 
-              {/* 4. Science */}
-              <div
-                onClick={() => handleSelectSubject(scienceSubject)}
-                className={`group cosmic-card-glow cursor-pointer flex flex-col justify-between rounded-2xl border p-4 bg-gradient-to-b from-[#0c2422]/80 to-[#071615]/90 backdrop-blur-md ${
-                  activeSubjectId === scienceSubject?.id
-                    ? "border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.35)] ring-1 ring-emerald-400"
-                    : "border-emerald-900/30 hover:border-emerald-600/50"
-                }`}
-              >
-                <div>
-                  <h3 className="font-display text-base font-black text-emerald-100 leading-tight">
-                    Science
-                  </h3>
-                  <p className="font-display text-[11px] font-semibold text-emerald-300/80 leading-snug">
-                    Discover. Learn. Understand.
-                  </p>
-                </div>
-                <div className="relative my-3 size-20 self-center transition-transform group-hover:scale-105">
-                  <Image
-                    src="/images/learn/subject-science-micro.png"
-                    alt="Science microscope and green sprout in flask"
-                    width={80}
-                    height={80}
-                    className="size-full object-contain drop-shadow-[0_4px_12px_rgba(16,185,129,0.3)]"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <span className="font-mono text-[11px] text-emerald-300/70 flex items-center gap-1.5">
-                    <BookOpen size={13} />
-                    <span>{scienceSubject ? scienceSubject.chapters.length : 28} Chapters</span>
-                  </span>
-                  <button
-                    type="button"
-                    className="w-full rounded-xl border border-emerald-700/50 bg-emerald-950/40 py-1.5 text-center font-display text-xs font-bold text-emerald-200 transition-colors group-hover:bg-emerald-900/50 group-hover:text-white"
-                  >
-                    Explore
-                  </button>
-                </div>
-              </div>
+                    {/* 3D Visual Asset */}
+                    <div className="relative my-3 size-20 self-center transition-transform group-hover:scale-105">
+                      <Image
+                        src={visual.image}
+                        alt={sub.name.en}
+                        width={80}
+                        height={80}
+                        className="size-full object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.4)]"
+                      />
+                    </div>
 
-              {/* 5. Social Science */}
-              <div
-                onClick={() => handleSelectSubject(socialSubject)}
-                className={`group cosmic-card-glow cursor-pointer flex flex-col justify-between rounded-2xl border p-4 bg-gradient-to-b from-[#2a1b12]/80 to-[#190f09]/90 backdrop-blur-md ${
-                  activeSubjectId === socialSubject?.id
-                    ? "border-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.35)] ring-1 ring-amber-400"
-                    : "border-amber-900/30 hover:border-amber-600/50"
-                }`}
-              >
-                <div>
-                  <h3 className="font-display text-base font-black text-amber-100 leading-tight">
-                    Social Science
-                  </h3>
-                  <p className="font-display text-[11px] font-semibold text-amber-300/80 leading-snug">
-                    Our History, Our World
-                  </p>
-                </div>
-                <div className="relative my-3 size-20 self-center transition-transform group-hover:scale-105">
-                  <Image
-                    src="/images/learn/subject-social-globe.png"
-                    alt="Social Science antique brass compass and globe"
-                    width={80}
-                    height={80}
-                    className="size-full object-contain drop-shadow-[0_4px_12px_rgba(245,158,11,0.3)]"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <span className="font-mono text-[11px] text-amber-300/70 flex items-center gap-1.5">
-                    <BookOpen size={13} />
-                    <span>{socialSubject ? socialSubject.chapters.length : 20} Chapters</span>
-                  </span>
-                  <button
-                    type="button"
-                    className="w-full rounded-xl border border-amber-700/50 bg-amber-950/40 py-1.5 text-center font-display text-xs font-bold text-amber-200 transition-colors group-hover:bg-amber-900/50 group-hover:text-white"
-                  >
-                    Explore
-                  </button>
-                </div>
-              </div>
+                    {/* Bottom Bar: Chapters + Explore Button */}
+                    <div className="flex flex-col gap-2">
+                      <span className={`font-mono text-[11px] ${visual.subtextColor} flex items-center gap-1.5`}>
+                        <BookOpen size={13} />
+                        <span>{sub.chapters.length} Chapters</span>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (sub.chapters[0]) {
+                            onOpenChapter(sub.chapters[0].id);
+                          }
+                        }}
+                        className={`w-full rounded-xl border py-1.5 text-center font-display text-xs font-bold transition-colors ${visual.btnBorder} ${visual.btnBg} ${visual.btnHoverBg} ${visual.btnText}`}
+                      >
+                        Explore
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </section>
 
