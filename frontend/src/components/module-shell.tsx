@@ -80,36 +80,28 @@ export function ModuleShell({
       className="relative isolate min-h-[100dvh] w-full"
     >
       {module.slug === "learn" ? (
-        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#07020d]">
-          {/* 1. Underlying Signature Chrome Waves (chromatic nebula + spiral orbit rings) */}
+        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#080312]">
+          {/* 1. Underlying Signature Chrome Waves (chromatic nebula + spiral orbit rings directly from Home) */}
           <ChromeWaves />
 
-          {/* 2. Harmonized Plum & Cosmic Purple Mixup matching landing page palette */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1c1328]/85 via-[#4e2f58]/45 to-[#06020c]/90" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.28),transparent_65%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_35%,rgba(236,72,153,0.22),transparent_55%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.18),transparent_60%)]" />
+          {/* 2. Harmonious Plum & Cosmic Purple Mixup - subtle accent auras allowing rings to shine */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.2),transparent_65%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_35%,rgba(236,72,153,0.15),transparent_60%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.14),transparent_60%)]" />
 
-          {/* 3. Blooming Wishing Tree with drifting petals on left side */}
+          {/* 3. Blooming Wishing Tree with drifting petals hugging the left side */}
           <div
-            className="pointer-events-none absolute inset-y-0 left-0 hidden sm:block h-full w-[45vw] min-w-[280px] max-w-[600px] overflow-hidden opacity-55 transform-gpu"
+            className="pointer-events-none absolute inset-y-0 left-0 hidden sm:block h-full w-[36vw] min-w-[240px] max-w-[500px] overflow-hidden opacity-75 transform-gpu"
             style={{
-              maskImage: "linear-gradient(to right, #000 75%, transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to right, #000 75%, transparent 100%)",
+              maskImage: "linear-gradient(to right, #000 60%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to right, #000 60%, transparent 100%)",
             }}
           >
             <LivingTree />
           </div>
 
-          {/* 4. Ethereal cherry blossom branches framing top corners */}
-          <div
-            className="absolute top-0 left-0 w-44 h-56 bg-contain bg-no-repeat opacity-60 pointer-events-none"
-            style={{ backgroundImage: `url('/images/learn/cherry-branch-left.png')` }}
-          />
-          <div
-            className="absolute top-0 right-0 w-44 h-56 bg-contain bg-no-repeat bg-right-top opacity-50 pointer-events-none"
-            style={{ backgroundImage: `url('/images/learn/cherry-branch-right.png')` }}
-          />
+          {/* 4. Soft Vignette Edge Shadow for Content Contrast & Obsidian Space Depth */}
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(4,1,8,0.35)_75%,rgba(2,0,5,0.75)_100%)]" />
         </div>
       ) : module.slug === "grow" ? (
         <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#050907]">
