@@ -7,6 +7,7 @@ import type { ReactNode } from "react";
 import { Avatar } from "@/components/avatar";
 import { BrandMark } from "@/components/brand-mark";
 import { ChromeWaves } from "@/components/landing/chrome-waves";
+import { LivingTree } from "@/components/landing/living-tree";
 import { LangSelect } from "@/components/landing/lang-select";
 import { useLocale } from "@/components/locale-provider";
 import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
@@ -78,19 +79,34 @@ export function ModuleShell({
       className="relative isolate min-h-[100dvh] w-full"
     >
       {module.slug === "learn" ? (
-        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#0a0314]">
-          {/* Deep cosmic purple backdrop matching Digital Learning dark template */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#130728] via-[#160a2d] to-[#090312]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.22),transparent_65%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(236,72,153,0.18),transparent_55%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.14),transparent_60%)]" />
-          {/* Ethereal cherry blossom branches framing top corners */}
+        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#07020d]">
+          {/* 1. Underlying Signature Chrome Waves (chromatic nebula + spiral orbit rings) */}
+          <ChromeWaves />
+
+          {/* 2. Harmonized Plum & Cosmic Purple Mixup matching landing page palette */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1c1328]/85 via-[#4e2f58]/45 to-[#06020c]/90" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.28),transparent_65%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_35%,rgba(236,72,153,0.22),transparent_55%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.18),transparent_60%)]" />
+
+          {/* 3. Blooming Wishing Tree with drifting petals on left side */}
           <div
-            className="absolute top-0 left-0 w-36 h-48 bg-contain bg-no-repeat opacity-60 pointer-events-none"
+            className="pointer-events-none absolute inset-y-0 left-0 hidden sm:block h-full w-[45vw] min-w-[280px] max-w-[600px] overflow-hidden opacity-55 transform-gpu"
+            style={{
+              maskImage: "linear-gradient(to right, #000 75%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to right, #000 75%, transparent 100%)",
+            }}
+          >
+            <LivingTree />
+          </div>
+
+          {/* 4. Ethereal cherry blossom branches framing top corners */}
+          <div
+            className="absolute top-0 left-0 w-44 h-56 bg-contain bg-no-repeat opacity-60 pointer-events-none"
             style={{ backgroundImage: `url('/images/learn/cherry-branch-left.png')` }}
           />
           <div
-            className="absolute top-0 right-0 w-36 h-48 bg-contain bg-no-repeat bg-right-top opacity-50 pointer-events-none"
+            className="absolute top-0 right-0 w-44 h-56 bg-contain bg-no-repeat bg-right-top opacity-50 pointer-events-none"
             style={{ backgroundImage: `url('/images/learn/cherry-branch-right.png')` }}
           />
         </div>
