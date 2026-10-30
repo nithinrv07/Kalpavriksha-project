@@ -70,7 +70,7 @@ export function ModuleShell({
   const accent = accentOf(module.accent);
   const profile = progress.profile;
   const band = profile ? bandOf(profile.grade) : null;
-  const isJuniorLearn = module.slug === "learn" && (!profile || (profile.grade >= 1 && profile.grade <= 3));
+  const isJuniorLearn = module.slug === "learn" && !!profile && profile.grade >= 1 && profile.grade <= 3;
 
   return (
     <div
@@ -79,25 +79,61 @@ export function ModuleShell({
       className="relative isolate min-h-[100dvh] w-full"
     >
       {isJuniorLearn ? (
-        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-gradient-to-b from-[#6cbbf9] via-[#a8d9fc] to-[#e5f2fd]">
-          {/* Sunny magical fairytale sky ambient lighting */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.7),transparent_65%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(251,191,36,0.18),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(236,72,153,0.18),transparent_50%)]" />
-          {/* Fairytale wooden bridge walkway at bottom */}
+        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+          {/* ============================================================ */}
+          {/* FAIRYTALE WORLD BACKGROUND — fully layered immersive scene   */}
+          {/* ============================================================ */}
+
+          {/* BASE: Light sky-blue that peeks through the mid-zone seam */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#9ad9f8] via-[#c6ecff] to-[#b2e8a2]" />
+
+          {/* LAYER 1: HERO SKY SCENE — castles, girl, bunny, floating islands */}
+          {/* Positioned at top, fades out at its bottom edge via mask gradient */}
           <div
-            className="absolute inset-x-0 bottom-0 h-44 sm:h-60 bg-cover bg-bottom opacity-85"
-            style={{ backgroundImage: `url('/images/junior/fairytale-bottom-path.jpg')` }}
+            className="absolute inset-x-0 top-0 bg-cover bg-[center_top]"
+            style={{
+              backgroundImage: `url('/images/junior/bg-sky-final.jpg')`,
+              height: "55%",
+              maskImage: "linear-gradient(to bottom, black 0%, black 72%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 72%, transparent 100%)",
+            }}
           />
+
+          {/* LAYER 1b: Subtle left/right edge fog — softens background text from original mockup */}
+          <div className="absolute inset-y-0 left-0 w-[8%] bg-gradient-to-r from-[#b8e0f8]/55 to-transparent" />
+          <div className="absolute inset-y-0 right-0 w-[8%] bg-gradient-to-l from-[#b8e0f8]/55 to-transparent" />
+
+          {/* LAYER 2: GROUND PATH — wooden bridge, flowers, floating sky islands */}
+          {/* Positioned at bottom, fades in from its top via mask gradient */}
+          <div
+            className="absolute inset-x-0 bottom-0 bg-cover bg-[center_top]"
+            style={{
+              backgroundImage: `url('/images/junior/bg-ground-clean.jpg')`,
+              height: "58%",
+              maskImage: "linear-gradient(to top, black 0%, black 60%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to top, black 0%, black 60%, transparent 100%)",
+            }}
+          />
+
+          {/* LAYER 3: Center mid-zone atmospheric blend — warm sky blue */}
+          <div className="absolute inset-x-0 top-[42%] h-[18%] bg-[#c2e8f8]/70" />
+        </div>
+      ) : module.slug === "learn" ? (
+        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#0a0314]">
+          {/* Deep cosmic purple backdrop matching Digital Learning dark template */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#130728] via-[#160a2d] to-[#090312]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.2),transparent_65%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(236,72,153,0.15),transparent_55%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.12),transparent_60%)]" />
         </div>
       ) : (
         <ChromeWaves />
       )}
 
       {/* Main Full-Screen Content Layer */}
-      <div className={`relative z-10 flex min-h-[100dvh] w-full flex-col ${isJuniorLearn ? "px-3 py-3 sm:px-6 sm:py-5 md:px-8 lg:px-10" : "px-4 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-10 xl:px-14"}`}>
+      <div className={`relative z-10 flex min-h-[100dvh] w-full flex-col ${module.slug === "learn" ? "px-3 py-3 sm:px-6 sm:py-5 md:px-8 lg:px-10" : "px-4 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-10 xl:px-14"}`}>
         {/* 1. Header: Back to home, module switcher tabs, XP pill & language selector */}
-        {!isJuniorLearn && (
+        {module.slug !== "learn" && (
           <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-4 sm:pb-5">
             <div className="flex items-center gap-2">
               <Link
@@ -140,7 +176,7 @@ export function ModuleShell({
         )}
 
         {/* 2. Module Banner: Icon, Title, Summary & Grade Badge */}
-        {!isJuniorLearn && (
+        {module.slug !== "learn" && (
           <div className="fade-up mt-6 flex items-start gap-4 sm:mt-8 sm:items-center">
             <span className={`hidden size-14 shrink-0 place-items-center overflow-hidden rounded-2xl sm:grid ${accent.banner}`}>
               {module.iconImage ? (
@@ -185,11 +221,11 @@ export function ModuleShell({
           {profile && band ? (
             children(band, profile)
           ) : module.slug === "learn" ? (
-            children("junior", {
-              name: "Learner",
-              grade: 1,
+            children("middle", {
+              name: "Kavin",
+              grade: 8,
               avatar: "cat",
-              studentId: "KV-0001",
+              studentId: "KV-0008",
             })
           ) : !hydrated ? (
             <div aria-hidden className="h-72 animate-pulse rounded-3xl border border-line bg-surface/60" />

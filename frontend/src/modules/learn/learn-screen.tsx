@@ -111,6 +111,7 @@ import {
 } from "./cosmic-mascots";
 import { JuniorCosmicLessonPlayer } from "./junior-lesson-scene";
 import { JuniorSuperAdventure } from "./junior-super-adventure";
+import { SeniorDigitalLearning } from "./senior-digital-learning";
 import { KaraokeLines, useReadAloud } from "@/components/read-aloud";
 import { authService } from "@/lib/auth-service";
 import { BAND_INFO } from "@/lib/bands";
@@ -1735,9 +1736,9 @@ function PersonalisedLearnDashboard({
   const [filter, setFilter] = useState<string>("subjects"); // "subjects" | "all" | subject.id
   const [openChapterId, setOpenChapterId] = useState<string | null>(null);
 
-  // Active Standard (defaults to 1 for Class 1 so Class 1-3 Super Learning Adventure is immediately active)
+  // Active Standard (defaults to Class 8 as in Digital Learning template)
   const [overrideStandard, setOverrideStandard] = useState<number | null>(null);
-  const currentStandard = overrideStandard ?? (isSupportedStandard(profile.grade) ? profile.grade : 1);
+  const currentStandard = overrideStandard ?? (isSupportedStandard(profile.grade) ? profile.grade : 8);
   const isJunior = currentStandard <= 3; // Class 1 to 3 gets Super Learning Adventure!
   const isSenior = currentStandard >= 11;
 
@@ -1849,334 +1850,26 @@ function PersonalisedLearnDashboard({
           completedChaptersCount={completedChaptersCount}
         />
       ) : (
-        // CLASS 4 TO 12: Clean Standard Educational Portal
-        <>
-
-      {/* 1. Top Row: Progress Ring & Speech Bubble Mascot / Standard Hint */}
-      <div className="grid gap-3 md:grid-cols-[auto_1fr] md:items-center">
-        <div className="flex items-center gap-4 rounded-3xl border border-line bg-surface px-5 py-4">
-          <ProgressRing done={completedChaptersCount} total={totalChapters} />
-          <div>
-            <p className="font-mono text-2xl">
-              {completedChaptersCount}
-              <span className="text-muted">/{totalChapters}</span>
-            </p>
-            <p className="text-[13px] text-muted">
-              {completedChaptersCount === totalChapters ? (
-                <span className="inline-flex items-center gap-1 text-success">
-                  <Sparkle size={14} weight="fill" aria-hidden />
-                  All caught up!
-                </span>
-              ) : (
-                `${totalChapters - completedChaptersCount} more to complete Class ${currentStandard}`
-              )}
-            </p>
-          </div>
-        </div>
-
-        {/* Band hint with speech bubble & standard badge */}
-        <div className="flex flex-wrap items-center justify-between gap-4 rounded-3xl border border-line bg-surface px-6 py-4">
-          <div className="flex items-center gap-3">
-            <GrowthStage band={band} className="size-10 shrink-0" />
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-xs uppercase tracking-wider text-violet">
-                  Class {currentStandard} · {BAND_INFO[band].name[locale]}
-                </span>
-                <span className="rounded-full bg-white/[0.06] px-2 py-0.5 font-mono text-[10px] text-muted">
-                  Samacheer Kalvi
-                </span>
-              </div>
-              <p className="text-sm text-text">
-                Tap a subject or chapter card below, then listen and read along!
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => handleStandardChange(1)}
-              className="inline-flex items-center gap-1.5 rounded-full border border-pink-400/50 bg-pink-500/15 px-3.5 py-1.5 font-mono text-xs font-semibold text-pink-300 hover:bg-pink-500/25 transition-all"
-            >
-              <span>✨ Class 1-3 Adventure</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setSwitcherOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-full border border-violet/40 bg-violet-deep/30 px-3.5 py-1.5 font-mono text-xs font-semibold text-violet-ink hover:bg-violet-deep transition-colors"
-            >
-              <PencilSimple size={13} />
-              <span>Change Standard</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. Personalised Continue Learning Pointer (if available) */}
-      {continueRecord && (
-        <div className="relative overflow-hidden rounded-3xl border border-violet/30 bg-gradient-to-r from-violet-deep/20 via-surface to-surface p-5 sm:p-6">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-violet/20 text-violet">
-                <ChapterIcon name={resolveChapterIcon(continueRecord.subject, continueRecord.chapter)} className="size-7" />
-              </span>
-              <div>
-                <p className="font-mono text-[11px] uppercase tracking-wider text-violet">
-                  {continueRecord.isStarter ? "Start your first lesson" : "Continue Learning"}
-                </p>
-                <h3 className="font-display text-lg font-bold text-text">
-                  {continueRecord.chapter.title[locale]}
-                </h3>
-                <p className="text-xs text-muted">
-                  {continueRecord.subject.name[locale]} · Chapter {continueRecord.chapter.chapterNumber}
-                </p>
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setOpenChapterId(continueRecord.chapter.id)}
-              className="beam-border inline-flex h-11 items-center gap-2 rounded-full bg-violet-deep px-5 font-mono text-xs font-semibold text-violet-ink transition-transform hover:-translate-y-0.5"
-            >
-              {continueRecord.isStarter ? "Start Lesson →" : "Resume →"}
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* 3. Official Tamil Nadu Textbooks Reference Links */}
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-surface/70 px-4 py-3 sm:px-5">
-        <div className="flex items-center gap-2.5">
-          <FilePdf size={18} weight="duotone" className="shrink-0 text-violet" />
-          <span className="font-mono text-xs text-muted">Official TN Textbooks:</span>
-          <span className="rounded-full bg-violet/15 px-2.5 py-0.5 font-mono text-[11px] text-violet-ink">
-            New Syllabus 2026–27
-          </span>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
-          <a
-            href={TN_NEW_SYLLABUS_2026_27_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full border border-violet/40 bg-violet-deep/30 px-3.5 py-1 text-violet-ink hover:bg-violet-deep transition-colors"
-          >
-            <span>New Syllabus 2026–27 (Tnkalvi.net)</span>
-            <ArrowSquareOut size={12} />
-          </a>
-          <a
-            href={TN_TEXTBOOK_PORTAL_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-muted hover:border-line-strong hover:text-text transition-colors"
-          >
-            <span>TN School Textbooks Portal</span>
-            <ArrowSquareOut size={12} />
-          </a>
-          <a
-            href={TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-muted hover:border-line-strong hover:text-text transition-colors"
-          >
-            <span>Class 1, 2, 3 PDF</span>
-            <ArrowSquareOut size={12} />
-          </a>
-        </div>
-      </div>
-
-      {/* Higher Secondary Group Selector (Class 11 & 12) */}
-      {isSenior && (
-        <div className="rounded-3xl border border-teal/40 bg-teal/[0.04] p-4 sm:p-5">
-          <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
-            <div className="flex items-center gap-2">
-              <span className="grid size-7 place-items-center rounded-lg bg-teal/20 text-teal">
-                <GraduationCap size={18} weight="fill" />
-              </span>
-              <div>
-                <h3 className="font-display text-base font-bold text-text">
-                  {locale === "ta"
-                    ? "மேல்நிலைப் பிரிவு பாடங்கள் (Class 11 & 12 Streams)"
-                    : "Higher Secondary Stream Groups"}
-                </h3>
-                <p className="text-xs text-muted">
-                  {locale === "ta"
-                    ? "தமிழ்நாடு மாநிலப் பாடத்திட்டத்தின் முக்கியப் பாடப்பிரிவுகள்"
-                    : "Tamil Nadu Samacheer Kalvi standard-wise group tracks"}
-                </p>
-              </div>
-            </div>
-
-            {profile.seniorGroup && (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-teal/30 bg-teal/15 px-3 py-1 font-mono text-[11px] text-teal">
-                <span className="size-1.5 rounded-full bg-teal" />
-                <span>Enrolled: {getSeniorGroup(profile.seniorGroup)?.name[locale] ?? profile.seniorGroup}</span>
-              </span>
-            )}
-          </div>
-
-          <div className="grid gap-3 sm:grid-cols-3">
-            {SENIOR_GROUPS.map((grp) => {
-              const active = seniorGroupFilter === grp.id;
-              return (
-                <button
-                  key={grp.id}
-                  type="button"
-                  onClick={() => {
-                    setSeniorGroupFilter(grp.id);
-                    setFilter("subjects");
-                    authService.updateStandard(currentStandard, grp.id);
-                  }}
-                  style={{ "--grp": grp.accent } as React.CSSProperties}
-                  className={`flex flex-col rounded-2xl border p-3.5 text-left transition-all ${
-                    active
-                      ? "border-[var(--grp)] bg-[color-mix(in_srgb,var(--grp)_18%,var(--surface))] shadow-[0_0_20px_-5px_var(--grp)] font-medium"
-                      : "border-line bg-surface text-muted hover:border-line-strong hover:bg-white/[0.04] hover:text-text"
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[10.5px] font-semibold text-[var(--grp)]">{grp.badge}</span>
-                    {active && <CheckCircle size={15} weight="fill" className="text-[var(--grp)]" />}
-                  </div>
-                  <span className="font-display text-sm font-bold text-text mt-1.5 line-clamp-1">
-                    {grp.name[locale]}
-                  </span>
-                  <span className="text-[11.5px] text-muted line-clamp-2 mt-1">
-                    {grp.description[locale]}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* 4. Filter Capsules: All Subjects vs All Chapters vs Individual Subject */}
-      <div
-        role="radiogroup"
-        aria-label="Filter subjects and chapters"
-        className="flex items-center gap-2 overflow-x-auto pb-2 [scrollbar-width:none]"
-      >
-        <button
-          type="button"
-          role="radio"
-          aria-checked={filter === "subjects"}
-          onClick={() => setFilter("subjects")}
-          className={`flex h-10 shrink-0 items-center gap-2 rounded-full border px-4 font-mono text-xs transition-colors ${
-            filter === "subjects"
-              ? "border-violet bg-violet-deep text-violet-ink"
-              : "border-line bg-surface text-muted hover:text-text"
-          }`}
-        >
-          <span>All Subjects</span>
-          <span className="rounded-full bg-white/[0.08] px-1.5 py-0.5 text-[10px]">
-            {subjects.length}
-          </span>
-        </button>
-
-        <button
-          type="button"
-          role="radio"
-          aria-checked={filter === "all"}
-          onClick={() => setFilter("all")}
-          className={`flex h-10 shrink-0 items-center gap-2 rounded-full border px-4 font-mono text-xs transition-colors ${
-            filter === "all"
-              ? "border-violet bg-violet-deep text-violet-ink"
-              : "border-line bg-surface text-muted hover:text-text"
-          }`}
-        >
-          <span>All Chapters</span>
-          <span className="rounded-full bg-white/[0.08] px-1.5 py-0.5 text-[10px]">
-            {totalChapters}
-          </span>
-        </button>
-
-        {subjects.map((sub) => {
-          const active = filter === sub.id;
-          const count = sub.chapters.length;
-          return (
-            <button
-              key={sub.id}
-              type="button"
-              role="radio"
-              aria-checked={active}
-              onClick={() => setFilter(sub.id)}
-              className={`flex h-10 shrink-0 items-center gap-2 rounded-full border px-4 font-mono text-xs transition-colors ${
-                active
-                  ? "border-[var(--cat)] bg-[color-mix(in_srgb,var(--cat)_15%,transparent)] text-[var(--cat)]"
-                  : "border-line bg-surface text-muted hover:text-text"
-              }`}
-              style={{ "--cat": sub.accent } as React.CSSProperties}
-            >
-              <span>{sub.name[locale]}</span>
-              <span className="rounded-full bg-white/[0.08] px-1.5 py-0.5 text-[10px]">
-                {count}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* The Cards Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {filter === "subjects" &&
-          subjects.map((sub, i) => {
-            const doneCount = sub.chapters.filter((c) =>
-              progress.lessonsDone.includes(c.id),
-            ).length;
-
-            return (
-              <div key={sub.id} className="fade-up" style={{ animationDelay: `${i * 50}ms` }}>
-                <SubjectCard
-                  subject={sub}
-                  standard={currentStandard}
-                  doneCount={doneCount}
-                  onOpen={() => setFilter(sub.id)}
-                />
-              </div>
-            );
-          })}
-
-        {filter === "all" &&
-          allFlatChapters.map((item, i) => {
-            const isDone = progress.lessonsDone.includes(item.chapter.id);
-            return (
-              <div key={item.chapter.id} className="fade-up" style={{ animationDelay: `${i * 50}ms` }}>
-                <ChapterCard
-                  subject={item.subject}
-                  chapter={item.chapter}
-                  standard={currentStandard}
-                  done={isDone}
-                  onOpen={() => setOpenChapterId(item.chapter.id)}
-                />
-              </div>
-            );
-          })}
-
-        {filter !== "subjects" &&
-          filter !== "all" &&
-          (() => {
-            const sub = subjects.find((s) => s.id === filter);
-            if (!sub) return null;
-            return sub.chapters.map((ch, i) => {
-              const isDone = progress.lessonsDone.includes(ch.id);
-              return (
-                <div key={ch.id} className="fade-up" style={{ animationDelay: `${i * 50}ms` }}>
-                  <ChapterCard
-                    subject={sub}
-                    chapter={ch}
-                    standard={currentStandard}
-                    done={isDone}
-                    onOpen={() => setOpenChapterId(ch.id)}
-                  />
-                </div>
-              );
-            });
-          })()}
-      </div>
-
-        </>
+        // CLASS 4 TO 12: Digital Learning Dark Template
+        <SeniorDigitalLearning
+          currentStandard={currentStandard}
+          subjects={subjects}
+          allFlatChapters={allFlatChapters}
+          filter={filter}
+          setFilter={setFilter}
+          onOpenChapter={(chapterId) => setOpenChapterId(chapterId)}
+          onOpenStandardSwitcher={() => setSwitcherOpen(true)}
+          onSelectStandard={handleStandardChange}
+          continueRecord={continueRecord}
+          totalChapters={totalChapters}
+          completedChaptersCount={completedChaptersCount}
+          seniorGroupFilter={seniorGroupFilter}
+          onSelectSeniorGroup={(grp) => {
+            if (grp === "cs" || grp === "commerce" || grp === "business_maths") {
+              setSeniorGroupFilter(grp);
+            }
+          }}
+        />
       )}
 
       {/* Interactive Lesson Dialog (Reader & Quiz) */}
@@ -2199,13 +1892,13 @@ export function LearnScreen({ band }: { band: Band }) {
   const { profile } = useProgress();
 
   const activeProfile: Profile = profile ?? {
-    name: "Learner",
-    grade: 1,
+    name: "Kavin",
+    grade: 8,
     avatar: "cat",
-    studentId: "KV-0001",
+    studentId: "KV-0008",
   };
 
-  return <PersonalisedLearnDashboard band={band ?? "junior"} profile={activeProfile} />;
+  return <PersonalisedLearnDashboard band={band ?? "middle"} profile={activeProfile} />;
 }
 
 export default LearnScreen;
