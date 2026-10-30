@@ -184,30 +184,12 @@ export function SeniorDigitalLearning({
           </Link>
         </div>
 
-        {/* Center: Navigation Pills */}
-        <nav aria-label="Module Navigation" className="hidden md:flex items-center gap-1 rounded-full border border-purple-800/40 bg-purple-950/40 px-3 py-1.5 backdrop-blur-md shadow-inner">
-          <Link
-            href="/"
-            className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-purple-200/80 transition-colors hover:text-white hover:bg-purple-900/40"
-          >
-            <House size={14} />
-            <span>Home</span>
-          </Link>
-          <button
-            type="button"
-            onClick={handleBack}
-            className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-purple-200/80 transition-colors hover:text-white hover:bg-purple-900/40"
-            title="Go Back"
-          >
-            <ArrowLeft size={14} />
-            <span>Back</span>
-          </button>
-          <div className="relative flex items-center gap-1.5 rounded-full bg-purple-600/30 px-3.5 py-1 text-xs font-bold text-white shadow-sm border border-purple-400/30">
-            <GraduationCap size={15} weight="fill" className="text-purple-300" />
-            <span>Digital Learning</span>
-            <span className="absolute -bottom-2 left-1/2 h-0.5 w-6 -translate-x-1/2 rounded-full bg-purple-400 shadow-[0_0_8px_#a855f7]" />
-          </div>
-        </nav>
+        {/* Center: Module Title Pill */}
+        <div className="hidden md:flex items-center gap-2 rounded-full border border-purple-800/40 bg-purple-950/50 px-4 py-1.5 backdrop-blur-md shadow-inner">
+          <GraduationCap size={16} weight="fill" className="text-purple-300" />
+          <span className="font-display text-xs font-bold text-white tracking-wide">Digital Learning</span>
+          <span className="h-1.5 w-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_#a855f7]" />
+        </div>
 
         {/* Right: Language, Theme & Profile Pill */}
         <div className="flex items-center gap-2 sm:gap-3">
