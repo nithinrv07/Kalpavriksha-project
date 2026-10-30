@@ -855,7 +855,7 @@ export function SeniorDigitalLearning({
 
               {/* 2. Quizzes & Games */}
               <Link
-                href="/m/evaluate"
+                href="/m/grow"
                 className="group flex items-center gap-2.5 rounded-xl border border-purple-900/30 bg-purple-950/30 p-2.5 transition-all hover:border-purple-600/50 hover:bg-purple-900/30"
               >
                 <div className="relative size-10 shrink-0">
