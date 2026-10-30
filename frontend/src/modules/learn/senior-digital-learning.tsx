@@ -49,6 +49,9 @@ interface SeniorDigitalLearningProps {
 }
 
 const CLASS_ITEMS = [
+  { std: 1, label: "Class 1", image: "/images/learn/class-1-art.png" },
+  { std: 2, label: "Class 2", image: "/images/learn/class-2-art.png" },
+  { std: 3, label: "Class 3", image: "/images/learn/class-3-art.png" },
   { std: 4, label: "Class 4", image: "/images/learn/class-4-art.png" },
   { std: 5, label: "Class 5", image: "/images/learn/class-5-art.png" },
   { std: 6, label: "Class 6", image: "/images/learn/class-6-art.png" },
@@ -126,7 +129,7 @@ export function SeniorDigitalLearning({
   };
 
   return (
-    <div className="relative flex flex-col gap-6 sm:gap-8 pb-16 select-none text-slate-100">
+    <div className="relative flex flex-col gap-6 sm:gap-8 pb-28 sm:pb-36 select-none text-slate-100">
       {/* ========================================================================= */}
       {/* 1. TOP NAVBAR: BRAND LOGO + CENTER NAV + LANG / THEME / PROFILE           */}
       {/* ========================================================================= */}
@@ -268,78 +271,81 @@ export function SeniorDigitalLearning({
         {/* ===================================================================== */}
         <div className="lg:col-span-8 flex flex-col gap-6">
           {/* ----------------------------------------------------------------- */}
-          {/* A. CHOOSE YOUR LEARNING WORLD (CLASS 4 TO 12 CAROUSEL)            */}
+          {/* A. CHOOSE YOUR LEARNING WORLD (CLASS 1 TO 12 CAROUSEL)            */}
           {/* ----------------------------------------------------------------- */}
           <section className="flex flex-col gap-3 rounded-2xl border border-purple-900/30 bg-[#140a28]/60 p-4 sm:p-5 backdrop-blur-md">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Sparkle size={18} weight="fill" className="text-purple-400" />
-                <h2 className="font-display text-sm sm:text-base font-bold text-white tracking-wide">
-                  Choose Your Learning World
-                </h2>
-              </div>
-              <div className="flex items-center gap-1.5 text-purple-400/80">
-                <button
-                  type="button"
-                  onClick={() => onSelectStandard(Math.max(1, currentStandard - 1))}
-                  className="grid size-7 place-items-center rounded-lg border border-purple-800/40 bg-purple-950/40 hover:bg-purple-900/50 hover:text-white transition-colors"
-                  title="Previous Class"
-                >
-                  <CaretLeft size={14} weight="bold" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onSelectStandard(Math.min(12, currentStandard + 1))}
-                  className="grid size-7 place-items-center rounded-lg border border-purple-800/40 bg-purple-950/40 hover:bg-purple-900/50 hover:text-white transition-colors"
-                  title="Next Class"
-                >
-                  <CaretRight size={14} weight="bold" />
-                </button>
-              </div>
+            <div className="flex items-center gap-2">
+              <Sparkle size={18} weight="fill" className="text-purple-400" />
+              <h2 className="font-display text-sm sm:text-base font-bold text-white tracking-wide">
+                Choose Your Learning World
+              </h2>
             </div>
 
-            {/* Class Cards Strip */}
-            <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-9 gap-2.5 overflow-x-auto pb-1 pt-1">
-              {CLASS_ITEMS.map((item) => {
-                const isSelected = item.std === currentStandard;
-                return (
-                  <button
-                    key={item.std}
-                    type="button"
-                    onClick={() => onSelectStandard(item.std)}
-                    className={`group relative flex flex-col items-center justify-between rounded-xl p-2.5 transition-all duration-300 min-w-[70px] ${
-                      isSelected
-                        ? "border-2 border-purple-500 bg-purple-900/40 shadow-[0_0_18px_rgba(168,85,247,0.45)] scale-105"
-                        : "border border-purple-900/30 bg-purple-950/20 hover:border-purple-700/50 hover:bg-purple-900/20"
-                    }`}
-                  >
-                    {/* Checkmark on active */}
-                    {isSelected && (
-                      <span className="absolute -top-1.5 -right-1.5 grid size-4 place-items-center rounded-full bg-purple-500 text-white shadow-sm">
-                        <Check size={10} weight="bold" />
+            {/* Class Cards Carousel with < on left and > on right */}
+            <div className="relative flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => onSelectStandard(Math.max(1, currentStandard - 1))}
+                className="grid size-8 shrink-0 place-items-center rounded-xl border border-purple-800/40 bg-purple-950/60 text-purple-300 hover:text-white hover:border-purple-600 transition-colors"
+                title="Previous Class"
+              >
+                <CaretLeft size={16} weight="bold" />
+              </button>
+
+              <div
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+                className="flex-1 flex items-center gap-2.5 overflow-x-auto pb-1 pt-1 scroll-smooth [&::-webkit-scrollbar]:hidden"
+              >
+                {CLASS_ITEMS.map((item) => {
+                  const isSelected = item.std === currentStandard;
+                  return (
+                    <button
+                      key={item.std}
+                      type="button"
+                      onClick={() => onSelectStandard(item.std)}
+                      className={`group relative flex flex-col items-center justify-between rounded-xl p-2.5 transition-all duration-300 min-w-[70px] shrink-0 ${
+                        isSelected
+                          ? "border-2 border-purple-500 bg-purple-900/40 shadow-[0_0_18px_rgba(168,85,247,0.45)] scale-105"
+                          : "border border-purple-900/30 bg-purple-950/20 hover:border-purple-700/50 hover:bg-purple-900/20"
+                      }`}
+                    >
+                      {/* Checkmark on active */}
+                      {isSelected && (
+                        <span className="absolute -top-1.5 -right-1.5 grid size-4 place-items-center rounded-full bg-purple-500 text-white shadow-sm">
+                          <Check size={10} weight="bold" />
+                        </span>
+                      )}
+
+                      <span className="font-mono text-[10px] text-purple-300/70 group-hover:text-purple-200">
+                        Class
                       </span>
-                    )}
+                      <span className={`font-display text-sm font-black ${isSelected ? "text-white" : "text-purple-200"}`}>
+                        {item.std}
+                      </span>
 
-                    <span className="font-mono text-[10px] text-purple-300/70 group-hover:text-purple-200">
-                      Class
-                    </span>
-                    <span className={`font-display text-sm font-black ${isSelected ? "text-white" : "text-purple-200"}`}>
-                      {item.std}
-                    </span>
+                      {/* 3D Class Art */}
+                      <div className="relative size-10 my-1 transition-transform group-hover:scale-110">
+                        <Image
+                          src={item.image}
+                          alt={item.label}
+                          width={40}
+                          height={40}
+                          className="size-full object-contain drop-shadow-sm"
+                        />
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
 
-                    {/* 3D Class Art */}
-                    <div className="relative size-10 my-1 transition-transform group-hover:scale-110">
-                      <Image
-                        src={item.image}
-                        alt={item.label}
-                        width={40}
-                        height={40}
-                        className="size-full object-contain drop-shadow-sm"
-                      />
-                    </div>
-                  </button>
-                );
-              })}
+              <button
+                type="button"
+                onClick={() => onSelectStandard(Math.min(12, currentStandard + 1))}
+                className="grid size-8 shrink-0 place-items-center rounded-xl border border-purple-800/40 bg-purple-950/60 text-purple-300 hover:text-white hover:border-purple-600 transition-colors"
+                title="Next Class"
+              >
+                <CaretRight size={16} weight="bold" />
+              </button>
             </div>
           </section>
 
@@ -461,7 +467,7 @@ export function SeniorDigitalLearning({
                     Mathematics
                   </h3>
                   <p className="font-display text-[11px] font-semibold text-purple-300/80 leading-snug">
-                    Numbers & Algebra
+                    Numbers, Algebra & Geometry
                   </p>
                 </div>
                 <div className="relative my-3 size-20 self-center transition-transform group-hover:scale-105">
@@ -501,7 +507,7 @@ export function SeniorDigitalLearning({
                     Science
                   </h3>
                   <p className="font-display text-[11px] font-semibold text-emerald-300/80 leading-snug">
-                    Discover & Understand
+                    Discover. Learn. Understand.
                   </p>
                 </div>
                 <div className="relative my-3 size-20 self-center transition-transform group-hover:scale-105">
@@ -541,7 +547,7 @@ export function SeniorDigitalLearning({
                     Social Science
                   </h3>
                   <p className="font-display text-[11px] font-semibold text-amber-300/80 leading-snug">
-                    Our World & History
+                    Our History, Our World
                   </p>
                 </div>
                 <div className="relative my-3 size-20 self-center transition-transform group-hover:scale-105">
@@ -570,51 +576,58 @@ export function SeniorDigitalLearning({
           </section>
 
           {/* ----------------------------------------------------------------- */}
-          {/* C. EXPANDED CHAPTERS EXPLORER ACCORDION (when subject active)     */}
+          {/* C. EXPANDED CHAPTERS EXPLORER (Shown only when subject is clicked)*/}
           {/* ----------------------------------------------------------------- */}
-          <section className="rounded-2xl border border-purple-900/30 bg-[#140a28]/60 p-4 sm:p-5 backdrop-blur-md">
-            <div className="flex items-center justify-between mb-3">
-              <span className="font-display text-sm font-bold text-white flex items-center gap-2">
-                <BookOpen size={16} className="text-purple-400" />
-                <span>
-                  {activeSubjectId === "all"
-                    ? `All Lessons (Class ${currentStandard})`
-                    : subjects.find((s) => s.id === activeSubjectId)?.name[locale]}
-                </span>
-                <span className="font-mono text-xs text-purple-300/60 font-normal">
-                  ({displayedChapters.length} chapters)
-                </span>
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-64 overflow-y-auto pr-1">
-              {displayedChapters.slice(0, 12).map((item, idx) => (
-                <button
-                  key={item.chapter.id}
-                  type="button"
-                  onClick={() => onOpenChapter(item.chapter.id)}
-                  className="group flex items-center justify-between gap-3 rounded-xl border border-purple-900/40 bg-purple-950/30 px-3.5 py-2.5 text-left transition-all duration-200 hover:border-purple-600/60 hover:bg-purple-900/30 hover:shadow-sm"
-                >
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <span className="grid size-6 shrink-0 place-items-center rounded-lg bg-purple-900/60 border border-purple-700/40 font-mono text-[11px] font-bold text-purple-200">
-                      {idx + 1}
-                    </span>
-                    <div className="min-w-0">
-                      <p className="truncate font-display text-xs sm:text-[13px] font-bold text-slate-100 group-hover:text-purple-300">
-                        {item.chapter.title[locale]}
-                      </p>
-                      <p className="truncate font-mono text-[10.5px] text-purple-300/60">
-                        {item.subject.name[locale]} • {item.chapter.summary[locale]}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-purple-600/40 text-purple-300 group-hover:bg-purple-600 group-hover:text-white transition-colors">
-                    <Play size={10} weight="fill" className="ml-0.5" />
+          {activeSubjectId !== "all" && (
+            <section className="fade-up rounded-2xl border border-purple-900/30 bg-[#140a28]/80 p-4 sm:p-5 backdrop-blur-md">
+              <div className="flex items-center justify-between mb-3">
+                <span className="font-display text-sm font-bold text-white flex items-center gap-2">
+                  <BookOpen size={16} className="text-purple-400" />
+                  <span>
+                    {subjects.find((s) => s.id === activeSubjectId)?.name[locale] || "Chapters"}
                   </span>
+                  <span className="font-mono text-xs text-purple-300/60 font-normal">
+                    ({displayedChapters.length} chapters)
+                  </span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setActiveSubjectId("all")}
+                  className="rounded-lg border border-purple-800/40 bg-purple-950/50 px-2.5 py-1 font-mono text-[11px] text-purple-300 hover:text-white hover:border-purple-600 transition-colors"
+                >
+                  ✕ Close Explorer
                 </button>
-              ))}
-            </div>
-          </section>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-72 overflow-y-auto pr-1">
+                {displayedChapters.map((item, idx) => (
+                  <button
+                    key={item.chapter.id}
+                    type="button"
+                    onClick={() => onOpenChapter(item.chapter.id)}
+                    className="group flex items-center justify-between gap-3 rounded-xl border border-purple-900/40 bg-purple-950/30 px-3.5 py-2.5 text-left transition-all duration-200 hover:border-purple-600/60 hover:bg-purple-900/30 hover:shadow-sm"
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="grid size-6 shrink-0 place-items-center rounded-lg bg-purple-900/60 border border-purple-700/40 font-mono text-[11px] font-bold text-purple-200">
+                        {idx + 1}
+                      </span>
+                      <div className="min-w-0">
+                        <p className="truncate font-display text-xs sm:text-[13px] font-bold text-slate-100 group-hover:text-purple-300">
+                          {item.chapter.title[locale]}
+                        </p>
+                        <p className="truncate font-mono text-[10.5px] text-purple-300/60">
+                          {item.subject.name[locale]} • {item.chapter.summary[locale]}
+                        </p>
+                      </div>
+                    </div>
+                    <span className="grid size-6 shrink-0 place-items-center rounded-full bg-purple-600/40 text-purple-300 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                      <Play size={10} weight="fill" className="ml-0.5" />
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* ----------------------------------------------------------------- */}
           {/* D. LEARNING UNIVERSE (BOTTOM QUICK NAVIGATION BAR)                */}

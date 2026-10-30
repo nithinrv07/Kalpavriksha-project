@@ -70,7 +70,6 @@ export function ModuleShell({
   const accent = accentOf(module.accent);
   const profile = progress.profile;
   const band = profile ? bandOf(profile.grade) : null;
-  const isJuniorLearn = module.slug === "learn" && !!profile && profile.grade >= 1 && profile.grade <= 3;
 
   return (
     <div
@@ -78,53 +77,22 @@ export function ModuleShell({
       style={band ? ({ "--band": BAND_INFO[band].accent } as React.CSSProperties) : undefined}
       className="relative isolate min-h-[100dvh] w-full"
     >
-      {isJuniorLearn ? (
-        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-          {/* ============================================================ */}
-          {/* FAIRYTALE WORLD BACKGROUND — fully layered immersive scene   */}
-          {/* ============================================================ */}
-
-          {/* BASE: Light sky-blue that peeks through the mid-zone seam */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#9ad9f8] via-[#c6ecff] to-[#b2e8a2]" />
-
-          {/* LAYER 1: HERO SKY SCENE — castles, girl, bunny, floating islands */}
-          {/* Positioned at top, fades out at its bottom edge via mask gradient */}
-          <div
-            className="absolute inset-x-0 top-0 bg-cover bg-[center_top]"
-            style={{
-              backgroundImage: `url('/images/junior/bg-sky-final.jpg')`,
-              height: "55%",
-              maskImage: "linear-gradient(to bottom, black 0%, black 72%, transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 72%, transparent 100%)",
-            }}
-          />
-
-          {/* LAYER 1b: Subtle left/right edge fog — softens background text from original mockup */}
-          <div className="absolute inset-y-0 left-0 w-[8%] bg-gradient-to-r from-[#b8e0f8]/55 to-transparent" />
-          <div className="absolute inset-y-0 right-0 w-[8%] bg-gradient-to-l from-[#b8e0f8]/55 to-transparent" />
-
-          {/* LAYER 2: GROUND PATH — wooden bridge, flowers, floating sky islands */}
-          {/* Positioned at bottom, fades in from its top via mask gradient */}
-          <div
-            className="absolute inset-x-0 bottom-0 bg-cover bg-[center_top]"
-            style={{
-              backgroundImage: `url('/images/junior/bg-ground-clean.jpg')`,
-              height: "58%",
-              maskImage: "linear-gradient(to top, black 0%, black 60%, transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to top, black 0%, black 60%, transparent 100%)",
-            }}
-          />
-
-          {/* LAYER 3: Center mid-zone atmospheric blend — warm sky blue */}
-          <div className="absolute inset-x-0 top-[42%] h-[18%] bg-[#c2e8f8]/70" />
-        </div>
-      ) : module.slug === "learn" ? (
+      {module.slug === "learn" ? (
         <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#0a0314]">
           {/* Deep cosmic purple backdrop matching Digital Learning dark template */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#130728] via-[#160a2d] to-[#090312]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.2),transparent_65%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(236,72,153,0.15),transparent_55%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.12),transparent_60%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.22),transparent_65%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(236,72,153,0.18),transparent_55%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.14),transparent_60%)]" />
+          {/* Ethereal cherry blossom branches framing top corners */}
+          <div
+            className="absolute top-0 left-0 w-36 h-48 bg-contain bg-no-repeat opacity-60 pointer-events-none"
+            style={{ backgroundImage: `url('/images/learn/cherry-branch-left.png')` }}
+          />
+          <div
+            className="absolute top-0 right-0 w-36 h-48 bg-contain bg-no-repeat bg-right-top opacity-50 pointer-events-none"
+            style={{ backgroundImage: `url('/images/learn/cherry-branch-right.png')` }}
+          />
         </div>
       ) : (
         <ChromeWaves />
@@ -217,7 +185,7 @@ export function ModuleShell({
         )}
 
         {/* 3. Main Content: Full Screen Width across all modules */}
-        <main className={`${isJuniorLearn ? "mt-3 sm:mt-4" : module.slug === "learn" ? "mt-5 sm:mt-6" : "mt-8 sm:mt-10"} flex-1 w-full pb-8 sm:pb-12`}>
+        <main className={`${module.slug === "learn" ? "mt-2 sm:mt-3" : "mt-8 sm:mt-10"} flex-1 w-full pb-8 sm:pb-12`}>
           {profile && band ? (
             children(band, profile)
           ) : module.slug === "learn" ? (

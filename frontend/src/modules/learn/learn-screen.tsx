@@ -1824,7 +1824,7 @@ function PersonalisedLearnDashboard({
   };
 
   return (
-    <div className={isJunior ? "relative flex flex-col gap-8" : "flex flex-col gap-8"}>
+    <div className="flex flex-col gap-8">
       {/* Standard Selector Modal */}
       <StandardSwitcherModal
         currentGrade={currentStandard}
@@ -1834,43 +1834,26 @@ function PersonalisedLearnDashboard({
         onSelectStandard={handleStandardChange}
       />
 
-      {isJunior ? (
-        // CLASS 1 TO 3: Super Learning Adventure Gamified Dashboard
-        <JuniorSuperAdventure
-          currentStandard={currentStandard}
-          subjects={subjects}
-          allFlatChapters={allFlatChapters}
-          filter={filter}
-          setFilter={setFilter}
-          onOpenChapter={(chapterId) => setOpenChapterId(chapterId)}
-          onOpenStandardSwitcher={() => setSwitcherOpen(true)}
-          onSelectStandard={handleStandardChange}
-          continueRecord={continueRecord}
-          totalChapters={totalChapters}
-          completedChaptersCount={completedChaptersCount}
-        />
-      ) : (
-        // CLASS 4 TO 12: Digital Learning Dark Template
-        <SeniorDigitalLearning
-          currentStandard={currentStandard}
-          subjects={subjects}
-          allFlatChapters={allFlatChapters}
-          filter={filter}
-          setFilter={setFilter}
-          onOpenChapter={(chapterId) => setOpenChapterId(chapterId)}
-          onOpenStandardSwitcher={() => setSwitcherOpen(true)}
-          onSelectStandard={handleStandardChange}
-          continueRecord={continueRecord}
-          totalChapters={totalChapters}
-          completedChaptersCount={completedChaptersCount}
-          seniorGroupFilter={seniorGroupFilter}
-          onSelectSeniorGroup={(grp) => {
-            if (grp === "cs" || grp === "commerce" || grp === "business_maths") {
-              setSeniorGroupFilter(grp);
-            }
-          }}
-        />
-      )}
+      {/* Module 1: Digital Learning Template (Class 1 to 12) */}
+      <SeniorDigitalLearning
+        currentStandard={currentStandard}
+        subjects={subjects}
+        allFlatChapters={allFlatChapters}
+        filter={filter}
+        setFilter={setFilter}
+        onOpenChapter={(chapterId) => setOpenChapterId(chapterId)}
+        onOpenStandardSwitcher={() => setSwitcherOpen(true)}
+        onSelectStandard={handleStandardChange}
+        continueRecord={continueRecord}
+        totalChapters={totalChapters}
+        completedChaptersCount={completedChaptersCount}
+        seniorGroupFilter={seniorGroupFilter}
+        onSelectSeniorGroup={(grp) => {
+          if (grp === "cs" || grp === "commerce" || grp === "business_maths") {
+            setSeniorGroupFilter(grp);
+          }
+        }}
+      />
 
       {/* Interactive Lesson Dialog (Reader & Quiz) */}
       <CurriculumLessonDialog
