@@ -12,6 +12,7 @@ import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-set
 import { useLocale } from "@/components/locale-provider";
 import { updateProgress, useProgress } from "@/components/progress-store";
 import { BAND_INFO, SETUP_COPY } from "@/lib/bands";
+import { SENIOR_GROUPS } from "@/lib/curriculum";
 import { LOCALE_LABEL } from "@/lib/i18n";
 import { bandOf, levelOf, localDay, setProfile, streak, type Profile } from "@/lib/progress";
 
@@ -48,6 +49,11 @@ function Card({ profile }: { profile: Profile }) {
             <p className="truncate font-display text-3xl tracking-[-0.03em]">{profile.name}</p>
             <p className="mt-1 font-mono text-[12px] text-[var(--band)]">
               {c.classWord} {profile.grade} · {info.name[locale]}
+              {profile.grade >= 11 && profile.seniorGroup && (
+                <span className="opacity-90">
+                  {" "}· {SENIOR_GROUPS.find((g) => g.id === profile.seniorGroup)?.badge || profile.seniorGroup}
+                </span>
+              )}
             </p>
             {profile.email && (
               <p className="truncate font-mono text-[11px] text-muted">{profile.email}</p>
@@ -154,8 +160,13 @@ function SignInScreenContent() {
                 <h1 className="mt-2 font-display text-[clamp(36px,5.5vw,72px)] leading-[0.95] tracking-[-0.05em]">
                   {c.hello(profile.name)}
                 </h1>
-                <p className="mt-3 text-[16px] text-text font-medium">
-                  {c.classWord} {profile.grade} Student · {BAND_INFO[bandOf(profile.grade)].name[locale]}
+                <p className="mt-3 text-[16px] text-text font-medium flex flex-wrap items-center gap-2">
+                  <span>{c.classWord} {profile.grade} Student · {BAND_INFO[bandOf(profile.grade)].name[locale]}</span>
+                  {profile.grade >= 11 && profile.seniorGroup && (
+                    <span className="rounded-full bg-violet/20 border border-violet/40 px-2.5 py-0.5 font-mono text-xs text-violet-ink">
+                      {SENIOR_GROUPS.find((g) => g.id === profile.seniorGroup)?.badge || profile.seniorGroup}
+                    </span>
+                  )}
                 </p>
                 <p className="mt-2 max-w-md text-[14.5px] leading-relaxed text-muted">
                   {BAND_INFO[bandOf(profile.grade)].tagline[locale]}
