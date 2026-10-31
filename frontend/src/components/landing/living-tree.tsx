@@ -34,10 +34,10 @@ export function LivingTree() {
     return () => window.clearInterval(id);
   }, []);
 
-  // In light mode, deepen the canopy colors for visibility on lavender paper
-  const blossomColor = isDark ? canopy.blossom : darkenHex(canopy.blossom, 0.55);
-  const petalColor = isDark ? canopy.petal : darkenHex(canopy.petal, 0.55);
-  const branchColor = isDark ? "#3E3539" : "#2D1B3D";
+  // In light mode, deepen the canopy colors significantly for visibility on lavender paper
+  const blossomColor = isDark ? canopy.blossom : darkenHex(canopy.blossom, 0.35);
+  const petalColor = isDark ? canopy.petal : darkenHex(canopy.petal, 0.35);
+  const branchColor = isDark ? "#3E3539" : "#1A0D2E";
 
   return (
     <MoonlitPetals
