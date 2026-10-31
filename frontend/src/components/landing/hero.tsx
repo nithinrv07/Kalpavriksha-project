@@ -128,7 +128,18 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
               <div className="z-20 flex items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
                 <span className="flex items-center gap-2 font-headline font-semibold text-lg tracking-tight lg:hidden">
                   <BrandMark className="size-6 text-amber-400" strokeWidth={1.8} />
-                  {t.appName ?? "Kalpavriksha"}
+                  <SparkleButton
+                    as="span"
+                    text={t.appName ?? "Kalpavriksha"}
+                    fontSize={locale === "ta" ? "clamp(20px, 2.8vw, 28px)" : "clamp(22px, 3vw, 30px)"}
+                    fontWeight={700}
+                    lineHeight={1.1}
+                    letterSpacing="-0.02em"
+                    textColor={isDark ? "#F4EEFF" : "#1a0833"}
+                    shadowColor={isDark ? "#1E0028" : "rgba(124, 58, 237, 0.25)"}
+                    glareColor={isDark ? "#4A105DBF" : "rgba(124, 58, 237, 0.55)"}
+                    className="select-none"
+                  />
                 </span>
                 <div className="flex items-center gap-2">
                   <LangSelect />
