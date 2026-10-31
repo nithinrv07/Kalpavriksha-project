@@ -147,11 +147,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                   </button>
                   <Link
                     href="/sign-in"
-                    className={`hidden h-11 items-center rounded-xl border px-5 font-mono text-[14px] transition-colors duration-200 active:scale-[0.98] sm:flex ${
-                      isDark
-                        ? "border-violet/25 bg-violet-deep text-violet-ink hover:bg-[#4c1d95]"
-                        : "border-[#5b21b6] bg-[#6d28d9] text-white shadow-[0_4px_14px_rgba(109,40,217,0.28)] hover:bg-[#5b21b6]"
-                    }`}
+                    className="hidden h-11 items-center rounded-xl border px-5 font-mono text-[14px] transition-colors duration-200 active:scale-[0.98] sm:flex theme-signin"
                   >
                     {t.signIn}
                   </Link>
@@ -346,9 +342,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                   <p className="w-full font-sans text-[15px] leading-relaxed text-text/90">{t.lead}</p>
                   <a
                     href="#modules"
-                    className={`group mt-3.5 inline-flex min-h-11 items-center gap-2 rounded-full border border-violet/30 bg-violet/10 px-5 py-2 font-mono text-[13px] font-medium text-violet-ink backdrop-blur-md shadow-[0_4px_16px_rgba(147,51,234,0.2)] transition-all duration-300 hover:border-violet/60 hover:shadow-[0_6px_25px_rgba(168,85,247,0.35)] active:scale-[0.98] ${
-                      isDark ? "hover:bg-violet-deep hover:text-white" : "hover:bg-[#7c3aed] hover:text-white"
-                    }`}
+                    className="group mt-3.5 inline-flex min-h-11 items-center gap-2 rounded-full border px-5 py-2 font-mono text-[13px] font-medium transition-all duration-300 active:scale-[0.98] theme-explore"
                   >
                     <span>{t.explore}</span>
                     <ArrowDown size={13} className="transition-transform duration-200 group-hover:translate-y-0.5 text-amber-300" />
@@ -384,11 +378,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                   </button>
                   <Link
                     href="/sign-in"
-                    className={`hidden h-11 items-center rounded-xl border px-5 font-mono text-[14px] transition-colors duration-200 active:scale-[0.98] sm:flex ${
-                      isDark
-                        ? "border-violet/25 bg-violet-deep text-violet-ink hover:bg-[#4c1d95]"
-                        : "border-[#5b21b6] bg-[#6d28d9] text-white shadow-[0_4px_14px_rgba(109,40,217,0.28)] hover:bg-[#5b21b6]"
-                    }`}
+                    className="hidden h-11 items-center rounded-xl border px-5 font-mono text-[14px] transition-colors duration-200 active:scale-[0.98] sm:flex theme-signin"
                   >
                     {t.signIn}
                   </Link>

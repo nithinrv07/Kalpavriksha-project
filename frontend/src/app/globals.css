@@ -218,6 +218,61 @@ body {
   opacity: 0.6;
 }
 
+/* ========================================================================= */
+/* Theme-Aware Button Styles (CSS-based to work with SSG + inline script)    */
+/* ========================================================================= */
+
+/* Sign In button - dark: violet-deep bg, violet-ink text; light: violet-700 bg, white text */
+.theme-signin {
+  border-color: rgba(76, 29, 149, 0.25);
+  background-color: #4c1d95;
+  color: #f3e8ff;
+}
+.theme-signin:hover {
+  background-color: #3b0d7a;
+}
+
+[data-theme="light"] .theme-signin,
+.light .theme-signin {
+  border-color: #5b21b6;
+  background-color: #6d28d9;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(109, 40, 217, 0.28);
+}
+[data-theme="light"] .theme-signin:hover,
+.light .theme-signin:hover {
+  background-color: #5b21b6;
+}
+
+/* Explore button - dark: violet/10 bg, violet-ink text; light: violet-700 bg, white text */
+.theme-explore {
+  border-color: rgba(147, 51, 234, 0.3);
+  background-color: rgba(147, 51, 234, 0.1);
+  color: #f3e8ff;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px rgba(147, 51, 234, 0.2);
+}
+.theme-explore:hover {
+  border-color: rgba(168, 85, 247, 0.6);
+  background-color: #4c1d95;
+  color: #ffffff;
+  box-shadow: 0 6px 25px rgba(168, 85, 247, 0.35);
+}
+
+[data-theme="light"] .theme-explore,
+.light .theme-explore {
+  border-color: #5b21b6;
+  background-color: #6d28d9;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(109, 40, 217, 0.28);
+}
+[data-theme="light"] .theme-explore:hover,
+.light .theme-explore:hover {
+  border-color: rgba(168, 85, 247, 0.6);
+  background-color: #5b21b6;
+  box-shadow: 0 6px 25px rgba(168, 85, 247, 0.35);
+}
+
 /* White out the dark-room specular and caustics so they read as sheen. */
 [data-theme="light"] .liquid-glass-card .specular-layer,
 .light .liquid-glass-card .specular-layer,
