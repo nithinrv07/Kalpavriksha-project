@@ -11,16 +11,8 @@ import { getQualityBudget } from "@/lib/perf/quality";
  * A rich, lush, dense canopy of luminous blossoms and branches
  * with drifting petals throughout the left side of the landing page.
  * The canopy harmoniously follows the local time of day.
- * In light mode, the canopy deepens for visibility on the lavender paper background.
+ * In light mode, uses a vibrant violet palette that pops on lavender paper.
  */
-
-function darkenHex(hex: string, factor: number): string {
-  const h = hex.replace("#", "");
-  const r = Math.round(parseInt(h.slice(0, 2), 16) * factor);
-  const g = Math.round(parseInt(h.slice(2, 4), 16) * factor);
-  const b = Math.round(parseInt(h.slice(4, 6), 16) * factor);
-  return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
-}
 
 export function LivingTree() {
   const { isDark } = useTheme();
@@ -34,10 +26,14 @@ export function LivingTree() {
     return () => window.clearInterval(id);
   }, []);
 
-  // In light mode, deepen the canopy colors significantly for visibility on lavender paper
-  const blossomColor = isDark ? canopy.blossom : darkenHex(canopy.blossom, 0.35);
-  const petalColor = isDark ? canopy.petal : darkenHex(canopy.petal, 0.35);
-  const branchColor = isDark ? "#3E3539" : "#1A0D2E";
+  // Light theme: vibrant violet palette that pops on lavender paper
+  const blossomColor = isDark
+    ? canopy.blossom
+    : "#7C3AED"; // vibrant violet-600
+  const petalColor = isDark
+    ? canopy.petal
+    : "#A855F7"; // violet-500 for petals
+  const branchColor = isDark ? "#3E3539" : "#4C1D95"; // violet-900 for branches
 
   return (
     <MoonlitPetals
