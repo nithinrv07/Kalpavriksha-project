@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BrandMark } from "@/components/brand-mark";
-import { DepthText } from "@/components/depth-text";
+
 import { useLocale } from "@/components/locale-provider";
 import { ParticleCanvas } from "@/components/particle-canvas";
 import { FlipCard } from "@/components/flip-card";
@@ -191,29 +191,22 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                 <DotsNine size={14} className="text-amber-400/80 transition-colors group-hover:text-amber-300" aria-hidden />
               </button>
 
-              {/* Horizontal brand title centered directly above 3D Sphere with 3D DepthText */}
+              {/* Horizontal brand title centered directly above 3D Sphere with dual-tone SparkleButton */}
               <div
                 aria-hidden
                 className="pointer-events-none select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
               >
-                <DepthText
+                <SparkleButton
+                  as="h1"
                   text={t.appName ?? "Kalpavriksha"}
                   fontSize={locale === "ta" ? "clamp(48px, 6.4vw, 92px)" : "clamp(60px, 8vw, 116px)"}
                   fontWeight={isDark ? 700 : 600}
-                  faceColor={isDark ? "#FFFFFF" : "#110826"}
-                  depthColor={isDark ? "#8b5cf6" : "#c4b5fd"}
-                  layers={isDark ? Math.min(22, maxDepthLayers) : Math.min(4, maxDepthLayers)}
-                  depth={isDark ? 3.6 : 0.8}
-                  tilt={isDark ? 8 : 2}
-                  perspective={1000}
-                  autoOrbit={false}
-                  orbitSpeed={0}
-                  float={false}
-                  pointerTracking={false}
-                  intro={false}
-                  shadow={isDark}
-                  active={!isFlipped}
-                  className={`font-title [--depth-text-letter-spacing:-0.005em] ${
+                  lineHeight={0.95}
+                  letterSpacing="-0.005em"
+                  textColor={isDark ? "#FFFFFF" : "#110826"}
+                  shadowColor={isDark ? "#1E0028" : "rgba(124, 58, 237, 0.25)"}
+                  glareColor={isDark ? "#4A105DBF" : "rgba(124, 58, 237, 0.55)"}
+                  className={`font-title ${
                     isDark
                       ? "drop-shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
                       : "drop-shadow-[0_2px_10px_rgba(124,58,237,0.1)]"
@@ -432,29 +425,22 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                 )}
                 <DotsNine size={14} className="text-amber-400/80 transition-colors group-hover:text-amber-300" aria-hidden />
               </button>
-              {/* Horizontal brand title centered directly above particle tree with 3D DepthText */}
+              {/* Horizontal brand title centered directly above particle tree with dual-tone SparkleButton */}
               <div
                 aria-hidden
                 className="pointer-events-none select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center lg:flex"
               >
-                <DepthText
+                <SparkleButton
+                  as="h1"
                   text={t.appName ?? "Kalpavriksha"}
                   fontSize={locale === "ta" ? "clamp(48px, 6.4vw, 92px)" : "clamp(60px, 8vw, 116px)"}
                   fontWeight={isDark ? 700 : 600}
-                  faceColor={isDark ? "#FFFFFF" : "#110826"}
-                  depthColor={isDark ? "#8b5cf6" : "#c4b5fd"}
-                  layers={isDark ? Math.min(22, maxDepthLayers) : Math.min(4, maxDepthLayers)}
-                  depth={isDark ? 3.6 : 0.8}
-                  tilt={isDark ? 8 : 2}
-                  perspective={1000}
-                  autoOrbit={false}
-                  orbitSpeed={0}
-                  float={false}
-                  pointerTracking={false}
-                  intro={false}
-                  shadow={isDark}
-                  active={isFlipped}
-                  className={`font-title [--depth-text-letter-spacing:-0.005em] ${
+                  lineHeight={0.95}
+                  letterSpacing="-0.005em"
+                  textColor={isDark ? "#FFFFFF" : "#110826"}
+                  shadowColor={isDark ? "#1E0028" : "rgba(124, 58, 237, 0.25)"}
+                  glareColor={isDark ? "#4A105DBF" : "rgba(124, 58, 237, 0.55)"}
+                  className={`font-title ${
                     isDark
                       ? "drop-shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
                       : "drop-shadow-[0_2px_10px_rgba(124,58,237,0.1)]"
