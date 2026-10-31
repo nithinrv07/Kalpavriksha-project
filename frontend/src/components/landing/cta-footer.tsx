@@ -10,13 +10,24 @@ import { WarpText } from "@/components/warp-text";
 import { useTheme } from "@/lib/theme";
 import { StandingPenguin } from "./standing-penguin";
 
-export function CtaFooter() {
+interface CtaFooterProps {
+  scrollProgress?: number;
+}
+
+export function CtaFooter({ scrollProgress = 0 }: CtaFooterProps) {
   const { t } = useLocale();
   const { isDark } = useTheme();
   const firstModule = "/m/learn";
 
   return (
-    <footer className="relative mt-8 overflow-hidden border-t border-line sm:mt-10 lg:mt-14">
+    <footer 
+      className="relative mt-8 overflow-hidden border-t border-line sm:mt-10 lg:mt-14"
+      style={{
+        opacity: Math.min(scrollProgress * 2, 1),
+        transform: `translateY(${Math.max(0, 20 - scrollProgress * 40)}px)`,
+        transition: "opacity 0.6s ease-out, transform 0.6s ease-out",
+      }}
+    >
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-[radial-gradient(60%_80%_at_20%_100%,rgb(124_58_237/0.22),transparent_70%)]"

@@ -10,7 +10,11 @@ import { MODULES } from "@/modules/registry";
 import { LiquidGlassCard } from "@/components/liquid-glass-card";
 import { accentOf } from "@/modules/accents";
 
-export function BentoModules() {
+interface BentoModulesProps {
+  scrollProgress?: number;
+}
+
+export function BentoModules({ scrollProgress = 0 }: BentoModulesProps) {
   const { t, locale } = useLocale();
 
   const m1 = MODULES[0]!; // Digital Learning (01)
@@ -21,10 +25,19 @@ export function BentoModules() {
   const a2 = accentOf(m2.accent);
   const a3 = accentOf(m3.accent);
 
+  // Staggered entrance based on scroll progress
+  const cardDelay = (index: number) => scrollProgress * 0.3 - index * 0.1;
+
   return (
     <section id="modules" className="relative mx-auto w-full max-w-[1360px] scroll-mt-12 px-4 py-20 sm:px-6 lg:px-8 lg:py-32">
-      {/* Section Header */}
-      <div className="mb-14 grid items-end gap-6 lg:mb-20 lg:grid-cols-[1.1fr_0.9fr]">
+      {/* Section Header - fades in with scroll */}
+      <div 
+        className="mb-14 grid items-end gap-6 lg:mb-20 lg:grid-cols-[1.1fr_0.9fr]"
+        style={{
+          opacity: Math.min(scrollProgress * 2, 1),
+          transform: `translateY(${Math.max(0, 30 - scrollProgress * 60)}px)`,
+        }}
+      >
         <RevealWords
           text={t.modulesTitle}
           className="font-display text-[clamp(36px,5vw,72px)] leading-[0.98] tracking-[-0.04em] text-balance text-text"
@@ -42,6 +55,11 @@ export function BentoModules() {
         <div
           data-reveal="up"
           className="relative w-full overflow-visible rounded-3xl transition-transform duration-300 hover:-translate-y-1"
+          style={{
+            opacity: Math.min(Math.max(0, scrollProgress * 1.5 - 0.2), 1),
+            transform: `translateY(${Math.max(0, 40 - scrollProgress * 80)}px)`,
+            transition: "opacity 0.6s ease-out, transform 0.6s ease-out",
+          }}
         >
           {/* Animated Neon Border */}
           <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
@@ -133,6 +151,11 @@ export function BentoModules() {
         <div
           data-reveal="up"
           className="relative w-full overflow-visible rounded-3xl transition-transform duration-300 hover:-translate-y-1"
+          style={{
+            opacity: Math.min(Math.max(0, scrollProgress * 1.5 - 0.3), 1),
+            transform: `translateY(${Math.max(0, 50 - scrollProgress * 100)}px)`,
+            transition: "opacity 0.6s ease-out, transform 0.6s ease-out",
+          }}
         >
           {/* Animated Neon Border */}
           <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
@@ -263,6 +286,11 @@ export function BentoModules() {
         <div
           data-reveal="up"
           className="relative w-full overflow-visible rounded-3xl transition-transform duration-300 hover:-translate-y-1"
+          style={{
+            opacity: Math.min(Math.max(0, scrollProgress * 1.5 - 0.4), 1),
+            transform: `translateY(${Math.max(0, 60 - scrollProgress * 120)}px)`,
+            transition: "opacity 0.6s ease-out, transform 0.6s ease-out",
+          }}
         >
           {/* Animated Neon Border */}
           <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">

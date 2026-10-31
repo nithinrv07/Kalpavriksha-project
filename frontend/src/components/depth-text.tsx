@@ -16,8 +16,10 @@ const clamp = (value: number, min: number, max: number) => Math.min(Math.max(val
 const getLayerColor = (faceColor: string, depthColor: string, index: number, total: number) => {
   const progress = total <= 1 ? 1 : index / total;
   const eased = progress * progress;
-  const faceMix = Math.round((1 - eased) * 72 + 4);
-  return `color-mix(in srgb, color-mix(in srgb, ${faceColor} ${faceMix}%, ${depthColor}) 92%, black)`;
+  // Keep the front-most layer close to the face colour so large 3D titles read
+  // bright and crisp instead of washing out to lavender-grey.
+  const faceMix = Math.round((1 - eased) * 88 + 10);
+  return `color-mix(in srgb, color-mix(in srgb, ${faceColor} ${faceMix}%, ${depthColor}) 96%, black)`;
 };
 
 const getFadeColor = (depthColor: string, index: number, total: number, outline?: boolean) => {

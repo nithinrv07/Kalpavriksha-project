@@ -19,7 +19,11 @@ const NODES = [
  * "Enter once, use everywhere": beams of light travel from each module into
  * the shared student profile. Adapted from 21st.dev's Animated Beam, CSS-only.
  */
-export function IdentitySection() {
+interface IdentitySectionProps {
+  scrollProgress?: number;
+}
+
+export function IdentitySection({ scrollProgress = 0 }: IdentitySectionProps) {
   const { t, locale } = useLocale();
   const items = [
     ...MODULES.map((m) => ({
@@ -33,7 +37,14 @@ export function IdentitySection() {
   ];
 
   return (
-    <section className="mx-auto grid w-full max-w-[1320px] items-center gap-14 border-t border-line px-4 pt-20 pb-12 sm:px-6 sm:pt-24 sm:pb-14 lg:grid-cols-[0.85fr_1.15fr] lg:pt-28 lg:pb-16">
+    <section 
+      className="mx-auto grid w-full max-w-[1320px] items-center gap-14 border-t border-line px-4 pt-20 pb-12 sm:px-6 sm:pt-24 sm:pb-14 lg:grid-cols-[0.85fr_1.15fr] lg:pt-28 lg:pb-16"
+      style={{
+        opacity: Math.min(scrollProgress * 1.5, 1),
+        transform: `translateY(${Math.max(0, 30 - scrollProgress * 60)}px)`,
+        transition: "opacity 0.6s ease-out, transform 0.6s ease-out",
+      }}
+    >
       <div>
         <p data-reveal="up" className="font-mono text-[12px] text-violet">
           — {t.identityCenter}

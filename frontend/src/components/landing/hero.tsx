@@ -37,7 +37,11 @@ function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-export function Hero() {
+interface HeroProps {
+  scrollProgress?: number;
+}
+
+export function Hero({ scrollProgress = 0 }: HeroProps) {
   const { t, locale } = useLocale();
   const { isDark } = useTheme();
   const budget = getQualityBudget();
@@ -47,6 +51,7 @@ export function Hero() {
   const [hovering, setHovering] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
 
   useEffect(() => {
     const id = window.setTimeout(() => setIntroDone(true), prefersReducedMotion() ? 0 : INTRO_MS);
@@ -72,11 +77,38 @@ export function Hero() {
   const shape: ShapeName = !introDone ? "ring" : slot < 0 ? "tree" : (MODULES[slot]?.shape ?? "tree");
   const [line1, line2] = t.headline;
 
+  // Keep hero content perfectly crisp: no opacity/scale fade on the frame.
+  // Sub-pixel scaling was making body text look soft, and the hero starts at
+  // scrollProgress=1 (centered) which dimmed it to 70% opacity on load.
+
+  // Mouse parallax for depth
+  const handleMouseMove = (e: React.MouseEvent) => {
+    setMousePos({
+      x: (e.clientX / window.innerWidth) * 100,
+      y: (e.clientY / window.innerHeight) * 100,
+    });
+  };
+
   return (
     <section
       data-hero
+      onMouseMove={handleMouseMove}
       className="relative isolate flex min-h-[100dvh] h-[100dvh] w-full items-center justify-center overflow-hidden p-0"
     >
+      {/* Scroll-driven ambient shift */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          transform: `translate3d(0, ${scrollProgress * -50}px, ${scrollProgress * -100}px) scale(${1 + scrollProgress * 0.1})`,
+          opacity: 1 - scrollProgress * 0.2,
+          transition: "none",
+          background: `
+            radial-gradient(ellipse at ${mousePos.x}% ${mousePos.y}%, rgba(168,85,247,${0.08 * (1 - scrollProgress)}) 0%, transparent 50%),
+            radial-gradient(ellipse at ${100 - mousePos.x}% ${100 - mousePos.y}%, rgba(45,212,191,${0.05 * (1 - scrollProgress)}) 0%, transparent 50%)
+          `,
+        }}
+      />
       <div className="hero-frame fade-up relative h-full w-full">
         <FlipCard
           flipped={isFlipped}
@@ -158,7 +190,7 @@ export function Hero() {
                   fontSize={locale === "ta" ? "clamp(48px, 6.4vw, 92px)" : "clamp(60px, 8vw, 116px)"}
                   fontWeight={isDark ? 700 : 600}
                   faceColor={isDark ? "#FFFFFF" : "#110826"}
-                  depthColor={isDark ? "#6d28d9" : "#c4b5fd"}
+                  depthColor={isDark ? "#8b5cf6" : "#c4b5fd"}
                   layers={isDark ? Math.min(22, maxDepthLayers) : Math.min(4, maxDepthLayers)}
                   depth={isDark ? 3.6 : 0.8}
                   tilt={isDark ? 8 : 2}
@@ -212,7 +244,7 @@ export function Hero() {
                     fontWeight={600}
                     letterSpacing={locale === "en" ? "-0.015em" : "-0.005em"}
                     lineHeight={locale === "en" ? 0.98 : 1.1}
-                    textColor={isDark ? "#C3AFD4" : "#1a0833"}
+                    textColor={isDark ? "#F4EEFF" : "#1a0833"}
                     shadowColor={isDark ? "#1E0028" : "rgba(124, 58, 237, 0.25)"}
                     glareColor={isDark ? "#4A105DBF" : "rgba(124, 58, 237, 0.55)"}
                     className="w-full"
@@ -222,7 +254,7 @@ export function Hero() {
                 {/* 2. Middle interactive showcase: cards span the rail, contents centred */}
                 <div className="hidden w-full flex-col items-center gap-3 sm:flex">
                   {/* Tagline / Subtitle */}
-                  <p className="font-mono text-[12px] font-semibold uppercase tracking-[0.18em] text-violet-ink/80 text-center">
+                  <p className="font-mono text-[12.5px] font-semibold uppercase tracking-[0.18em] text-violet-ink text-center">
                     {t.tagline[0]} — {t.tagline[1]}
                   </p>
 
@@ -254,7 +286,7 @@ export function Hero() {
                             <span className={`w-8 shrink-0 text-center font-mono text-[11px] font-semibold ${accent.text} transition-colors`}>
                               {m.index}
                             </span>
-                            <span className="min-w-0 flex-1 truncate text-[14px] font-medium text-text group-hover:text-violet-ink transition-colors">
+                            <span className="min-w-0 flex-1 truncate text-[14.5px] font-semibold text-text group-hover:text-violet-ink transition-colors">
                               {m.title[locale]}
                             </span>
                             <span className={`grid size-8 shrink-0 place-items-center overflow-hidden rounded-xl border border-white/10 bg-surface-2 ${accent.text} shadow-sm transition-transform duration-200 group-hover:scale-105`}>
@@ -281,10 +313,10 @@ export function Hero() {
                     {t.stats.map((stat, i) => (
                       <span
                         key={i}
-                        className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 font-mono text-[11.5px] text-muted backdrop-blur-md shadow-sm transition-colors hover:border-white/20"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 font-mono text-[11.5px] text-text/75 backdrop-blur-md shadow-sm transition-colors hover:border-white/20"
                       >
                         <strong className="font-semibold text-amber-300">{stat.value}</strong>
-                        <span className="text-muted/90">{stat.label}</span>
+                        <span className="text-text/80">{stat.label}</span>
                       </span>
                     ))}
                   </div>
@@ -292,7 +324,7 @@ export function Hero() {
 
                 {/* 3. Bottom copy & explore link */}
                 <div className="flex w-full flex-col items-center text-center">
-                  <p className="w-full font-sans text-[14px] leading-relaxed text-muted/90">{t.lead}</p>
+                  <p className="w-full font-sans text-[15px] leading-relaxed text-text/90">{t.lead}</p>
                   <a
                     href="#modules"
                     className="group mt-3.5 inline-flex min-h-11 items-center gap-2 rounded-full border border-violet/30 bg-violet/10 px-5 py-2 font-mono text-[13px] font-medium text-violet-ink backdrop-blur-md shadow-[0_4px_16px_rgba(147,51,234,0.2)] transition-all duration-300 hover:border-violet/60 hover:bg-violet-deep hover:text-white hover:shadow-[0_6px_25px_rgba(168,85,247,0.35)] active:scale-[0.98]"
@@ -373,7 +405,7 @@ export function Hero() {
                   fontSize={locale === "ta" ? "clamp(48px, 6.4vw, 92px)" : "clamp(60px, 8vw, 116px)"}
                   fontWeight={isDark ? 700 : 600}
                   faceColor={isDark ? "#FFFFFF" : "#110826"}
-                  depthColor={isDark ? "#6d28d9" : "#c4b5fd"}
+                  depthColor={isDark ? "#8b5cf6" : "#c4b5fd"}
                   layers={isDark ? Math.min(22, maxDepthLayers) : Math.min(4, maxDepthLayers)}
                   depth={isDark ? 3.6 : 0.8}
                   tilt={isDark ? 8 : 2}
