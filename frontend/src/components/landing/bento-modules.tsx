@@ -6,8 +6,9 @@ import Link from "next/link";
 import { useLocale } from "@/components/locale-provider";
 import { NeonBorder } from "@/components/neon-border";
 import { RevealWords } from "@/components/scroll-fx";
-import { accentOf } from "@/modules/accents";
 import { MODULES } from "@/modules/registry";
+import { LiquidGlassCard } from "@/components/liquid-glass-card";
+import { accentOf } from "@/modules/accents";
 
 export function BentoModules() {
   const { t, locale } = useLocale();
@@ -55,10 +56,25 @@ export function BentoModules() {
             />
           </div>
 
-          <Link
-            href={`/m/${m1.slug}`}
-            className={`group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl border border-white/15 bg-[#120a24]/92 px-6 py-8 shadow-[0_16px_50px_-5px_rgba(0,0,0,0.85),0_0_30px_rgba(147,51,234,0.18)] backdrop-blur-2xl transition-all duration-300 hover:bg-[#1a0e33] ${a1.cardHover} sm:px-8 sm:py-10 md:grid-cols-[120px_1fr_1.2fr] lg:grid-cols-[160px_1.05fr_1.2fr] lg:gap-10 lg:px-12 lg:py-12`}
+          <LiquidGlassCard
+            refraction={14}
+            dispersion={15}
+            clarity={12}
+            edge={16}
+            gloss={14}
+            rounding={6}
+            glassColor="#ffffff"
+            roomTop="#1a0a2e"
+            roomBottom="#0d0516"
+            highlightColor={a1.hex}
+            speed={1.2}
+            intensity={1}
+            className="group relative z-10"
           >
+            <Link
+              href={`/m/${m1.slug}`}
+              className={`group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl px-6 py-8 transition-all duration-300 ${a1.cardHover} sm:px-8 sm:py-10 md:grid-cols-[120px_1fr_1.2fr] lg:grid-cols-[160px_1.05fr_1.2fr] lg:gap-10 lg:px-12 lg:py-12`}
+            >
             {/* Left: Big Number 01 */}
             <div className="flex items-center justify-between md:justify-start">
               <span className="font-display text-[clamp(60px,7.5vw,118px)] font-light leading-none tracking-tight text-white/50 transition-colors duration-300 group-hover:text-white">
@@ -108,6 +124,7 @@ export function BentoModules() {
               </div>
             </div>
           </Link>
+          </LiquidGlassCard>
         </div>
 
         {/* ========================================================================= */}
@@ -130,10 +147,25 @@ export function BentoModules() {
             />
           </div>
 
-          <Link
-            href={`/m/${m2.slug}`}
-            className={`group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl border border-white/15 bg-[#120a24]/92 px-6 py-8 shadow-[0_16px_50px_-5px_rgba(0,0,0,0.85),0_0_30px_rgba(147,51,234,0.18)] backdrop-blur-2xl transition-all duration-300 hover:bg-[#1a0e33] ${a2.cardHover} sm:px-8 sm:py-10 md:grid-cols-[1.2fr_1.05fr_120px] lg:grid-cols-[1.2fr_1.05fr_160px] lg:gap-10 lg:px-12 lg:py-12`}
+          <LiquidGlassCard
+            refraction={13}
+            dispersion={14}
+            clarity={13}
+            edge={15}
+            gloss={13}
+            rounding={8}
+            glassColor="#ffffff"
+            roomTop="#0a1a18"
+            roomBottom="#050d0b"
+            highlightColor={a2.hex}
+            speed={1.1}
+            intensity={1}
+            className="group relative z-10"
           >
+            <Link
+              href={`/m/${m2.slug}`}
+              className={`group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl px-6 py-8 transition-all duration-300 ${a2.cardHover} sm:px-8 sm:py-10 md:grid-cols-[1.2fr_1.05fr_120px] lg:grid-cols-[1.2fr_1.05fr_160px] lg:gap-10 lg:px-12 lg:py-12`}
+            >
             {/* Mobile Header: Number 02 shows at top on small screens */}
             <div className="flex items-center justify-between md:hidden">
               <span className="font-display text-[clamp(60px,7.5vw,118px)] font-light leading-none tracking-tight text-white/50 transition-colors duration-300 group-hover:text-white">
@@ -222,6 +254,7 @@ export function BentoModules() {
               </span>
             </div>
           </Link>
+          </LiquidGlassCard>
         </div>
 
         {/* ========================================================================= */}
@@ -244,10 +277,25 @@ export function BentoModules() {
             />
           </div>
 
-          <Link
-            href={`/m/${m3.slug}`}
-            className={`group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl border border-white/15 bg-[#120a24]/92 px-6 py-8 shadow-[0_16px_50px_-5px_rgba(0,0,0,0.85),0_0_30px_rgba(147,51,234,0.18)] backdrop-blur-2xl transition-all duration-300 hover:bg-[#1a0e33] ${a3.cardHover} sm:px-8 sm:py-10 md:grid-cols-[120px_1fr_1.2fr] lg:grid-cols-[160px_1.05fr_1.2fr] lg:gap-10 lg:px-12 lg:py-12`}
+          <LiquidGlassCard
+            refraction={12}
+            dispersion={13}
+            clarity={14}
+            edge={14}
+            gloss={12}
+            rounding={10}
+            glassColor="#fff8e7"
+            roomTop="#1a1406"
+            roomBottom="#0d0803"
+            highlightColor={a3.hex}
+            speed={1}
+            intensity={1}
+            className="group relative z-10"
           >
+            <Link
+              href={`/m/${m3.slug}`}
+              className={`group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl px-6 py-8 transition-all duration-300 ${a3.cardHover} sm:px-8 sm:py-10 md:grid-cols-[120px_1fr_1.2fr] lg:grid-cols-[160px_1.05fr_1.2fr] lg:gap-10 lg:px-12 lg:py-12`}
+            >
             {/* Left: Big Number 03 */}
             <div className="flex items-center justify-between md:justify-start">
               <span className="font-display text-[clamp(60px,7.5vw,118px)] font-light leading-none tracking-tight text-white/50 transition-colors duration-300 group-hover:text-white">
@@ -297,6 +345,7 @@ export function BentoModules() {
               </div>
             </div>
           </Link>
+          </LiquidGlassCard>
         </div>
       </div>
 

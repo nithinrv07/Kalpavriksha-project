@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useLocale } from "@/components/locale-provider";
 import { RevealWords } from "@/components/scroll-fx";
 import { MODULES } from "@/modules/registry";
+import { LiquidGlassCard } from "@/components/liquid-glass-card";
 
 /** Node positions in a 100×100 space; the student profile sits at the centre. */
 const NODES = [
@@ -104,34 +105,50 @@ export function IdentitySection() {
         {items.map(({ key, label, Icon, iconImage, future }, i) => {
           const n = NODES[i];
           if (!n) return null;
+          // Subtle liquid glass for identity nodes
+          const nodeGlassConfig = [
+            { refraction: 11, dispersion: 10, clarity: 17, edge: 10, gloss: 9, rounding: 20, glassColor: "#ffffff", roomTop: "#1a0a2e", roomBottom: "#0d0516" },
+            { refraction: 11, dispersion: 10, clarity: 17, edge: 10, gloss: 9, rounding: 20, glassColor: "#ffffff", roomTop: "#0a1a18", roomBottom: "#050d0b" },
+            { refraction: 10, dispersion: 9, clarity: 18, edge: 9, gloss: 8, rounding: 20, glassColor: "#fff8e7", roomTop: "#1a1406", roomBottom: "#0d0803" },
+            { refraction: 10, dispersion: 9, clarity: 18, edge: 9, gloss: 8, rounding: 20, glassColor: "#f0e6ff", roomTop: "#140a2e", roomBottom: "#0a0516" },
+          ][i] ?? { refraction: 10, dispersion: 9, clarity: 18, edge: 9, gloss: 8, rounding: 20, glassColor: "#ffffff", roomTop: "#1a0a2e", roomBottom: "#0d0516" };
+          
           return (
-            <div
+            <LiquidGlassCard
               key={key}
-              className={`absolute flex max-w-[9.5rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 text-center sm:max-w-[11rem] ${future ? "text-muted" : "text-text"}`}
-              style={{ left: `${n.x}%`, top: `${n.y}%` }}
+              {...nodeGlassConfig}
+              highlightColor={future ? "#888888" : "#e8b4ff"}
+              speed={0.8}
+              intensity={0.6}
+              className="group relative z-10"
             >
-              <span
-                data-reveal="pop"
-                className={`grid size-12 place-items-center overflow-hidden rounded-2xl transition-transform duration-300 hover:scale-105 sm:size-14 ${
-                  future
-                    ? "border border-dashed border-line-strong bg-surface"
-                    : "border border-line-strong bg-surface-2 text-violet-ink"
-                }`}
+              <div
+                className={`absolute flex max-w-[9.5rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 text-center sm:max-w-[11rem] ${future ? "text-muted" : "text-text"}`}
+                style={{ left: `${n.x}%`, top: `${n.y}%` }}
               >
-                {iconImage ? (
-                  <Image
-                    src={iconImage}
-                    alt={label}
-                    width={56}
-                    height={56}
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <Icon size={22} weight="duotone" />
-                )}
-              </span>
-              <span className="text-[12px] leading-snug sm:text-[13px]">{label}</span>
-            </div>
+                <span
+                  data-reveal="pop"
+                  className={`relative z-10 grid size-12 place-items-center overflow-hidden rounded-2xl transition-transform duration-300 hover:scale-105 sm:size-14 ${
+                    future
+                      ? "border border-dashed border-line-strong bg-transparent"
+                      : "border border-line-strong bg-transparent text-violet-ink"
+                  }`}
+                >
+                  {iconImage ? (
+                    <Image
+                      src={iconImage}
+                      alt={label}
+                      width={56}
+                      height={56}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <Icon size={22} weight="duotone" />
+                  )}
+                </span>
+                <span className="relative z-10 text-[12px] leading-snug sm:text-[13px]">{label}</span>
+              </div>
+            </LiquidGlassCard>
           );
         })}
       </div>

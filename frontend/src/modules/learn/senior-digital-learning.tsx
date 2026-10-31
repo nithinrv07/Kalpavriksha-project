@@ -790,7 +790,7 @@ export function SeniorDigitalLearning({
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-72 overflow-y-auto pr-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-72 overflow-y-auto pr-1 scrollbar-thin scrollbar-violet">
                 {displayedChapters.map((item, idx) => (
                   <button
                     key={item.chapter.id}

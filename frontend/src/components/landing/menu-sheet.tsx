@@ -84,7 +84,7 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
       aria-label={t.menu}
       className="fixed inset-y-3 left-3 m-0 h-auto max-h-none w-[min(420px,calc(100%-1.5rem))] rounded-3xl border border-line-strong bg-surface/85 p-0 text-text shadow-[0_30px_80px_-10px_rgb(0_0_0/0.8)] backdrop-blur-2xl backdrop:bg-black/60 backdrop:backdrop-blur-sm open:animate-[fade-up_0.45s_var(--ease-out)_both]"
     >
-      <div className="flex h-full flex-col overflow-y-auto p-5">
+      <div className="flex h-full flex-col overflow-y-auto p-5 scrollbar-thin scrollbar-violet">
         <div className="flex items-center justify-between">
           <span className="flex items-center gap-2.5 font-display text-lg tracking-tight">
             <BrandMark className="size-6 text-violet" />

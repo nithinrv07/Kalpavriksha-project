@@ -699,3 +699,150 @@ html[data-calm="true"] [data-reveal="words"] .word > span {
   box-shadow: 0 12px 35px -5px rgba(168, 85, 247, 0.35), 0 0 20px 2px rgba(236, 72, 153, 0.25);
 }
 
+/* ========================================================================= */
+/* Theme-Aware Scrollbars — Matching the violet/purple glass aesthetic       */
+/* ========================================================================= */
+
+/* CSS Custom Properties for scrollbar theming */
+:root {
+  --scrollbar-width: 8px;
+  --scrollbar-track: transparent;
+  --scrollbar-thumb: rgba(168, 85, 247, 0.35);
+  --scrollbar-thumb-hover: rgba(168, 85, 247, 0.55);
+  --scrollbar-thumb-active: rgba(192, 132, 252, 0.75);
+  --scrollbar-corner: transparent;
+}
+
+/* WebKit/Blink browsers (Chrome, Edge, Safari, Opera) */
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-width);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 8px;
+  margin: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: background 200ms ease-out, transform 150ms ease-out;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 2px 8px -2px rgba(168, 85, 247, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+  transform: scale(1.1);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--scrollbar-thumb-active);
+  transform: scale(0.95);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--scrollbar-corner);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* Dark mode (default) */
+[data-theme="dark"],
+.dark {
+  --scrollbar-thumb: rgba(168, 85, 247, 0.4);
+  --scrollbar-thumb-hover: rgba(168, 85, 247, 0.6);
+  --scrollbar-thumb-active: rgba(192, 132, 252, 0.8);
+}
+
+/* Light mode overrides */
+[data-theme="light"],
+.light {
+  --scrollbar-thumb: rgba(124, 58, 237, 0.35);
+  --scrollbar-thumb-hover: rgba(124, 58, 237, 0.5);
+  --scrollbar-thumb-active: rgba(108, 46, 216, 0.65);
+}
+
+/* Thin scrollbar variant for compact areas */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  border-width: 1px;
+}
+
+/* Hidden scrollbar but still scrollable */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Glassmorphism scrollbar for glass cards */
+.scrollbar-glass::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scrollbar-glass::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+  backdrop-filter: blur(8px);
+  border-radius: 8px;
+  margin: 4px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.scrollbar-glass::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(168,85,247,0.5) 0%, rgba(236,72,153,0.4) 100%);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  box-shadow: 
+    inset 0 1px 0 rgba(255,255,255,0.2),
+    0 2px 12px -4px rgba(168,85,247,0.4);
+}
+.scrollbar-glass::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(168,85,247,0.7) 0%, rgba(236,72,153,0.6) 100%);
+}
+.scrollbar-glass::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, rgba(192,132,252,0.85) 0%, rgba(244,114,182,0.75) 100%);
+}
+
+/* Accent-colored scrollbar variants */
+.scrollbar-violet::-webkit-scrollbar-thumb { background: rgba(168, 85, 247, 0.45); }
+.scrollbar-violet::-webkit-scrollbar-thumb:hover { background: rgba(168, 85, 247, 0.65); }
+
+.scrollbar-teal::-webkit-scrollbar-thumb { background: rgba(45, 212, 191, 0.45); }
+.scrollbar-teal::-webkit-scrollbar-thumb:hover { background: rgba(45, 212, 191, 0.65); }
+
+.scrollbar-amber::-webkit-scrollbar-thumb { background: rgba(251, 191, 36, 0.45); }
+.scrollbar-amber::-webkit-scrollbar-thumb:hover { background: rgba(251, 191, 36, 0.65); }
+
+.scrollbar-pink::-webkit-scrollbar-thumb { background: rgba(244, 114, 182, 0.45); }
+.scrollbar-pink::-webkit-scrollbar-thumb:hover { background: rgba(244, 114, 182, 0.65); }
+
+/* Smooth scrolling for the whole page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Reduced motion - instant scroll */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+

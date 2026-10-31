@@ -48,7 +48,7 @@ export function LessonDialog({ lesson, band, onClose }: { lesson: Lesson | null;
       }}
       aria-label={lesson?.title[locale]}
       style={{ "--cat": info?.accent ?? "var(--violet)" } as React.CSSProperties}
-      className="fixed inset-x-0 bottom-0 top-auto m-0 max-h-[92dvh] w-full max-w-none overflow-y-auto rounded-t-[28px] border border-line-strong bg-surface/95 p-0 text-text shadow-[0_-30px_90px_-10px_rgb(0_0_0/0.8)] backdrop-blur-2xl backdrop:bg-black/65 backdrop:backdrop-blur-sm open:animate-[fade-up_0.45s_var(--ease-out)_both] md:inset-0 md:m-auto md:max-h-[88dvh] md:w-[min(760px,calc(100%-3rem))] md:rounded-[28px]"
+      className="fixed inset-x-0 bottom-0 top-auto m-0 max-h-[92dvh] w-full max-w-none overflow-y-auto rounded-t-[28px] border border-line-strong bg-surface/95 p-0 text-text shadow-[0_-30px_90px_-10px_rgb(0_0_0/0.8)] backdrop-blur-2xl backdrop:bg-black/65 backdrop:backdrop-blur-sm open:animate-[fade-up_0.45s_var(--ease-out)_both] md:inset-0 md:m-auto md:max-h-[88dvh] md:w-[min(760px,calc(100%-3rem))] md:rounded-[28px] scrollbar-glass"
     >
       {lesson && text && info && Glyph && (
         <div className="relative flex flex-col p-5 sm:p-8">

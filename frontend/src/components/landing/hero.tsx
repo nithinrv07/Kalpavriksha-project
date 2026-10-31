@@ -19,6 +19,7 @@ import { useTheme } from "@/lib/theme";
 import { LangSelect } from "./lang-select";
 import { MenuSheet } from "./menu-sheet";
 import { getQualityBudget } from "@/lib/perf/quality";
+import { LiquidGlassCard } from "@/components/liquid-glass-card";
 
 const CYCLE_MS = 5200;
 const INTRO_MS = 1100;
@@ -227,35 +228,50 @@ export function Hero() {
 
                   {/* Quick module access cards with custom icons */}
                   <div className="flex flex-col items-center gap-2.5 w-full">
-                    {MODULES.map((m) => {
+                    {MODULES.map((m, idx) => {
                       const Icon = m.icon;
                       const accent = accentOf(m.accent);
+                      // Per-module liquid glass tuning
+                      const glassConfig = [
+                        { refraction: 14, dispersion: 15, clarity: 11, edge: 16, gloss: 14, rounding: 4, glassColor: "#ffffff", roomTop: "#1a0a2e", roomBottom: "#0d0516" }, // Digital Learning (purple)
+                        { refraction: 13, dispersion: 14, clarity: 12, edge: 15, gloss: 13, rounding: 6, glassColor: "#ffffff", roomTop: "#0a1a18", roomBottom: "#050d0b" }, // Holistic Growth (teal)
+                        { refraction: 12, dispersion: 13, clarity: 13, edge: 14, gloss: 12, rounding: 8, glassColor: "#fff8e7", roomTop: "#1a1406", roomBottom: "#0d0803" }, // GK & Songs (amber)
+                      ][idx] ?? { refraction: 12, dispersion: 12, clarity: 14, edge: 14, gloss: 12, rounding: 8, glassColor: "#ffffff", roomTop: "#1a0a2e", roomBottom: "#0d0516" };
+                      
                       return (
-                        <Link
+                        <LiquidGlassCard
                           key={m.id}
-                          href={`/m/${m.slug}`}
-                          className="group flex min-h-11 w-full items-center justify-between gap-3 rounded-2xl border border-white/12 bg-[#140d28]/90 px-3.5 py-3 text-center shadow-[0_8px_24px_-4px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-violet/50 hover:bg-[#1e133c] hover:shadow-[0_12px_28px_-4px_rgba(147,51,234,0.3)]"
+                          {...glassConfig}
+                          highlightColor={accent.hex}
+                          speed={1.1}
+                          intensity={1}
+                          className="group relative z-10 w-full"
                         >
-                          <span className={`w-8 shrink-0 text-center font-mono text-[11px] font-semibold ${accent.text} transition-colors`}>
-                            {m.index}
-                          </span>
-                          <span className="min-w-0 flex-1 truncate text-[14px] font-medium text-text group-hover:text-violet-ink transition-colors">
-                            {m.title[locale]}
-                          </span>
-                          <span className={`grid size-8 shrink-0 place-items-center overflow-hidden rounded-xl border border-white/10 bg-surface-2 ${accent.text} shadow-sm transition-transform duration-200 group-hover:scale-105`}>
-                            {m.iconImage ? (
-                              <Image
-                                src={m.iconImage}
-                                alt={m.title[locale]}
-                                width={32}
-                                height={32}
-                                className="size-full object-cover"
-                              />
-                            ) : (
-                              <Icon size={16} weight="duotone" />
-                            )}
-                          </span>
-                        </Link>
+                          <Link
+                            href={`/m/${m.slug}`}
+                            className="relative z-10 group flex min-h-11 w-full items-center justify-between gap-3 rounded-2xl px-3.5 py-3 text-center transition-all duration-300 hover:-translate-y-0.5"
+                          >
+                            <span className={`w-8 shrink-0 text-center font-mono text-[11px] font-semibold ${accent.text} transition-colors`}>
+                              {m.index}
+                            </span>
+                            <span className="min-w-0 flex-1 truncate text-[14px] font-medium text-text group-hover:text-violet-ink transition-colors">
+                              {m.title[locale]}
+                            </span>
+                            <span className={`grid size-8 shrink-0 place-items-center overflow-hidden rounded-xl border border-white/10 bg-surface-2 ${accent.text} shadow-sm transition-transform duration-200 group-hover:scale-105`}>
+                              {m.iconImage ? (
+                                <Image
+                                  src={m.iconImage}
+                                  alt={m.title[locale]}
+                                  width={32}
+                                  height={32}
+                                  className="size-full object-cover"
+                                />
+                              ) : (
+                                <Icon size={16} weight="duotone" />
+                              )}
+                            </span>
+                          </Link>
+                        </LiquidGlassCard>
                       );
                     })}
                   </div>
@@ -290,7 +306,7 @@ export function Hero() {
           }
           back={
             /* FLIP SIDE: Particle Tree View */
-            <div className="relative flex h-full w-full flex-col overflow-y-auto bg-transparent lg:block lg:overflow-hidden">
+            <div className="relative flex h-full w-full flex-col overflow-y-auto bg-transparent lg:block lg:overflow-hidden scrollbar-glass">
 
               {/* Top bar — flows on mobile, pinned on desktop */}
               <div className="z-20 flex items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
@@ -451,42 +467,57 @@ export function Hero() {
                   setHovering(false);
                   setSlot(-1);
                 }}
-                className="relative z-10 flex shrink-0 touch-auto gap-2 overflow-x-auto px-5 pb-5 pt-6 [scrollbar-width:none] sm:px-8 lg:absolute lg:bottom-8 lg:left-6 xl:left-8 lg:max-w-[42%] lg:flex-wrap lg:overflow-visible lg:p-0"
+                className="relative z-10 flex shrink-0 touch-auto gap-2 overflow-x-auto px-5 pb-5 pt-6 [scrollbar-width:none] sm:px-8 lg:absolute lg:bottom-8 lg:left-6 xl:left-8 lg:max-w-[42%] lg:flex-wrap lg:overflow-visible lg:p-0 scrollbar-thin scrollbar-violet"
               >
                 {MODULES.map((m, i) => {
                   const active = slot === i;
                   const accent = accentOf(m.accent);
+                  // Lighter liquid glass for chips
+                  const chipGlassConfig = [
+                    { refraction: 10, dispersion: 12, clarity: 16, edge: 12, gloss: 10, rounding: 20, glassColor: "#ffffff", roomTop: "#1a0a2e", roomBottom: "#0d0516" },
+                    { refraction: 10, dispersion: 11, clarity: 16, edge: 11, gloss: 10, rounding: 20, glassColor: "#ffffff", roomTop: "#0a1a18", roomBottom: "#050d0b" },
+                    { refraction: 9, dispersion: 10, clarity: 17, edge: 10, gloss: 9, rounding: 20, glassColor: "#fff8e7", roomTop: "#1a1406", roomBottom: "#0d0803" },
+                  ][i] ?? { refraction: 10, dispersion: 11, clarity: 16, edge: 11, gloss: 10, rounding: 20, glassColor: "#ffffff", roomTop: "#1a0a2e", roomBottom: "#0d0516" };
+                  
                   return (
-                    <Link
+                    <LiquidGlassCard
                       key={m.id}
-                      href={`/m/${m.slug}`}
-                      onMouseEnter={() => setSlot(i)}
-                      onFocus={() => {
-                        setHovering(true);
-                        setSlot(i);
-                      }}
-                      onBlur={() => setHovering(false)}
-                      aria-current={active ? "true" : undefined}
-                      className={`relative flex min-h-11 shrink-0 items-center gap-2.5 overflow-hidden rounded-full border py-2.5 pl-2 pr-5 text-[14px] transition-colors duration-300 ${
-                        active ? "border-line-strong bg-white/[0.08] text-text" : "border-line text-muted hover:text-text"
-                      }`}
+                      {...chipGlassConfig}
+                      highlightColor={accent.hex}
+                      speed={1}
+                      intensity={0.8}
+                      className="group relative z-10 shrink-0"
                     >
-                      <span
-                        className={`grid size-8 place-items-center rounded-full font-mono text-[10.5px] transition-colors duration-300 ${
-                          active ? accent.solid : `bg-white/[0.06] text-muted`
+                      <Link
+                        href={`/m/${m.slug}`}
+                        onMouseEnter={() => setSlot(i)}
+                        onFocus={() => {
+                          setHovering(true);
+                          setSlot(i);
+                        }}
+                        onBlur={() => setHovering(false)}
+                        aria-current={active ? "true" : undefined}
+                        className={`relative flex min-h-11 shrink-0 items-center gap-2.5 overflow-hidden rounded-full border py-2.5 pl-2 pr-5 text-[14px] transition-colors duration-300 ${
+                          active ? "border-line-strong bg-white/[0.08] text-text" : "border-line text-muted hover:text-text"
                         }`}
                       >
-                        {m.index}
-                      </span>
-                      <span className="whitespace-nowrap">{m.title[locale]}</span>
-                      {active && !hovering && (
                         <span
-                          aria-hidden
-                          className={`absolute inset-x-3 bottom-0 h-px origin-left ${accent.bar}`}
-                          style={{ animation: `chip-progress ${CYCLE_MS}ms linear both` }}
-                        />
-                      )}
-                    </Link>
+                          className={`grid size-8 place-items-center rounded-full font-mono text-[10.5px] transition-colors duration-300 ${
+                            active ? accent.solid : `bg-white/[0.06] text-muted`
+                          }`}
+                        >
+                          {m.index}
+                        </span>
+                        <span className="whitespace-nowrap">{m.title[locale]}</span>
+                        {active && !hovering && (
+                          <span
+                            aria-hidden
+                            className={`absolute inset-x-3 bottom-0 h-px origin-left ${accent.bar}`}
+                            style={{ animation: `chip-progress ${CYCLE_MS}ms linear both` }}
+                          />
+                        )}
+                      </Link>
+                    </LiquidGlassCard>
                   );
                 })}
               </nav>

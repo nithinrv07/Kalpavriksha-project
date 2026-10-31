@@ -60,7 +60,7 @@ function StandardSwitcherDialog({
       onClick={onClose}
     >
       <div
-        className="pop-in relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl border border-line-strong bg-surface p-6 shadow-2xl"
+        className="pop-in relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl border border-line-strong bg-surface p-6 shadow-2xl scrollbar-glass"
         onClick={(e) => e.stopPropagation()}
       >
         {step === "standards" ? (

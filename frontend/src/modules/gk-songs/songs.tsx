@@ -57,7 +57,7 @@ export function Songs({ band }: { band: Band }) {
 
   return (
     <div className="grid gap-4 lg:grid-cols-[300px_1fr]">
-      <div role="radiogroup" aria-label={c.tabs.songs} className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible">
+      <div role="radiogroup" aria-label={c.tabs.songs} className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible scrollbar-thin scrollbar-amber">
         {SONGS.map((s) => {
           const active = s.id === song.id;
           return (
