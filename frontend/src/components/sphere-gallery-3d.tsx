@@ -31,6 +31,8 @@ export interface SphereGallery3DProps {
   hover?: number;
   rounded?: number;
   core?: CoreGroup;
+  /** Colour used for tiles while their texture is still decoding. */
+  placeholder?: string;
   className?: string;
   style?: React.CSSProperties;
   onBackgroundClick?: () => void;
@@ -544,6 +546,7 @@ interface Live {
   lineColor: string;
   lineOpacity: number;
   rounded: number;
+  placeholderRGB: number[];
   spin: number;
   force: number;
   hoverDist: number;
@@ -618,6 +621,7 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
     hover = 200,
     rounded = 18,
     core = { coreSize: 24, coreColor: "#FFFFFF59", lineColor: "#FFFFFF59" },
+    placeholder = PLACEHOLDER,
     className,
     style,
     onBackgroundClick,
@@ -661,6 +665,7 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
     lineColor,
     lineOpacity: lineAlpha,
     rounded: clamp(rounded / 100, 0, 1),
+    placeholderRGB: parseColor(placeholder, [0.11, 0.11, 0.13, 1]),
     spin: (BASE_SPIN * speed * spinSign) / 50,
     force: clamp(hover / 100, 0, 3),
     hoverDist: radius * clamp((hover / 100) * 0.35, 0, 3),
@@ -1049,7 +1054,6 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
     const qCamLocal: Quat = [0, 0, 0, 1];
     const qRadial: Quat = [0, 0, 0, 1];
     const forwardLocal = [0, 0, -1];
-    const placeholderRGB = parseColor(PLACEHOLDER, [0, 0, 0, 1]);
     const order: number[] = [];
 
     gl.clearColor(0, 0, 0, 0);
@@ -1318,7 +1322,12 @@ function OriginkitBaseSphereGallery3D(props: SphereGallery3DProps) {
         gl.enableVertexAttribArray(qLoc.aCorner);
         gl.vertexAttribPointer(qLoc.aCorner, 2, gl.FLOAT, false, 0, 0);
         gl.uniform1i(qLoc.uMap, 0);
-        gl.uniform3f(qLoc.uPlaceholder, placeholderRGB[0]!, placeholderRGB[1]!, placeholderRGB[2]!);
+        gl.uniform3f(
+          qLoc.uPlaceholder,
+          L.placeholderRGB[0]!,
+          L.placeholderRGB[1]!,
+          L.placeholderRGB[2]!
+        );
         gl.uniform1f(qLoc.uOpacity, 1);
         gl.activeTexture(gl.TEXTURE0);
       };

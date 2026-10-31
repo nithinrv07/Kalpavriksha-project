@@ -146,7 +146,9 @@ export default function Home() {
         }
 
         @supports (animation-timeline: scroll()) {
-          html {
+          /* The scroll colour narrative is tuned for the dark canvas; in light
+             mode the accent tokens stay on their paper-legible values. */
+          html:not(.light):not([data-theme="light"]) {
             animation: theme-shift auto linear;
             animation-timeline: scroll(root);
           }

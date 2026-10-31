@@ -51,7 +51,11 @@ export function CtaFooter({ scrollProgress = 0 }: CtaFooterProps) {
         <Link
           href={firstModule}
           data-reveal="up"
-          className="beam-border group inline-flex h-14 shrink-0 items-center gap-3 self-start rounded-full bg-violet-deep px-7 font-mono text-sm text-violet-ink transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 lg:self-auto"
+          className={`beam-border group inline-flex h-14 shrink-0 items-center gap-3 self-start rounded-full px-7 font-mono text-sm transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0 lg:self-auto ${
+            isDark
+              ? "bg-violet-deep text-violet-ink"
+              : "bg-[#6d28d9] text-white shadow-[0_8px_24px_-6px_rgba(109,40,217,0.5)]"
+          }`}
         >
           {t.cta}
           <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-1" />

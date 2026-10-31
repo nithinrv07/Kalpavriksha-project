@@ -92,15 +92,15 @@ export function ChromeWaves() {
       {/* C. Bottom floor deep black shadow fade */}
       <div className="chrome-black-shade pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black via-black/60 to-transparent" />
 
-      {/* 8. Pearlescent Ambient Veil (Light Mode) */}
-      <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-white/70 backdrop-blur-[1px]" />
-      <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-gradient-to-b from-white/80 via-transparent to-white/90" />
-      <div className="chrome-light-shade pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-white via-white/80 to-transparent" />
+      {/* 8. Pearlescent Ambient Veil (Light Mode) — luminous lavender, not flat white */}
+      <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-[#f7f1fd]/45" />
+      <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-gradient-to-b from-white/45 via-transparent to-[#f2eafb]/55" />
+      <div className="chrome-light-shade pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#f6f0fc]/80 via-[#f6f0fc]/40 to-transparent" />
 
-      {/* 9. Light Black Shading across Landing Page (Light Mode: subtle dark depth & contrast) */}
-      <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-black/[0.08]" />
-      <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_28%,rgba(0,0,0,0.10)_65%,rgba(0,0,0,0.22)_100%)]" />
-      <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-gradient-to-b from-black/[0.08] via-transparent to-black/[0.12]" />
+      {/* 9. Light Depth Shading across Landing Page (Light Mode: violet depth, no grey mud) */}
+      <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-[#7c3aed]/[0.045]" />
+      <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_34%,rgba(124,58,237,0.07)_72%,rgba(76,29,149,0.15)_100%)]" />
+      <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-[#7c3aed]/[0.05]" />
     </div>
   );
 }

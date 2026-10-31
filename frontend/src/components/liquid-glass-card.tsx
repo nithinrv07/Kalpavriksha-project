@@ -474,7 +474,7 @@ export function LiquidGlassCard({
     <div
       ref={ref}
       className={cn(
-        "relative isolate overflow-hidden",
+        "liquid-glass-card relative isolate overflow-hidden",
         "rounded-[var(--corner-radius)]",
         "bg-gradient-to-br",
         "from-[rgba(255,255,255,0.02)]",

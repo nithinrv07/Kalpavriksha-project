@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTheme } from "@/lib/theme";
 
 /**
  * Unified Ambient Depth Layers
@@ -8,6 +9,7 @@ import { useEffect, useRef } from "react";
  * Layers separate on scroll creating true 3D parallax depth
  */
 export function AmbientDepthLayers() {
+  const { isDark } = useTheme();
   const layer1Ref = useRef<HTMLDivElement>(null);
   const layer2Ref = useRef<HTMLDivElement>(null);
   const layer3Ref = useRef<HTMLDivElement>(null);
@@ -55,12 +57,13 @@ export function AmbientDepthLayers() {
         contain: "strict",
       }}
     >
-      {/* Layer 1: Deep space stars - slowest */}
+      {/* Layer 1: Deep space stars (dark) / violet pollen motes (light) - slowest */}
       <div
         ref={layer1Ref}
         className="absolute inset-0 ambient-layer"
         style={{
-          background: `
+          background: isDark
+            ? `
             radial-gradient(2px 2px at 10% 20%, #fff 50%, transparent),
             radial-gradient(1px 1px at 30% 40%, rgba(192,132,252,0.8) 50%, transparent),
             radial-gradient(2px 2px at 60% 70%, #fff 50%, transparent),
@@ -69,10 +72,21 @@ export function AmbientDepthLayers() {
             radial-gradient(1px 1px at 90% 50%, rgba(168,85,247,0.7) 50%, transparent),
             radial-gradient(2px 2px at 20% 60%, #fff 50%, transparent),
             radial-gradient(1px 1px at 70% 30%, rgba(244,114,182,0.5) 50%, transparent)
+          `
+            : `
+            radial-gradient(2px 2px at 10% 20%, rgba(124,58,237,0.42) 50%, transparent),
+            radial-gradient(1px 1px at 30% 40%, rgba(168,85,247,0.55) 50%, transparent),
+            radial-gradient(2px 2px at 60% 70%, rgba(124,58,237,0.36) 50%, transparent),
+            radial-gradient(1px 1px at 80% 10%, rgba(236,72,153,0.42) 50%, transparent),
+            radial-gradient(2px 2px at 40% 80%, rgba(168,85,247,0.34) 50%, transparent),
+            radial-gradient(1px 1px at 90% 50%, rgba(124,58,237,0.4) 50%, transparent),
+            radial-gradient(2px 2px at 20% 60%, rgba(236,72,153,0.3) 50%, transparent),
+            radial-gradient(1px 1px at 70% 30%, rgba(168,85,247,0.34) 50%, transparent)
           `,
-          backgroundSize: "600px 600px, 400px 400px, 500px 500px, 300px 300px, 700px 700px, 350px 350px, 550px 550px, 450px 450px",
+          backgroundSize:
+            "600px 600px, 400px 400px, 500px 500px, 300px 300px, 700px 700px, 350px 350px, 550px 550px, 450px 450px",
           animation: "star-twinkle 8s ease-in-out infinite",
-          opacity: 0.4,
+          opacity: isDark ? 0.4 : 0.3,
         }}
       />
 
@@ -81,15 +95,22 @@ export function AmbientDepthLayers() {
         ref={layer2Ref}
         className="absolute inset-0 ambient-layer"
         style={{
-          background: `
+          background: isDark
+            ? `
             radial-gradient(ellipse 80% 60% at 20% 10%, rgba(168,85,247,0.15) 0%, transparent 60%),
             radial-gradient(ellipse 60% 80% at 80% 20%, rgba(45,212,191,0.1) 0%, transparent 60%),
             radial-gradient(ellipse 100% 70% at 50% 80%, rgba(251,191,36,0.08) 0%, transparent 50%),
             radial-gradient(ellipse 70% 90% at 10% 90%, rgba(236,72,153,0.12) 0%, transparent 55%)
+          `
+            : `
+            radial-gradient(ellipse 80% 60% at 20% 10%, rgba(168,85,247,0.16) 0%, transparent 62%),
+            radial-gradient(ellipse 60% 80% at 80% 20%, rgba(45,212,191,0.1) 0%, transparent 62%),
+            radial-gradient(ellipse 100% 70% at 50% 80%, rgba(251,191,36,0.09) 0%, transparent 55%),
+            radial-gradient(ellipse 70% 90% at 10% 90%, rgba(236,72,153,0.11) 0%, transparent 58%)
           `,
           filter: "blur(120px)",
-          opacity: 0.6,
-          mixBlendMode: "screen",
+          opacity: isDark ? 0.6 : 0.55,
+          mixBlendMode: isDark ? "screen" : "multiply",
         }}
       />
 
@@ -98,28 +119,40 @@ export function AmbientDepthLayers() {
         ref={layer3Ref}
         className="absolute inset-0 ambient-layer"
         style={{
-          background: `
+          background: isDark
+            ? `
             radial-gradient(circle at 15% 30%, rgba(192,132,252,0.08) 1px, transparent 1px),
             radial-gradient(circle at 75% 40%, rgba(45,212,191,0.06) 1px, transparent 1px),
             radial-gradient(circle at 35% 75%, rgba(251,191,36,0.05) 1px, transparent 1px),
             radial-gradient(circle at 85% 85%, rgba(236,72,153,0.07) 1px, transparent 1px)
+          `
+            : `
+            radial-gradient(circle at 15% 30%, rgba(124,58,237,0.12) 1px, transparent 1px),
+            radial-gradient(circle at 75% 40%, rgba(13,148,136,0.1) 1px, transparent 1px),
+            radial-gradient(circle at 35% 75%, rgba(180,83,9,0.09) 1px, transparent 1px),
+            radial-gradient(circle at 85% 85%, rgba(190,24,93,0.1) 1px, transparent 1px)
           `,
           backgroundSize: "200px 200px, 150px 150px, 180px 180px, 160px 160px",
           animation: "dust-drift 30s linear infinite",
-          opacity: 0.5,
+          opacity: isDark ? 0.5 : 0.4,
         }}
       />
 
-      {/* Layer 4: Vignette/edge darkening - fastest (stays with viewport) */}
+      {/* Layer 4: Vignette - fastest (stays with viewport) */}
       <div
         ref={layer4Ref}
         className="absolute inset-0 pointer-events-none ambient-layer"
         style={{
-          background: `
+          background: isDark
+            ? `
             radial-gradient(ellipse at center, transparent 40%, rgba(5,2,12,0.8) 100%),
             linear-gradient(180deg, rgba(5,2,12,0.3) 0%, transparent 30%, transparent 70%, rgba(5,2,12,0.3) 100%)
+          `
+            : `
+            radial-gradient(ellipse at center, transparent 46%, rgba(124,58,237,0.1) 100%),
+            linear-gradient(180deg, rgba(255,255,255,0.22) 0%, transparent 28%, transparent 72%, rgba(124,58,237,0.06) 100%)
           `,
-          opacity: 0.7,
+          opacity: isDark ? 0.7 : 0.55,
         }}
       />
 

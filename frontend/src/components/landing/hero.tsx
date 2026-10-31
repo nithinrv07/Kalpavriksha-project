@@ -147,7 +147,11 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                   </button>
                   <Link
                     href="/sign-in"
-                    className="hidden h-11 items-center rounded-xl border border-violet/25 bg-violet-deep px-5 font-mono text-[14px] text-violet-ink transition-colors duration-200 hover:bg-[#4c1d95] active:scale-[0.98] sm:flex"
+                    className={`hidden h-11 items-center rounded-xl border px-5 font-mono text-[14px] transition-colors duration-200 active:scale-[0.98] sm:flex ${
+                      isDark
+                        ? "border-violet/25 bg-violet-deep text-violet-ink hover:bg-[#4c1d95]"
+                        : "border-[#5b21b6] bg-[#6d28d9] text-white shadow-[0_4px_14px_rgba(109,40,217,0.28)] hover:bg-[#5b21b6]"
+                    }`}
                   >
                     {t.signIn}
                   </Link>
@@ -219,6 +223,12 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                   scale={65}
                   size={26}
                   background="transparent"
+                  placeholder={isDark ? "#1b1b20" : "#e7d9f8"}
+                  core={
+                    isDark
+                      ? { coreSize: 24, coreColor: "#FFFFFF59", lineColor: "#FFFFFF59" }
+                      : { coreSize: 24, coreColor: "#ffffff", lineColor: "#7c3aed66" }
+                  }
                   active={!isFlipped}
                   style={{ width: "100%", height: "100%", minWidth: 0, minHeight: 0 }}
                 />
@@ -289,8 +299,17 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                             <span className="min-w-0 flex-1 truncate text-[14.5px] font-semibold text-text group-hover:text-violet-ink transition-colors">
                               {m.title[locale]}
                             </span>
-                            <span className={`grid size-8 shrink-0 place-items-center overflow-hidden rounded-xl border border-white/10 bg-surface-2 ${accent.text} shadow-sm transition-transform duration-200 group-hover:scale-105`}>
-                              {m.iconImage ? (
+                            <span
+                              className={`grid size-8 shrink-0 place-items-center overflow-hidden rounded-xl border transition-transform duration-200 group-hover:scale-105 ${
+                                isDark
+                                  ? `border-white/10 bg-surface-2 shadow-sm ${accent.text}`
+                                  : "border-violet/20 bg-white shadow-[0_1px_3px_rgba(76,29,149,0.14)] " + accent.text
+                              }`}
+                            >
+                              {/* The raster module art is drawn light-on-violet, so it
+                                  disappears on a pearl card. Light mode uses the
+                                  matching duotone glyph instead. */}
+                              {isDark && m.iconImage ? (
                                 <Image
                                   src={m.iconImage}
                                   alt={m.title[locale]}
@@ -299,7 +318,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                                   className="size-full object-cover"
                                 />
                               ) : (
-                                <Icon size={16} weight="duotone" />
+                                <Icon size={17} weight="duotone" />
                               )}
                             </span>
                           </Link>
@@ -327,7 +346,9 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                   <p className="w-full font-sans text-[15px] leading-relaxed text-text/90">{t.lead}</p>
                   <a
                     href="#modules"
-                    className="group mt-3.5 inline-flex min-h-11 items-center gap-2 rounded-full border border-violet/30 bg-violet/10 px-5 py-2 font-mono text-[13px] font-medium text-violet-ink backdrop-blur-md shadow-[0_4px_16px_rgba(147,51,234,0.2)] transition-all duration-300 hover:border-violet/60 hover:bg-violet-deep hover:text-white hover:shadow-[0_6px_25px_rgba(168,85,247,0.35)] active:scale-[0.98]"
+                    className={`group mt-3.5 inline-flex min-h-11 items-center gap-2 rounded-full border border-violet/30 bg-violet/10 px-5 py-2 font-mono text-[13px] font-medium text-violet-ink backdrop-blur-md shadow-[0_4px_16px_rgba(147,51,234,0.2)] transition-all duration-300 hover:border-violet/60 hover:shadow-[0_6px_25px_rgba(168,85,247,0.35)] active:scale-[0.98] ${
+                      isDark ? "hover:bg-violet-deep hover:text-white" : "hover:bg-[#7c3aed] hover:text-white"
+                    }`}
                   >
                     <span>{t.explore}</span>
                     <ArrowDown size={13} className="transition-transform duration-200 group-hover:translate-y-0.5 text-amber-300" />
@@ -363,7 +384,11 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                   </button>
                   <Link
                     href="/sign-in"
-                    className="hidden h-11 items-center rounded-xl border border-violet/25 bg-violet-deep px-5 font-mono text-[14px] text-violet-ink transition-colors duration-200 hover:bg-[#4c1d95] active:scale-[0.98] sm:flex"
+                    className={`hidden h-11 items-center rounded-xl border px-5 font-mono text-[14px] transition-colors duration-200 active:scale-[0.98] sm:flex ${
+                      isDark
+                        ? "border-violet/25 bg-violet-deep text-violet-ink hover:bg-[#4c1d95]"
+                        : "border-[#5b21b6] bg-[#6d28d9] text-white shadow-[0_4px_14px_rgba(109,40,217,0.28)] hover:bg-[#5b21b6]"
+                    }`}
                   >
                     {t.signIn}
                   </Link>

@@ -122,7 +122,7 @@ body {
 
 [data-theme="light"] body,
 .light body {
-  background: radial-gradient(circle at 50% 0%, #eae3f4 0%, #f1ecf7 38%, #eae4f2 70%, #dcd5e8 100%) !important;
+  background: radial-gradient(circle at 50% 0%, #f7f1fd 0%, #f3ecfb 36%, #ece4f7 68%, #e2d8f0 100%) !important;
   color: var(--text) !important;
 }
 
@@ -145,6 +145,94 @@ body {
 [data-theme="light"] .chrome-light-shade,
 .light .chrome-light-shade {
   display: block !important;
+}
+
+/* ========================================================================= */
+/* Liquid Glass Cards — Light Mode Optics                                    */
+/* The refraction layers are authored against a dark room. In light mode we   */
+/* keep the accent light and the glass physics, but re-expose the surface as   */
+/* a pearl pane: the simulated room goes white, the caustics soften, and the  */
+/* border/shadow switch from luminous-on-black to violet-on-paper.            */
+/* ========================================================================= */
+[data-theme="light"] .liquid-glass-card,
+.light .liquid-glass-card {
+  background-color: rgb(255 255 255 / 0.62);
+  border-color: rgb(76 29 149 / 0.16);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 1px 0 rgb(76 29 149 / 0.04),
+    0 12px 32px -14px rgb(76 29 149 / 0.32),
+    0 2px 8px -4px rgb(76 29 149 / 0.16);
+}
+
+[data-theme="light"] .liquid-glass-card:hover,
+.light .liquid-glass-card:hover {
+  border-color: rgb(124 58 237 / 0.34);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    0 18px 44px -16px rgb(76 29 149 / 0.38),
+    0 2px 10px -4px rgb(76 29 149 / 0.18);
+}
+
+/* Pearl pass — above the dark room layers, below the card content (z-10). */
+[data-theme="light"] .liquid-glass-card::after,
+.light .liquid-glass-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      120% 120% at 18% 0%,
+      rgb(
+          calc(var(--highlight-r) * 255) calc(var(--highlight-g) * 255)
+            calc(var(--highlight-b) * 255) /
+          0.14
+        )
+        0%,
+      transparent 58%
+    ),
+    radial-gradient(
+      90% 90% at 82% 100%,
+      rgb(
+          calc(var(--highlight-r) * 255) calc(var(--highlight-g) * 255)
+            calc(var(--highlight-b) * 255) /
+          0.07
+        )
+        0%,
+      transparent 60%
+    ),
+    linear-gradient(
+      155deg,
+      #ffffff 0%,
+      #fdfbff 46%,
+      #f7f2fe 100%
+    );
+}
+
+/* The neon ring is tuned for a black canvas; on paper it reads as bloom. */
+[data-theme="light"] .neon-border-frame,
+.light .neon-border-frame {
+  opacity: 0.6;
+}
+
+/* White out the dark-room specular and caustics so they read as sheen. */
+[data-theme="light"] .liquid-glass-card .specular-layer,
+.light .liquid-glass-card .specular-layer,
+[data-theme="light"] .liquid-glass-card .caustics-layer,
+.light .liquid-glass-card .caustics-layer,
+[data-theme="light"] .liquid-glass-card .edge-layer,
+.light .liquid-glass-card .edge-layer {
+  mix-blend-mode: soft-light;
+}
+
+[data-theme="light"] .liquid-glass-card .specular-layer,
+.light .liquid-glass-card .specular-layer,
+[data-theme="light"] .liquid-glass-card .caustics-layer,
+.light .liquid-glass-card .caustics-layer {
+  opacity: calc(0.4 * var(--intensity));
 }
 
 /* ========================================================================= */

@@ -62,7 +62,7 @@ export function BentoModules({ scrollProgress = 0 }: BentoModulesProps) {
           }}
         >
           {/* Animated Neon Border */}
-          <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
+          <div className="neon-border-frame pointer-events-none absolute inset-0 z-20 overflow-visible">
             <NeonBorder
               color={a1.hex}
               rounded={24}
@@ -158,7 +158,7 @@ export function BentoModules({ scrollProgress = 0 }: BentoModulesProps) {
           }}
         >
           {/* Animated Neon Border */}
-          <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
+          <div className="neon-border-frame pointer-events-none absolute inset-0 z-20 overflow-visible">
             <NeonBorder
               color={a2.hex}
               rounded={24}
@@ -293,7 +293,7 @@ export function BentoModules({ scrollProgress = 0 }: BentoModulesProps) {
           }}
         >
           {/* Animated Neon Border */}
-          <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
+          <div className="neon-border-frame pointer-events-none absolute inset-0 z-20 overflow-visible">
             <NeonBorder
               color={a3.hex}
               rounded={24}
