@@ -191,10 +191,10 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                 <DotsNine size={14} className="text-amber-400/80 transition-colors group-hover:text-amber-300" aria-hidden />
               </button>
 
-              {/* Horizontal brand title centered directly above 3D Sphere with dual-tone SparkleButton */}
+              {/* Horizontal brand title centered directly above 3D Sphere with dual-tone SparkleButton (hover glare animation) */}
               <div
                 aria-hidden
-                className="pointer-events-none select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
+                className="select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
               >
                 <SparkleButton
                   as="h1"
@@ -425,10 +425,10 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                 )}
                 <DotsNine size={14} className="text-amber-400/80 transition-colors group-hover:text-amber-300" aria-hidden />
               </button>
-              {/* Horizontal brand title centered directly above particle tree with dual-tone SparkleButton */}
+              {/* Horizontal brand title centered directly above particle tree with dual-tone SparkleButton (hover glare animation) */}
               <div
                 aria-hidden
-                className="pointer-events-none select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center lg:flex"
+                className="select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center lg:flex"
               >
                 <SparkleButton
                   as="h1"
