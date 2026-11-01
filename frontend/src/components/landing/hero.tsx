@@ -124,8 +124,11 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
             /* DEFAULT FRONTPAGE: Luminous 3D Sphere Gallery View */
             <div className="relative flex h-full w-full flex-col overflow-hidden bg-transparent lg:block">
 
-              {/* Top bar — flows on mobile, pinned on desktop */}
-              <div className="z-20 flex items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
+              {/* Top bar — flows on mobile, pinned on desktop (no-flip zone: stops propagation to FlipCard) */}
+              <div
+                className="z-20 flex items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <span className="flex items-center gap-2 font-headline font-semibold text-lg tracking-tight lg:hidden">
                   <BrandMark className="size-6 text-amber-400" strokeWidth={1.8} />
                   <SparkleButton
@@ -369,8 +372,11 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
             /* FLIP SIDE: Particle Tree View */
             <div className="relative flex h-full w-full flex-col overflow-y-auto bg-transparent lg:block lg:overflow-hidden scrollbar-glass">
 
-              {/* Top bar — flows on mobile, pinned on desktop */}
-              <div className="z-20 flex items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0">
+              {/* Top bar — flows on mobile, pinned on desktop (no-flip zone: stops propagation to FlipCard) */}
+              <div
+                className="z-20 flex items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <span className="flex items-center gap-2 font-headline font-semibold text-lg tracking-tight lg:hidden">
                   <BrandMark className="size-6 text-amber-400" strokeWidth={1.8} />
                   <SparkleButton
