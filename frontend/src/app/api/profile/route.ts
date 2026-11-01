@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
-import type { Profile } from "@/lib/progress";
+import { makeStudentId, type Profile } from "@/lib/progress";
 
 const PERSISTENCE_FILE = path.join(process.cwd(), ".profile-store.json");
 
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
       name: String(data.name).trim().slice(0, 24),
       avatar: data.avatar || "cat",
       grade,
-      studentId: data.studentId || `KV-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
+      studentId: data.studentId || makeStudentId(data.board, grade),
       email: data.email ? String(data.email).trim().slice(0, 80) : undefined,
       preferredLanguage: data.preferredLanguage || "en",
       board: data.board ? String(data.board).trim().slice(0, 50) : "tn_state",

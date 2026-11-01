@@ -10,6 +10,7 @@ import {
   completeLesson,
   levelOf,
   logActivity,
+  makeStudentId,
   parseProfile,
   parseProgress,
   recordQuiz,
@@ -32,6 +33,19 @@ describe("levelOf", () => {
   it("starts at level 1 and levels up every 100 XP", () => {
     expect(levelOf(0)).toEqual({ level: 1, into: 0, span: 100 });
     expect(levelOf(250)).toEqual({ level: 3, into: 50, span: 100 });
+  });
+});
+
+describe("makeStudentId", () => {
+  it("encodes board, class and joining year instead of random digits", () => {
+    const date = new Date("2026-10-21T12:00:00");
+    expect(makeStudentId("tn_state", 6, date)).toBe("KV-TN-6-2026");
+    expect(makeStudentId("cbse", 11, date)).toBe("KV-CBSE-11-2026");
+    expect(makeStudentId("icse", 4, date)).toBe("KV-ICSE-4-2026");
+  });
+
+  it("falls back to a board-neutral prefix for an unknown board", () => {
+    expect(makeStudentId(undefined, 9, new Date("2026-01-02T12:00:00"))).toBe("KV-GEN-9-2026");
   });
 });
 

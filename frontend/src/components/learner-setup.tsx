@@ -26,7 +26,7 @@ export function GrowthStage({ band, className = "" }: { band: Band; className?: 
   const accent = BAND_INFO[band].accent;
   return (
     <svg viewBox="0 0 120 120" aria-hidden className={className}>
-      <ellipse cx="60" cy="108" rx="34" ry="6" fill="rgb(255 255 255 / 0.06)" />
+      <ellipse cx="60" cy="108" rx="34" ry="6" fill="var(--line)" />
       {band === "junior" && (
         <g className="sway">
           <path d="M60 106 V78" stroke={accent} strokeWidth="4" strokeLinecap="round" />
@@ -223,18 +223,11 @@ export function LearnerSetup({
 
   return (
     <form onSubmit={submit} className="fade-up flex flex-col gap-8">
-      {/* Authentication & Academic Persistence Badge */}
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-violet/30 bg-violet-deep/20 px-4 py-3 text-xs text-violet-ink">
-        <span className="flex items-center gap-2">
-          <ShieldCheck size={18} className="text-violet" weight="fill" />
-          <span>
-            <strong>Academic Profile Status:</strong> Saved securely to student profile & synced with Digital Learning
-          </span>
-        </span>
-        <span className="rounded-full bg-white/[0.08] px-2.5 py-0.5 font-mono text-[11px] text-muted">
-          Active Student Account
-        </span>
-      </div>
+      {/* Honest status line: this profile lives on the device, nothing else. */}
+      <p className="flex items-center gap-2 text-[13px] text-muted">
+        <ShieldCheck size={16} className="text-violet" weight="fill" />
+        {c.deviceNote}
+      </p>
 
       <div>
         <h2 className="font-display text-[clamp(26px,3.8vw,44px)] leading-[1.05] tracking-[-0.035em] text-balance">
@@ -568,8 +561,8 @@ export function LearnerSetup({
         <div className="flex flex-col gap-3 pt-3 md:col-span-2 md:flex-row md:items-center md:justify-between border-t border-line/60">
           <p className="text-[12.5px] text-muted/80">
             {locale === "ta"
-              ? "சுயவிவரம் உங்கள் கணக்கில் சேமிக்கப்பட்டு, டிஜிட்டல் கற்றலில் உங்கள் பாடங்கள் மட்டும் திறக்கும்."
-              : "Saved to your profile and database. You can update your class or group anytime in Profile Settings."}
+              ? "உங்கள் வகுப்பு அல்லது பாடப்பிரிவை எப்போது வேண்டுமானாலும் மாற்றலாம்."
+              : "You can change your class, board or stream at any time."}
           </p>
           <button
             type="submit"

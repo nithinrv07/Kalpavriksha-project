@@ -35,6 +35,18 @@ export const BAND_INFO: Record<
   },
 };
 
+/** Short board names for dense surfaces such as the learner card. */
+export const BOARD_NAME = {
+  tn_state: { en: "Tamil Nadu State Board", ta: "தமிழ்நாடு மாநிலப் பாடத்திட்டம்" },
+  cbse: { en: "CBSE", ta: "சி.பி.எஸ்.இ" },
+  icse: { en: "ICSE", ta: "ஐ.சி.எஸ்.இ" },
+} as const satisfies Record<string, LocalizedText>;
+
+export function boardName(board: string | undefined, locale: Locale): string {
+  const key = board && board in BOARD_NAME ? (board as keyof typeof BOARD_NAME) : "tn_state";
+  return BOARD_NAME[key][locale];
+}
+
 export const AVATAR_NAME: Record<AvatarId, LocalizedText> = {
   cat: { en: "Cat", ta: "பூனை" },
   dog: { en: "Dog", ta: "நாய்" },
@@ -64,6 +76,11 @@ type SetupCopy = {
   readonly continueLearning: string;
   readonly cardTitle: string;
   readonly hello: (name: string) => string;
+  /** "20 of 100 XP · 80 XP to Level 3" — progress always names its target. */
+  readonly xpProgress: (into: number, span: number, nextLevel: number) => string;
+  readonly streakDays: (days: number) => string;
+  readonly noStreak: string;
+  readonly learningSince: (year: number) => string;
 };
 
 export const SETUP_COPY: Record<Locale, SetupCopy> = {
@@ -85,6 +102,10 @@ export const SETUP_COPY: Record<Locale, SetupCopy> = {
     continueLearning: "Continue learning",
     cardTitle: "Learner card",
     hello: (name) => `Hi ${name}!`,
+    xpProgress: (into, span, nextLevel) => `${into} of ${span} XP · ${span - into} XP to Level ${nextLevel}`,
+    streakDays: (days) => `${days}-day streak`,
+    noStreak: "No streak yet",
+    learningSince: (year) => `Learning since ${year}`,
   },
   ta: {
     askTitle: "உன் படிநிலை மற்றும் வகுப்பைத் தேர்ந்தெடு",
@@ -104,5 +125,9 @@ export const SETUP_COPY: Record<Locale, SetupCopy> = {
     continueLearning: "கற்றலைத் தொடர்",
     cardTitle: "மாணவர் அட்டை",
     hello: (name) => `வணக்கம் ${name}!`,
+    xpProgress: (into, span, nextLevel) => `${into} / ${span} XP · நிலை ${nextLevel}க்கு ${span - into} XP`,
+    streakDays: (days) => `${days} நாள் தொடர்`,
+    noStreak: "இன்னும் தொடர் இல்லை",
+    learningSince: (year) => `${year} முதல் கற்றல்`,
   },
 };

@@ -1,10 +1,9 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, Fire, PencilSimple, ShieldCheck, Trash } from "@phosphor-icons/react/ssr";
+import { ArrowLeft, ArrowRight, PencilSimple, Trash } from "@phosphor-icons/react/ssr";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
-import { Avatar } from "@/components/avatar";
 import { BrandMark } from "@/components/brand-mark";
 import { ChromeWaves } from "@/components/landing/chrome-waves";
 import { LivingTree } from "@/components/landing/living-tree";
@@ -13,12 +12,29 @@ import { LangSelect } from "@/components/landing/lang-select";
 import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
 import { useLocale } from "@/components/locale-provider";
 import { updateProgress, useProgress } from "@/components/progress-store";
-import { BAND_INFO, SETUP_COPY } from "@/lib/bands";
+import { BAND_INFO, boardName, SETUP_COPY } from "@/lib/bands";
 import { SENIOR_GROUPS } from "@/lib/curriculum";
-import { LOCALE_LABEL } from "@/lib/i18n";
+import { LOCALE_LABEL, type Locale } from "@/lib/i18n";
 import { bandOf, levelOf, localDay, setProfile, streak, type Profile } from "@/lib/progress";
 
-/** The student's ID card: avatar, class band and progress at a glance. */
+/** The seven local days ending today, for the streak dots. */
+function lastSevenDays(today: string, locale: Locale) {
+  const formatter = new Intl.DateTimeFormat(locale === "ta" ? "ta-IN" : "en-GB", { weekday: "narrow" });
+  const base = new Date(`${today}T12:00:00`);
+  return Array.from({ length: 7 }, (_, i) => {
+    const date = new Date(base);
+    date.setDate(date.getDate() - (6 - i));
+    return { key: localDay(date), weekday: formatter.format(date), isToday: i === 6 };
+  });
+}
+
+/** The year a profile was created, read from its student code. */
+function joinedYear(studentId: string): number | null {
+  const match = studentId.match(/\b(20\d{2})\b/);
+  return match ? Number(match[1]) : null;
+}
+
+/** The student's learner card: growth stage, class and progress at a glance. */
 function Card({ profile }: { profile: Profile }) {
   const { t, locale } = useLocale();
   const progress = useProgress();
@@ -26,77 +42,111 @@ function Card({ profile }: { profile: Profile }) {
   const info = BAND_INFO[band];
   const { level, into, span } = levelOf(progress.xp);
   const c = SETUP_COPY[locale];
+  const today = localDay();
+  const dayStreak = streak(progress.activeDays, today);
+  const activeDays = new Set(progress.activeDays);
+  const week = lastSevenDays(today, locale);
+  const since = joinedYear(profile.studentId);
+  const seniorGroup =
+    profile.grade >= 11 && profile.seniorGroup
+      ? SENIOR_GROUPS.find((g) => g.id === profile.seniorGroup)
+      : undefined;
+  const boardLabel = boardName(profile.board, locale);
+  const xpLine = c.xpProgress(into, span, level + 1);
 
   return (
     <div
       style={{ "--band": info.accent } as React.CSSProperties}
-      className="pop-in relative mx-auto w-full max-w-[440px] overflow-hidden rounded-[28px] border border-line-strong bg-surface-2 p-6 shadow-[0_30px_90px_-20px_rgb(0_0_0/0.9),0_0_80px_-30px_var(--band)]"
+      className="learner-card mx-auto w-full max-w-[440px] p-6 sm:p-7"
     >
-      {/* Holographic sheen. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -inset-1/2 bg-[conic-gradient(from_var(--beam-angle),transparent_0_60%,color-mix(in_srgb,var(--band)_35%,transparent)_75%,transparent_90%)] opacity-60 [animation:beam_9s_linear_infinite]"
-      />
-      <div className="relative">
-        <div className="flex items-center justify-between">
+      <div className="relative z-10">
+        <div className="flex items-center justify-between gap-3">
           <span className="flex items-center gap-2 font-display text-[15px] tracking-tight">
             <BrandMark className="size-5 text-violet" />
             Kalpavriksha
           </span>
-          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">{c.cardTitle}</span>
+          <span className="text-[11.5px] text-muted">{c.cardTitle}</span>
         </div>
-        <div className="mt-8 flex items-center gap-4">
-          <Avatar id={profile.avatar} className="size-20 shadow-[0_0_40px_-6px_var(--band)]" iconSize={44} />
+
+        {/* The growth stage is the hero: one mascot, sized by band. */}
+        <div className="mt-7 flex items-center gap-5">
+          <div className="relative grid size-[124px] shrink-0 place-items-center">
+            <div
+              aria-hidden
+              className="absolute inset-0 rounded-full"
+              style={{
+                background:
+                  "radial-gradient(circle at 50% 62%, color-mix(in srgb, var(--band) 26%, transparent), transparent 70%)",
+              }}
+            />
+            <GrowthStage band={band} className="relative size-[124px]" />
+          </div>
           <div className="min-w-0">
-            <p className="truncate font-display text-3xl tracking-[-0.03em]">{profile.name}</p>
-            <p className="mt-1 font-mono text-[12px] text-[var(--band)]">
-              {c.classWord} {profile.grade} · {info.name[locale]}
-              {profile.grade >= 11 && profile.seniorGroup && (
-                <span className="opacity-90">
-                  {" "}· {SENIOR_GROUPS.find((g) => g.id === profile.seniorGroup)?.badge || profile.seniorGroup}
-                </span>
-              )}
+            <p className="truncate font-display text-[28px] leading-[1.05] tracking-[-0.035em]">
+              {profile.name}
             </p>
-            <p className="mt-0.5 font-mono text-[11px] text-muted">
-              {profile.board === "cbse"
-                ? "CBSE Board"
-                : profile.board === "icse"
-                ? "ICSE Board"
-                : "Tamil Nadu State Board (Samacheer Kalvi)"}
+            <p className="mt-2 text-[13px] text-muted">
+              {c.classWord} {profile.grade} · {info.name[locale].split(" (")[0]}
+              {seniorGroup && <span className="text-violet"> · {seniorGroup.name[locale]}</span>}
             </p>
-            {profile.email && (
-              <p className="truncate font-mono text-[11px] text-muted">{profile.email}</p>
-            )}
-          </div>
-          <GrowthStage band={band} className="ml-auto size-16 shrink-0" />
-        </div>
-        <div className="mt-8 grid grid-cols-3 gap-2 text-center">
-          <div className="rounded-2xl bg-white/[0.04] p-3">
-            <p className="font-mono text-xl text-text">{level}</p>
-            <p className="font-mono text-[10.5px] text-muted">{t.level}</p>
-          </div>
-          <div className="rounded-2xl bg-white/[0.04] p-3">
-            <p className="font-mono text-xl text-violet-ink">{progress.xp}</p>
-            <p className="font-mono text-[10.5px] text-muted">XP</p>
-          </div>
-          <div className="rounded-2xl bg-white/[0.04] p-3">
-            <p className="flex items-center justify-center gap-1 font-mono text-xl text-amber">
-              <Fire size={18} weight="fill" aria-hidden />
-              {streak(progress.activeDays, localDay())}
-            </p>
-            <p className="font-mono text-[10.5px] text-muted">{t.streak}</p>
+            <p className="mt-1 text-[12.5px] leading-snug text-muted/80">{boardLabel}</p>
           </div>
         </div>
-        <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/[0.08]">
+
+        <div className="mt-7">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+            <p className="font-display text-[20px] leading-none tracking-tight">
+              {t.level} {level}
+            </p>
+            <p className="text-[11.5px] text-muted">{xpLine}</p>
+          </div>
           <div
-            className="h-full rounded-full bg-gradient-to-r from-glow-a to-[var(--band)]"
-            style={{ width: `${Math.round((into / span) * 100)}%` }}
-          />
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={span}
+            aria-valuenow={into}
+            aria-label={xpLine}
+            className="mt-3 h-1.5 overflow-hidden rounded-full"
+            style={{ background: "color-mix(in srgb, var(--band) 16%, transparent)" }}
+          >
+            <div
+              className="h-full rounded-full transition-[width] duration-500"
+              style={{ width: `${Math.round((into / span) * 100)}%`, background: "var(--band)" }}
+            />
+          </div>
         </div>
-        <div className="mt-6 flex items-center justify-between font-mono text-[12px] text-muted">
-          <span className="tracking-[0.16em]">{profile.studentId}</span>
+
+        {/* Streak as the last seven days, not a competing stat tile. */}
+        <div className="mt-6 flex items-center justify-between gap-4 border-t border-line/70 pt-4">
+          <div className="flex items-end gap-1.5">
+            {week.map((day) => {
+              const on = activeDays.has(day.key);
+              return (
+                <div key={day.key} className="flex w-[22px] flex-col items-center gap-1.5">
+                  <span
+                    aria-hidden
+                    className="size-2 rounded-full"
+                    style={{
+                      background: on ? "var(--band)" : "transparent",
+                      border: `1px solid ${on ? "var(--band)" : "var(--line-strong)"}`,
+                    }}
+                  />
+                  <span className={`text-[9px] ${day.isToday ? "text-text" : "text-muted/70"}`}>
+                    {day.weekday}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+          <p className="shrink-0 text-[12.5px] text-muted">
+            {dayStreak > 0 ? c.streakDays(dayStreak) : c.noStreak}
+          </p>
+        </div>
+
+        <div className="mt-4 flex items-center justify-between gap-3 text-[11.5px] text-muted">
+          <span>{since ? c.learningSince(since) : ""}</span>
           {profile.preferredLanguage && (
-            <span className="text-[11px] uppercase tracking-wider text-violet">
+            <span className="text-violet">
               {LOCALE_LABEL[profile.preferredLanguage]?.native ?? profile.preferredLanguage}
             </span>
           )}
@@ -177,11 +227,7 @@ function SignInScreenContent() {
           ) : (
             <div className="grid items-center gap-10 lg:grid-cols-[1fr_1fr]">
               <div className="fade-up">
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-violet/30 bg-violet-deep/20 px-3 py-1 font-mono text-[11px] text-violet-ink">
-                  <ShieldCheck size={14} weight="fill" />
-                  Mock Authentication (School Standard Profile Active)
-                </div>
-                <p className="font-mono text-[13px] text-violet">{t.myCard}</p>
+                <p className="text-[13px] text-violet">{t.myCard}</p>
                 <h1 className="mt-2 font-display text-[clamp(36px,5.5vw,72px)] leading-[0.95] tracking-[-0.05em]">
                   {c.hello(profile.name)}
                 </h1>

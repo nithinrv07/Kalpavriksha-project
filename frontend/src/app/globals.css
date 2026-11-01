@@ -219,6 +219,91 @@ body {
 }
 
 /* ========================================================================= */
+/* Learner card — one surface, no holographic sweep or band glow.            */
+/* `--band` is set inline per school stage; the tint only ever sits behind   */
+/* the growth-stage illustration and the progress rail.                      */
+/* ========================================================================= */
+.learner-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background:
+    radial-gradient(
+      120% 90% at 50% -18%,
+      color-mix(in srgb, var(--band) 16%, transparent) 0%,
+      transparent 62%
+    ),
+    color-mix(in srgb, var(--surface-2) 80%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 30px 70px -34px rgb(0 0 0 / 0.85);
+  backdrop-filter: blur(18px);
+  animation: kp-card-rise 0.6s var(--ease-out) both;
+}
+
+[data-theme="light"] .learner-card,
+.light .learner-card {
+  border-color: rgb(76 29 149 / 0.18);
+  background:
+    radial-gradient(
+      120% 90% at 50% -18%,
+      color-mix(in srgb, var(--band) 13%, transparent) 0%,
+      transparent 62%
+    ),
+    rgb(255 255 255 / 0.74);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    0 22px 50px -28px rgb(76 29 149 / 0.4),
+    0 2px 6px -3px rgb(76 29 149 / 0.12);
+}
+
+@keyframes kp-card-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Growth-stage illustration: slow sway for the stem/tree, softer leaf breathing. */
+.sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: kp-sway 6s ease-in-out infinite;
+}
+
+.leaf {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: kp-leaf 4.5s ease-in-out infinite;
+}
+
+@keyframes kp-sway {
+  0%,
+  100% {
+    transform: rotate(-1.4deg);
+  }
+  50% {
+    transform: rotate(1.4deg);
+  }
+}
+
+@keyframes kp-leaf {
+  0%,
+  100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.04) translateY(-0.6px);
+  }
+}
+
+/* ========================================================================= */
 /* Theme-Aware Button Styles (CSS-based to work with SSG + inline script)    */
 /* ========================================================================= */
 
@@ -641,7 +726,10 @@ body {
   .spin-slow,
   .aurora-drift-1,
   .aurora-drift-2,
-  .aurora-drift-3 {
+  .aurora-drift-3,
+  .sway,
+  .leaf,
+  .learner-card {
     animation: none !important;
   }
 }
@@ -651,7 +739,10 @@ html[data-calm="true"] .glow-drift,
 html[data-calm="true"] .spin-slow,
 html[data-calm="true"] .aurora-drift-1,
 html[data-calm="true"] .aurora-drift-2,
-html[data-calm="true"] .aurora-drift-3 {
+html[data-calm="true"] .aurora-drift-3,
+html[data-calm="true"] .sway,
+html[data-calm="true"] .leaf,
+html[data-calm="true"] .learner-card {
   animation: none !important;
 }
 

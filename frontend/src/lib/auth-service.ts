@@ -2,7 +2,7 @@
 
 import type { Profile } from "@/lib/progress";
 import { updateProgress } from "@/components/progress-store";
-import { setProfile, updateStudentProfile } from "@/lib/progress";
+import { makeStudentId, setProfile, updateStudentProfile } from "@/lib/progress";
 
 export type AuthMode = "mock_local" | "production_sso";
 
@@ -13,11 +13,6 @@ export interface StudentAuthContext {
 }
 
 const STORAGE_KEY = "kalpavriksha.progress";
-
-function generateStudentId(): string {
-  const digits = Array.from(crypto.getRandomValues(new Uint8Array(4)), (b) => b % 10).join("");
-  return `KV-${new Date().getFullYear()}-${digits}`;
-}
 
 export const authService = {
   getAuthMode(): AuthMode {
@@ -69,7 +64,7 @@ export const authService = {
     seniorGroup?: string;
     studentId?: string;
   }): Profile {
-    const studentId = data.studentId || generateStudentId();
+    const studentId = data.studentId || makeStudentId(data.board, data.grade);
     const profile: Profile = {
       name: data.name.trim().slice(0, 24),
       email: data.email?.trim().slice(0, 80),

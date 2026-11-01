@@ -31,6 +31,17 @@ export function bandOf(grade: number): Band {
   return "senior";
 }
 
+const BOARD_CODE: Record<string, string> = { tn_state: "TN", cbse: "CBSE", icse: "ICSE" };
+
+/**
+ * Readable student code: board, class and the year the profile was created
+ * (for example `KV-TN-6-2026`). No random digits — every part means something.
+ */
+export function makeStudentId(board: string | undefined, grade: number, date = new Date()): string {
+  const boardCode = BOARD_CODE[board ?? ""] ?? "GEN";
+  return `KV-${boardCode}-${Math.round(grade)}-${date.getFullYear()}`;
+}
+
 export type Activity = { readonly id: string; readonly area: Area; readonly title: string; readonly date: string };
 
 export type LastAccessed = {
