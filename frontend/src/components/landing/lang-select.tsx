@@ -6,7 +6,7 @@ import { useLocale } from "@/components/locale-provider";
 import { LOCALES, LOCALE_LABEL, isLocale } from "@/lib/i18n";
 import { createPortal } from "react-dom";
 
-export function LangSelect({ className = "" }: { className?: string }) {
+export function LangSelect({ className = "", ...props }: { className?: string; "data-no-flip"?: boolean } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   const { locale, setLocale, t } = useLocale();
   const [isOpen, setIsOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -98,6 +98,7 @@ export function LangSelect({ className = "" }: { className?: string }) {
           boxShadow: "0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)",
           minWidth: "100px",
         }}
+        {...props}
       >
         <Globe size={16} weight="regular" className="text-violet group-hover:text-violet-bright transition-colors shrink-0" aria-hidden />
         <span className="flex-1 text-left truncate">{currentLabel.short}</span>

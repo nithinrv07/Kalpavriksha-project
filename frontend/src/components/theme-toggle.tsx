@@ -19,13 +19,14 @@ export function ThemeBoot() {
 interface ThemeToggleProps {
   className?: string;
   showLabel?: boolean;
+  "data-no-flip"?: boolean;
 }
 
 /**
  * Sleek dual-theme toggle button switching between Obsidian Dark and Luminous Light.
  * Supports both compact icon mode (for headers/navs) and labeled mode.
  */
-export function ThemeToggle({ className = "", showLabel = false }: ThemeToggleProps) {
+export function ThemeToggle({ className = "", showLabel = false, ...props }: ThemeToggleProps & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   const { isDark, toggleTheme } = useTheme();
   const { locale } = useLocale();
 
@@ -54,6 +55,7 @@ export function ThemeToggle({ className = "", showLabel = false }: ThemeTogglePr
       className={`group relative flex items-center justify-center gap-2 rounded-xl border border-line bg-surface/60 text-muted backdrop-blur-md transition-all duration-200 hover:border-violet/40 hover:bg-surface hover:text-text active:scale-[0.96] ${
         showLabel ? "h-11 px-3.5 font-mono text-[13.5px]" : "size-11"
       } ${className}`}
+      {...props}
     >
       <span className="relative grid size-5 place-items-center">
         {/* Sun icon for light mode transition */}
