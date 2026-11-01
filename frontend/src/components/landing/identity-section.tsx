@@ -1,103 +1,97 @@
 "use client";
 
-import { Plus } from "@phosphor-icons/react/ssr";
 import Image from "next/image";
+import Link from "next/link";
 import { useLocale } from "@/components/locale-provider";
 import { RevealWords } from "@/components/scroll-fx";
 import { MODULES } from "@/modules/registry";
-import { LiquidGlassCard } from "@/components/liquid-glass-card";
-
-/** Node positions in a 100×100 space; the student profile sits at the centre. */
-const NODES = [
-  { x: 16, y: 18, cx: 30, cy: 46 },
-  { x: 84, y: 20, cx: 70, cy: 44 },
-  { x: 18, y: 84, cx: 34, cy: 56 },
-  { x: 84, y: 82, cx: 66, cy: 58 },
-] as const;
 
 /**
- * "Enter once, use everywhere": beams of light travel from each module into
- * the shared student profile. Adapted from 21st.dev's Animated Beam, CSS-only.
+ * Node positions in a 100×100 space for the 3 learning modules:
+ * - Module 1: Digital Learning (Top-Left)
+ * - Module 2: Holistic Growth (Top-Right)
+ * - Module 3: GK & Patriotic Songs (Bottom-Center)
  */
+const THREE_NODES = [
+  { x: 18, y: 22, cx: 32, cy: 42, moduleSlug: "learn" },
+  { x: 82, y: 22, cx: 68, cy: 42, moduleSlug: "grow" },
+  { x: 50, y: 85, cx: 54, cy: 68, moduleSlug: "gk-songs" },
+] as const;
+
 interface IdentitySectionProps {
   scrollProgress?: number;
 }
 
-export function IdentitySection({ scrollProgress = 0 }: IdentitySectionProps) {
+export function IdentitySection({ scrollProgress }: IdentitySectionProps) {
   const { t, locale } = useLocale();
-  const items = [
-    ...MODULES.map((m) => ({
-      key: m.id,
-      label: m.title[locale],
-      Icon: m.icon,
-      iconImage: m.iconImage,
-      future: false,
-    })),
-    { key: "future", label: t.soonTitle, Icon: Plus, iconImage: undefined, future: true },
-  ];
 
   return (
-    <section 
-      className="mx-auto grid w-full max-w-[1320px] items-center gap-14 border-t border-line px-4 pt-20 pb-12 sm:px-6 sm:pt-24 sm:pb-14 lg:grid-cols-[0.85fr_1.15fr] lg:pt-28 lg:pb-16"
-      style={{
-        opacity: Math.min(scrollProgress * 1.5, 1),
-        transform: `translateY(${Math.max(0, 30 - scrollProgress * 60)}px)`,
-        transition: "opacity 0.6s ease-out, transform 0.6s ease-out",
-      }}
-    >
+    <section className="mx-auto grid w-full max-w-[1320px] items-center gap-14 px-4 pt-16 pb-16 sm:px-6 sm:pt-20 sm:pb-20 lg:grid-cols-[0.85fr_1.15fr] lg:pt-24 lg:pb-24">
       <div>
-        <p data-reveal="up" className="font-mono text-[12px] text-violet">
+        <p className="font-mono text-[12px] font-semibold text-violet">
           — {t.identityCenter}
         </p>
         <RevealWords
           text={t.identityTitle}
-          className="mt-5 font-display text-[clamp(36px,4.8vw,72px)] leading-[0.95] tracking-[-0.045em] text-balance"
+          className="mt-5 font-display text-[clamp(36px,4.8vw,72px)] leading-[0.95] tracking-[-0.045em] text-balance text-text"
         />
-        <p data-reveal="up" className="mt-6 max-w-md text-[15px] leading-relaxed text-muted">
+        <p className="mt-6 max-w-md text-[15px] leading-relaxed text-muted">
           {t.identityBody}
         </p>
       </div>
 
       <div className="relative mx-auto aspect-[5/4] w-full max-w-[640px]">
+        {/* Animated Light Beams SVG */}
         <svg
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
           aria-hidden
-          data-reveal="up"
-          className="absolute inset-0 h-full w-full"
+          className="absolute inset-0 h-full w-full pointer-events-none"
         >
           <defs>
-            <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stopColor="var(--glow-a)" stopOpacity="0" />
-              <stop offset="0.5" stopColor="var(--glow-b)" />
-              <stop offset="1" stopColor="#fff" />
+            <linearGradient id="beam-pulse" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#a855f7" stopOpacity="0.1" />
+              <stop offset="50%" stopColor="#ec4899" />
+              <stop offset="100%" stopColor="#8b5cf6" />
             </linearGradient>
           </defs>
-          {NODES.map((n, i) => {
+          {THREE_NODES.map((n, i) => {
             const d = `M ${n.x} ${n.y} Q ${n.cx} ${n.cy} 50 50`;
             return (
               <g key={i}>
-                <path d={d} fill="none" stroke="var(--line-strong)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                {/* Base track line */}
                 <path
                   d={d}
                   fill="none"
-                  stroke={i === 3 ? "var(--line-strong)" : "url(#beam)"}
-                  strokeWidth="2"
+                  stroke="var(--line-strong)"
+                  strokeWidth="1.5"
+                  strokeDasharray="3 3"
+                  vectorEffect="non-scaling-stroke"
+                  className="opacity-70"
+                />
+                {/* Traveling beam of light */}
+                <path
+                  d={d}
+                  fill="none"
+                  stroke="url(#beam-pulse)"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
                   vectorEffect="non-scaling-stroke"
                   pathLength={100}
-                  strokeDasharray="16 84"
-                  style={{ animation: `beam-travel 3.2s ${i * 0.8}s cubic-bezier(0.16,1,0.3,1) infinite` }}
+                  strokeDasharray="20 80"
+                  style={{ animation: `beam-travel 3.2s ${i * 0.9}s cubic-bezier(0.16,1,0.3,1) infinite` }}
                 />
               </g>
             );
           })}
         </svg>
 
-        <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2">
-          <span
-            data-reveal="pop"
-            className="group relative grid size-24 place-items-center overflow-hidden rounded-full border border-violet/40 bg-violet-deep transition-transform duration-300 hover:scale-105 shadow-[inset_0_1px_0_rgb(255_255_255/0.12),0_0_0_10px_rgb(59_7_100/0.25)] sm:size-28"
+        {/* Center Student Avatar Profile */}
+        <div className="absolute left-1/2 top-1/2 z-20 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2">
+          <Link
+            href="/sign-in"
+            className="group relative grid size-24 sm:size-28 place-items-center overflow-hidden rounded-full border-2 border-purple-400/60 bg-gradient-to-br from-purple-900/60 via-purple-950/80 to-[#120824] shadow-[0_0_30px_rgba(168,85,247,0.35)] transition-transform duration-300 hover:scale-105"
+            title="View Student Profile"
           >
             <Image
               src="/images/student-avatar.png"
@@ -105,61 +99,55 @@ export function IdentitySection({ scrollProgress = 0 }: IdentitySectionProps) {
               width={600}
               height={945}
               priority
-              className="h-full w-full object-contain p-2.5 drop-shadow-[0_4px_10px_rgba(0,0,0,0.4)] transition-transform duration-300 group-hover:scale-105 sm:p-3"
+              className="h-full w-full object-contain p-2.5 drop-shadow-[0_4px_10px_rgba(0,0,0,0.4)] transition-transform duration-300 group-hover:scale-110 sm:p-3"
             />
-          </span>
-          <span className="whitespace-nowrap rounded-full border border-line bg-surface px-3 py-1 font-mono text-[11px] text-text">
+          </Link>
+          <span className="whitespace-nowrap rounded-full border border-purple-400/30 bg-surface/90 px-3.5 py-1 font-mono text-[11px] font-semibold text-text shadow-md backdrop-blur-md">
             {t.identityCenter}
           </span>
         </div>
 
-        {items.map(({ key, label, Icon, iconImage, future }, i) => {
-          const n = NODES[i];
+        {/* Three Branching Modules */}
+        {MODULES.map((m, i) => {
+          const n = THREE_NODES[i];
           if (!n) return null;
-          // Subtle liquid glass for identity nodes
-          const nodeGlassConfig = [
-            { refraction: 11, dispersion: 10, clarity: 17, edge: 10, gloss: 9, rounding: 20, glassColor: "#ffffff", roomTop: "#1a0a2e", roomBottom: "#0d0516" },
-            { refraction: 11, dispersion: 10, clarity: 17, edge: 10, gloss: 9, rounding: 20, glassColor: "#ffffff", roomTop: "#0a1a18", roomBottom: "#050d0b" },
-            { refraction: 10, dispersion: 9, clarity: 18, edge: 9, gloss: 8, rounding: 20, glassColor: "#fff8e7", roomTop: "#1a1406", roomBottom: "#0d0803" },
-            { refraction: 10, dispersion: 9, clarity: 18, edge: 9, gloss: 8, rounding: 20, glassColor: "#f0e6ff", roomTop: "#140a2e", roomBottom: "#0a0516" },
-          ][i] ?? { refraction: 10, dispersion: 9, clarity: 18, edge: 9, gloss: 8, rounding: 20, glassColor: "#ffffff", roomTop: "#1a0a2e", roomBottom: "#0d0516" };
-          
+          const ModIcon = m.icon;
           return (
-            <LiquidGlassCard
-              key={key}
-              {...nodeGlassConfig}
-              highlightColor={future ? "#888888" : "#e8b4ff"}
-              speed={0.8}
-              intensity={0.6}
-              className="group relative z-10"
+            <Link
+              key={m.id}
+              href={`/m/${m.slug}`}
+              className="group absolute z-30 flex max-w-[10rem] sm:max-w-[12rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 text-center transition-all duration-300 hover:scale-105"
+              style={{ left: `${n.x}%`, top: `${n.y}%` }}
+              title={`Enter ${m.title[locale]}`}
             >
-              <div
-                className={`absolute flex max-w-[9.5rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 text-center sm:max-w-[11rem] ${future ? "text-muted" : "text-text"}`}
-                style={{ left: `${n.x}%`, top: `${n.y}%` }}
-              >
-                <span
-                  data-reveal="pop"
-                  className={`relative z-10 grid size-12 place-items-center overflow-hidden rounded-2xl transition-transform duration-300 hover:scale-105 sm:size-14 ${
-                    future
-                      ? "border border-dashed border-line-strong bg-transparent"
-                      : "border border-line-strong bg-transparent text-violet-ink"
-                  }`}
-                >
-                  {iconImage ? (
-                    <Image
-                      src={iconImage}
-                      alt={label}
-                      width={56}
-                      height={56}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <Icon size={22} weight="duotone" />
-                  )}
+              {/* Module Icon Card */}
+              <div className="relative grid size-14 sm:size-16 place-items-center rounded-2xl border-2 border-purple-400/40 bg-surface-2/95 p-1.5 shadow-[0_8px_24px_rgba(0,0,0,0.15)] backdrop-blur-md transition-all duration-300 group-hover:border-purple-400 group-hover:shadow-[0_0_24px_rgba(168,85,247,0.4)]">
+                {m.iconImage ? (
+                  <Image
+                    src={m.iconImage}
+                    alt={m.title[locale]}
+                    width={56}
+                    height={56}
+                    className="h-full w-full rounded-xl object-contain drop-shadow-sm"
+                  />
+                ) : (
+                  <ModIcon size={26} weight="duotone" className="text-purple-400" />
+                )}
+                <span className="absolute -top-1.5 -right-1.5 rounded-full bg-purple-600 px-1.5 py-0.2 font-mono text-[9px] font-bold text-white shadow-sm">
+                  {m.index}
                 </span>
-                <span className="relative z-10 text-[12px] leading-snug sm:text-[13px]">{label}</span>
               </div>
-            </LiquidGlassCard>
+
+              {/* Module Name */}
+              <div className="flex flex-col items-center">
+                <span className="font-display text-[12.5px] sm:text-[14px] font-bold text-text leading-tight group-hover:text-purple-400 transition-colors drop-shadow-sm">
+                  {m.title[locale]}
+                </span>
+                <span className="font-mono text-[10px] text-muted">
+                  Module {m.index}
+                </span>
+              </div>
+            </Link>
           );
         })}
       </div>

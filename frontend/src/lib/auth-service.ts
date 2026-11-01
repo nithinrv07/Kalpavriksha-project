@@ -40,12 +40,32 @@ export const authService = {
     }
   },
 
+  async syncWithServer(): Promise<Profile | null> {
+    if (typeof window === "undefined") return null;
+    try {
+      const res = await fetch("/api/profile");
+      if (!res.ok) return null;
+      const data = await res.json();
+      if (data.profile) {
+        const local = this.getStoredProfile();
+        if (!local) {
+          updateProgress((p) => setProfile(p, data.profile));
+        }
+        return data.profile;
+      }
+    } catch {
+      // Ignore network errors in offline/mock mode
+    }
+    return null;
+  },
+
   saveProfile(data: {
     name: string;
     email?: string;
     grade: number;
     avatar: Profile["avatar"];
     preferredLanguage?: Profile["preferredLanguage"];
+    board?: string;
     seniorGroup?: string;
     studentId?: string;
   }): Profile {
@@ -56,20 +76,21 @@ export const authService = {
       grade: data.grade,
       avatar: data.avatar,
       preferredLanguage: data.preferredLanguage,
-      seniorGroup: data.seniorGroup,
+      board: data.board || "tn_state",
+      seniorGroup: data.grade >= 11 ? data.seniorGroup : undefined,
       studentId,
     };
 
     updateProgress((p) => setProfile(p, profile));
 
-    // Async attempt to sync with backend route if available
+    // Persistent sync with backend API route
     if (typeof window !== "undefined") {
       fetch("/api/profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(profile),
       }).catch(() => {
-        // Fallback silently to client persistence in mock mode
+        // Fallback silently to client persistence if offline
       });
     }
 
@@ -77,22 +98,42 @@ export const authService = {
   },
 
   updateStandard(grade: number, seniorGroup?: string): void {
+    this.updateAcademicProfile({ grade, seniorGroup });
+  },
+
+  updateAcademicProfile(updates: {
+    grade: number;
+    seniorGroup?: string;
+    board?: string;
+  }): void {
     updateProgress((p) =>
       updateStudentProfile(p, {
-        grade,
-        ...(seniorGroup !== undefined ? { seniorGroup } : {}),
+        grade: updates.grade,
+        ...(updates.seniorGroup !== undefined ? { seniorGroup: updates.seniorGroup } : {}),
+        ...(updates.board !== undefined ? { board: updates.board } : {}),
       }),
     );
     if (typeof window !== "undefined") {
       fetch("/api/profile", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ grade, seniorGroup }),
+        body: JSON.stringify({
+          grade: updates.grade,
+          seniorGroup: updates.grade >= 11 ? updates.seniorGroup : undefined,
+          board: updates.board,
+        }),
       }).catch(() => {});
     }
   },
 
   signOut(): void {
     updateProgress((p) => setProfile(p, null));
+    if (typeof window !== "undefined") {
+      fetch("/api/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: "", grade: 0 }),
+      }).catch(() => {});
+    }
   },
 };

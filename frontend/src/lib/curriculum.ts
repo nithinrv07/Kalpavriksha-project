@@ -23007,6 +23007,155 @@ const CURRICULUM_DATA: Record<SupportedStandard, StandardCurriculum> = {
             ]
           }
         ]
+      },
+      {
+        id: "c11-biology",
+        code: "BIO-11",
+        name: { en: "Biology", ta: "உயிரியல்", hi: "Biology" },
+        accent: "var(--emerald, #10b981)",
+        icon: "science",
+        description: {
+          en: "Official Tamil Nadu State Board Samacheer Kalvi textbook chapters for Class 11 Biology.",
+          ta: "வகுப்பு 11 உயிரியல் பாடத்திற்கான தமிழ்நாடு அரசுப் பாடத்திட்டத்தின் முழுமையான அத்தியாயங்கள்.",
+          hi: "Biology कक्षा 11 संपूर्ण पाठ्यक्रम।"
+        },
+        stream: "science",
+        textbookUrl: TN_11TH_TEXTBOOKS_URL,
+        chapters: [
+          {
+            id: "c11-biology-ch1",
+            chapterNumber: 1,
+            title: { en: "Diversity of Living World", ta: "உயிரின உலகம் மற்றும் வகைப்பாடு", hi: "Diversity of Living World" },
+            summary: { en: "Living organisms, classification, taxonomic hierarchy, species concept, and five-kingdom system.", ta: "உயிரினங்களின் பண்புகள், வகைப்பாட்டின் தேவை, வகைப்பாட்டியல் படிநிலைகள் மற்றும் ஐந்துலக வகைப்பாடு.", hi: "सजीव जगत की विविधता और वर्गीकरण पद्धतियां।" },
+            lessonLines: [
+              "Diversity of Living World (உயிரின உலகம்) — Tamil Nadu State Board Class 11 curriculum.",
+              "Study taxonomic aids, binomial nomenclature by Carl Linnaeus, and cellular organisation.",
+              "Review textbook questions, terminology, and key diagnostic characteristics of major kingdoms."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-bio-ch1-pdf",
+                title: { en: "Diversity of Living World Textbook PDF", ta: "உயிரின உலகம் பாடநூல் (PDF)", hi: "Diversity of Living World पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                description: { en: "Samacheer Kalvi textbook PDF from tntextbooks.net", ta: "தமிழ்நாடு அரசுப் பாடநூல் PDF", hi: "तमिलनाडु स्टेट बोर्ड पीडीएफ" },
+                available: true
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c11-bio-q1",
+                question: { en: "Who proposed the five-kingdom classification system?", ta: "ஐந்துலக வகைப்பாட்டு முறையை முன்மொழிந்தவர் யார்?", hi: "पांच जगत वर्गीकरण किसने प्रस्तावित किया?" },
+                options: [
+                  { en: "R.H. Whittaker", ta: "ஆர்.எச். விட்டேக்கர்", hi: "आर.एच. व्हिटेकर" },
+                  { en: "Carl Linnaeus", ta: "கரோலஸ் லின்னேயஸ்", hi: "कार्ल लिनियस" },
+                  { en: "Aristotle", ta: "அரிஸ்டாட்டில்", hi: "अरस्तू" },
+                  { en: "Ernst Haeckel", ta: "எர்ன்ஸ்ட் ஹெக்கல்", hi: "अर्नेस्ट हेकेल" }
+                ],
+                answerIndex: 0,
+                explanation: { en: "R.H. Whittaker proposed the five-kingdom classification in 1969.", ta: "1969-ல் ஆர்.எச். விட்டேக்கர் ஐந்துலக வகைப்பாட்டை உருவாக்கினார்.", hi: "1969 में आर.एच. व्हिटेकर ने पांच जगत प्रणाली प्रस्तावित की।" }
+              }
+            ]
+          },
+          {
+            id: "c11-biology-ch2",
+            chapterNumber: 2,
+            title: { en: "Cell Biology & Biomolecules", ta: "செல் உயிரியல் மற்றும் மூலக்கூறுகள்", hi: "Cell Biology & Biomolecules" },
+            summary: { en: "Prokaryotic and eukaryotic cells, organelles, proteins, nucleic acids, and enzyme actions.", ta: "ப்ரோகேரியோட்டிக், யூகேரியோட்டிக் செல்கள், நுண்ணுறுப்புகள் மற்றும் நொதிகள்.", hi: "कोशिका संरचना, अंगक, प्रोटीन और एंजाइम।" },
+            lessonLines: [
+              "Cell Biology & Biomolecules — Tamil Nadu State Board Class 11 syllabus.",
+              "Analyze plasma membrane fluid mosaic model, nucleus, ribosomes, and DNA structure.",
+              "Practice metabolic pathway definitions and biochemical reactions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-bio-ch2-pdf",
+                title: { en: "Cell Biology Textbook PDF", ta: "செல் உயிரியல் பாடநூல் (PDF)", hi: "Cell Biology पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true
+              }
+            ]
+          },
+          {
+            id: "c11-biology-ch3",
+            chapterNumber: 3,
+            title: { en: "Plant & Human Physiology", ta: "தாவர மற்றும் மனித உடலியங்கியல்", hi: "Plant & Human Physiology" },
+            summary: { en: "Photosynthesis, respiration, transport in plants, digestion, and circulation.", ta: "ஒளிச்சேர்க்கை, சுவாசம், செரித்தல் மற்றும் இரத்த ஓட்டம்.", hi: "पादप एवं मानव कार्यिकी।" },
+            lessonLines: [
+              "Plant & Human Physiology — Tamil Nadu State Board curriculum.",
+              "Master light reaction, Calvin cycle, cardiac cycle, and respiratory mechanics.",
+              "Solve physiological numericals and clinical application questions."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c11-bio-ch3-pdf",
+                title: { en: "Physiology Textbook PDF", ta: "உடலியங்கியல் பாடநூல் (PDF)", hi: "Physiology पीडीएफ" },
+                type: "pdf",
+                url: TN_11TH_TEXTBOOKS_URL,
+                available: true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: "c11-botany",
+        code: "BOT-11",
+        name: { en: "Bio-Botany", ta: "தாவரவியல்", hi: "Bio-Botany" },
+        accent: "var(--teal)",
+        icon: "science",
+        description: {
+          en: "Official Tamil Nadu State Board Samacheer Kalvi textbook chapters for Class 11 Bio-Botany.",
+          ta: "வகுப்பு 11 தாவரவியல் பாடத்திற்கான தமிழ்நாடு அரசுப் பாடத்திட்டம்.",
+          hi: "Bio-Botany कक्षा 11 संपूर्ण पाठ्यक्रम।"
+        },
+        stream: "science",
+        textbookUrl: TN_11TH_TEXTBOOKS_URL,
+        chapters: [
+          {
+            id: "c11-botany-ch1",
+            chapterNumber: 1,
+            title: { en: "Plant Diversity & Morphology", ta: "தாவர உலகம் மற்றும் புற அமைப்பியல்", hi: "Plant Diversity & Morphology" },
+            summary: { en: "Algae, Bryophytes, Pteridophytes, Gymnosperms, and Angiosperm morphology.", ta: "பாசிகள், பிரையோபைட்டுகள், டெரிடோபைட்டுகள் மற்றும் மலரின் பாகங்கள்.", hi: "पादप जगत और आकारिकी।" },
+            lessonLines: ["Plant Diversity & Morphology — Class 11 State Board.", "Master plant structural adaptations."],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [{ id: "c11-bot-ch1-pdf", title: { en: "Botany Textbook PDF", ta: "தாவரவியல் பாடநூல்", hi: "Botany पीडीएफ" }, type: "pdf", url: TN_11TH_TEXTBOOKS_URL, available: true }]
+          }
+        ]
+      },
+      {
+        id: "c11-zoology",
+        code: "ZOO-11",
+        name: { en: "Bio-Zoology", ta: "விலங்கியல்", hi: "Bio-Zoology" },
+        accent: "var(--cyan, #06b6d4)",
+        icon: "science",
+        description: {
+          en: "Official Tamil Nadu State Board Samacheer Kalvi textbook chapters for Class 11 Bio-Zoology.",
+          ta: "வகுப்பு 11 விலங்கியல் பாடத்திற்கான தமிழ்நாடு அரசுப் பாடத்திட்டம்.",
+          hi: "Bio-Zoology कक्षा 11 संपूर्ण पाठ्यक्रम।"
+        },
+        stream: "science",
+        textbookUrl: TN_11TH_TEXTBOOKS_URL,
+        chapters: [
+          {
+            id: "c11-zoology-ch1",
+            chapterNumber: 1,
+            title: { en: "Animal Kingdom & Physiology", ta: "விலங்குலகம் மற்றும் உடலியங்கியல்", hi: "Animal Kingdom & Physiology" },
+            summary: { en: "Non-chordates, Chordates classification, organ systems, and neural control.", ta: "முதுகெலும்பற்றவை, முதுகுநாணுடையவை வகைப்பாடு மற்றும் உடலியக்க உறுப்புகள்.", hi: "जंतु जगत और कार्यिकी।" },
+            lessonLines: ["Animal Kingdom & Physiology — Class 11 State Board.", "Understand zoological classification."],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [{ id: "c11-zoo-ch1-pdf", title: { en: "Zoology Textbook PDF", ta: "விலங்கியல் பாடநூல்", hi: "Zoology पीडीएफ" }, type: "pdf", url: TN_11TH_TEXTBOOKS_URL, available: true }]
+          }
+        ]
       }
     ]
   },
@@ -29546,6 +29695,197 @@ const CURRICULUM_DATA: Record<SupportedStandard, StandardCurriculum> = {
             ]
           }
         ]
+      },
+      {
+        id: "c12-biology",
+        code: "BIO-12",
+        name: { en: "Biology", ta: "உயிரியல்", hi: "Biology" },
+        accent: "var(--emerald, #10b981)",
+        icon: "science",
+        description: {
+          en: "Official Tamil Nadu State Board Samacheer Kalvi textbook chapters for Class 12 Biology (Bio-Maths / Science stream).",
+          ta: "வகுப்பு 12 உயிரியல் பாடத்திற்கான தமிழ்நாடு அரசுப் பாடத்திட்டத்தின் முழுமையான அத்தியாயங்கள்.",
+          hi: "Biology कक्षा 12 संपूर्ण पाठ्यक्रम।"
+        },
+        stream: "science",
+        textbookUrl: TN_12TH_TEXTBOOKS_URL,
+        chapters: [
+          {
+            id: "c12-biology-ch1",
+            chapterNumber: 1,
+            title: { en: "Reproduction in Organisms", ta: "உயிரினங்களில் இனப்பெருக்கம்", hi: "Reproduction in Organisms" },
+            summary: { en: "Asexual reproduction, sexual reproduction in flowering plants, and human reproductive system.", ta: "பாலிலா இனப்பெருக்கம், தாவரங்களில் மகரந்தச்சேர்க்கை மற்றும் மனித இனப்பெருக்க மண்டலம்.", hi: "जीवों में जनन, पादप जनन और मानव जनन तंत्र।" },
+            lessonLines: [
+              "Reproduction in Organisms (உயிரினங்களில் இனப்பெருக்கம்) — Tamil Nadu State Board Class 12 curriculum.",
+              "Study microsporogenesis, megasporogenesis, gametogenesis, and embryonic development.",
+              "Review textbook diagrams, fertilization stages, and reproductive health measures."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-bio-ch1-pdf",
+                title: { en: "Reproduction in Organisms Textbook PDF", ta: "உயிரினங்களில் இனப்பெருக்கம் பாடநூல் (PDF)", hi: "Reproduction in Organisms पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                description: { en: "Official Samacheer Kalvi textbook chapter from tntextbooks.net", ta: "அரசுப் பாடநூல் பதிவிறக்கம்", hi: "तमिलनाडु स्टेट बोर्ड पीडीएफ" },
+                available: true
+              }
+            ],
+            practiceQuestions: [
+              {
+                id: "c12-bio-q1",
+                question: { en: "Double fertilization is a characteristic feature of which plant group?", ta: "இரட்டைக்கருவுறுதல் எந்த தாவரக் குழுவின் சிறப்பியல்பு?", hi: "द्विनिषेचन किस पादप समूह का विशिष्ट लक्षण है?" },
+                options: [
+                  { en: "Angiosperms", ta: "ஆஞ்சியோஸ்பெர்ம்கள் (மூடியவிதைத் தாவரங்கள்)", hi: "आवृतबीजी (एंजियोस्पर्म)" },
+                  { en: "Gymnosperms", ta: "ஜிம்னோஸ்பெர்ம்கள்", hi: "अनावृतबीजी (जिम्नोस्पर्म)" },
+                  { en: "Pteridophytes", ta: "டெரிடோபைட்டுகள்", hi: "टेरिडोफाइट्स" },
+                  { en: "Bryophytes", ta: "பிரையோபைட்டுகள்", hi: "ब्रायोफाइट्स" }
+                ],
+                answerIndex: 0,
+                explanation: { en: "Double fertilization is unique to angiosperms (flowering plants).", ta: "இரட்டைக்கருவுறுதல் ஆஞ்சியோஸ்பெர்ம் மலரும் தாவரங்களுக்கே உரிய தனித்துவமான நிகழ்வாகும்.", hi: "द्विनिषेचन केवल आवृतबीजी पौधों में पाया जाता है।" }
+              }
+            ]
+          },
+          {
+            id: "c12-biology-ch2",
+            chapterNumber: 2,
+            title: { en: "Principles of Inheritance & Molecular Genetics", ta: "பாரம்பரியக் கொள்கைகள் மற்றும் மூலக்கூறு மரபியல்", hi: "Inheritance & Molecular Genetics" },
+            summary: { en: "Mendelian genetics, linkage, DNA replication, transcription, translation, and genetic code.", ta: "மெண்டலின் விதிகள், பிணைப்பு, டி.என்.ஏ இரட்டிப்பாதல் மற்றும் புரதச்சேர்க்கை.", hi: "मेंडेलियन आनुवंशिकी, डीएनए प्रतिकृति और आनुवंशिक कोड।" },
+            lessonLines: [
+              "Principles of Inheritance & Molecular Genetics — Class 12 State Board syllabus.",
+              "Master monohybrid/dihybrid crosses, central dogma, and operon models.",
+              "Practice pedigree analysis and DNA fingerprinting applications."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-bio-ch2-pdf",
+                title: { en: "Genetics Textbook PDF", ta: "மரபியல் பாடநூல் (PDF)", hi: "Genetics पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true
+              }
+            ]
+          },
+          {
+            id: "c12-biology-ch3",
+            chapterNumber: 3,
+            title: { en: "Evolution & Human Health", ta: "பரிணாமம் மற்றும் மனித நலன்", hi: "Evolution & Human Health" },
+            summary: { en: "Theories of biological evolution, innate and adaptive immunity, infectious diseases, and cancer.", ta: "உயிரியல் பரிணாமக் கோட்பாடுகள், நோய் எதிர்ப்பாற்றல் மற்றும் புற்றுநோய்.", hi: "जैव विकास, प्रतिरक्षा तंत्र और सामान्य मानव रोग।" },
+            lessonLines: [
+              "Evolution & Human Health — Tamil Nadu State Board Class 12 curriculum.",
+              "Examine Darwinism, Hardy-Weinberg equilibrium, vaccines, and AIDS.",
+              "Understand immune responses and preventive community healthcare."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-bio-ch3-pdf",
+                title: { en: "Evolution & Health Textbook PDF", ta: "பரிணாமம் பாடநூல் (PDF)", hi: "Evolution पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true
+              }
+            ]
+          },
+          {
+            id: "c12-biology-ch4",
+            chapterNumber: 4,
+            title: { en: "Biotechnology & Ecology", ta: "உயிர்த்தொழில்நுட்பவியல் மற்றும் சூழலியல்", hi: "Biotechnology & Ecology" },
+            summary: { en: "Recombinant DNA technology, transgenic crops, ecosystems, biodiversity conservation, and environmental issues.", ta: "மறுசேர்க்கை டி.என்.ஏ தொழில்நுட்பம், மரபணு மாற்றிய பயிர்கள் மற்றும் பல்லுயிர் பாதுகாப்பு.", hi: "जैव प्रौद्योगिकी, पारितंत्र और जैव विविधता संरक्षण।" },
+            lessonLines: [
+              "Biotechnology & Ecology — Tamil Nadu Class 12 board examination topics.",
+              "Master PCR, restriction enzymes, cloning vectors, and ecological pyramids.",
+              "Review conservation strategies and environmental protection acts."
+            ],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [
+              {
+                id: "c12-bio-ch4-pdf",
+                title: { en: "Biotechnology Textbook PDF", ta: "உயிர்த்தொழில்நுட்பவியல் பாடநூல் (PDF)", hi: "Biotechnology पीडीएफ" },
+                type: "pdf",
+                url: TN_12TH_TEXTBOOKS_URL,
+                available: true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: "c12-botany",
+        code: "BOT-12",
+        name: { en: "Bio-Botany", ta: "தாவரவியல்", hi: "Bio-Botany" },
+        accent: "var(--teal)",
+        icon: "science",
+        description: {
+          en: "Official Tamil Nadu State Board Samacheer Kalvi textbook chapters for Class 12 Bio-Botany (Pure Science stream).",
+          ta: "வகுப்பு 12 தாவரவியல் பாடத்திற்கான தமிழ்நாடு அரசுப் பாடத்திட்டம்.",
+          hi: "Bio-Botany कक्षा 12 संपूर्ण पाठ्यक्रम।"
+        },
+        stream: "science",
+        textbookUrl: TN_12TH_TEXTBOOKS_URL,
+        chapters: [
+          {
+            id: "c12-botany-ch1",
+            chapterNumber: 1,
+            title: { en: "Plant Reproduction & Genetics", ta: "தாவர இனப்பெருக்கம் மற்றும் மரபியல்", hi: "Plant Reproduction & Genetics" },
+            summary: { en: "Asexual & sexual reproduction in plants, classical genetics, and chromosomal inheritance.", ta: "தாவரங்களில் பாலிலா இனப்பெருக்கம் மற்றும் பாரம்பரிய மரபியல்.", hi: "पादप जनन और आनुवंशिकी।" },
+            lessonLines: ["Plant Reproduction & Genetics — Class 12 State Board.", "Master plant breeding techniques."],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [{ id: "c12-bot-ch1-pdf", title: { en: "Bio-Botany Textbook PDF", ta: "தாவரவியல் பாடநூல்", hi: "Bio-Botany पीडीएफ" }, type: "pdf", url: TN_12TH_TEXTBOOKS_URL, available: true }]
+          },
+          {
+            id: "c12-botany-ch2",
+            chapterNumber: 2,
+            title: { en: "Biotechnology & Plant Tissue Culture", ta: "உயிர்த்தொழில்நுட்பவியல் மற்றும் திசு வளர்ப்பு", hi: "Biotech & Tissue Culture" },
+            summary: { en: "Principles of biotechnology, plant tissue culture (micropropagation), and environmental ecology.", ta: "திசு வளர்ப்பு முறைகள் மற்றும் தாவர சூழலியல்.", hi: "ऊतक संवर्धन और पादप पारिस्थितिकी।" },
+            lessonLines: ["Biotechnology & Plant Tissue Culture — Class 12 State Board.", "Understand plant tissue culture applications."],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [{ id: "c12-bot-ch2-pdf", title: { en: "Tissue Culture Textbook PDF", ta: "திசு வளர்ப்பு பாடநூல்", hi: "Tissue Culture पीडीएफ" }, type: "pdf", url: TN_12TH_TEXTBOOKS_URL, available: true }]
+          }
+        ]
+      },
+      {
+        id: "c12-zoology",
+        code: "ZOO-12",
+        name: { en: "Bio-Zoology", ta: "விலங்கியல்", hi: "Bio-Zoology" },
+        accent: "var(--cyan, #06b6d4)",
+        icon: "science",
+        description: {
+          en: "Official Tamil Nadu State Board Samacheer Kalvi textbook chapters for Class 12 Bio-Zoology (Pure Science stream).",
+          ta: "வகுப்பு 12 விலங்கியல் பாடத்திற்கான தமிழ்நாடு அரசுப் பாடத்திட்டம்.",
+          hi: "Bio-Zoology कक्षा 12 संपूर्ण पाठ्यक्रम।"
+        },
+        stream: "science",
+        textbookUrl: TN_12TH_TEXTBOOKS_URL,
+        chapters: [
+          {
+            id: "c12-zoology-ch1",
+            chapterNumber: 1,
+            title: { en: "Human Reproduction & Genetics", ta: "மனித இனப்பெருக்கம் மற்றும் மூலக்கூறு மரபியல்", hi: "Human Reproduction & Genetics" },
+            summary: { en: "Human reproductive system, reproductive health, principles of inheritance, and molecular genetics.", ta: "மனித இனப்பெருக்கம் மற்றும் மூலக்கூறு மரபியல்.", hi: "मानव जनन और आणविक आनुवंशिकी।" },
+            lessonLines: ["Human Reproduction & Genetics — Class 12 State Board.", "Master zoological genetics."],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [{ id: "c12-zoo-ch1-pdf", title: { en: "Bio-Zoology Textbook PDF", ta: "விலங்கியல் பாடநூல்", hi: "Bio-Zoology पीडीएफ" }, type: "pdf", url: TN_12TH_TEXTBOOKS_URL, available: true }]
+          },
+          {
+            id: "c12-zoology-ch2",
+            chapterNumber: 2,
+            title: { en: "Evolution, Immunology & Ecology", ta: "பரிணாமம், நோய் எதிர்ப்பியல் மற்றும் சூழலியல்", hi: "Evolution, Immunology & Ecology" },
+            summary: { en: "Theories of evolution, immunology, microbes in human welfare, and environmental biodiversity.", ta: "நோய் எதிர்ப்பியல் அமைப்புகள் மற்றும் சூழலியல் மேலாண்மை.", hi: "विकास, प्रतिरक्षा और पारिस्थितिकी।" },
+            lessonLines: ["Evolution, Immunology & Ecology — Class 12 State Board.", "Understand immunology and conservation."],
+            lessonLang: "en",
+            estimatedMinutes: 8,
+            resources: [{ id: "c12-zoo-ch2-pdf", title: { en: "Immunology Textbook PDF", ta: "நோய் எதிர்ப்பியல் பாடநூல்", hi: "Immunology पीडीएफ" }, type: "pdf", url: TN_12TH_TEXTBOOKS_URL, available: true }]
+          }
+        ]
       }
     ]
   }
@@ -29555,14 +29895,20 @@ const CURRICULUM_DATA: Record<SupportedStandard, StandardCurriculum> = {
 // HIGHER SECONDARY GROUPS / STREAMS (Class 11 & 12)
 // ============================================================================
 
-export type SeniorGroupId = "cs" | "commerce" | "business_maths";
+export type SeniorGroupId =
+  | "cs"
+  | "biology"
+  | "pure_science"
+  | "commerce"
+  | "commerce_ca"
+  | "business_maths";
 
 export interface SeniorGroupDefinition {
   readonly id: SeniorGroupId;
   readonly code: string;
   readonly badge: string;
   readonly accent: string;
-  readonly iconName: "computer" | "commerce" | "math";
+  readonly iconName: "computer" | "commerce" | "math" | "science";
   readonly name: LocalizedText;
   readonly description: LocalizedText;
   readonly electiveCodes: readonly string[]; // 4 core group subjects
@@ -29590,14 +29936,52 @@ export const SENIOR_GROUPS: readonly SeniorGroupDefinition[] = [
     allGroupCodes: ["CSC", "MAT", "PHY", "CHE", "TAM", "ENG"],
   },
   {
-    id: "commerce",
+    id: "biology",
     code: "GROUP-2",
-    badge: "Commerce with CA",
+    badge: "Biology Group",
+    accent: "var(--emerald, #10b981)",
+    iconName: "science",
+    name: {
+      en: "Biology Group (Bio-Maths)",
+      ta: "உயிரியல் பிரிவு (உயிரியல் & கணிதம்)",
+      hi: "बायोलॉजी ग्रुप (बायो-मैथ्स)",
+    },
+    description: {
+      en: "Biology, Mathematics, Physics, Chemistry (+ Tamil & English)",
+      ta: "உயிரியல், கணிதம், இயற்பியல், வேதியியல் (+ தமிழ், ஆங்கிலம்)",
+      hi: "जीव विज्ञान, गणित, भौतिकी, रसायन विज्ञान (+ तमिल, अंग्रेजी)",
+    },
+    electiveCodes: ["BIO", "MAT", "PHY", "CHE"],
+    allGroupCodes: ["BIO", "MAT", "PHY", "CHE", "TAM", "ENG"],
+  },
+  {
+    id: "pure_science",
+    code: "GROUP-3",
+    badge: "Pure Science",
+    accent: "var(--cyan, #06b6d4)",
+    iconName: "science",
+    name: {
+      en: "Pure Science Group",
+      ta: "தூய அறிவியல் பிரிவு",
+      hi: "प्योर साइंस ग्रुप",
+    },
+    description: {
+      en: "Physics, Chemistry, Botany, Zoology (+ Tamil & English)",
+      ta: "இயற்பியல், வேதியியல், தாவரவியல், விலங்கியல் (+ தமிழ், ஆங்கிலம்)",
+      hi: "भौतिकी, रसायन विज्ञान, वनस्पति विज्ञान, प्राणि विज्ञान (+ तमिल, अंग्रेजी)",
+    },
+    electiveCodes: ["PHY", "CHE", "BOT", "ZOO"],
+    allGroupCodes: ["PHY", "CHE", "BOT", "ZOO", "TAM", "ENG"],
+  },
+  {
+    id: "commerce",
+    code: "GROUP-4",
+    badge: "Commerce Group",
     accent: "var(--amber)",
     iconName: "commerce",
     name: {
       en: "Commerce Group",
-      ta: "வணிகவியல் பிரிவு (கணினி பயன்பாடுகள்)",
+      ta: "வணிகவியல் பிரிவு",
       hi: "कॉमर्स ग्रुप",
     },
     description: {
@@ -29609,8 +29993,27 @@ export const SENIOR_GROUPS: readonly SeniorGroupDefinition[] = [
     allGroupCodes: ["COM", "ACC", "ECO", "CAP", "TAM", "ENG"],
   },
   {
+    id: "commerce_ca",
+    code: "GROUP-5",
+    badge: "Commerce with CA",
+    accent: "var(--amber)",
+    iconName: "commerce",
+    name: {
+      en: "Commerce with Computer Applications",
+      ta: "வணிகவியல் மற்றும் கணினி பயன்பாடுகள்",
+      hi: "वाणिज्य और कंप्यूटर अनुप्रयोग",
+    },
+    description: {
+      en: "Commerce, Accountancy, Economics, Computer Applications (+ Tamil & English)",
+      ta: "வணிகவியல், கணக்குப்பதிவியல், பொருளியல், கணினி பயன்பாடுகள் (+ தமிழ், ஆங்கிலம்)",
+      hi: "वाणिज्य, लेखा, अर्थशास्त्र, कंप्यूटर अनुप्रयोग (+ तमिल, अंग्रेजी)",
+    },
+    electiveCodes: ["COM", "ACC", "ECO", "CAP"],
+    allGroupCodes: ["COM", "ACC", "ECO", "CAP", "TAM", "ENG"],
+  },
+  {
     id: "business_maths",
-    code: "GROUP-3",
+    code: "GROUP-6",
     badge: "Business Maths",
     accent: "var(--violet)",
     iconName: "math",
@@ -29631,6 +30034,9 @@ export const SENIOR_GROUPS: readonly SeniorGroupDefinition[] = [
 
 export function getSeniorGroup(groupId?: string | null): SeniorGroupDefinition | undefined {
   if (!groupId) return undefined;
+  if (groupId === "commerce_ca") {
+    return SENIOR_GROUPS.find((g) => g.id === "commerce_ca") || SENIOR_GROUPS.find((g) => g.id === "commerce");
+  }
   return SENIOR_GROUPS.find((g) => g.id === groupId);
 }
 
@@ -29648,7 +30054,6 @@ export function filterSubjectsByGroup(
     return targetCodes.includes(prefix);
   });
 }
-
 // ============================================================================
 // HELPER & QUERY FUNCTIONS
 // ============================================================================

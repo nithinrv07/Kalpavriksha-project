@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, Flag, Play, Plus, Sparkle } from "@phosphor-icons/react/ssr";
+import { ArrowUpRight, Flag, Play, Sparkle } from "@phosphor-icons/react/ssr";
 import Image from "next/image";
 import Link from "next/link";
 import { useLocale } from "@/components/locale-provider";
@@ -377,20 +377,6 @@ export function BentoModules({ scrollProgress = 0 }: BentoModulesProps) {
         </div>
       </div>
 
-      {/* Subtle Future Extension Banner */}
-      <div data-reveal="up" className="mt-10 flex items-center justify-between rounded-2xl border border-dashed border-white/15 bg-[#120a24]/60 px-6 py-4 backdrop-blur-xl sm:px-8">
-        <div className="flex items-center gap-3">
-          <span className="grid size-7 place-items-center rounded-lg border border-white/15 bg-white/[0.04] text-muted">
-            <Plus size={14} />
-          </span>
-          <p className="text-[14px] text-muted">
-            <strong className="font-medium text-text">{t.soonTitle}</strong> — {t.soonBody}
-          </p>
-        </div>
-        <span className="hidden font-mono text-[11px] text-muted/60 sm:inline">
-          Module 04+ In Pipeline
-        </span>
-      </div>
-    </section>
+      </section>
   );
 }

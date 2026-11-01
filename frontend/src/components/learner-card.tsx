@@ -7,6 +7,8 @@ import { Suspense, useState } from "react";
 import { Avatar } from "@/components/avatar";
 import { BrandMark } from "@/components/brand-mark";
 import { ChromeWaves } from "@/components/landing/chrome-waves";
+import { LivingTree } from "@/components/landing/living-tree";
+import { CosmicParticleLayer } from "@/components/cosmic-particle-layer";
 import { LangSelect } from "@/components/landing/lang-select";
 import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
 import { useLocale } from "@/components/locale-provider";
@@ -54,6 +56,13 @@ function Card({ profile }: { profile: Profile }) {
                   {" "}· {SENIOR_GROUPS.find((g) => g.id === profile.seniorGroup)?.badge || profile.seniorGroup}
                 </span>
               )}
+            </p>
+            <p className="mt-0.5 font-mono text-[11px] text-muted">
+              {profile.board === "cbse"
+                ? "CBSE Board"
+                : profile.board === "icse"
+                ? "ICSE Board"
+                : "Tamil Nadu State Board (Samacheer Kalvi)"}
             </p>
             {profile.email && (
               <p className="truncate font-mono text-[11px] text-muted">{profile.email}</p>
@@ -103,7 +112,7 @@ function SignInScreenContent() {
   const { t, locale } = useLocale();
   const { profile } = useProgress();
   const hydrated = useHydrated();
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(() => searchParams?.get("edit") === "true");
   const [confirming, setConfirming] = useState(false);
   const c = SETUP_COPY[locale];
 
@@ -113,8 +122,24 @@ function SignInScreenContent() {
       : redirectTarget;
 
   return (
-    <>
+    <div className="relative isolate min-h-[100dvh] w-full overflow-hidden">
       <ChromeWaves />
+
+      {/* Blooming Wishing Tree with drifting petals hugging the left side */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-y-0 left-0 z-0 hidden sm:block h-full w-[52vw] min-w-[300px] max-w-[700px] overflow-hidden opacity-90 transform-gpu"
+        style={{
+          maskImage: "linear-gradient(to right, #000 85%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to right, #000 85%, transparent 100%)",
+        }}
+      >
+        <LivingTree />
+      </div>
+
+      {/* Cosmic Particles & Interactive Petal Bursts Layer */}
+      <CosmicParticleLayer moduleSlug="learn" />
+
       <div className="relative z-10 mx-auto w-full max-w-[1100px] px-4 pb-24 sm:px-6">
         <header className="flex items-center justify-between gap-3 py-4 sm:py-6">
           <Link
@@ -210,7 +235,7 @@ function SignInScreenContent() {
           )}
         </main>
       </div>
-    </>
+    </div>
   );
 }
 

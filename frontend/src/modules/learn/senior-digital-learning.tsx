@@ -27,6 +27,7 @@ import {
 import { useLocale } from "@/components/locale-provider";
 import { useProgress } from "@/components/progress-store";
 import { useTheme } from "@/lib/theme";
+import type { Profile } from "@/lib/progress";
 import { SENIOR_GROUPS, type CurriculumChapter, type CurriculumSubject } from "@/lib/curriculum";
 
 interface SeniorDigitalLearningProps {
@@ -36,8 +37,8 @@ interface SeniorDigitalLearningProps {
   filter: string;
   setFilter: (f: string) => void;
   onOpenChapter: (chapterId: string) => void;
-  onOpenStandardSwitcher: () => void;
-  onSelectStandard: (std: number) => void;
+  onOpenStandardSwitcher?: () => void;
+  onSelectStandard?: (std: number) => void;
   continueRecord: {
     subject: CurriculumSubject;
     chapter: CurriculumChapter;
@@ -47,6 +48,7 @@ interface SeniorDigitalLearningProps {
   completedChaptersCount: number;
   seniorGroupFilter?: string;
   onSelectSeniorGroup?: (group: string) => void;
+  profile?: Profile;
 }
 
 const CLASS_ITEMS = [
@@ -97,6 +99,54 @@ function getSubjectVisual(sub: CurriculumSubject) {
       btnBg: "bg-sky-950/40",
       btnHoverBg: "group-hover:bg-sky-900/50",
       btnText: "text-sky-200 group-hover:text-white",
+    };
+  }
+
+  // 2b. Biology (11th & 12th Bio-Maths)
+  if (id.includes("biology") || code.startsWith("BIO")) {
+    return {
+      image: "/images/learn/subject-science-micro.png",
+      gradient: "from-[#0c2a1c]/85 to-[#06180f]/90",
+      borderClass: "border-emerald-900/35 hover:border-emerald-500/50",
+      activeBorderClass: "border-emerald-400 shadow-[0_0_22px_rgba(52,211,153,0.35)] ring-1 ring-emerald-300",
+      subtextColor: "text-emerald-300/80",
+      tagline: "Cell, Genetics, Anatomy & Life Systems",
+      btnBorder: "border-emerald-700/50",
+      btnBg: "bg-emerald-950/40",
+      btnHoverBg: "group-hover:bg-emerald-900/50",
+      btnText: "text-emerald-200 group-hover:text-white",
+    };
+  }
+
+  // 2c. Botany (11th & 12th Pure Science)
+  if (id.includes("botany") || code.startsWith("BOT")) {
+    return {
+      image: "/images/learn/subject-science-micro.png",
+      gradient: "from-[#0b2b24]/85 to-[#051914]/90",
+      borderClass: "border-teal-900/35 hover:border-teal-500/50",
+      activeBorderClass: "border-teal-400 shadow-[0_0_22px_rgba(45,212,191,0.35)] ring-1 ring-teal-300",
+      subtextColor: "text-teal-300/80",
+      tagline: "Plant Morphology, Anatomy & Biotech",
+      btnBorder: "border-teal-700/50",
+      btnBg: "bg-teal-950/40",
+      btnHoverBg: "group-hover:bg-teal-900/50",
+      btnText: "text-teal-200 group-hover:text-white",
+    };
+  }
+
+  // 2d. Zoology (11th & 12th Pure Science)
+  if (id.includes("zoology") || code.startsWith("ZOO")) {
+    return {
+      image: "/images/learn/subject-science-micro.png",
+      gradient: "from-[#092236]/85 to-[#051320]/90",
+      borderClass: "border-cyan-900/35 hover:border-cyan-500/50",
+      activeBorderClass: "border-cyan-400 shadow-[0_0_22px_rgba(34,211,238,0.35)] ring-1 ring-cyan-300",
+      subtextColor: "text-cyan-300/80",
+      tagline: "Animal Physiology, Genetics & Ecology",
+      btnBorder: "border-cyan-700/50",
+      btnBg: "bg-cyan-950/40",
+      btnHoverBg: "group-hover:bg-cyan-900/50",
+      btnText: "text-cyan-200 group-hover:text-white",
     };
   }
 
@@ -305,6 +355,7 @@ export function SeniorDigitalLearning({
   completedChaptersCount,
   seniorGroupFilter = "cs",
   onSelectSeniorGroup,
+  profile,
 }: SeniorDigitalLearningProps) {
   const { locale, setLocale, t } = useLocale();
   const progress = useProgress();
@@ -334,7 +385,7 @@ export function SeniorDigitalLearning({
   };
 
   const handleClassTouch = (std: number) => {
-    onSelectStandard(std);
+    onSelectStandard?.(std);
     setActiveSubjectId("all");
     setIsElongated(true);
     // Smoothly scroll to elongated subjects section so user sees updated subjects
@@ -364,8 +415,6 @@ export function SeniorDigitalLearning({
   const handleSelectSubject = (sub?: CurriculumSubject) => {
     if (sub) {
       setActiveSubjectId((prev) => (prev === sub.id ? "all" : sub.id));
-    } else if (allFlatChapters[0]) {
-      onOpenChapter(allFlatChapters[0].chapter.id);
     }
   };
 
@@ -441,10 +490,10 @@ export function SeniorDigitalLearning({
           </button>
 
           {/* Profile Card */}
-          <button
-            type="button"
-            onClick={onOpenStandardSwitcher}
+          <Link
+            href="/sign-in?edit=true&redirect=/m/learn"
             className="group flex items-center gap-2.5 rounded-full border border-purple-700/50 bg-gradient-to-r from-purple-950/80 to-[#1e0e38]/80 py-1 pl-1 pr-3 shadow-[0_0_15px_rgba(168,85,247,0.2)] transition-all hover:border-purple-500 hover:scale-[1.02]"
+            title="Edit Academic Profile"
           >
             <div className="relative size-8 shrink-0 overflow-hidden rounded-full border border-purple-400 bg-purple-900 p-0.5">
               <Image
@@ -460,10 +509,10 @@ export function SeniorDigitalLearning({
                 {learnerName}
               </span>
               <span className="font-mono text-[10px] text-purple-300/80 flex items-center gap-1">
-                Class {currentStandard} <span className="text-[9px]">▾</span>
+                Class {currentStandard} {isSenior && activeSeniorGroup ? `· ${activeSeniorGroup.badge}` : ""}
               </span>
             </div>
-          </button>
+          </Link>
         </div>
       </header>
 
@@ -507,81 +556,77 @@ export function SeniorDigitalLearning({
         {/* ===================================================================== */}
         <div className="lg:col-span-8 flex flex-col gap-6">
           {/* ----------------------------------------------------------------- */}
-          {/* A. CHOOSE YOUR LEARNING WORLD (CLASS 1 TO 12 CAROUSEL)            */}
+          {/* A. YOUR ENROLLED CLASS & ACADEMIC PROFILE                         */}
           {/* ----------------------------------------------------------------- */}
-          <section className="flex flex-col gap-3 rounded-2xl border border-purple-900/30 bg-[#140a28]/60 p-4 sm:p-5 backdrop-blur-md">
-            <div className="flex items-center gap-2">
-              <Sparkle size={18} weight="fill" className="text-purple-400 animate-starlight" />
-              <h2 className="font-display text-sm sm:text-base font-bold text-white tracking-wide">
-                Choose Your Learning World
-              </h2>
-            </div>
+          <section className="relative overflow-hidden rounded-2xl border border-purple-800/40 bg-gradient-to-br from-[#1b0d36]/80 via-[#140a28]/70 to-[#0e071c]/90 p-4 sm:p-5 backdrop-blur-md shadow-lg">
+            {/* Ambient subtle glow */}
+            <div className="pointer-events-none absolute -right-10 -top-10 size-48 rounded-full bg-purple-600/15 blur-3xl" />
 
-            {/* Class Cards Carousel with < on left and > on right */}
-            <div className="relative flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => handleClassTouch(Math.max(1, currentStandard - 1))}
-                className="grid size-8 shrink-0 place-items-center rounded-xl border border-purple-800/40 bg-purple-950/60 text-purple-300 hover:text-white hover:border-purple-600 transition-colors"
-                title="Previous Class"
-              >
-                <CaretLeft size={16} weight="bold" />
-              </button>
+            <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              {/* Left: Class Badge + 3D Art + Stage & Board Info */}
+              <div className="flex items-center gap-3.5 sm:gap-4">
+                <div className="relative size-14 sm:size-16 shrink-0 rounded-2xl border border-purple-500/40 bg-gradient-to-b from-purple-900/60 to-purple-950/80 p-2 shadow-[0_0_20px_rgba(168,85,247,0.3)]">
+                  <Image
+                    src={
+                      CLASS_ITEMS.find((c) => c.std === currentStandard)?.image ||
+                      "/images/learn/class-8-armillary.png"
+                    }
+                    alt={`Class ${currentStandard}`}
+                    width={64}
+                    height={64}
+                    className="size-full object-contain drop-shadow-md"
+                  />
+                  <span className="absolute -bottom-1 -right-1 grid size-5 place-items-center rounded-full bg-purple-500 text-white shadow-sm ring-2 ring-[#140a28]">
+                    <Check size={11} weight="bold" />
+                  </span>
+                </div>
 
-              <div
-                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-                className="flex-1 flex items-center gap-2.5 overflow-x-auto pb-1 pt-1 scroll-smooth [&::-webkit-scrollbar]:hidden"
-              >
-                {CLASS_ITEMS.map((item) => {
-                  const isSelected = item.std === currentStandard;
-                  return (
-                    <button
-                      key={item.std}
-                      type="button"
-                      onClick={() => handleClassTouch(item.std)}
-                      className={`group relative flex flex-col items-center justify-between rounded-xl p-2.5 transition-all duration-300 min-w-[70px] shrink-0 ${
-                        isSelected
-                          ? "border-2 border-purple-500 bg-purple-900/40 shadow-[0_0_18px_rgba(168,85,247,0.45)] scale-105"
-                          : "border border-purple-900/30 bg-purple-950/20 hover:border-purple-700/50 hover:bg-purple-900/20"
-                      }`}
-                    >
-                      {/* Checkmark on active */}
-                      {isSelected && (
-                        <span className="absolute -top-1.5 -right-1.5 grid size-4 place-items-center rounded-full bg-purple-500 text-white shadow-sm">
-                          <Check size={10} weight="bold" />
-                        </span>
-                      )}
+                <div className="flex flex-col gap-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h2 className="font-display text-lg sm:text-xl font-black text-white tracking-wide">
+                      Class {currentStandard}
+                    </h2>
+                    <span className="rounded-full bg-purple-500/20 border border-purple-400/30 px-2.5 py-0.5 font-mono text-[11px] font-semibold text-purple-200">
+                      {currentStandard <= 5
+                        ? "Primary Stage"
+                        : currentStandard <= 8
+                        ? "Middle School"
+                        : currentStandard <= 10
+                        ? "Secondary School"
+                        : "Higher Secondary"}
+                    </span>
+                    <span className="rounded-full bg-emerald-500/15 border border-emerald-400/30 px-2.5 py-0.5 font-mono text-[11px] text-emerald-300">
+                      {profile?.board === "cbse"
+                        ? "CBSE"
+                        : profile?.board === "icse_other"
+                        ? "ICSE / Other"
+                        : "Tamil Nadu State Board"}
+                    </span>
+                  </div>
 
-                      <span className="font-mono text-[10px] text-purple-300/70 group-hover:text-purple-200">
-                        Class
+                  <p className="font-mono text-xs text-purple-300/80">
+                    {isSenior && activeSeniorGroup ? (
+                      <span>
+                        Stream: <strong className="text-white font-medium">{activeSeniorGroup.name[locale] || activeSeniorGroup.name.en}</strong> · Personalized Syllabus
                       </span>
-                      <span className={`font-display text-sm font-black ${isSelected ? "text-white" : "text-purple-200"}`}>
-                        {item.std}
+                    ) : (
+                      <span>
+                        Samacheer Kalvi · Enrolled Academic Profile
                       </span>
-
-                      {/* 3D Class Art */}
-                      <div className="relative size-10 my-1 transition-transform group-hover:scale-110">
-                        <Image
-                          src={item.image}
-                          alt={item.label}
-                          width={40}
-                          height={40}
-                          className="size-full object-contain drop-shadow-sm"
-                        />
-                      </div>
-                    </button>
-                  );
-                })}
+                    )}
+                  </p>
+                </div>
               </div>
 
-              <button
-                type="button"
-                onClick={() => handleClassTouch(Math.min(12, currentStandard + 1))}
-                className="grid size-8 shrink-0 place-items-center rounded-xl border border-purple-800/40 bg-purple-950/60 text-purple-300 hover:text-white hover:border-purple-600 transition-colors"
-                title="Next Class"
+              {/* Right: Quick Edit Link */}
+              <Link
+                href="/sign-in?edit=true&redirect=/m/learn"
+                className="group inline-flex items-center gap-2 self-start sm:self-auto rounded-xl border border-purple-700/50 bg-purple-950/70 px-3.5 py-2 font-mono text-xs font-medium text-purple-200 hover:text-white hover:bg-purple-900/60 hover:border-purple-400 transition-all shadow-sm"
+                title="Change Class, Board or Stream in Profile Settings"
               >
-                <CaretRight size={16} weight="bold" />
-              </button>
+                <PencilSimple size={15} className="text-purple-400 transition-transform group-hover:rotate-12" />
+                <span>Edit Academic Profile</span>
+              </Link>
             </div>
           </section>
 
@@ -631,53 +676,40 @@ export function SeniorDigitalLearning({
               </div>
             </div>
 
-            {/* Senior Secondary Group / Stream Switcher for Class 11 and 12 */}
+            {/* Senior Secondary Group / Stream Info Card for Class 11 and 12 */}
             {isSenior && (
-              <div className="flex flex-col gap-2 rounded-2xl border border-purple-800/40 bg-gradient-to-r from-purple-950/60 via-[#180a2c]/60 to-purple-950/60 p-3.5 sm:p-4 backdrop-blur-md animate-in fade-in slide-in-from-top-2 duration-300">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <GraduationCap size={18} weight="fill" className="text-purple-300" />
-                    <span className="font-display text-xs sm:text-sm font-bold text-white tracking-wide">
-                      Select Class {currentStandard} Stream
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 rounded-2xl border border-purple-800/40 bg-gradient-to-r from-purple-950/60 via-[#180a2c]/60 to-purple-950/60 p-3.5 sm:p-4 backdrop-blur-md animate-in fade-in slide-in-from-top-2 duration-300 shadow-md">
+                <div className="flex items-center gap-3">
+                  <div className="grid size-10 shrink-0 place-items-center rounded-xl bg-purple-900/60 border border-purple-500/40 text-purple-200 shadow-sm">
+                    <GraduationCap size={22} weight="fill" />
+                  </div>
+                  <div className="flex flex-col gap-0.5">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-display text-xs sm:text-sm font-bold text-white tracking-wide">
+                        {activeSeniorGroup?.badge || "Computer Science"}
+                      </span>
+                      <span className="rounded-full bg-purple-500/20 border border-purple-400/30 px-2 py-0.5 font-mono text-[10px] text-purple-300">
+                        Enrolled Stream
+                      </span>
+                      <span className="font-mono text-[10.5px] text-purple-300/70">
+                        Code {activeSeniorGroup?.code}
+                      </span>
+                    </div>
+                    <span className="font-mono text-[11px] text-purple-300/80">
+                      {activeSeniorGroup?.description[locale] || activeSeniorGroup?.description.en}
                     </span>
                   </div>
-                  <span className="font-mono text-[10.5px] text-purple-300/70 hidden sm:inline">
-                    Choose stream to switch electives & subjects
-                  </span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5">
-                  {SENIOR_GROUPS.map((grp) => {
-                    const isActive = (seniorGroupFilter || "cs") === grp.id;
-                    return (
-                      <button
-                        key={grp.id}
-                        type="button"
-                        onClick={() => {
-                          onSelectSeniorGroup?.(grp.id);
-                          setActiveSubjectId("all");
-                        }}
-                        className={`group relative flex flex-col items-start gap-1 rounded-xl p-3 text-left transition-all duration-200 border ${
-                          isActive
-                            ? "border-purple-400 bg-purple-900/60 shadow-[0_0_20px_rgba(168,85,247,0.4)] ring-1 ring-purple-400/50"
-                            : "border-purple-900/40 bg-purple-950/20 hover:border-purple-700/50 hover:bg-purple-900/30 text-purple-200/80"
-                        }`}
-                      >
-                        <div className="flex w-full items-center justify-between">
-                          <span className="font-display text-xs sm:text-sm font-bold text-white">
-                            {grp.badge}
-                          </span>
-                          {isActive && (
-                            <span className="grid size-4 place-items-center rounded-full bg-purple-400 text-purple-950 shadow-sm">
-                              <Check size={11} weight="bold" />
-                            </span>
-                          )}
-                        </div>
-                        <span className="line-clamp-1 font-mono text-[10.5px] text-purple-300/70">
-                          {grp.description[locale] || grp.description.en}
-                        </span>
-                      </button>
-                    );
-                  })}
+
+                <div className="flex items-center gap-2 self-start sm:self-auto">
+                  <Link
+                    href="/sign-in?edit=true&redirect=/m/learn"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-purple-700/50 bg-purple-900/40 px-3 py-1.5 font-mono text-xs text-purple-200 hover:text-white hover:bg-purple-800/50 hover:border-purple-400 transition-colors shadow-sm"
+                    title="Change Stream in Profile Settings"
+                  >
+                    <PencilSimple size={13} />
+                    <span>Change Stream in Profile</span>
+                  </Link>
                 </div>
               </div>
             )}
@@ -751,9 +783,7 @@ export function SeniorDigitalLearning({
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
-                          if (sub.chapters[0]) {
-                            onOpenChapter(sub.chapters[0].id);
-                          }
+                          handleSelectSubject(sub);
                         }}
                         className={`w-full rounded-xl border py-1.5 text-center font-display text-xs font-bold transition-colors ${visual.btnBorder} ${visual.btnBg} ${visual.btnHoverBg} ${visual.btnText}`}
                       >
@@ -958,13 +988,12 @@ export function SeniorDigitalLearning({
                   Your Learning Path
                 </h3>
               </div>
-              <button
-                type="button"
-                onClick={onOpenStandardSwitcher}
+              <Link
+                href="/sign-in?edit=true&redirect=/m/learn"
                 className="font-mono text-[11px] text-purple-400 hover:text-purple-300 hover:underline"
               >
-                View All
-              </button>
+                Change Class
+              </Link>
             </div>
 
             {/* Breadcrumb Path */}

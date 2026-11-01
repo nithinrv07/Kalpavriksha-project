@@ -10,6 +10,7 @@ import {
   completeLesson,
   levelOf,
   logActivity,
+  parseProfile,
   parseProgress,
   recordQuiz,
   removeActivity,
@@ -138,5 +139,46 @@ describe("parseProgress", () => {
     });
     expect(parsed.xp).toBe(40);
     expect(parsed.activities.map((a) => a.id)).toEqual(["ok"]);
+  });
+});
+
+describe("parseProfile", () => {
+  it("parses valid student academic profile with board and senior stream", () => {
+    const profile = parseProfile({
+      name: "Dhanush",
+      grade: 12,
+      avatar: "cat",
+      studentId: "GSX-2026-1201",
+      board: "tn_state",
+      seniorGroup: "biology",
+    });
+
+    expect(profile).toBeDefined();
+    expect(profile?.name).toBe("Dhanush");
+    expect(profile?.grade).toBe(12);
+    expect(profile?.board).toBe("tn_state");
+    expect(profile?.seniorGroup).toBe("biology");
+  });
+
+  it("parses student profile for class 6 with no senior stream", () => {
+    const profile = parseProfile({
+      name: "Ananya",
+      grade: 6,
+      avatar: "bird",
+      studentId: "GSX-2026-0601",
+      board: "cbse",
+    });
+
+    expect(profile).toBeDefined();
+    expect(profile?.name).toBe("Ananya");
+    expect(profile?.grade).toBe(6);
+    expect(profile?.board).toBe("cbse");
+    expect(profile?.seniorGroup).toBeUndefined();
+  });
+
+  it("returns null for invalid profile inputs", () => {
+    expect(parseProfile(null)).toBeNull();
+    expect(parseProfile("")).toBeNull();
+    expect(parseProfile({ grade: 12 })).toBeNull();
   });
 });

@@ -26,9 +26,7 @@ function StandardSwitcherDialog({
   const { locale } = useLocale();
 
   const validGroup: SeniorGroupId =
-    currentSeniorGroup === "commerce" || currentSeniorGroup === "business_maths"
-      ? currentSeniorGroup
-      : "cs";
+    (currentSeniorGroup && getSeniorGroup(currentSeniorGroup)?.id) || "cs";
 
   const [step, setStep] = useState<"standards" | "group">("standards");
   const [pendingGrade, setPendingGrade] = useState<number>(

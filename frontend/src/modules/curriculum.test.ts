@@ -413,13 +413,16 @@ describe("Standard-wise Curriculum Engine (Class 1 to 12)", () => {
     expect(c12BusMath!.chapters[9]?.title.en).toBe("Operations Research");
   });
 
-  it("Scenario 13: Higher Secondary Groups filter exact electives for Commerce, Business Maths, and Computer Science", () => {
-    expect(SENIOR_GROUPS.length).toBe(3);
+  it("Scenario 13: Higher Secondary Groups filter exact electives for Science, Biology, Commerce, and Computer Science", () => {
+    expect(SENIOR_GROUPS.length).toBe(6);
     const groupIds = SENIOR_GROUPS.map((g) => g.id);
-    expect(groupIds).toEqual(["cs", "commerce", "business_maths"]);
+    expect(groupIds).toEqual(["cs", "biology", "pure_science", "commerce", "commerce_ca", "business_maths"]);
 
     expect(getSeniorGroup("cs")?.badge).toBe("Computer Science");
-    expect(getSeniorGroup("commerce")?.badge).toBe("Commerce with CA");
+    expect(getSeniorGroup("biology")?.badge).toBe("Biology Group");
+    expect(getSeniorGroup("pure_science")?.badge).toBe("Pure Science");
+    expect(getSeniorGroup("commerce")?.badge).toBe("Commerce Group");
+    expect(getSeniorGroup("commerce_ca")?.badge).toBe("Commerce with CA");
     expect(getSeniorGroup("business_maths")?.badge).toBe("Business Maths");
     expect(getSeniorGroup("non-existent")).toBeUndefined();
 
@@ -440,9 +443,22 @@ describe("Standard-wise Curriculum Engine (Class 1 to 12)", () => {
     const csCodes = csElectives.map((s) => s.code);
     expect(csCodes).toEqual(["MAT-12", "PHY-12", "CHE-12", "CSC-12"]);
 
+    // 4. Biology Group (Bio-Maths): Biology, Maths, Physics, Chemistry
+    const bioElectives = filterSubjectsByGroup(c12Subjects, "biology", false);
+    const bioCodes = bioElectives.map((s) => s.code);
+    expect(bioCodes).toEqual(["MAT-12", "PHY-12", "CHE-12", "BIO-12"]);
+
+    // 5. Pure Science Group: Physics, Chemistry, Botany, Zoology
+    const pureElectives = filterSubjectsByGroup(c12Subjects, "pure_science", false);
+    const pureCodes = pureElectives.map((s) => s.code);
+    expect(pureCodes).toEqual(["PHY-12", "CHE-12", "BOT-12", "ZOO-12"]);
+
     // When languages are included, Tamil & English are also present
     const commerceFull = filterSubjectsByGroup(c12Subjects, "commerce", true);
     expect(commerceFull.map((s) => s.code)).toEqual(["TAM-12", "ENG-12", "COM-12", "ACC-12", "ECO-12", "CAP-12"]);
+
+    const bioFull = filterSubjectsByGroup(c12Subjects, "biology", true);
+    expect(bioFull.map((s) => s.code)).toEqual(["TAM-12", "ENG-12", "MAT-12", "PHY-12", "CHE-12", "BIO-12"]);
   });
 
   it("Scenario 14: Student profile with Higher Secondary Group persists and parses cleanly", () => {

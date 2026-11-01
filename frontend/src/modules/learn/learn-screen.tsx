@@ -82,9 +82,10 @@ import {
   X,
 } from "@phosphor-icons/react/ssr";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Burst } from "@/components/burst";
-import { GrowthStage, useHydrated } from "@/components/learner-setup";
+import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
 import { useLocale } from "@/components/locale-provider";
 import { updateProgress, useProgress } from "@/components/progress-store";
 import {
@@ -112,6 +113,7 @@ import {
 import { JuniorCosmicLessonPlayer } from "./junior-lesson-scene";
 import { JuniorSuperAdventure } from "./junior-super-adventure";
 import { SeniorDigitalLearning } from "./senior-digital-learning";
+import { InteractiveChapterClassroom } from "./interactive-chapter-classroom";
 import { KaraokeLines, useReadAloud } from "@/components/read-aloud";
 import { authService } from "@/lib/auth-service";
 import { BAND_INFO } from "@/lib/bands";
@@ -123,6 +125,7 @@ import {
   isSupportedStandard,
   SENIOR_GROUPS,
   type SeniorGroupId,
+  SUPPORTED_STANDARDS,
   TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL,
   TN_NEW_SYLLABUS_2026_27_URL,
   TN_TEXTBOOK_PORTAL_URL,
@@ -1344,8 +1347,9 @@ function CurriculumLessonDialog(props: {
   onClose: () => void;
   onSelectChapter: (chId: string) => void;
 }) {
+  if (!props.chapter || !props.subject) return null;
+
   if (props.standard <= 3) {
-    if (!props.chapter || !props.subject) return null;
     return (
       <div
         role="dialog"
@@ -1359,7 +1363,7 @@ function CurriculumLessonDialog(props: {
       </div>
     );
   }
-  return <StandardCurriculumLessonDialog {...props} />;
+  return <InteractiveChapterClassroom {...props} />;
 }
 
 function CosmicSubjectCard({
@@ -1734,7 +1738,22 @@ function PersonalisedLearnDashboard({
 
   const [switcherOpen, setSwitcherOpen] = useState(false);
   const [filter, setFilter] = useState<string>("subjects"); // "subjects" | "all" | subject.id
+  const searchParams = useSearchParams();
+  // Chapter classroom dialog is strictly closed by default, opening only when a chapter is touched/clicked
   const [openChapterId, setOpenChapterId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const ch = searchParams?.get("chapter");
+    if (ch) {
+      for (const std of SUPPORTED_STANDARDS) {
+        const stdSubjects = getSubjectsForStandard(std);
+        if (stdSubjects.some((s) => s.chapters.some((c) => c.id === ch))) {
+          setOverrideStandard(std);
+          break;
+        }
+      }
+    }
+  }, [searchParams]);
 
   // Active Standard (defaults to Class 8 as in Digital Learning template)
   const [overrideStandard, setOverrideStandard] = useState<number | null>(null);
@@ -1744,16 +1763,16 @@ function PersonalisedLearnDashboard({
 
   // Selected Group Filter for Class 11 and 12 (strictly cs, commerce, or business_maths)
   const [seniorGroupFilter, setSeniorGroupFilter] = useState<SeniorGroupId>(() => {
-    if (profile.seniorGroup === "cs" || profile.seniorGroup === "commerce" || profile.seniorGroup === "business_maths") {
-      return profile.seniorGroup;
+    if (profile.seniorGroup && getSeniorGroup(profile.seniorGroup)) {
+      return profile.seniorGroup as SeniorGroupId;
     }
     return "cs";
   });
 
   // Keep group filter state synchronized with profile
   useEffect(() => {
-    if (profile.seniorGroup === "cs" || profile.seniorGroup === "commerce" || profile.seniorGroup === "business_maths") {
-      setSeniorGroupFilter(profile.seniorGroup);
+    if (profile.seniorGroup && getSeniorGroup(profile.seniorGroup)) {
+      setSeniorGroupFilter(profile.seniorGroup as SeniorGroupId);
     }
   }, [profile.seniorGroup]);
 
@@ -1779,8 +1798,21 @@ function PersonalisedLearnDashboard({
   // Active chapter opened in dialog
   const activeChapterItem = useMemo(() => {
     if (!openChapterId) return null;
-    return allFlatChapters.find((item) => item.chapter.id === openChapterId) ?? null;
-  }, [openChapterId, allFlatChapters]);
+    const inCurrent = allFlatChapters.find((item) => item.chapter.id === openChapterId);
+    if (inCurrent) {
+      return { standard: currentStandard, subject: inCurrent.subject, chapter: inCurrent.chapter };
+    }
+    for (const std of SUPPORTED_STANDARDS) {
+      const stdSubjects = getSubjectsForStandard(std);
+      for (const s of stdSubjects) {
+        const ch = s.chapters.find((c) => c.id === openChapterId);
+        if (ch) {
+          return { standard: std, subject: s, chapter: ch };
+        }
+      }
+    }
+    return null;
+  }, [openChapterId, allFlatChapters, currentStandard]);
 
   // Personalised Continue Learning record
   const continueRecord = useMemo((): {
@@ -1817,8 +1849,8 @@ function PersonalisedLearnDashboard({
   const handleStandardChange = (newStd: number, newGroup?: string) => {
     setOverrideStandard(newStd);
     authService.updateStandard(newStd, newGroup);
-    if (newGroup === "cs" || newGroup === "commerce" || newGroup === "business_maths") {
-      setSeniorGroupFilter(newGroup);
+    if (newGroup && getSeniorGroup(newGroup)) {
+      setSeniorGroupFilter(newGroup as SeniorGroupId);
     }
     setFilter("subjects");
   };
@@ -1848,9 +1880,10 @@ function PersonalisedLearnDashboard({
         totalChapters={totalChapters}
         completedChaptersCount={completedChaptersCount}
         seniorGroupFilter={seniorGroupFilter}
+        profile={profile}
         onSelectSeniorGroup={(grp) => {
-          if (grp === "cs" || grp === "commerce" || grp === "business_maths") {
-            setSeniorGroupFilter(grp);
+          if (getSeniorGroup(grp)) {
+            setSeniorGroupFilter(grp as SeniorGroupId);
             authService.updateStandard(currentStandard, grp);
           }
         }}
@@ -1858,10 +1891,14 @@ function PersonalisedLearnDashboard({
 
       {/* Interactive Lesson Dialog (Reader & Quiz) */}
       <CurriculumLessonDialog
-        standard={currentStandard}
+        standard={activeChapterItem?.standard ?? currentStandard}
         subject={activeChapterItem?.subject ?? null}
         chapter={activeChapterItem?.chapter ?? null}
-        allChapters={allFlatChapters}
+        allChapters={
+          activeChapterItem && activeChapterItem.standard !== currentStandard
+            ? getSubjectsForStandard(activeChapterItem.standard).flatMap((s) => s.chapters.map((ch) => ({ subject: s, chapter: ch })))
+            : allFlatChapters
+        }
         onClose={() => setOpenChapterId(null)}
         onSelectChapter={(chId) => setOpenChapterId(chId)}
       />
@@ -1875,14 +1912,15 @@ function PersonalisedLearnDashboard({
 export function LearnScreen({ band }: { band: Band }) {
   const { profile } = useProgress();
 
-  const activeProfile: Profile = profile ?? {
-    name: "Kavin",
-    grade: 8,
-    avatar: "cat",
-    studentId: "KV-0008",
-  };
+  if (!profile) {
+    return (
+      <div className="mx-auto max-w-4xl rounded-[28px] border border-line bg-surface/80 p-5 backdrop-blur-sm sm:p-10">
+        <LearnerSetup redirectTo="/m/learn" />
+      </div>
+    );
+  }
 
-  return <PersonalisedLearnDashboard band={band ?? "middle"} profile={activeProfile} />;
+  return <PersonalisedLearnDashboard band={band ?? "middle"} profile={profile} />;
 }
 
 export default LearnScreen;

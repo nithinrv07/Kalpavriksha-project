@@ -101,11 +101,6 @@ export function JuniorSuperAdventure({
   const handleSelectSubject = (sub?: CurriculumSubject) => {
     if (sub) {
       setActiveSubject(sub.id === activeSubject ? "all" : sub.id);
-      if (sub.chapters[0]) {
-        onOpenChapter(sub.chapters[0].id);
-      }
-    } else if (allFlatChapters[0]) {
-      onOpenChapter(allFlatChapters[0].chapter.id);
     }
   };
 

@@ -3,7 +3,7 @@
 import { ArrowLeft, Fire, IdentificationCard } from "@phosphor-icons/react/ssr";
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { Avatar } from "@/components/avatar";
 import { BrandMark } from "@/components/brand-mark";
 import { ChromeWaves } from "@/components/landing/chrome-waves";
@@ -16,6 +16,7 @@ import { useProgress } from "@/components/progress-store";
 import { SoundToggle } from "@/components/sound-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { BAND_INFO } from "@/lib/bands";
+import { authService } from "@/lib/auth-service";
 import { bandOf, localDay, streak, type Band, type Profile } from "@/lib/progress";
 import { MODULES, type KalpaModule } from "@/modules/registry";
 import { accentOf } from "@/modules/accents";
@@ -72,6 +73,10 @@ export function ModuleShell({
   const accent = accentOf(module.accent);
   const profile = progress.profile;
   const band = profile ? bandOf(profile.grade) : null;
+
+  useEffect(() => {
+    authService.syncWithServer();
+  }, []);
 
   return (
     <div
@@ -214,20 +219,13 @@ export function ModuleShell({
 
         {/* 3. Main Content: Full Screen Width across all modules */}
         <main className={`${module.slug === "learn" ? "mt-2 sm:mt-3" : "mt-8 sm:mt-10"} flex-1 w-full pb-8 sm:pb-12`}>
-          {profile && band ? (
-            children(band, profile)
-          ) : module.slug === "learn" ? (
-            children("middle", {
-              name: "Kavin",
-              grade: 8,
-              avatar: "cat",
-              studentId: "KV-0008",
-            })
-          ) : !hydrated ? (
+          {!hydrated ? (
             <div aria-hidden className="h-72 animate-pulse rounded-3xl border border-line bg-surface/60" />
+          ) : profile && band ? (
+            children(band, profile)
           ) : (
             <div className="mx-auto max-w-4xl rounded-[28px] border border-line bg-surface/80 p-5 backdrop-blur-sm sm:p-10">
-              <LearnerSetup />
+              <LearnerSetup redirectTo={module.slug === "learn" ? "/m/learn" : undefined} />
             </div>
           )}
         </main>

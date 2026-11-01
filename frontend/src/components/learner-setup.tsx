@@ -1,15 +1,15 @@
 "use client";
 
-import { ArrowRight, Check, GraduationCap, ShieldCheck, X } from "@phosphor-icons/react/ssr";
+import { ArrowRight, Check, GraduationCap, ShieldCheck, Sparkle, BookOpen } from "@phosphor-icons/react/ssr";
 import { useRouter } from "next/navigation";
 import { useState, useSyncExternalStore } from "react";
 import { Avatar } from "@/components/avatar";
 import { useLocale } from "@/components/locale-provider";
 import { authService } from "@/lib/auth-service";
 import { AVATAR_NAME, BAND_INFO, SETUP_COPY } from "@/lib/bands";
-import { SENIOR_GROUPS } from "@/lib/curriculum";
+import { SENIOR_GROUPS, type SeniorGroupId } from "@/lib/curriculum";
 import { LOCALES, LOCALE_LABEL, type Locale } from "@/lib/i18n";
-import { AVATARS, BANDS, BAND_GRADES, bandOf, type AvatarId, type Band, type Profile } from "@/lib/progress";
+import { AVATARS, bandOf, type AvatarId, type Band, type Profile } from "@/lib/progress";
 
 const noopSubscribe = () => () => {};
 /** False during SSR and hydration, true afterwards: lets device-stored state render without a flash. */
@@ -93,6 +93,54 @@ export function GrowthStage({ band, className = "" }: { band: Band; className?: 
   );
 }
 
+export const SCHOOL_BOARDS = [
+  {
+    id: "tn_state",
+    name: {
+      en: "Tamil Nadu State Board (Samacheer Kalvi)",
+      ta: "தமிழ்நாடு மாநிலப் பாடத்திட்டம் (சமச்சீர் கல்வி)",
+      hi: "तमिलनाडु स्टेट बोर्ड (समचीर कल्वि)",
+    },
+    badge: "Official Samacheer Kalvi",
+    description: {
+      en: "State Board curriculum with official textbooks, term-wise syllabus and board exam streams.",
+      ta: "அரசுப் பாடநூல்கள் மற்றும் பொதுத்தேர்வு பாடப்பிரிவுகளுடன் கூடிய அதிகாரப்பூர்வ பாடத்திட்டம்.",
+      hi: "राज्य बोर्ड पाठ्यक्रम आधिकारिक पाठ्यपुस्तकों के साथ।",
+    },
+  },
+  {
+    id: "cbse",
+    name: {
+      en: "CBSE (Central Board of Secondary Education)",
+      ta: "மத்திய இடைநிலைக் கல்வி வாரியம் (சி.பி.எஸ்.இ)",
+      hi: "केंद्रीय माध्यमिक शिक्षा बोर्ड (CBSE)",
+    },
+    badge: "National Curriculum",
+    description: {
+      en: "NCERT-aligned national school curriculum for standard & higher secondary classes.",
+      ta: "என்.சி.இ.ஆர்.டி வழிகாட்டலின்படியான தேசிய பள்ளிப் பாடத்திட்டம்.",
+      hi: "एनसीईआरटी आधारित राष्ट्रीय विद्यालय पाठ्यक्रम।",
+    },
+  },
+  {
+    id: "icse",
+    name: {
+      en: "ICSE / Other State Boards",
+      ta: "ஐ.சி.எஸ்.இ / பிற வாரியங்கள்",
+      hi: "आईसीएसई / अन्य बोर्ड",
+    },
+    badge: "Alternative Boards",
+    description: {
+      en: "Comprehensive foundational & secondary education.",
+      ta: "விரிவான தொடக்க மற்றும் இடைநிலைக் கல்வி அமைப்பு.",
+      hi: "व्यापक माध्यमिक शिक्षा प्रणाली।",
+    },
+  },
+] as const;
+
+// Primary classes (Class 4 to 12 as requested in specification)
+const ACADEMIC_CLASSES = [4, 5, 6, 7, 8, 9, 10, 11, 12] as const;
+
 export function LearnerSetup({
   existing,
   redirectTo,
@@ -106,68 +154,57 @@ export function LearnerSetup({
   const { locale, setLocale } = useLocale();
   const c = SETUP_COPY[locale];
 
-  // Selected Band (Stage): "junior" (Seed: 1-3), "middle" (Plant: 4-10), "senior" (Tree: 11-12)
-  const [selectedBand, setSelectedBand] = useState<Band>(
-    existing ? bandOf(existing.grade) : "middle",
-  );
+  // 1. Student Name
+  const [name, setName] = useState(existing?.name ?? "");
+  const [email, setEmail] = useState(existing?.email ?? "");
 
-  // Exact School Standard (Class 1 to 12)
+  // 2. School Board
+  const [board, setBoard] = useState<string>(existing?.board ?? "tn_state");
+
+  // 3. Exact School Standard (Class 4 to Class 12)
   const [grade, setGrade] = useState<number | null>(existing?.grade ?? 6);
+
+  // 4. Special Stream / Group (Strictly for Class 11 and 12)
   const [seniorGroup, setSeniorGroup] = useState<string | null>(
     existing && existing.grade >= 11 ? (existing.seniorGroup ?? "cs") : null,
   );
-  const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
-  const [name, setName] = useState(existing?.name ?? "");
-  const [email, setEmail] = useState(existing?.email ?? "");
+
+  // 5. Preferred Language & Avatar
   const [prefLang, setPrefLang] = useState<Locale>(existing?.preferredLanguage ?? locale);
   const [avatar, setAvatar] = useState<AvatarId>(existing?.avatar ?? "cat");
 
-  const band = grade !== null ? bandOf(grade) : selectedBand;
   const isSeniorGrade = grade !== null && grade >= 11;
-  const ready = grade !== null && name.trim().length > 0 && (!isSeniorGrade || Boolean(seniorGroup));
+  // Validation: Name is required, Grade is required, and if Class 11 or 12, Stream is mandatory
+  const isGroupValid = !isSeniorGrade || Boolean(seniorGroup);
+  const ready = grade !== null && name.trim().length > 0 && isGroupValid;
 
-  // Handle clicking one of the 3 stage cards
-  const handleStageSelect = (b: Band) => {
-    setSelectedBand(b);
-    const available = BAND_GRADES[b];
-    // If current grade is not in this band, pick a sensible default
-    if (!grade || !available.includes(grade)) {
-      if (b === "junior") setGrade(1);
-      else if (b === "middle") setGrade(6);
-      else if (b === "senior") {
-        setGrade(11);
-        setIsGroupModalOpen(true);
-      }
-    } else if (b === "senior") {
-      setIsGroupModalOpen(true);
-    }
-  };
-
-  // Handle clicking a specific class button
   const handleGradeSelect = (g: number) => {
     setGrade(g);
     if (g >= 11) {
-      setSelectedBand("senior");
-      setIsGroupModalOpen(true);
+      // If switching to Class 11/12 and no group is selected yet, default to "cs"
+      if (!seniorGroup) {
+        setSeniorGroup("cs");
+      }
+    } else {
+      // Clear senior group for Classes 4–10
+      setSeniorGroup(null);
     }
   };
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!ready || grade === null) {
-      if (isSeniorGrade && !seniorGroup) {
-        setIsGroupModalOpen(true);
-      }
       return;
     }
 
-    authService.saveProfile({
+    const saved = authService.saveProfile({
       name: name.trim(),
       email: email.trim() || undefined,
       grade,
       avatar,
       preferredLanguage: prefLang,
-      seniorGroup: grade >= 11 ? (seniorGroup || "cs") : undefined,
+      board,
+      seniorGroup: isSeniorGrade ? (seniorGroup || "cs") : undefined,
       studentId: existing?.studentId,
     });
 
@@ -186,210 +223,39 @@ export function LearnerSetup({
 
   return (
     <form onSubmit={submit} className="fade-up flex flex-col gap-8">
-      {/* Mock Authentication Banner */}
+      {/* Authentication & Academic Persistence Badge */}
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-violet/30 bg-violet-deep/20 px-4 py-3 text-xs text-violet-ink">
         <span className="flex items-center gap-2">
           <ShieldCheck size={18} className="text-violet" weight="fill" />
           <span>
-            <strong>Authentication Mode:</strong> Mock / Device Profile (Stored persistently & synced to /api/profile)
+            <strong>Academic Profile Status:</strong> Saved securely to student profile & synced with Digital Learning
           </span>
         </span>
         <span className="rounded-full bg-white/[0.08] px-2.5 py-0.5 font-mono text-[11px] text-muted">
-          Ready for School SSO
+          Active Student Account
         </span>
       </div>
 
       <div>
         <h2 className="font-display text-[clamp(26px,3.8vw,44px)] leading-[1.05] tracking-[-0.035em] text-balance">
           {existing
-            ? (locale === "ta" ? "உன் சுயவிவரத்தைப் புதுப்பி" : "Update your student profile")
-            : c.askTitle}
+            ? (locale === "ta" ? "உங்கள் கல்வி விவரங்களைத் திருத்துக" : "Update Your Academic Profile")
+            : (locale === "ta" ? "மாணவர் கல்வி விவரப் பதிவு" : "Student Academic Profile Setup")}
         </h2>
         <p className="mt-2 max-w-xl text-[14.5px] leading-relaxed text-muted">
           {locale === "ta"
-            ? "விதை (வகுப்பு 1–3), செடி (வகுப்பு 4–10) அல்லது மரம் (வகுப்பு 11–12) தேர்ந்தெடுத்துத் தொடர்க."
-            : "Choose Seed for Class 1–3, Plant for Class 4–10, or Tree for Class 11–12, then proceed."}
+            ? "உங்கள் பெயர், பள்ளி வாரியம் மற்றும் வகுப்பைத் தேர்ந்தெடுக்கவும். உங்கள் வகுப்புக்கான பாடங்கள் மட்டுமே டிஜிட்டல் கற்றலில் தோன்றும்."
+            : "Enter your name, school board, and class. Digital Learning will personalise and show only your class and stream subjects."}
         </p>
       </div>
 
-      {/* 1. THREE STAGE CARDS: Seed (1-3), Plant (4-10), Tree (11-12) */}
-      <fieldset>
-        <div className="flex items-center justify-between mb-3">
-          <legend className="font-mono text-[12px] uppercase tracking-[0.14em] text-violet font-semibold">
-            1. {locale === "ta" ? "படிநிலையைத் தேர்ந்தெடு" : "Select Your Growth Stage"} *
-          </legend>
-          {grade && (
-            <span className="font-mono text-[12px] text-muted">
-              Selected: <strong className="text-text">{c.classWord} {grade}</strong> ({BAND_INFO[bandOf(grade)].name[locale]})
-            </span>
-          )}
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-3">
-          {BANDS.map((b) => {
-            const info = BAND_INFO[b];
-            const isSelected = selectedBand === b;
-            return (
-              <button
-                key={b}
-                type="button"
-                onClick={() => handleStageSelect(b)}
-                style={{ "--band": info.accent } as React.CSSProperties}
-                className={`group relative flex flex-col rounded-3xl border p-5 text-left transition-all duration-300 ${
-                  isSelected
-                    ? "border-[var(--band)] bg-[color-mix(in_srgb,var(--band)_14%,var(--surface))] shadow-[0_0_60px_-15px_var(--band)]"
-                    : "border-line bg-surface hover:border-line-strong hover:bg-surface-2 hover:-translate-y-0.5"
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[11.5px] uppercase tracking-[0.14em] text-[var(--band)] font-semibold">
-                    {info.classes[locale]}
-                  </span>
-                  <span
-                    className={`grid size-6 place-items-center rounded-full border transition-colors ${
-                      isSelected ? "border-[var(--band)] bg-[var(--band)] text-bg" : "border-line-strong"
-                    }`}
-                  >
-                    {isSelected && <Check size={14} weight="bold" />}
-                  </span>
-                </div>
-
-                <GrowthStage
-                  band={b}
-                  className="mx-auto my-3 size-24 transition-transform duration-500 group-hover:scale-110"
-                />
-
-                <span className="font-display text-2xl font-bold tracking-tight text-text">
-                  {info.name[locale]}
-                </span>
-                <span className="mt-1 line-clamp-2 text-[13px] leading-snug text-muted">
-                  {info.tagline[locale]}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Dynamic Class Selector for the Chosen Stage */}
-        <div className="mt-5 rounded-2xl border border-line bg-surface-2 p-4">
-          <p className="font-mono text-[11.5px] uppercase tracking-wider text-muted mb-3">
-            Pick your exact class in {BAND_INFO[selectedBand].name[locale]}:
-          </p>
-
-          <div className="flex flex-wrap gap-2.5">
-            {BAND_GRADES[selectedBand].map((g) => {
-              const isSelected = grade === g;
-              const accent = BAND_INFO[selectedBand].accent;
-              return (
-                <button
-                  key={g}
-                  type="button"
-                  onClick={() => handleGradeSelect(g)}
-                  style={{ "--band": accent } as React.CSSProperties}
-                  className={`group relative flex h-13 min-w-[76px] flex-col items-center justify-center rounded-2xl border px-4 py-2 transition-all duration-200 ${
-                    isSelected
-                      ? "border-[var(--band)] bg-[var(--band)] text-bg font-bold shadow-[0_0_20px_-4px_var(--band)]"
-                      : "border-line bg-surface text-text hover:border-line-strong hover:bg-white/[0.04]"
-                  }`}
-                >
-                  <span className={`font-mono text-[10px] uppercase opacity-75 ${isSelected ? "text-bg" : "text-muted"}`}>
-                    {c.classWord}
-                  </span>
-                  <span className="font-display text-xl font-bold">
-                    {g}
-                  </span>
-                  {isSelected && (
-                    <span className="absolute -top-1 -right-1 grid size-4 place-items-center rounded-full bg-white text-bg shadow">
-                      <Check size={10} weight="bold" />
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Higher Secondary Group Selector (Class 11 & 12) */}
-        {(selectedBand === "senior" || (grade !== null && grade >= 11)) && (
-          <div className={`mt-4 rounded-2xl border p-4 transition-all duration-300 ${
-            !seniorGroup
-              ? "border-amber-500/70 bg-amber-500/10 shadow-[0_0_30px_rgba(245,158,11,0.15)] ring-1 ring-amber-500/40"
-              : "border-teal/40 bg-teal/5"
-          }`}>
-            <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-              <div className="flex items-center gap-2">
-                <GraduationCap size={18} weight="fill" className={!seniorGroup ? "text-amber-400" : "text-teal"} />
-                <span className={`font-mono text-[11.5px] uppercase tracking-wider font-semibold ${
-                  !seniorGroup ? "text-amber-300" : "text-teal"
-                }`}>
-                  {locale === "ta"
-                    ? "மேல்நிலைப் பாடப்பிரிவைத் தேர்ந்தெடு (Class 11 & 12 Group) *"
-                    : `Select Class ${grade || 11} Stream / Group *`}
-                </span>
-              </div>
-              <span className={`rounded-full px-2.5 py-0.5 font-mono text-[10.5px] ${
-                !seniorGroup ? "bg-amber-500/20 text-amber-300 font-bold" : "bg-teal/20 text-teal"
-              }`}>
-                {!seniorGroup ? "Action Required" : "4 Core Electives"}
-              </span>
-            </div>
-
-            {!seniorGroup && (
-              <p className="mb-3 font-display text-xs text-amber-200/90 leading-relaxed">
-                {locale === "ta"
-                  ? "வகுப்பு 11/12ல் தொடர ஏதேனும் ஒரு பாடப்பிரிவைத் தேர்ந்தெடுக்கவும் (கணினி அறிவியல், வணிகவியல் அல்லது வணிகக் கணிதம்)."
-                  : "Please select your higher secondary stream to proceed (Computer Science, Commerce with CA, or Business Maths)."}
-              </p>
-            )}
-
-            <div className="grid gap-3 sm:grid-cols-3">
-              {SENIOR_GROUPS.map((grp) => {
-                const isGrpSelected = seniorGroup === grp.id;
-                return (
-                  <button
-                    key={grp.id}
-                    type="button"
-                    onClick={() => setSeniorGroup(grp.id)}
-                    style={{ "--grp-accent": grp.accent } as React.CSSProperties}
-                    className={`flex flex-col text-left rounded-2xl border p-3.5 transition-all duration-200 ${
-                      isGrpSelected
-                        ? "border-[var(--grp-accent)] bg-[color-mix(in_srgb,var(--grp-accent)_16%,var(--surface))] shadow-[0_0_25px_-5px_var(--grp-accent)] scale-[1.02]"
-                        : "border-line bg-surface hover:border-line-strong hover:bg-white/[0.04]"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-mono text-[10.5px] font-semibold uppercase tracking-wider text-[var(--grp-accent)]">
-                        {grp.badge}
-                      </span>
-                      <span
-                        className={`grid size-5 place-items-center rounded-full border transition-colors ${
-                          isGrpSelected
-                            ? "border-[var(--grp-accent)] bg-[var(--grp-accent)] text-bg"
-                            : "border-line-strong text-transparent"
-                        }`}
-                      >
-                        <Check size={11} weight="bold" />
-                      </span>
-                    </div>
-                    <span className="font-display text-base font-bold text-text">
-                      {grp.name[locale]}
-                    </span>
-                    <span className="mt-1 text-[12px] leading-snug text-muted line-clamp-3">
-                      {grp.description[locale]}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </fieldset>
-
-      {/* 2. Student Profile Details: Name, Email, Preferred Language & Avatar */}
+      {/* ------------------------------------------------------------------- */}
+      {/* 1. STUDENT NAME & EMAIL                                             */}
+      {/* ------------------------------------------------------------------- */}
       <div className="grid gap-5 rounded-3xl border border-line bg-surface p-5 sm:p-7 md:grid-cols-2">
         <label className="flex flex-col gap-2">
-          <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-            2. {c.nameLabel} *
+          <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-violet font-semibold">
+            1. {locale === "ta" ? "மாணவர் பெயர்" : "Student Name"} *
           </span>
           <input
             value={name}
@@ -404,7 +270,7 @@ export function LearnerSetup({
 
         <label className="flex flex-col gap-2">
           <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-            3. {locale === "ta" ? "மின்னஞ்சல் அல்லது மாணவர் எண்" : "Email or Student Login ID"}
+            {locale === "ta" ? "மின்னஞ்சல் அல்லது பள்ளி அடையாள எண்" : "Email or Student Roll Number (Optional)"}
           </span>
           <input
             type="email"
@@ -416,11 +282,238 @@ export function LearnerSetup({
             className="h-13 rounded-2xl border border-line bg-bg/70 px-4 text-[16px] text-text placeholder:text-muted/60 focus:border-violet/60 focus:outline-none"
           />
         </label>
+      </div>
 
+      {/* ------------------------------------------------------------------- */}
+      {/* 2. SCHOOL BOARD SELECTION                                           */}
+      {/* ------------------------------------------------------------------- */}
+      <fieldset className="rounded-3xl border border-line bg-surface p-5 sm:p-7 flex flex-col gap-3">
+        <div className="flex items-center justify-between">
+          <legend className="font-mono text-[12px] uppercase tracking-[0.12em] text-violet font-semibold">
+            2. {locale === "ta" ? "பள்ளி கல்வி வாரியம்" : "School Board"} *
+          </legend>
+          <span className="font-mono text-[11px] text-muted">Curriculum Standard</span>
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-3">
+          {SCHOOL_BOARDS.map((b) => {
+            const isSelected = board === b.id;
+            return (
+              <button
+                key={b.id}
+                type="button"
+                onClick={() => setBoard(b.id)}
+                className={`flex flex-col text-left rounded-2xl border p-4 transition-all duration-200 ${
+                  isSelected
+                    ? "border-violet bg-violet-deep/30 shadow-[0_0_25px_rgba(168,85,247,0.25)] ring-1 ring-violet"
+                    : "border-line bg-bg/60 hover:border-line-strong hover:bg-white/[0.04]"
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="font-mono text-[10.5px] uppercase tracking-wider text-violet-ink font-semibold">
+                    {b.badge}
+                  </span>
+                  <span
+                    className={`grid size-5 place-items-center rounded-full border transition-colors ${
+                      isSelected ? "border-violet bg-violet text-bg" : "border-line-strong"
+                    }`}
+                  >
+                    {isSelected && <Check size={11} weight="bold" />}
+                  </span>
+                </div>
+                <span className="font-display text-sm font-bold text-text">
+                  {b.name[locale] || b.name.en}
+                </span>
+                <span className="mt-1 text-[11.5px] text-muted line-clamp-2">
+                  {b.description[locale] || b.description.en}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </fieldset>
+
+      {/* ------------------------------------------------------------------- */}
+      {/* 3. CLASS / STANDARD SELECTION (CLASS 4 TO CLASS 12)                 */}
+      {/* ------------------------------------------------------------------- */}
+      <fieldset className="rounded-3xl border border-line bg-surface p-5 sm:p-7 flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <legend className="font-mono text-[12px] uppercase tracking-[0.12em] text-violet font-semibold">
+            3. {locale === "ta" ? "வகுப்பு / தரம் (வகுப்பு 4 முதல் 12 வரை)" : "Class / Standard (Class 4 to Class 12)"} *
+          </legend>
+          {grade !== null && (
+            <span className="font-mono text-[12px] text-violet-ink font-bold">
+              Selected: Class {grade} {grade >= 11 ? "(Higher Secondary)" : "(Secondary / Middle)"}
+            </span>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-3">
+          {/* Middle & Secondary Classes (4 to 10) */}
+          <div>
+            <span className="font-mono text-[11px] text-muted uppercase tracking-wider block mb-2">
+              Middle & Secondary School (Classes 4–10):
+            </span>
+            <div className="grid grid-cols-4 sm:grid-cols-7 gap-2.5">
+              {[4, 5, 6, 7, 8, 9, 10].map((g) => {
+                const isSelected = grade === g;
+                return (
+                  <button
+                    key={g}
+                    type="button"
+                    onClick={() => handleGradeSelect(g)}
+                    className={`group relative flex h-14 flex-col items-center justify-center rounded-2xl border px-3 py-2 transition-all duration-200 ${
+                      isSelected
+                        ? "border-violet bg-violet text-bg font-bold shadow-[0_0_20px_rgba(168,85,247,0.4)] scale-105"
+                        : "border-line bg-bg/60 text-text hover:border-line-strong hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    <span className={`font-mono text-[10px] uppercase opacity-75 ${isSelected ? "text-bg" : "text-muted"}`}>
+                      Class
+                    </span>
+                    <span className="font-display text-xl font-bold">
+                      {g}
+                    </span>
+                    {isSelected && (
+                      <span className="absolute -top-1 -right-1 grid size-4 place-items-center rounded-full bg-white text-bg shadow">
+                        <Check size={10} weight="bold" />
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Higher Secondary Classes (11 and 12) */}
+          <div className="pt-2">
+            <span className="font-mono text-[11px] text-violet uppercase tracking-wider block mb-2 font-semibold">
+              Higher Secondary School (Classes 11–12):
+            </span>
+            <div className="grid grid-cols-2 gap-3 max-w-sm">
+              {[11, 12].map((g) => {
+                const isSelected = grade === g;
+                return (
+                  <button
+                    key={g}
+                    type="button"
+                    onClick={() => handleGradeSelect(g)}
+                    className={`group relative flex h-16 flex-col items-center justify-center rounded-2xl border px-4 py-2 transition-all duration-200 ${
+                      isSelected
+                        ? "border-purple-400 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold shadow-[0_0_25px_rgba(168,85,247,0.5)] scale-105"
+                        : "border-purple-900/40 bg-purple-950/20 text-text hover:border-purple-700 hover:bg-purple-900/30"
+                    }`}
+                  >
+                    <span className={`font-mono text-[10px] uppercase tracking-wider ${isSelected ? "text-purple-100" : "text-purple-300/70"}`}>
+                      Higher Secondary
+                    </span>
+                    <span className="font-display text-2xl font-black">
+                      Class {g}
+                    </span>
+                    {isSelected && (
+                      <span className="absolute -top-1 -right-1 grid size-5 place-items-center rounded-full bg-white text-purple-950 shadow">
+                        <Check size={12} weight="bold" />
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* ----------------------------------------------------------------- */}
+        {/* SPECIAL CONDITION: GROUP / STREAM SELECTION (CLASS 11 & 12 ONLY)   */}
+        {/* ----------------------------------------------------------------- */}
+        {isSeniorGrade && (
+          <div
+            className={`mt-4 rounded-2xl border p-4 sm:p-5 transition-all duration-300 animate-in fade-in slide-in-from-top-3 ${
+              !seniorGroup
+                ? "border-amber-500/80 bg-amber-500/10 shadow-[0_0_30px_rgba(245,158,11,0.2)] ring-2 ring-amber-500/50"
+                : "border-purple-500/50 bg-gradient-to-b from-purple-950/40 to-[#120724]/60 shadow-[0_0_25px_rgba(168,85,247,0.2)]"
+            }`}
+          >
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2">
+                <GraduationCap size={20} weight="fill" className={!seniorGroup ? "text-amber-400" : "text-purple-300"} />
+                <span className={`font-display text-base font-bold tracking-wide ${
+                  !seniorGroup ? "text-amber-300" : "text-white"
+                }`}>
+                  Choose Your Group / Stream *
+                </span>
+              </div>
+              <span className={`rounded-full px-2.5 py-0.5 font-mono text-[11px] font-bold ${
+                !seniorGroup ? "bg-amber-500/20 text-amber-300 border border-amber-500/40" : "bg-purple-900/60 text-purple-200 border border-purple-700/50"
+              }`}>
+                {!seniorGroup ? "Required for Class " + grade : "Stream Selected"}
+              </span>
+            </div>
+
+            <p className="mb-3.5 text-xs text-muted leading-relaxed">
+              {locale === "ta"
+                ? "வகுப்பு 11 மற்றும் 12ல் படிக்கும் பாடப்பிரிவைத் தேர்ந்தெடுக்கவும். தேர்ந்தெடுக்கப்பட்ட பிரிவின் பாடங்கள் மட்டுமே டிஜிட்டல் கற்றல் பக்கத்தில் தோன்றும்."
+                : `Select your higher secondary group for Class ${grade}. Only subjects belonging to this stream will appear in Digital Learning.`}
+            </p>
+
+            {/* 6 Stream Options */}
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {SENIOR_GROUPS.map((grp) => {
+                const isGrpSelected = seniorGroup === grp.id;
+                return (
+                  <button
+                    key={grp.id}
+                    type="button"
+                    onClick={() => setSeniorGroup(grp.id)}
+                    className={`group relative flex flex-col text-left rounded-2xl border p-4 transition-all duration-200 ${
+                      isGrpSelected
+                        ? "border-purple-400 bg-purple-900/60 shadow-[0_0_25px_rgba(168,85,247,0.4)] ring-1 ring-purple-400 scale-[1.02]"
+                        : "border-purple-900/40 bg-purple-950/20 hover:border-purple-700/60 hover:bg-purple-900/30"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-purple-300">
+                        {grp.badge}
+                      </span>
+                      <span
+                        className={`grid size-5 place-items-center rounded-full border transition-colors ${
+                          isGrpSelected
+                            ? "border-purple-400 bg-purple-400 text-purple-950 font-bold"
+                            : "border-purple-800 text-transparent"
+                        }`}
+                      >
+                        <Check size={11} weight="bold" />
+                      </span>
+                    </div>
+
+                    <span className="font-display text-sm font-bold text-white group-hover:text-pink-300 transition-colors">
+                      {grp.name[locale] || grp.name.en}
+                    </span>
+
+                    <span className="mt-1 text-[11.5px] leading-snug text-purple-200/70">
+                      {grp.description[locale] || grp.description.en}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {!seniorGroup && (
+              <p className="mt-3 font-mono text-xs text-amber-300 font-bold">
+                ⚠️ Please select a stream to proceed with Class {grade}.
+              </p>
+            )}
+          </div>
+        )}
+      </fieldset>
+
+      {/* ------------------------------------------------------------------- */}
+      {/* 4. PREFERRED LANGUAGE & BUDDY AVATAR                                */}
+      {/* ------------------------------------------------------------------- */}
+      <div className="grid gap-5 rounded-3xl border border-line bg-surface p-5 sm:p-7 md:grid-cols-2">
         {/* Preferred Language */}
         <div className="flex flex-col gap-2">
-          <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-            4. {locale === "ta" ? "விருப்ப மொழி" : "Preferred Language"}
+          <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-violet font-semibold">
+            4. {locale === "ta" ? "விருப்ப மொழி" : "Preferred Language"} *
           </span>
           <div className="flex gap-2">
             {LOCALES.map((l) => {
@@ -430,14 +523,14 @@ export function LearnerSetup({
                   key={l}
                   type="button"
                   onClick={() => setPrefLang(l)}
-                  className={`flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl border font-mono text-xs transition-colors ${
+                  className={`flex h-12 flex-1 items-center justify-center gap-1.5 rounded-xl border font-mono text-xs font-bold transition-colors ${
                     active
-                      ? "border-violet bg-violet-deep text-violet-ink"
+                      ? "border-violet bg-violet-deep text-violet-ink shadow-sm"
                       : "border-line bg-bg/60 text-muted hover:text-text"
                   }`}
                 >
                   {LOCALE_LABEL[l].native}
-                  {active && <Check size={12} weight="bold" />}
+                  {active && <Check size={13} weight="bold" />}
                 </button>
               );
             })}
@@ -473,136 +566,27 @@ export function LearnerSetup({
 
         {/* Submit / Proceed Action */}
         <div className="flex flex-col gap-3 pt-3 md:col-span-2 md:flex-row md:items-center md:justify-between border-t border-line/60">
-          <p className="text-[12.5px] text-muted/80">{c.deviceNote}</p>
+          <p className="text-[12.5px] text-muted/80">
+            {locale === "ta"
+              ? "சுயவிவரம் உங்கள் கணக்கில் சேமிக்கப்பட்டு, டிஜிட்டல் கற்றலில் உங்கள் பாடங்கள் மட்டும் திறக்கும்."
+              : "Saved to your profile and database. You can update your class or group anytime in Profile Settings."}
+          </p>
           <button
             type="submit"
             disabled={!ready}
-            className="beam-border group inline-flex h-14 shrink-0 items-center justify-center gap-3 rounded-full bg-violet-deep px-9 font-mono text-sm font-semibold text-violet-ink transition-all duration-200 hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-40 disabled:[&::before]:hidden"
+            className="beam-border group inline-flex h-14 shrink-0 items-center justify-center gap-3 rounded-full bg-violet-deep px-9 font-mono text-sm font-semibold text-violet-ink transition-all duration-200 hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-40 disabled:[&::before]:hidden shadow-lg cursor-pointer disabled:cursor-not-allowed"
           >
             <span>
               {isSeniorGrade && !seniorGroup
-                ? (locale === "ta" ? "பாடப்பிரிவைத் தேர்ந்தெடுக்கவும் →" : "Select Your Group to Proceed →")
-                : `Proceed to Class ${grade ?? ""} →`}
+                ? (locale === "ta" ? "பாடப்பிரிவைத் தேர்ந்தெடுக்கவும் *" : "Choose Stream to Proceed *")
+                : existing
+                ? (locale === "ta" ? "சேமித்து தொடர்க →" : `Save & Continue to Class ${grade ?? ""} →`)
+                : `Enter Digital Learning: Class ${grade ?? ""} →`}
             </span>
             <ArrowRight size={18} className="transition-transform duration-200 group-hover:translate-x-1" />
           </button>
         </div>
       </div>
-
-      {/* Interactive Higher Secondary Group Selection Modal (Asks group when choosing Class 11 or 12) */}
-      {isGroupModalOpen && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label="Select Higher Secondary Group"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md animate-in fade-in duration-200"
-          onClick={() => {
-            if (seniorGroup) setIsGroupModalOpen(false);
-          }}
-        >
-          <div
-            className="relative w-full max-w-xl overflow-hidden rounded-[28px] border border-purple-500/40 bg-gradient-to-b from-[#1c0e35] via-[#140a28] to-[#0d061c] p-6 sm:p-7 shadow-[0_20px_70px_rgba(0,0,0,0.8),0_0_50px_rgba(168,85,247,0.3)]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Modal Header */}
-            <div className="flex items-start justify-between border-b border-purple-900/40 pb-4">
-              <div>
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="grid size-7 place-items-center rounded-lg bg-purple-500/20 text-purple-300">
-                    <GraduationCap size={18} weight="fill" />
-                  </span>
-                  <span className="font-mono text-xs uppercase tracking-wider text-purple-300 font-bold">
-                    Class {grade || 11} Stream Selection
-                  </span>
-                </div>
-                <h3 className="font-display text-xl sm:text-2xl font-black text-white tracking-tight">
-                  {locale === "ta" ? "உங்கள் பாடப்பிரிவைத் தேர்ந்தெடுக்கவும்" : "Select Your Higher Secondary Group"}
-                </h3>
-                <p className="mt-1 text-xs text-purple-200/70">
-                  {locale === "ta"
-                    ? "வகுப்பு 11 மற்றும் 12க்கான தமிழ்நாடு சமச்சீர் கல்வி பிரிவு."
-                    : `Tamil Nadu Samacheer Kalvi Higher Secondary Group for Class ${grade || 11}.`}
-                </p>
-              </div>
-              {seniorGroup && (
-                <button
-                  type="button"
-                  onClick={() => setIsGroupModalOpen(false)}
-                  className="grid size-8 place-items-center rounded-xl border border-purple-800/40 text-purple-300 hover:text-white hover:border-purple-600 transition-colors"
-                  title="Close"
-                >
-                  <X size={16} />
-                </button>
-              )}
-            </div>
-
-            {/* 3 Senior Groups */}
-            <div className="mt-5 grid gap-3">
-              {SENIOR_GROUPS.map((grp) => {
-                const isGrpSelected = seniorGroup === grp.id;
-                return (
-                  <button
-                    key={grp.id}
-                    type="button"
-                    onClick={() => {
-                      setSeniorGroup(grp.id);
-                      setIsGroupModalOpen(false);
-                    }}
-                    className={`group relative flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border p-4 text-left transition-all duration-200 ${
-                      isGrpSelected
-                        ? "border-purple-400 bg-purple-900/50 shadow-[0_0_25px_rgba(168,85,247,0.35)] ring-1 ring-purple-400/60 scale-[1.01]"
-                        : "border-purple-900/40 bg-purple-950/20 hover:border-purple-700/60 hover:bg-purple-900/30"
-                    }`}
-                  >
-                    <div className="flex flex-col gap-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-purple-300">
-                          {grp.badge}
-                        </span>
-                        <span className="rounded-full bg-purple-900/60 border border-purple-700/50 px-2 py-0.2 font-mono text-[9.5px] text-purple-200">
-                          {grp.code}
-                        </span>
-                      </div>
-                      <h4 className="font-display text-base font-bold text-white leading-snug">
-                        {grp.name[locale] || grp.name.en}
-                      </h4>
-                      <p className="text-xs text-purple-200/70 leading-relaxed">
-                        {grp.description[locale] || grp.description.en}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-3 shrink-0 self-end sm:self-center">
-                      <span
-                        className={`grid size-7 place-items-center rounded-full border transition-all ${
-                          isGrpSelected
-                            ? "border-purple-400 bg-purple-400 text-purple-950 font-bold shadow"
-                            : "border-purple-800 text-transparent group-hover:border-purple-500"
-                        }`}
-                      >
-                        <Check size={14} weight="bold" />
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Footer */}
-            <div className="mt-5 flex items-center justify-between pt-3 border-t border-purple-900/40 text-[11.5px] text-purple-300/70">
-              <span>⚡ You can change your stream anytime in Digital Learning</span>
-              {seniorGroup && (
-                <button
-                  type="button"
-                  onClick={() => setIsGroupModalOpen(false)}
-                  className="rounded-xl bg-purple-600 px-4 py-1.5 font-display text-xs font-bold text-white hover:bg-purple-500 transition-colors shadow-sm"
-                >
-                  Confirm Group
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
     </form>
   );
 }
