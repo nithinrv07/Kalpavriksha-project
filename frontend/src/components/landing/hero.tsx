@@ -142,8 +142,8 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                   />
                 </span>
                 <div className="flex items-center gap-2">
-                  <LangSelect />
-                  <ThemeToggle />
+                  <LangSelect data-no-flip />
+                  <ThemeToggle data-no-flip />
                   <button
                     type="button"
                     onClick={(e) => {
@@ -152,6 +152,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                     }}
                     className="flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.06] px-3.5 font-mono text-[14px] text-text transition-colors duration-200 hover:border-violet/40 hover:bg-violet-deep hover:text-violet-ink active:scale-[0.98]"
                     title="Explore Particle Tree View"
+                    data-no-flip
                   >
                     <ArrowsClockwise size={15} />
                     <span className="hidden sm:inline">Tree View</span>
@@ -159,14 +160,19 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                   <Link
                     href="/sign-in"
                     className="hidden h-11 items-center rounded-xl border px-5 font-mono text-[14px] transition-colors duration-200 active:scale-[0.98] sm:flex theme-signin"
+                    data-no-flip
                   >
                     {t.signIn}
                   </Link>
                   <button
                     type="button"
-                    onClick={() => setMenuOpen(true)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMenuOpen(true);
+                    }}
                     aria-label={t.menu}
                     className="grid size-11 place-items-center rounded-xl border border-white/15 bg-surface/90 text-amber-300 shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all hover:border-amber-400/50 hover:bg-surface-2 hover:text-amber-200 lg:hidden"
+                    data-no-flip
                   >
                     <DotsNine size={18} />
                   </button>
@@ -176,9 +182,13 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
               {/* Desktop rail: menu pill + vertical wordmark */}
               <button
                 type="button"
-                onClick={() => setMenuOpen(true)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMenuOpen(true);
+                }}
                 aria-label={t.menu}
                 className="group absolute left-6 xl:left-8 top-6 xl:top-8 z-20 hidden flex-col items-center gap-3 rounded-2xl border border-white/15 bg-surface/90 backdrop-blur-xl p-1.5 pb-3 shadow-[0_10px_35px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-amber-400/50 hover:bg-surface-2 hover:shadow-[0_10px_35px_rgba(251,191,36,0.18)] lg:flex"
+                data-no-flip
               >
                 <span className="grid size-10 place-items-center rounded-xl border border-amber-400/35 bg-amber-400/15 text-amber-300 shadow-[0_0_16px_-2px_rgba(251,191,36,0.45)] transition-all duration-300 group-hover:scale-105 group-hover:border-amber-400 group-hover:bg-amber-400/25 group-hover:text-amber-200 group-hover:shadow-[0_0_22px_rgba(251,191,36,0.65)]">
                   <BrandMark className="size-5" strokeWidth={1.8} />
@@ -377,8 +387,8 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                   />
                 </span>
                 <div className="flex items-center gap-2">
-                  <LangSelect />
-                  <ThemeToggle />
+                  <LangSelect data-no-flip />
+                  <ThemeToggle data-no-flip />
                   <button
                     type="button"
                     onClick={(e) => {
@@ -387,6 +397,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                     }}
                     className="flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.06] px-3.5 font-mono text-[14px] text-text transition-colors duration-200 hover:border-violet/40 hover:bg-violet-deep hover:text-violet-ink active:scale-[0.98]"
                     title="Return to 3D Sphere Gallery"
+                    data-no-flip
                   >
                     <ArrowsClockwise size={15} />
                     <span className="hidden sm:inline">3D Gallery</span>
@@ -394,14 +405,19 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                   <Link
                     href="/sign-in"
                     className="hidden h-11 items-center rounded-xl border px-5 font-mono text-[14px] transition-colors duration-200 active:scale-[0.98] sm:flex theme-signin"
+                    data-no-flip
                   >
                     {t.signIn}
                   </Link>
                   <button
                     type="button"
-                    onClick={() => setMenuOpen(true)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMenuOpen(true);
+                    }}
                     aria-label={t.menu}
                     className="grid size-11 place-items-center rounded-xl border border-white/15 bg-surface/90 text-amber-300 shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all hover:border-amber-400/50 hover:bg-surface-2 hover:text-amber-200 lg:hidden"
+                    data-no-flip
                   >
                     <DotsNine size={18} />
                   </button>
@@ -411,9 +427,13 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
               {/* Desktop rail: menu pill + vertical wordmark */}
               <button
                 type="button"
-                onClick={() => setMenuOpen(true)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMenuOpen(true);
+                }}
                 aria-label={t.menu}
                 className="group absolute left-6 xl:left-8 top-6 xl:top-8 z-20 hidden flex-col items-center gap-3 rounded-2xl border border-white/15 bg-surface/90 backdrop-blur-xl p-1.5 pb-3 shadow-[0_10px_35px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-amber-400/50 hover:bg-surface-2 hover:shadow-[0_10px_35px_rgba(251,191,36,0.18)] lg:flex"
+                data-no-flip
               >
                 <span className="grid size-10 place-items-center rounded-xl border border-amber-400/35 bg-amber-400/15 text-amber-300 shadow-[0_0_16px_-2px_rgba(251,191,36,0.45)] transition-all duration-300 group-hover:scale-105 group-hover:border-amber-400 group-hover:bg-amber-400/25 group-hover:text-amber-200 group-hover:shadow-[0_0_22px_rgba(251,191,36,0.65)]">
                   <BrandMark className="size-5" strokeWidth={1.8} />
