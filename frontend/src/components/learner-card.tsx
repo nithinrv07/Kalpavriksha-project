@@ -34,8 +34,15 @@ function joinedYear(studentId: string): number | null {
   return match ? Number(match[1]) : null;
 }
 
-/** The student's learner card: growth stage, class and progress at a glance. */
-function Card({ profile }: { profile: Profile }) {
+type CardProps = {
+  readonly profile: Profile;
+  readonly confirming: boolean;
+  readonly onRemove: () => void;
+  readonly onBlurRemove: () => void;
+};
+
+/** The learner's progress card: growth stage, level, streak — one surface in the canopy. */
+function Card({ profile, confirming, onRemove, onBlurRemove }: CardProps) {
   const { t, locale } = useLocale();
   const progress = useProgress();
   const band = bandOf(profile.grade);
@@ -47,17 +54,12 @@ function Card({ profile }: { profile: Profile }) {
   const activeDays = new Set(progress.activeDays);
   const week = lastSevenDays(today, locale);
   const since = joinedYear(profile.studentId);
-  const seniorGroup =
-    profile.grade >= 11 && profile.seniorGroup
-      ? SENIOR_GROUPS.find((g) => g.id === profile.seniorGroup)
-      : undefined;
-  const boardLabel = boardName(profile.board, locale);
   const xpLine = c.xpProgress(into, span, level + 1);
 
   return (
     <div
       style={{ "--band": info.accent } as React.CSSProperties}
-      className="learner-card mx-auto w-full max-w-[440px] p-6 sm:p-7"
+      className="learner-card mx-auto w-full max-w-[420px] p-6 sm:p-7"
     >
       <div className="relative z-10">
         <div className="flex items-center justify-between gap-3">
@@ -69,8 +71,8 @@ function Card({ profile }: { profile: Profile }) {
         </div>
 
         {/* The growth stage is the hero: one mascot, sized by band. */}
-        <div className="mt-7 flex items-center gap-5">
-          <div className="relative grid size-[124px] shrink-0 place-items-center">
+        <div className="mt-6 grid place-items-center">
+          <div className="relative grid size-28 place-items-center">
             <div
               aria-hidden
               className="absolute inset-0 rounded-full"
@@ -79,22 +81,12 @@ function Card({ profile }: { profile: Profile }) {
                   "radial-gradient(circle at 50% 62%, color-mix(in srgb, var(--band) 26%, transparent), transparent 70%)",
               }}
             />
-            <GrowthStage band={band} className="relative size-[124px]" />
-          </div>
-          <div className="min-w-0">
-            <p className="truncate font-display text-[28px] leading-[1.05] tracking-[-0.035em]">
-              {profile.name}
-            </p>
-            <p className="mt-2 text-[13px] text-muted">
-              {c.classWord} {profile.grade} · {info.name[locale].split(" (")[0]}
-              {seniorGroup && <span className="text-violet"> · {seniorGroup.name[locale]}</span>}
-            </p>
-            <p className="mt-1 text-[12.5px] leading-snug text-muted/80">{boardLabel}</p>
+            <GrowthStage band={band} className="relative size-28" />
           </div>
         </div>
 
-        <div className="mt-7">
-          <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+        <div className="mt-5">
+          <div className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1">
             <p className="font-display text-[20px] leading-none tracking-tight">
               {t.level} {level}
             </p>
@@ -117,7 +109,7 @@ function Card({ profile }: { profile: Profile }) {
         </div>
 
         {/* Streak as the last seven days, not a competing stat tile. */}
-        <div className="mt-6 flex items-center justify-between gap-4 border-t border-line/70 pt-4">
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-line/70 pt-4">
           <div className="flex items-end gap-1.5">
             {week.map((day) => {
               const on = activeDays.has(day.key);
@@ -138,7 +130,7 @@ function Card({ profile }: { profile: Profile }) {
               );
             })}
           </div>
-          <p className="shrink-0 text-[12.5px] text-muted">
+          <p className="ml-auto shrink-0 text-[12.5px] text-muted">
             {dayStreak > 0 ? c.streakDays(dayStreak) : c.noStreak}
           </p>
         </div>
@@ -150,6 +142,23 @@ function Card({ profile }: { profile: Profile }) {
               {LOCALE_LABEL[profile.preferredLanguage]?.native ?? profile.preferredLanguage}
             </span>
           )}
+        </div>
+
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-line/70 pt-4">
+          <button
+            type="button"
+            onClick={onRemove}
+            onBlur={onBlurRemove}
+            className={`inline-flex items-center gap-2 text-[12.5px] transition-colors ${
+              confirming ? "text-danger" : "text-muted hover:text-text"
+            }`}
+          >
+            <Trash size={14} />
+            {confirming ? c.confirmRemove : c.remove}
+          </button>
+          <p className="ml-auto max-w-[52%] text-right text-[11px] leading-snug text-muted/80">
+            {c.deviceNote}
+          </p>
         </div>
       </div>
     </div>
@@ -180,26 +189,41 @@ function SignInScreenContent() {
     <div className="relative isolate min-h-[100dvh] w-full overflow-hidden">
       <ChromeWaves />
 
-      {/* Blooming Wishing Tree with drifting petals hugging the left side */}
+      {/* Veiled wishing tree: the page's living backdrop, cleared behind the card. */}
       <div
         aria-hidden
-        className="pointer-events-none fixed inset-y-0 left-0 z-0 hidden sm:block h-full w-[52vw] min-w-[300px] max-w-[700px] overflow-hidden opacity-90 transform-gpu"
+        className="pointer-events-none fixed inset-y-0 left-0 z-0 hidden h-full w-[52vw] min-w-[300px] max-w-[700px] overflow-hidden opacity-80 lg:block"
         style={{
-          maskImage: "linear-gradient(to right, #000 85%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to right, #000 85%, transparent 100%)",
+          maskImage: "linear-gradient(to right, #000 82%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to right, #000 82%, transparent 100%)",
         }}
       >
         <LivingTree />
       </div>
 
-      {/* Cosmic Particles & Interactive Petal Bursts Layer */}
-      <CosmicParticleLayer moduleSlug="learn" />
+      {/* Veil clears the canopy just behind the card. */}
+      <div aria-hidden className="signin-veil pointer-events-none fixed inset-0 z-[1]" />
+
+      {/* Header band: clears the canopy under the top buttons. */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-x-0 top-0 z-[1] h-32"
+        style={{
+          background:
+            "linear-gradient(to bottom, color-mix(in srgb, var(--bg) 88%, transparent) 0%, color-mix(in srgb, var(--bg) 45%, transparent) 48%, transparent 100%)",
+        }}
+      />
+
+      {/* Cosmic Particles & Interactive Petal Bursts Layer (under the card) */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 z-[2]">
+        <CosmicParticleLayer moduleSlug="learn" />
+      </div>
 
       <div className="relative z-10 mx-auto w-full max-w-[1100px] px-4 pb-24 sm:px-6">
         <header className="flex items-center justify-between gap-3 py-4 sm:py-6">
           <Link
             href="/"
-            className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.04] px-3 text-sm transition-colors duration-200 hover:bg-white/[0.1]"
+            className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-surface/65 px-3 text-sm backdrop-blur-xl transition-colors duration-200 hover:bg-surface/85"
           >
             <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
             <BrandMark className="size-5 text-violet" />
@@ -210,7 +234,7 @@ function SignInScreenContent() {
 
         <main className="mt-6 sm:mt-10">
           {!hydrated ? (
-            <div aria-hidden className="h-96 animate-pulse rounded-3xl border border-line bg-surface/60" />
+            <div aria-hidden className="mx-auto h-96 w-full max-w-[520px] animate-pulse rounded-3xl border border-line bg-surface/60" />
           ) : !profile || editing ? (
             <div className="rounded-[28px] border border-line bg-surface/80 p-5 backdrop-blur-sm sm:p-10">
               {profile && (
@@ -230,58 +254,50 @@ function SignInScreenContent() {
               />
             </div>
           ) : (
-            <div className="grid items-start gap-6 lg:grid-cols-2 lg:gap-8">
-              <div
-                style={{ "--band": "var(--violet)", animationDelay: "90ms" } as React.CSSProperties}
-                className="learner-card mx-auto w-full max-w-[440px] p-6 sm:p-7"
-              >
-                <div className="relative z-10">
-                  <h1 className="font-display text-[clamp(32px,4vw,44px)] leading-[1.02] tracking-[-0.045em]">
-                    {c.hello(profile.name)}
-                  </h1>
-                  <p className="mt-4 text-[15px] font-medium text-text">
-                    {c.classWord} {profile.grade} · {BAND_INFO[band].name[locale].split(" (")[0]}
-                    {seniorGroup && <span className="text-violet"> · {seniorGroup.name[locale]}</span>}
-                  </p>
-                  <p className="mt-2 text-[14px] leading-relaxed text-muted">
-                    {BAND_INFO[band].tagline[locale]}
-                  </p>
-                  <div className="mt-7 flex flex-wrap gap-3">
-                    <Link
-                      href={continueHref}
-                      className="theme-signin group inline-flex h-12 items-center gap-2.5 rounded-full border px-6 text-sm font-medium transition-transform duration-200 hover:-translate-y-0.5"
-                    >
-                      {c.continueLearning}
-                      <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-1" />
-                    </Link>
-                    <button
-                      type="button"
-                      onClick={() => setEditing(true)}
-                      className="inline-flex h-12 items-center gap-2 rounded-full border border-line px-5 text-sm transition-colors hover:bg-violet/10"
-                    >
-                      <PencilSimple size={16} />
-                      {c.edit}
-                    </button>
-                  </div>
+            <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-12">
+              {/* The card rests inside the canopy on the left. */}
+              <Card
+                profile={profile}
+                confirming={confirming}
+                onRemove={() => {
+                  if (!confirming) return setConfirming(true);
+                  updateProgress((p) => setProfile(p, null));
+                  setConfirming(false);
+                }}
+                onBlurRemove={() => setConfirming(false)}
+              />
+
+              {/* Unboxed greeting rail, clear of the canopy. */}
+              <div className="order-first mx-auto w-full max-w-[420px] lg:order-last lg:mx-0 lg:max-w-[520px] lg:pt-6">
+                <h1 className="font-display text-[clamp(32px,4vw,46px)] leading-[1.02] tracking-[-0.045em]">
+                  {c.hello(profile.name)}
+                </h1>
+                <p className="mt-4 text-[15px] font-medium">
+                  {c.classWord} {profile.grade} · {BAND_INFO[band].name[locale].split(" (")[0]}
+                  {seniorGroup && <span className="text-violet"> · {seniorGroup.name[locale]}</span>}
+                </p>
+                <p className="mt-2 text-[14px] text-muted">{boardName(profile.board, locale)}</p>
+                <p className="mt-4 text-[14px] leading-relaxed text-muted">
+                  {BAND_INFO[band].tagline[locale]}
+                </p>
+                <div className="mt-7 flex flex-wrap gap-3">
+                  <Link
+                    href={continueHref}
+                    className="theme-signin group inline-flex h-12 items-center gap-2.5 whitespace-nowrap rounded-full border px-6 text-sm font-medium transition-transform duration-200 hover:-translate-y-0.5"
+                  >
+                    {c.continueLearning}
+                    <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-1" />
+                  </Link>
                   <button
                     type="button"
-                    onClick={() => {
-                      if (!confirming) return setConfirming(true);
-                      updateProgress((p) => setProfile(p, null));
-                      setConfirming(false);
-                    }}
-                    onBlur={() => setConfirming(false)}
-                    className={`mt-6 inline-flex items-center gap-2 text-[13px] transition-colors ${
-                      confirming ? "text-danger" : "text-muted hover:text-text"
-                    }`}
+                    onClick={() => setEditing(true)}
+                    className="inline-flex h-12 items-center gap-2 whitespace-nowrap rounded-full border border-line px-5 text-sm transition-colors hover:bg-violet/10"
                   >
-                    <Trash size={14} />
-                    {confirming ? c.confirmRemove : c.remove}
+                    <PencilSimple size={16} />
+                    {c.edit}
                   </button>
-                  <p className="mt-4 text-[11.5px] text-muted/80">{c.deviceNote}</p>
                 </div>
               </div>
-              <Card profile={profile} />
             </div>
           )}
         </main>
