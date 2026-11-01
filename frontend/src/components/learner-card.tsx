@@ -165,6 +165,11 @@ function SignInScreenContent() {
   const [editing, setEditing] = useState(() => searchParams?.get("edit") === "true");
   const [confirming, setConfirming] = useState(false);
   const c = SETUP_COPY[locale];
+  const band = profile ? bandOf(profile.grade) : "middle";
+  const seniorGroup =
+    profile && profile.grade >= 11 && profile.seniorGroup
+      ? SENIOR_GROUPS.find((g) => g.id === profile.seniorGroup)
+      : undefined;
 
   const continueHref =
     profile?.lastAccessed
@@ -225,56 +230,56 @@ function SignInScreenContent() {
               />
             </div>
           ) : (
-            <div className="grid items-center gap-10 lg:grid-cols-[1fr_1fr]">
-              <div className="fade-up">
-                <p className="text-[13px] text-violet">{t.myCard}</p>
-                <h1 className="mt-2 font-display text-[clamp(36px,5.5vw,72px)] leading-[0.95] tracking-[-0.05em]">
-                  {c.hello(profile.name)}
-                </h1>
-                <p className="mt-3 text-[16px] text-text font-medium flex flex-wrap items-center gap-2">
-                  <span>{c.classWord} {profile.grade} Student · {BAND_INFO[bandOf(profile.grade)].name[locale]}</span>
-                  {profile.grade >= 11 && profile.seniorGroup && (
-                    <span className="rounded-full bg-violet/20 border border-violet/40 px-2.5 py-0.5 font-mono text-xs text-violet-ink">
-                      {SENIOR_GROUPS.find((g) => g.id === profile.seniorGroup)?.badge || profile.seniorGroup}
-                    </span>
-                  )}
-                </p>
-                <p className="mt-2 max-w-md text-[14.5px] leading-relaxed text-muted">
-                  {BAND_INFO[bandOf(profile.grade)].tagline[locale]}
-                </p>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Link
-                    href={continueHref}
-                    className="beam-border group inline-flex h-14 items-center gap-3 rounded-full bg-violet-deep px-7 font-mono text-sm text-violet-ink transition-transform duration-200 hover:-translate-y-0.5"
-                  >
-                    {c.continueLearning}
-                    <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-1" />
-                  </Link>
+            <div className="grid items-start gap-6 lg:grid-cols-2 lg:gap-8">
+              <div
+                style={{ "--band": "var(--violet)", animationDelay: "90ms" } as React.CSSProperties}
+                className="learner-card mx-auto w-full max-w-[440px] p-6 sm:p-7"
+              >
+                <div className="relative z-10">
+                  <h1 className="font-display text-[clamp(32px,4vw,44px)] leading-[1.02] tracking-[-0.045em]">
+                    {c.hello(profile.name)}
+                  </h1>
+                  <p className="mt-4 text-[15px] font-medium text-text">
+                    {c.classWord} {profile.grade} · {BAND_INFO[band].name[locale].split(" (")[0]}
+                    {seniorGroup && <span className="text-violet"> · {seniorGroup.name[locale]}</span>}
+                  </p>
+                  <p className="mt-2 text-[14px] leading-relaxed text-muted">
+                    {BAND_INFO[band].tagline[locale]}
+                  </p>
+                  <div className="mt-7 flex flex-wrap gap-3">
+                    <Link
+                      href={continueHref}
+                      className="theme-signin group inline-flex h-12 items-center gap-2.5 rounded-full border px-6 text-sm font-medium transition-transform duration-200 hover:-translate-y-0.5"
+                    >
+                      {c.continueLearning}
+                      <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-1" />
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => setEditing(true)}
+                      className="inline-flex h-12 items-center gap-2 rounded-full border border-line px-5 text-sm transition-colors hover:bg-violet/10"
+                    >
+                      <PencilSimple size={16} />
+                      {c.edit}
+                    </button>
+                  </div>
                   <button
                     type="button"
-                    onClick={() => setEditing(true)}
-                    className="inline-flex h-14 items-center gap-2 rounded-full border border-line px-6 text-sm transition-colors hover:bg-white/[0.06]"
+                    onClick={() => {
+                      if (!confirming) return setConfirming(true);
+                      updateProgress((p) => setProfile(p, null));
+                      setConfirming(false);
+                    }}
+                    onBlur={() => setConfirming(false)}
+                    className={`mt-6 inline-flex items-center gap-2 text-[13px] transition-colors ${
+                      confirming ? "text-danger" : "text-muted hover:text-text"
+                    }`}
                   >
-                    <PencilSimple size={16} />
-                    {c.edit}
+                    <Trash size={14} />
+                    {confirming ? c.confirmRemove : c.remove}
                   </button>
+                  <p className="mt-4 text-[11.5px] text-muted/80">{c.deviceNote}</p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (!confirming) return setConfirming(true);
-                    updateProgress((p) => setProfile(p, null));
-                    setConfirming(false);
-                  }}
-                  onBlur={() => setConfirming(false)}
-                  className={`mt-6 inline-flex items-center gap-2 text-[13px] transition-colors ${
-                    confirming ? "text-danger" : "text-muted hover:text-text"
-                  }`}
-                >
-                  <Trash size={14} />
-                  {confirming ? c.confirmRemove : c.remove}
-                </button>
-                <p className="mt-6 max-w-md text-[12.5px] text-muted/80">{c.deviceNote}</p>
               </div>
               <Card profile={profile} />
             </div>
