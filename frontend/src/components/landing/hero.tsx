@@ -126,7 +126,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
 
               {/* Top bar — flows on mobile, pinned on desktop (no-flip zone: stops propagation to FlipCard) */}
               <div
-                className="z-20 flex items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0"
+                className="z-30 flex items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0"
                 onClick={(e) => e.stopPropagation()}
               >
                 <span className="flex items-center gap-2 font-headline font-semibold text-lg tracking-tight lg:hidden">
@@ -190,7 +190,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                   setMenuOpen(true);
                 }}
                 aria-label={t.menu}
-                className="group absolute left-6 xl:left-8 top-6 xl:top-8 z-20 hidden flex-col items-center gap-3 rounded-2xl border border-white/15 bg-surface/90 backdrop-blur-xl p-2 pb-4 shadow-[0_10px_35px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-amber-400/50 hover:bg-surface-2 hover:shadow-[0_10px_35px_rgba(251,191,36,0.18)] lg:flex min-h-[44px] min-w-[44px]"
+                className="group absolute left-6 xl:left-8 top-6 xl:top-8 z-30 hidden flex-col items-center gap-3 rounded-2xl border border-white/15 bg-surface/90 backdrop-blur-xl p-2 pb-4 shadow-[0_10px_35px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-amber-400/50 hover:bg-surface-2 hover:shadow-[0_10px_35px_rgba(251,191,36,0.18)] lg:flex min-h-[44px] min-w-[44px]"
                 data-no-flip
               >
                 <span className="grid size-10 place-items-center rounded-xl border border-amber-400/35 bg-amber-400/15 text-amber-300 shadow-[0_0_16px_-2px_rgba(251,191,36,0.45)] transition-all duration-300 group-hover:scale-105 group-hover:border-amber-400 group-hover:bg-amber-400/25 group-hover:text-amber-200 group-hover:shadow-[0_0_22px_rgba(251,191,36,0.65)]">
@@ -207,7 +207,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
               {/* Horizontal brand title centered directly above 3D Sphere with dual-tone SparkleButton (hover glare animation) */}
               <div
                 aria-hidden
-                className="select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
+                className="pointer-events-none select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
               >
                 <SparkleButton
                   as="h1"
@@ -219,7 +219,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                   textColor={isDark ? "#FFFFFF" : "#110826"}
                   shadowColor={isDark ? "#1E0028" : "rgba(124, 58, 237, 0.25)"}
                   glareColor={isDark ? "#4A105DBF" : "rgba(124, 58, 237, 0.55)"}
-                  className={`font-title ${
+                  className={`font-title pointer-events-auto ${
                     isDark
                       ? "drop-shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
                       : "drop-shadow-[0_2px_10px_rgba(124,58,237,0.1)]"
@@ -374,7 +374,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
 
               {/* Top bar — flows on mobile, pinned on desktop (no-flip zone: stops propagation to FlipCard) */}
               <div
-                className="z-20 flex items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0"
+                className="z-30 flex items-center justify-between gap-3 px-5 py-4 sm:p-6 lg:absolute lg:right-8 xl:right-12 lg:top-8 lg:p-0"
                 onClick={(e) => e.stopPropagation()}
               >
                 <span className="flex items-center gap-2 font-headline font-semibold text-lg tracking-tight lg:hidden">
@@ -438,7 +438,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                   setMenuOpen(true);
                 }}
                 aria-label={t.menu}
-                className="group absolute left-6 xl:left-8 top-6 xl:top-8 z-20 hidden flex-col items-center gap-3 rounded-2xl border border-white/15 bg-surface/90 backdrop-blur-xl p-2 pb-4 shadow-[0_10px_35px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-amber-400/50 hover:bg-surface-2 hover:shadow-[0_10px_35px_rgba(251,191,36,0.18)] lg:flex min-h-[44px] min-w-[44px]"
+                className="group absolute left-6 xl:left-8 top-6 xl:top-8 z-30 hidden flex-col items-center gap-3 rounded-2xl border border-white/15 bg-surface/90 backdrop-blur-xl p-2 pb-4 shadow-[0_10px_35px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-amber-400/50 hover:bg-surface-2 hover:shadow-[0_10px_35px_rgba(251,191,36,0.18)] lg:flex min-h-[44px] min-w-[44px]"
                 data-no-flip
               >
                 <span className="grid size-10 place-items-center rounded-xl border border-amber-400/35 bg-amber-400/15 text-amber-300 shadow-[0_0_16px_-2px_rgba(251,191,36,0.45)] transition-all duration-300 group-hover:scale-105 group-hover:border-amber-400 group-hover:bg-amber-400/25 group-hover:text-amber-200 group-hover:shadow-[0_0_22px_rgba(251,191,36,0.65)]">
@@ -454,7 +454,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
               {/* Horizontal brand title centered directly above particle tree with dual-tone SparkleButton (hover glare animation) */}
               <div
                 aria-hidden
-                className="select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center lg:flex"
+                className="pointer-events-none select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center lg:flex"
               >
                 <SparkleButton
                   as="h1"
@@ -466,7 +466,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                   textColor={isDark ? "#FFFFFF" : "#110826"}
                   shadowColor={isDark ? "#1E0028" : "rgba(124, 58, 237, 0.25)"}
                   glareColor={isDark ? "#4A105DBF" : "rgba(124, 58, 237, 0.55)"}
-                  className={`font-title ${
+                  className={`font-title pointer-events-auto ${
                     isDark
                       ? "drop-shadow-[0_4px_24px_rgba(0,0,0,0.4)]"
                       : "drop-shadow-[0_2px_10px_rgba(124,58,237,0.1)]"
