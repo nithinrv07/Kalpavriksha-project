@@ -18,7 +18,6 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { useTheme } from "@/lib/theme";
 import { LangSelect } from "./lang-select";
 import { MenuSheet } from "./menu-sheet";
-import { getQualityBudget } from "@/lib/perf/quality";
 import { LiquidGlassSurface } from "@/components/liquid-glass-surface";
 
 const CYCLE_MS = 5200;

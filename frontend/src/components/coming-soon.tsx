@@ -6,6 +6,7 @@ import { BrandMark } from "@/components/brand-mark";
 import { ChromeWaves } from "@/components/landing/chrome-waves";
 import { useLocale } from "@/components/locale-provider";
 import { getModule } from "@/modules/registry";
+import { LiquidGlassSurface } from "@/components/liquid-glass-surface";
 
 /** Placeholder for a registered module whose screen is not built yet. */
 export function ComingSoon({ slug }: { slug: string }) {
@@ -19,7 +20,10 @@ export function ComingSoon({ slug }: { slug: string }) {
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_50%_at_50%_60%,rgb(124_58_237/0.16),transparent_70%)]"
       />
-      <div className="fade-up relative z-10 w-full max-w-xl rounded-3xl border border-line bg-surface p-8 shadow-[0_0_90px_-25px_rgb(124_58_237/0.45)] sm:p-12">
+      <LiquidGlassSurface
+        radius={28}
+        className="fade-up relative z-10 w-full max-w-xl border border-white/10 p-8 shadow-[0_30px_80px_-40px_rgb(0_0_0/0.9),0_0_90px_-25px_rgb(124_58_237/0.45)] sm:p-12"
+      >
         <BrandMark className="size-8 text-violet" />
         <p className="mt-10 font-mono text-[12px] text-violet">{m?.index ?? ""}</p>
         <h1 className="mt-3 font-display text-[clamp(34px,5vw,56px)] leading-[0.98] tracking-[-0.045em]">
@@ -33,7 +37,7 @@ export function ComingSoon({ slug }: { slug: string }) {
           <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
           {t.back}
         </Link>
-      </div>
+      </LiquidGlassSurface>
     </main>
   );
 }

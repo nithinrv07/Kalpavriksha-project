@@ -6,6 +6,7 @@ import { Burst } from "@/components/burst";
 import { useLocale } from "@/components/locale-provider";
 import { updateProgress, useProgress } from "@/components/progress-store";
 import { KaraokeLines, useReadAloud } from "@/components/read-aloud";
+import { LiquidGlassSurface } from "@/components/liquid-glass-surface";
 import { XP, completeSong, localDay, type Band } from "@/lib/progress";
 import { GK_COPY, SONGS } from "./content";
 
@@ -87,7 +88,11 @@ export function Songs({ band }: { band: Band }) {
         })}
       </div>
 
-      <div key={song.id} className="fade-up overflow-hidden rounded-[28px] border border-line bg-surface">
+      <LiquidGlassSurface
+        key={song.id}
+        radius={28}
+        className="fade-up border border-white/10"
+      >
         <div className="flex flex-col items-center gap-6 bg-[radial-gradient(60%_80%_at_20%_0%,rgb(124_58_237/0.22),transparent_70%)] p-6 sm:flex-row sm:p-8">
           <Record spinning={playing} />
           <div className="text-center sm:text-left">
@@ -151,7 +156,7 @@ export function Songs({ band }: { band: Band }) {
             <p className="mt-2 text-[14px] leading-relaxed">{song.fact[locale]}</p>
           </div>
         </div>
-      </div>
+      </LiquidGlassSurface>
     </div>
   );
 }
