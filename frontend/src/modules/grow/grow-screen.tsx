@@ -24,6 +24,7 @@ import {
 } from "@/lib/progress";
 import { AREA_INFO, BADGE_INFO, GROW_COPY } from "./content";
 import { LearningTrackCard } from "./learning-track-card";
+import { LiquidGlassSurface } from "@/components/liquid-glass-surface";
 
 /** Fixed precision so server and browser render identical SVG attributes. */
 const round = (n: number) => Math.round(n * 100) / 100;
@@ -225,7 +226,10 @@ function ActivityForm({ band }: { band: Band }) {
   };
 
   return (
-    <form onSubmit={submit} className="flex flex-col gap-4 rounded-3xl border border-line bg-surface p-5 sm:p-6">
+    <LiquidGlassSurface
+      radius={24}
+      className="flex flex-col gap-4 border border-white/10 p-5 sm:p-6"
+    >
       <h2 className="font-display text-xl tracking-[-0.02em]">{c.logTitle}</h2>
       <fieldset>
         <legend className="font-mono text-[11.5px] uppercase tracking-[0.12em] text-muted">{c.areaLabel}</legend>
@@ -286,7 +290,7 @@ function ActivityForm({ band }: { band: Band }) {
           )}
         </button>
       </div>
-    </form>
+    </LiquidGlassSurface>
   );
 }
 
@@ -322,7 +326,10 @@ export function GrowScreen({ band }: { band: Band }) {
       />
 
       <div className={`grid gap-4 ${band === "junior" ? "lg:grid-cols-[1.3fr_1fr]" : "lg:grid-cols-[1.1fr_1fr]"}`}>
-        <section className="rounded-[28px] border border-line bg-surface p-5 sm:p-6">
+        <LiquidGlassSurface
+          radius={28}
+          className="border border-white/10 p-5 sm:p-6"
+        >
           <h2 className="font-display text-xl tracking-[-0.02em]">{c.treeTitle}</h2>
           <p className="mt-1 font-mono text-[12px] text-muted">
             {c.leaves(totalLeaves, progress.lessonsDone.length)}
@@ -341,11 +348,14 @@ export function GrowScreen({ band }: { band: Band }) {
               </span>
             ))}
           </div>
-        </section>
+        </LiquidGlassSurface>
 
         <div className="flex flex-col gap-4">
           <ActivityForm band={band} />
-          <section className="rounded-3xl border border-line bg-surface p-5 sm:p-6">
+          <LiquidGlassSurface
+            radius={24}
+            className="border border-white/10 p-5 sm:p-6"
+          >
             <h2 className="font-display text-xl tracking-[-0.02em]">{band === "junior" ? c.stickersTitle : c.skillsTitle}</h2>
             <div className="mt-4">
               {band === "junior" ? (
@@ -374,7 +384,7 @@ export function GrowScreen({ band }: { band: Band }) {
                 </p>
               </div>
             )}
-          </section>
+          </LiquidGlassSurface>
         </div>
       </div>
 
@@ -385,7 +395,10 @@ export function GrowScreen({ band }: { band: Band }) {
         onOpenStandardSwitcher={() => setSwitcherOpen(true)}
       />
 
-      <section className="rounded-[28px] border border-line bg-surface p-5 sm:p-6">
+      <LiquidGlassSurface
+        radius={28}
+        className="border border-white/10 p-5 sm:p-6"
+      >
         <h2 className="font-display text-xl tracking-[-0.02em]">{c.badgesTitle}</h2>
         <ul className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-7">
           {earned.map(({ id, earned: got }) => {
@@ -412,9 +425,12 @@ export function GrowScreen({ band }: { band: Band }) {
             );
           })}
         </ul>
-      </section>
+        </LiquidGlassSurface>
 
-      <section className="rounded-[28px] border border-line bg-surface p-5 sm:p-6">
+      <LiquidGlassSurface
+        radius={28}
+        className="border border-white/10 p-5 sm:p-6"
+      >
         <h2 className="font-display text-xl tracking-[-0.02em]">{band === "senior" ? c.portfolio : c.recent}</h2>
         {progress.activities.length === 0 ? (
           <p className="mt-3 text-[14px] text-muted">{c.empty}</p>
@@ -450,7 +466,7 @@ export function GrowScreen({ band }: { band: Band }) {
             })}
           </ul>
         )}
-      </section>
+      </LiquidGlassSurface>
     </div>
   );
 }
