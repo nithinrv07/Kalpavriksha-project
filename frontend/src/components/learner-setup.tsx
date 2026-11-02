@@ -535,12 +535,12 @@ export function LearnerSetup({
           <legend className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
             5. {c.avatarLabel}
           </legend>
-          <div className="mt-2 grid grid-cols-4 gap-2 sm:grid-cols-8 md:grid-cols-4">
+          <div className="mt-3 grid grid-cols-4 gap-x-2 gap-y-3 sm:grid-cols-8 md:grid-cols-4">
             {AVATARS.map((a) => (
               <label
                 key={a}
                 title={AVATAR_NAME[a][locale]}
-                className="grid cursor-pointer place-items-center rounded-2xl border border-transparent p-1 transition-all duration-200 hover:bg-white/[0.06] has-[:checked]:scale-105 has-[:checked]:border-violet/60 has-[:checked]:bg-violet-deep/40 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-violet"
+                className="group flex cursor-pointer flex-col items-center gap-1.5 rounded-2xl border border-transparent px-1 py-2 transition-all duration-200 hover:bg-white/[0.06] has-[:checked]:border-violet/60 has-[:checked]:bg-violet-deep/40 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-violet"
               >
                 <input
                   type="radio"
@@ -551,7 +551,21 @@ export function LearnerSetup({
                   className="sr-only"
                   aria-label={AVATAR_NAME[a][locale]}
                 />
-                <Avatar id={a} className="size-10" iconSize={22} />
+                <span className="relative">
+                  <Avatar
+                    id={a}
+                    className="size-11 transition-transform duration-200 group-hover:-translate-y-0.5"
+                    iconSize={24}
+                  />
+                  {avatar === a && (
+                    <span className="absolute -right-1 -top-1 grid size-4 place-items-center rounded-full bg-violet text-white ring-2 ring-surface">
+                      <Check size={9} weight="bold" />
+                    </span>
+                  )}
+                </span>
+                <span className="max-w-full break-words px-0.5 text-center text-[9.5px] leading-[1.25] text-muted transition-colors group-has-[:checked]:text-text sm:text-[10.5px]">
+                  {AVATAR_NAME[a][locale]}
+                </span>
               </label>
             ))}
           </div>
