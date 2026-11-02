@@ -259,6 +259,33 @@ body {
     0 2px 6px -3px rgb(76 29 149 / 0.12);
 }
 
+/* Live glass body: a real blur of whatever is behind the panel, so the
+   animated backdrop keeps moving inside the glass instead of freezing. */
+.liquid-glass-body {
+  background-color: rgb(8 5 16 / 0.58);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1) brightness(0.72);
+  backdrop-filter: blur(10px) saturate(1.1) brightness(0.72);
+}
+
+[data-theme="light"] .liquid-glass-body,
+.light .liquid-glass-body {
+  background-color: rgb(250 246 255 / 0.34);
+  -webkit-backdrop-filter: blur(9px) saturate(1.02) brightness(1);
+  backdrop-filter: blur(9px) saturate(1.02) brightness(1);
+}
+
+/* Sections inside the liquid-glass panel: translucent so the glass reads through. */
+.glass-inset {
+  background-color: rgb(255 255 255 / 0.035);
+  border-color: rgb(255 255 255 / 0.1);
+}
+
+[data-theme="light"] .glass-inset,
+.light .glass-inset {
+  background-color: rgb(255 255 255 / 0.3);
+  border-color: rgb(76 29 149 / 0.14);
+}
+
 /* Soft clearing in the canopy so the learner card stays readable on top of it. */
 .signin-veil {
   background: radial-gradient(

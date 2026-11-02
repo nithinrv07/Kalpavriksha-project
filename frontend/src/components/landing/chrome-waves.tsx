@@ -7,7 +7,11 @@ const RINGS = Array.from({ length: 30 }, (_, i) => i);
  */
 export function ChromeWaves() {
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden [contain:strict] transform-gpu">
+    <div
+      aria-hidden
+      data-glass-backdrop="true"
+      className="pointer-events-none fixed inset-0 z-0 overflow-hidden [contain:strict] transform-gpu"
+    >
       {/* 1. Top Right: Celestial Violet → Indigo → Cyan drift */}
       <div className="aurora-drift-1 pointer-events-none absolute -right-[12vmax] -top-[16vmax] size-[88vmax] rounded-full bg-[radial-gradient(closest-side,rgb(168_85_247/0.38),rgb(99_102_241/0.22),rgb(6_182_212/0.16),transparent)]" />
 

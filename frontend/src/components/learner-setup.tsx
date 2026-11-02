@@ -245,7 +245,7 @@ export function LearnerSetup({
       {/* ------------------------------------------------------------------- */}
       {/* 1. STUDENT NAME & EMAIL                                             */}
       {/* ------------------------------------------------------------------- */}
-      <div className="grid gap-5 rounded-3xl border border-line bg-surface p-5 sm:p-7 md:grid-cols-2">
+      <div className="grid gap-5 glass-inset rounded-3xl border p-5 sm:p-7 md:grid-cols-2">
         <label className="flex flex-col gap-2">
           <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-violet font-semibold">
             1. {locale === "ta" ? "மாணவர் பெயர்" : "Student Name"} *
@@ -280,7 +280,7 @@ export function LearnerSetup({
       {/* ------------------------------------------------------------------- */}
       {/* 2. SCHOOL BOARD SELECTION                                           */}
       {/* ------------------------------------------------------------------- */}
-      <fieldset className="rounded-3xl border border-line bg-surface p-5 sm:p-7 flex flex-col gap-3">
+      <fieldset className="glass-inset rounded-3xl border p-5 sm:p-7 flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <legend className="font-mono text-[12px] uppercase tracking-[0.12em] text-violet font-semibold">
             2. {locale === "ta" ? "பள்ளி கல்வி வாரியம்" : "School Board"} *
@@ -329,7 +329,7 @@ export function LearnerSetup({
       {/* ------------------------------------------------------------------- */}
       {/* 3. CLASS / STANDARD SELECTION (CLASS 4 TO CLASS 12)                 */}
       {/* ------------------------------------------------------------------- */}
-      <fieldset className="rounded-3xl border border-line bg-surface p-5 sm:p-7 flex flex-col gap-4">
+      <fieldset className="glass-inset rounded-3xl border p-5 sm:p-7 flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <legend className="font-mono text-[12px] uppercase tracking-[0.12em] text-violet font-semibold">
             3. {locale === "ta" ? "வகுப்பு / தரம் (வகுப்பு 4 முதல் 12 வரை)" : "Class / Standard (Class 4 to Class 12)"} *
@@ -502,7 +502,7 @@ export function LearnerSetup({
       {/* ------------------------------------------------------------------- */}
       {/* 4. PREFERRED LANGUAGE & BUDDY AVATAR                                */}
       {/* ------------------------------------------------------------------- */}
-      <div className="grid gap-5 rounded-3xl border border-line bg-surface p-5 sm:p-7 md:grid-cols-2">
+      <div className="grid gap-5 glass-inset rounded-3xl border p-5 sm:p-7 md:grid-cols-2">
         {/* Preferred Language */}
         <div className="flex flex-col gap-2">
           <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-violet font-semibold">

@@ -10,6 +10,7 @@ import { LivingTree } from "@/components/landing/living-tree";
 import { CosmicParticleLayer } from "@/components/cosmic-particle-layer";
 import { LangSelect } from "@/components/landing/lang-select";
 import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
+import { LiquidGlassSurface } from "@/components/liquid-glass-surface";
 import { useLocale } from "@/components/locale-provider";
 import { updateProgress, useProgress } from "@/components/progress-store";
 import { BAND_INFO, boardName, SETUP_COPY } from "@/lib/bands";
@@ -201,8 +202,11 @@ function SignInScreenContent() {
         <LivingTree />
       </div>
 
-      {/* Veil clears the canopy just behind the card. */}
-      <div aria-hidden className="signin-veil pointer-events-none fixed inset-0 z-[1]" />
+      {/* Veil clears the canopy just behind the learner card. The setup panel
+          is its own glass, so it does not need clearing. */}
+      {profile && !editing && (
+        <div aria-hidden className="signin-veil pointer-events-none fixed inset-0 z-[1]" />
+      )}
 
       {/* Header band: clears the canopy under the top buttons. */}
       <div
@@ -236,7 +240,10 @@ function SignInScreenContent() {
           {!hydrated ? (
             <div aria-hidden className="mx-auto h-96 w-full max-w-[520px] animate-pulse rounded-3xl border border-line bg-surface/60" />
           ) : !profile || editing ? (
-            <div className="rounded-[28px] border border-line bg-surface/80 p-5 backdrop-blur-sm sm:p-10">
+            <LiquidGlassSurface
+              radius={28}
+              className="border border-line p-5 shadow-[0_30px_80px_-40px_rgb(0_0_0/0.9)] sm:p-10"
+            >
               {profile && (
                 <button
                   type="button"
@@ -252,7 +259,7 @@ function SignInScreenContent() {
                 redirectTo={redirectTarget}
                 onDone={() => setEditing(false)}
               />
-            </div>
+            </LiquidGlassSurface>
           ) : (
             <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-12">
               {/* The card rests inside the canopy on the left. */}
