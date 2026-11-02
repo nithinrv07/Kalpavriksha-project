@@ -23,6 +23,8 @@ import { BrandMark } from "@/components/brand-mark";
 import { SoundToggle } from "@/components/sound-toggle";
 import { LangSelect } from "@/components/landing/lang-select";
 import type { CurriculumChapter, CurriculumSubject } from "@/lib/curriculum";
+import { MODULES } from "@/modules/registry";
+import { accentOf } from "@/modules/accents";
 
 interface JuniorSuperAdventureProps {
   currentStandard: number;
@@ -129,6 +131,27 @@ export function JuniorSuperAdventure({
               </span>
             </div>
           </Link>
+          <nav aria-label={t.modulesTitle} className="flex gap-1 rounded-2xl border border-white/80 bg-white/80 p-1 shadow-[0_4px_16px_rgba(30,58,138,0.06)] backdrop-blur-xl">
+            {MODULES.map((m) => {
+              const ModIcon = m.icon;
+              const active = m.slug === "learn";
+              const tabAccent = accentOf(m.accent);
+              return (
+                <Link
+                  key={m.id}
+                  href={`/m/${m.slug}`}
+                  aria-current={active ? "page" : undefined}
+                  title={m.title[locale]}
+                  className={`grid size-9 place-items-center rounded-xl transition-colors duration-200 ${
+                    active ? tabAccent.tabActive : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                  }`}
+                >
+                  <ModIcon size={18} weight={active ? "fill" : "regular"} aria-hidden />
+                  <span className="sr-only">{m.title[locale]}</span>
+                </Link>
+              );
+            })}
+          </nav>
         </div>
 
         {/* Center: 3D "Digital Learning: Explore ⭐ Learn ⭐ Grow" + Girl Reading */}

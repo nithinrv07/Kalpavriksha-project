@@ -230,7 +230,7 @@ export function LiquidGlassCard({
     position: "absolute",
     inset: "-20%",
     pointerEvents: "none",
-    background: `
+    backgroundImage: `
       /* Vertical gradient room */
       linear-gradient(
         180deg,
@@ -262,7 +262,7 @@ export function LiquidGlassCard({
     inset: "-10%",
     pointerEvents: "none",
     borderRadius: "var(--corner-radius)",
-    background: `
+    backgroundImage: `
       /* R channel - bent more (lower IOR = more bend) */
       radial-gradient(
         ellipse at calc(var(--mouse-x) - var(--dispersion) * 500%) var(--mouse-y),
@@ -295,7 +295,7 @@ export function LiquidGlassCard({
     inset: 0,
     pointerEvents: "none",
     borderRadius: "var(--corner-radius)",
-    background: `
+    backgroundImage: `
       /* Reflection of room */
       linear-gradient(
         180deg,
@@ -322,7 +322,7 @@ export function LiquidGlassCard({
     inset: 0,
     pointerEvents: "none",
     borderRadius: "var(--corner-radius)",
-    background: `
+    backgroundImage: `
       /* Thicker at edges (Fresnel zones) */
       radial-gradient(
         ellipse 120% 120% at 50% 50%,
@@ -348,7 +348,7 @@ export function LiquidGlassCard({
     inset: 0,
     pointerEvents: "none",
     borderRadius: "var(--corner-radius)",
-    background: `
+    backgroundImage: `
       /* Key light specular - tight lobe */
       radial-gradient(
         ellipse calc(10% / var(--spec-size)) calc(15% / var(--spec-size)) at 
@@ -382,7 +382,7 @@ export function LiquidGlassCard({
     inset: 0,
     pointerEvents: "none",
     borderRadius: "var(--corner-radius)",
-    background: `
+    backgroundImage: `
       /* Edge highlight - where surface normal perpendicular to view */
       conic-gradient(
         from 0deg at 50% 50%,
@@ -416,7 +416,7 @@ export function LiquidGlassCard({
     borderRadius: "var(--corner-radius)",
     opacity: 0.08 * intensity,
     mixBlendMode: "plus-lighter",
-    background: `
+    backgroundImage: `
       /* Fractal caustic pattern */
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0 0.05 0.2 0.4 0.6 0.8 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E"),
       /* Moving focus */
@@ -440,7 +440,7 @@ export function LiquidGlassCard({
     borderRadius: "var(--corner-radius)",
     opacity: 0.04 * intensity * settings.dispersion * 50,
     mixBlendMode: "difference",
-    background: `
+    backgroundImage: `
       radial-gradient(
         ellipse at var(--mouse-x) var(--mouse-y),
         rgb(255,255,255) 0%,
@@ -458,7 +458,7 @@ export function LiquidGlassCard({
     pointerEvents: "none",
     borderRadius: "calc(var(--corner-radius) - 2px)",
     opacity: `calc(var(--clarity) * var(--intensity) * 0.15)`,
-    background: `
+    backgroundImage: `
       linear-gradient(
         180deg,
         rgb(var(--room-top-r), var(--room-top-g), var(--room-top-b)) 0%,

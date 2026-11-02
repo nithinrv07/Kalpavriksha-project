@@ -134,7 +134,7 @@ export function ModuleShell({
       {/* Main Full-Screen Content Layer */}
       <div className={`relative z-10 flex min-h-[100dvh] w-full flex-col ${module.slug === "learn" ? "px-3 py-3 sm:px-6 sm:py-5 md:px-8 lg:px-10" : "px-4 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-10 xl:px-14"}`}>
         {/* 1. Header: Back to home, module switcher tabs, XP pill & language selector */}
-        {module.slug !== "learn" && (
+        {(!profile || module.slug !== "learn") && (
           <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-4 sm:pb-5">
             <div className="flex items-center gap-2">
               <Link

@@ -62,7 +62,7 @@ export function AmbientDepthLayers() {
         ref={layer1Ref}
         className="absolute inset-0 ambient-layer"
         style={{
-          background: isDark
+          backgroundImage: isDark
             ? `
             radial-gradient(2px 2px at 10% 20%, #fff 50%, transparent),
             radial-gradient(1px 1px at 30% 40%, rgba(192,132,252,0.8) 50%, transparent),
@@ -95,7 +95,7 @@ export function AmbientDepthLayers() {
         ref={layer2Ref}
         className="absolute inset-0 ambient-layer"
         style={{
-          background: isDark
+          backgroundImage: isDark
             ? `
             radial-gradient(ellipse 80% 60% at 20% 10%, rgba(168,85,247,0.15) 0%, transparent 60%),
             radial-gradient(ellipse 60% 80% at 80% 20%, rgba(45,212,191,0.1) 0%, transparent 60%),
@@ -119,7 +119,7 @@ export function AmbientDepthLayers() {
         ref={layer3Ref}
         className="absolute inset-0 ambient-layer"
         style={{
-          background: isDark
+          backgroundImage: isDark
             ? `
             radial-gradient(circle at 15% 30%, rgba(192,132,252,0.08) 1px, transparent 1px),
             radial-gradient(circle at 75% 40%, rgba(45,212,191,0.06) 1px, transparent 1px),
@@ -143,7 +143,7 @@ export function AmbientDepthLayers() {
         ref={layer4Ref}
         className="absolute inset-0 pointer-events-none ambient-layer"
         style={{
-          background: isDark
+          backgroundImage: isDark
             ? `
             radial-gradient(ellipse at center, transparent 40%, rgba(5,2,12,0.8) 100%),
             linear-gradient(180deg, rgba(5,2,12,0.3) 0%, transparent 30%, transparent 70%, rgba(5,2,12,0.3) 100%)

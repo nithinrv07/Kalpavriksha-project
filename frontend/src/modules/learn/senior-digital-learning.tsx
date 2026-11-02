@@ -29,6 +29,8 @@ import { useProgress } from "@/components/progress-store";
 import { useTheme } from "@/lib/theme";
 import type { Profile } from "@/lib/progress";
 import { SENIOR_GROUPS, type CurriculumChapter, type CurriculumSubject } from "@/lib/curriculum";
+import { MODULES } from "@/modules/registry";
+import { accentOf } from "@/modules/accents";
 
 interface SeniorDigitalLearningProps {
   currentStandard: number;
@@ -424,7 +426,7 @@ export function SeniorDigitalLearning({
       {/* 1. TOP NAVBAR: BRAND LOGO + CENTER NAV + LANG / THEME / PROFILE           */}
       {/* ========================================================================= */}
       <header className="relative z-20 flex flex-wrap items-center justify-between gap-4 border-b border-purple-900/40 pb-4 pt-1">
-        {/* Left: Back button + GSX Kalpavriksha Brand */}
+        {/* Left: Back button + Module Switcher */}
         <div className="flex items-center gap-2.5 sm:gap-3">
           <button
             type="button"
@@ -436,32 +438,32 @@ export function SeniorDigitalLearning({
             <span>Back</span>
           </button>
 
-          <Link href="/" className="group flex items-center gap-3 transition-opacity hover:opacity-90">
-            <div className="relative size-10 shrink-0 overflow-hidden rounded-xl bg-purple-950/60 p-1 border border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.3)]">
-              <Image
-                src="/images/learn/brand-tree-logo.png"
-                alt="GSX Kalpavriksha Logo"
-                width={40}
-                height={40}
-                className="size-full object-contain"
-              />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-display text-sm font-black tracking-tight text-white leading-none">
-                GSX
-              </span>
-              <span className="font-headline text-[15px] font-bold text-purple-200 leading-tight">
-                Kalpavriksha
-              </span>
-              <span className="font-mono text-[10px] text-purple-300/60 leading-none">
-                Rooted to Rise
-              </span>
-            </div>
-          </Link>
+          {/* Module Switcher Tabs (Digital Learning, Holistic Growth, GK & Patriotic Songs) */}
+          <nav aria-label={t.modulesTitle} className="flex gap-1 rounded-xl border border-line bg-white/[0.03] p-1">
+            {MODULES.map((m) => {
+              const ModIcon = m.icon;
+              const active = m.slug === "learn";
+              const tabAccent = accentOf(m.accent);
+              return (
+                <Link
+                  key={m.id}
+                  href={`/m/${m.slug}`}
+                  aria-current={active ? "page" : undefined}
+                  title={m.title[locale]}
+                  className={`grid size-10 place-items-center rounded-lg transition-colors duration-200 ${
+                    active ? tabAccent.tabActive : "text-muted hover:bg-white/[0.06] hover:text-text"
+                  }`}
+                >
+                  <ModIcon size={18} weight={active ? "fill" : "regular"} aria-hidden />
+                  <span className="sr-only">{m.title[locale]}</span>
+                </Link>
+              );
+            })}
+          </nav>
         </div>
 
         {/* Center: Module Title Pill */}
-        <div className="hidden md:flex items-center gap-2 rounded-full border border-purple-800/40 bg-purple-950/50 px-4 py-1.5 backdrop-blur-md shadow-inner">
+        <div className="hidden lg:flex items-center gap-2 rounded-full border border-purple-800/40 bg-purple-950/50 px-4 py-1.5 backdrop-blur-md shadow-inner">
           <GraduationCap size={16} weight="fill" className="text-purple-300" />
           <span className="font-display text-xs font-bold text-white tracking-wide">Digital Learning</span>
           <span className="h-1.5 w-1.5 rounded-full bg-purple-400 shadow-[0_0_8px_#a855f7]" />
@@ -1145,41 +1147,40 @@ export function SeniorDigitalLearning({
               <CaretRight size={12} className="text-purple-400 transition-transform group-hover:translate-x-0.5" />
             </button>
           </div>
+        </aside>
+      </div>
 
-          {/* ----------------------------------------------------------------- */}
-          {/* CARD 4: DAILY ENCOURAGEMENT (QUOTE + 3D OWL ON BOOKS)             */}
-          {/* ----------------------------------------------------------------- */}
-          <div className="rounded-2xl border border-purple-900/30 bg-[#160a2b]/70 p-5 backdrop-blur-xl shadow-lg flex flex-col gap-3">
+      {/* ----------------------------------------------------------------- */}
+      {/* 4. ELONGATED FULL-WIDTH DAILY ENCOURAGEMENT BANNER                */}
+      {/* ----------------------------------------------------------------- */}
+      <div className="relative z-10 w-full rounded-2xl border border-purple-900/30 bg-[#160a2b]/70 p-5 sm:p-6 backdrop-blur-xl shadow-lg transition-all hover:border-purple-700/50">
+        <div className="flex items-center justify-between gap-4 sm:gap-6">
+          <div className="flex-1 flex flex-col gap-2">
             <div className="flex items-center gap-2">
               <span className="text-pink-400">🌸</span>
-              <h3 className="font-display text-sm sm:text-base font-bold text-white">
+              <h3 className="font-display text-sm sm:text-base font-bold text-white tracking-wide">
                 Daily Encouragement
               </h3>
             </div>
-
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex-1">
-                <p className="font-serif italic text-xs leading-relaxed text-purple-200/90">
-                  “The beautiful thing about learning is that no one can take it away from you.”
-                </p>
-                <p className="font-mono text-[10.5px] text-pink-300/80 mt-1 font-semibold">
-                  — B.B. King
-                </p>
-              </div>
-
-              {/* 3D Owl Sitting on Stacked Books */}
-              <div className="relative size-16 shrink-0 transition-transform hover:scale-105 duration-300">
-                <Image
-                  src="/images/learn/encouragement-owl.png"
-                  alt="Cute 3D owl with cherry blossom petals"
-                  width={64}
-                  height={64}
-                  className="size-full object-contain drop-shadow-[0_4px_12px_rgba(168,85,247,0.3)]"
-                />
-              </div>
-            </div>
+            <p className="font-serif italic text-xs sm:text-sm md:text-[15px] leading-relaxed text-purple-200/90 max-w-4xl">
+              “The beautiful thing about learning is that no one can take it away from you.”
+            </p>
+            <p className="font-mono text-[11px] sm:text-xs text-pink-300/80 font-semibold">
+              — B.B. King
+            </p>
           </div>
-        </aside>
+
+          {/* 3D Owl Sitting on Stacked Books */}
+          <div className="relative size-16 sm:size-20 shrink-0 transition-transform hover:scale-105 duration-300">
+            <Image
+              src="/images/learn/encouragement-owl.png"
+              alt="Cute 3D owl with cherry blossom petals"
+              width={80}
+              height={80}
+              className="size-full object-contain drop-shadow-[0_4px_16px_rgba(168,85,247,0.35)]"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
