@@ -16,6 +16,7 @@ import { useLocale } from "@/components/locale-provider";
 import type { Band } from "@/lib/progress";
 import type { LearningTrackStats } from "@/lib/learning-track";
 import { GROW_COPY } from "./content";
+import { LiquidGlassSurface } from "@/components/liquid-glass-surface";
 
 export function LearningTrackCard({
   stats,
@@ -30,7 +31,10 @@ export function LearningTrackCard({
   const c = GROW_COPY[locale];
 
   return (
-    <section className="relative overflow-hidden rounded-[28px] border border-line bg-surface p-5 sm:p-7">
+    <LiquidGlassSurface
+      radius={28}
+      className="relative overflow-hidden border border-white/10 p-5 sm:p-7"
+    >
       {/* Background ambient radial glow */}
       <div
         aria-hidden
@@ -277,6 +281,6 @@ export function LearningTrackCard({
           {c.academicsContributionHint}
         </p>
       </div>
-    </section>
+      </LiquidGlassSurface>
   );
 }
