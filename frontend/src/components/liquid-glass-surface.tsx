@@ -61,6 +61,7 @@ uniform float u_edge;      // rim displacement, css px
 uniform float u_rim;       // inner displacement, css px
 uniform float u_corner;    // corner displacement, css px
 uniform float u_ripple;    // surface ripple, css px
+uniform float u_band;      // rim band depth, css px
 uniform float u_tint;      // 0..1
 uniform vec3 u_tint_color;
 uniform float u_darken;    // interior absorption multiplier
@@ -156,42 +157,64 @@ void main() {
   // Only the rim is painted here. The slab's body is a live backdrop blur
   // sitting behind this canvas, so the glass never shows a frozen page image;
   // this pass adds the refracted, colour-fringed lens band at the edge.
-  float band = 1.0 - smoothstep(70.0, 150.0, inside);
+  float band = 1.0 - smoothstep(u_band * 0.55, u_band, inside);
   float alpha = band * (1.0 - smoothstep(-1.0, 1.0, d));
   gl_FragColor = vec4(color * alpha, alpha);
 }`;
+/** Last backdrop texture, plus the capture every glass surface shares. */
+let backdrop: { key: string; snapshot: Snapshot } | null = null;
+let backdropPending: { key: string; promise: Promise<Snapshot | null> } | null = null;
+
 /**
  * Capture the animated backdrop layer in viewport space.
  *
  * The backdrop is `position: fixed`, so it never scrolls with the page: the
  * panel is a moving window onto it. Sampling it in viewport coordinates keeps
- * the refraction aligned at every scroll position, and the fixed size keeps the
- * capture cheap enough to refresh continuously.
+ * the refraction aligned at every scroll position.
+ *
+ * The texture only feeds the rim, so it is captured once per theme and viewport
+ * size and shared by every surface on the page (the landing page mounts three).
  */
-async function captureBackdrop(key: string): Promise<Snapshot | null> {
+async function captureBackdrop(theme: string): Promise<Snapshot | null> {
   const element = document.querySelector<HTMLElement>(BACKDROP_SELECTOR);
   if (!element) return null;
 
-  const { default: html2canvas } = await import("html2canvas-pro");
   const width = Math.max(1, window.innerWidth);
   const height = Math.max(1, window.innerHeight);
+  const key = `${theme}:${width}x${height}`;
 
-  const canvas = await html2canvas(element, {
-    backgroundColor: null,
-    scale: 0.5,
-    logging: false,
-    useCORS: true,
-    allowTaint: true,
-    width,
-    height,
-    windowWidth: width,
-    windowHeight: height,
-    scrollX: 0,
-    scrollY: 0,
-    ignoreElements: (node) => (node as HTMLElement).dataset?.glassIgnore === "true",
-  });
+  if (backdrop?.key === key) return backdrop.snapshot;
+  if (backdropPending?.key === key) return backdropPending.promise;
 
-  return { key, canvas, width, height, space: "viewport" };
+  const promise = (async () => {
+    const { default: html2canvas } = await import("html2canvas-pro");
+
+    const canvas = await html2canvas(element, {
+      backgroundColor: null,
+      scale: 0.5,
+      logging: false,
+      useCORS: true,
+      allowTaint: true,
+      width,
+      height,
+      windowWidth: width,
+      windowHeight: height,
+      scrollX: 0,
+      scrollY: 0,
+      ignoreElements: (node) => (node as HTMLElement).dataset?.glassIgnore === "true",
+    });
+
+    const snapshot: Snapshot = { key, canvas, width, height, space: "viewport" };
+    backdrop = { key, snapshot };
+    return snapshot;
+  })();
+
+  backdropPending = { key, promise };
+  try {
+    return await promise;
+  } finally {
+    if (backdropPending?.promise === promise) backdropPending = null;
+  }
 }
 
 /** Fallback: photograph the whole page, anchored in page coordinates. */
@@ -345,6 +368,7 @@ export function LiquidGlassSurface({
       rim: u("u_rim"),
       corner: u("u_corner"),
       ripple: u("u_ripple"),
+      band: u("u_band"),
       tint: u("u_tint"),
       tintColor: u("u_tint_color"),
       darken: u("u_darken"),
@@ -389,6 +413,9 @@ export function LiquidGlassSurface({
       }
 
       const light = themeKey() === "light";
+      // Lens params are pixel sizes, so scale them with the slab: a 400px-tall
+      // card would otherwise be almost entirely rim.
+      const lens = Math.min(1, Math.max(0.42, Math.min(cssWidth, cssHeight) / 1000));
 
       gl.viewport(0, 0, bufferWidth, bufferHeight);
       gl.clearColor(0, 0, 0, 0);
@@ -417,10 +444,11 @@ export function LiquidGlassSurface({
       gl.uniform2f(uniforms.page, sampling.width, sampling.height);
       gl.uniform1f(uniforms.radius, radius);
       gl.uniform1f(uniforms.blur, light ? 8 : 9);
-      gl.uniform1f(uniforms.edge, 52);
-      gl.uniform1f(uniforms.rim, 10);
-      gl.uniform1f(uniforms.corner, 22);
-      gl.uniform1f(uniforms.ripple, 0.5);
+      gl.uniform1f(uniforms.edge, 52 * lens);
+      gl.uniform1f(uniforms.rim, 10 * lens);
+      gl.uniform1f(uniforms.corner, 22 * lens);
+      gl.uniform1f(uniforms.ripple, 0.5 * lens);
+      gl.uniform1f(uniforms.band, 150 * lens);
       if (light) {
         gl.uniform1f(uniforms.tint, 0.26);
         gl.uniform1f(uniforms.darken, 1.0);

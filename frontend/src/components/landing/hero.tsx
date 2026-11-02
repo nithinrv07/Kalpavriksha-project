@@ -19,7 +19,7 @@ import { useTheme } from "@/lib/theme";
 import { LangSelect } from "./lang-select";
 import { MenuSheet } from "./menu-sheet";
 import { getQualityBudget } from "@/lib/perf/quality";
-import { LiquidGlassCard } from "@/components/liquid-glass-card";
+import { LiquidGlassSurface } from "@/components/liquid-glass-surface";
 
 const CYCLE_MS = 5200;
 const INTRO_MS = 1100;
@@ -44,8 +44,6 @@ interface HeroProps {
 export function Hero({ scrollProgress = 0 }: HeroProps) {
   const { t, locale } = useLocale();
   const { isDark } = useTheme();
-  const budget = getQualityBudget();
-  const maxDepthLayers = budget.depthLayers;
   const [introDone, setIntroDone] = useState(false);
   const [slot, setSlot] = useState<Slot>(-1);
   const [hovering, setHovering] = useState(false);
@@ -283,24 +281,14 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
 
                   {/* Quick module access cards with custom icons */}
                   <div className="flex flex-col items-center gap-2.5 w-full">
-                    {MODULES.map((m, idx) => {
+                    {MODULES.map((m) => {
                       const Icon = m.icon;
                       const accent = accentOf(m.accent);
-                      // Per-module liquid glass tuning
-                      const glassConfig = [
-                        { refraction: 14, dispersion: 15, clarity: 11, edge: 16, gloss: 14, rounding: 4, glassColor: "#ffffff", roomTop: "#1a0a2e", roomBottom: "#0d0516" }, // Digital Learning (purple)
-                        { refraction: 13, dispersion: 14, clarity: 12, edge: 15, gloss: 13, rounding: 6, glassColor: "#ffffff", roomTop: "#0a1a18", roomBottom: "#050d0b" }, // Holistic Growth (teal)
-                        { refraction: 12, dispersion: 13, clarity: 13, edge: 14, gloss: 12, rounding: 8, glassColor: "#fff8e7", roomTop: "#1a1406", roomBottom: "#0d0803" }, // GK & Songs (amber)
-                      ][idx] ?? { refraction: 12, dispersion: 12, clarity: 14, edge: 14, gloss: 12, rounding: 8, glassColor: "#ffffff", roomTop: "#1a0a2e", roomBottom: "#0d0516" };
-                      
                       return (
-                        <LiquidGlassCard
+                        <LiquidGlassSurface
                           key={m.id}
-                          {...glassConfig}
-                          highlightColor={accent.hex}
-                          speed={1.1}
-                          intensity={1}
-                          className="group relative z-10 w-full"
+                          radius={16}
+                          className="group relative z-10 w-full border border-white/10 shadow-[0_12px_40px_-20px_rgb(0_0_0/0.8)]"
                         >
                           <Link
                             href={`/m/${m.slug}`}
@@ -335,7 +323,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                               )}
                             </span>
                           </Link>
-                        </LiquidGlassCard>
+                        </LiquidGlassSurface>
                       );
                     })}
                   </div>
@@ -553,21 +541,11 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                 {MODULES.map((m, i) => {
                   const active = slot === i;
                   const accent = accentOf(m.accent);
-                  // Lighter liquid glass for chips
-                  const chipGlassConfig = [
-                    { refraction: 10, dispersion: 12, clarity: 16, edge: 12, gloss: 10, rounding: 20, glassColor: "#ffffff", roomTop: "#1a0a2e", roomBottom: "#0d0516" },
-                    { refraction: 10, dispersion: 11, clarity: 16, edge: 11, gloss: 10, rounding: 20, glassColor: "#ffffff", roomTop: "#0a1a18", roomBottom: "#050d0b" },
-                    { refraction: 9, dispersion: 10, clarity: 17, edge: 10, gloss: 9, rounding: 20, glassColor: "#fff8e7", roomTop: "#1a1406", roomBottom: "#0d0803" },
-                  ][i] ?? { refraction: 10, dispersion: 11, clarity: 16, edge: 11, gloss: 10, rounding: 20, glassColor: "#ffffff", roomTop: "#1a0a2e", roomBottom: "#0d0516" };
-                  
                   return (
-                    <LiquidGlassCard
+                    <LiquidGlassSurface
                       key={m.id}
-                      {...chipGlassConfig}
-                      highlightColor={accent.hex}
-                      speed={1}
-                      intensity={0.8}
-                      className="group relative z-10 shrink-0"
+                      radius={9999}
+                      className="group relative z-10 shrink-0 border border-white/10 shadow-[0_8px_24px_-12px_rgb(0_0_0/0.6)]"
                     >
                       <Link
                         href={`/m/${m.slug}`}
@@ -598,7 +576,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                           />
                         )}
                       </Link>
-                    </LiquidGlassCard>
+                    </LiquidGlassSurface>
                   );
                 })}
               </nav>

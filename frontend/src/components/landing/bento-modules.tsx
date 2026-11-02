@@ -7,7 +7,7 @@ import { useLocale } from "@/components/locale-provider";
 import { NeonBorder } from "@/components/neon-border";
 import { RevealWords } from "@/components/scroll-fx";
 import { MODULES } from "@/modules/registry";
-import { LiquidGlassCard } from "@/components/liquid-glass-card";
+import { LiquidGlassSurface } from "@/components/liquid-glass-surface";
 import { accentOf } from "@/modules/accents";
 
 interface BentoModulesProps {
@@ -24,9 +24,6 @@ export function BentoModules({ scrollProgress = 0 }: BentoModulesProps) {
   const a1 = accentOf(m1.accent);
   const a2 = accentOf(m2.accent);
   const a3 = accentOf(m3.accent);
-
-  // Staggered entrance based on scroll progress
-  const cardDelay = (index: number) => scrollProgress * 0.3 - index * 0.1;
 
   return (
     <section id="modules" className="relative mx-auto w-full max-w-[1360px] scroll-mt-12 px-4 py-20 sm:px-6 lg:px-8 lg:py-32">
@@ -74,20 +71,9 @@ export function BentoModules({ scrollProgress = 0 }: BentoModulesProps) {
             />
           </div>
 
-          <LiquidGlassCard
-            refraction={14}
-            dispersion={15}
-            clarity={12}
-            edge={16}
-            gloss={14}
-            rounding={6}
-            glassColor="#ffffff"
-            roomTop="#1a0a2e"
-            roomBottom="#0d0516"
-            highlightColor={a1.hex}
-            speed={1.2}
-            intensity={1}
-            className="group relative z-10"
+          <LiquidGlassSurface
+            radius={24}
+            className="group z-10 border border-white/10 shadow-[0_24px_70px_-34px_rgb(0_0_0/0.9)]"
           >
             <Link
               href={`/m/${m1.slug}`}
@@ -142,7 +128,7 @@ export function BentoModules({ scrollProgress = 0 }: BentoModulesProps) {
               </div>
             </div>
           </Link>
-          </LiquidGlassCard>
+          </LiquidGlassSurface>
         </div>
 
         {/* ========================================================================= */}
@@ -170,20 +156,9 @@ export function BentoModules({ scrollProgress = 0 }: BentoModulesProps) {
             />
           </div>
 
-          <LiquidGlassCard
-            refraction={13}
-            dispersion={14}
-            clarity={13}
-            edge={15}
-            gloss={13}
-            rounding={8}
-            glassColor="#ffffff"
-            roomTop="#0a1a18"
-            roomBottom="#050d0b"
-            highlightColor={a2.hex}
-            speed={1.1}
-            intensity={1}
-            className="group relative z-10"
+          <LiquidGlassSurface
+            radius={24}
+            className="group z-10 border border-white/10 shadow-[0_24px_70px_-34px_rgb(0_0_0/0.9)]"
           >
             <Link
               href={`/m/${m2.slug}`}
@@ -277,7 +252,7 @@ export function BentoModules({ scrollProgress = 0 }: BentoModulesProps) {
               </span>
             </div>
           </Link>
-          </LiquidGlassCard>
+          </LiquidGlassSurface>
         </div>
 
         {/* ========================================================================= */}
@@ -305,20 +280,9 @@ export function BentoModules({ scrollProgress = 0 }: BentoModulesProps) {
             />
           </div>
 
-          <LiquidGlassCard
-            refraction={12}
-            dispersion={13}
-            clarity={14}
-            edge={14}
-            gloss={12}
-            rounding={10}
-            glassColor="#fff8e7"
-            roomTop="#1a1406"
-            roomBottom="#0d0803"
-            highlightColor={a3.hex}
-            speed={1}
-            intensity={1}
-            className="group relative z-10"
+          <LiquidGlassSurface
+            radius={24}
+            className="group z-10 border border-white/10 shadow-[0_24px_70px_-34px_rgb(0_0_0/0.9)]"
           >
             <Link
               href={`/m/${m3.slug}`}
@@ -373,7 +337,7 @@ export function BentoModules({ scrollProgress = 0 }: BentoModulesProps) {
               </div>
             </div>
           </Link>
-          </LiquidGlassCard>
+          </LiquidGlassSurface>
         </div>
       </div>
 
