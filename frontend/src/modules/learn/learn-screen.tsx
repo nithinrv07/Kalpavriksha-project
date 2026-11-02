@@ -86,6 +86,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Burst } from "@/components/burst";
 import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
+import { LiquidGlassSurface } from "@/components/liquid-glass-surface";
 import { useLocale } from "@/components/locale-provider";
 import { updateProgress, useProgress } from "@/components/progress-store";
 import {
@@ -1520,12 +1521,16 @@ function StandardSubjectCard({
   const style = { "--cat": subject.accent } as React.CSSProperties;
 
   return (
-    <button
-      type="button"
-      onClick={onOpen}
-      style={style}
-      className="group relative flex flex-col overflow-hidden rounded-3xl border border-line bg-surface text-left transition-all duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--cat)_50%,transparent)] hover:shadow-[0_20px_60px_-25px_var(--cat)]"
-    >
+    <div style={style} onClick={onOpen}>
+      <LiquidGlassSurface
+        radius={24}
+        className="group relative flex flex-col overflow-hidden border border-white/10 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_-25px_var(--cat)]"
+      >
+        <button
+          type="button"
+          className="relative flex flex-col overflow-hidden h-full w-full bg-transparent border-none p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cat)]"
+          onClick={(e) => e.stopPropagation()}
+        >
       <span className="relative grid h-36 place-items-center overflow-hidden bg-[radial-gradient(120%_120%_at_30%_10%,color-mix(in_srgb,var(--cat)_40%,transparent),transparent_60%)]">
         <SubjectIcon
           icon={subject.icon}
@@ -1557,7 +1562,9 @@ function StandardSubjectCard({
           </span>
         </span>
       </span>
-    </button>
+      </button>
+    </LiquidGlassSurface>
+  </div>
   );
 }
 
@@ -1580,12 +1587,16 @@ function StandardChapterCard({
   const iconName = resolveChapterIcon(subject, chapter);
 
   return (
-    <button
-      type="button"
-      onClick={onOpen}
-      style={style}
-      className="group relative flex flex-col overflow-hidden rounded-3xl border border-line bg-surface text-left transition-all duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--cat)_50%,transparent)] hover:shadow-[0_20px_60px_-25px_var(--cat)]"
-    >
+    <div style={style} onClick={onOpen}>
+      <LiquidGlassSurface
+        radius={24}
+        className="group relative flex flex-col overflow-hidden border border-white/10 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_-25px_var(--cat)]"
+      >
+        <button
+          type="button"
+          className="relative flex flex-col overflow-hidden h-full w-full bg-transparent border-none p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cat)]"
+          onClick={(e) => e.stopPropagation()}
+        >
       <span className="relative grid h-36 place-items-center overflow-hidden bg-[radial-gradient(120%_120%_at_30%_10%,color-mix(in_srgb,var(--cat)_40%,transparent),transparent_60%)]">
         <ChapterIcon
           name={iconName}
@@ -1618,7 +1629,9 @@ function StandardChapterCard({
           </span>
         </span>
       </span>
-    </button>
+      </button>
+    </LiquidGlassSurface>
+  </div>
   );
 }
 
