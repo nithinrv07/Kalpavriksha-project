@@ -30,23 +30,77 @@ import { LiquidGlassSurface } from "@/components/liquid-glass-surface";
 const round = (n: number) => Math.round(n * 100) / 100;
 
 const MAX_LEAVES = 48;
-/** Leaf slots on a golden-angle spiral inside the crown, filled newest-last. */
-const LEAF_SLOTS = Array.from({ length: MAX_LEAVES }, (_, i) => {
-  const r = Math.sqrt((i + 0.5) / MAX_LEAVES);
-  const a = i * 2.39996;
-  return {
-    x: round(160 + Math.cos(a) * 118 * r),
-    y: round(118 + Math.sin(a) * 84 * r),
-    rot: round((a * 180) / Math.PI) % 360,
-  };
-});
+
+/** Botanical leaf slots mapped naturally to branch tips, secondary boughs,
+ * and outer crown clusters so the tree blooms organically from youth to maturity.
+ */
+const LEAF_SLOTS = [
+  // Tier 1 (1-9): Primary branch tips & key boughs (balanced early growth)
+  { x: 115, y: 92, rot: -45 },
+  { x: 245, y: 92, rot: 45 },
+  { x: 180, y: 52, rot: 0 },
+  { x: 85, y: 132, rot: -65 },
+  { x: 275, y: 132, rot: 65 },
+  { x: 146, y: 92, rot: -25 },
+  { x: 214, y: 92, rot: 25 },
+  { x: 74, y: 165, rot: -80 },
+  { x: 286, y: 165, rot: 80 },
+
+  // Tier 2 (10-18): Secondary twigs and crown volume
+  { x: 160, y: 64, rot: -18 },
+  { x: 200, y: 64, rot: 18 },
+  { x: 100, y: 78, rot: -52 },
+  { x: 260, y: 78, rot: 52 },
+  { x: 135, y: 122, rot: -35 },
+  { x: 225, y: 122, rot: 35 },
+  { x: 96, y: 152, rot: -70 },
+  { x: 264, y: 152, rot: 70 },
+  { x: 180, y: 88, rot: 0 },
+
+  // Tier 3 (19-28): Inner crown & lush bough clusters
+  { x: 140, y: 140, rot: -20 },
+  { x: 220, y: 140, rot: 20 },
+  { x: 166, y: 114, rot: -10 },
+  { x: 194, y: 114, rot: 10 },
+  { x: 112, y: 140, rot: -45 },
+  { x: 248, y: 140, rot: 45 },
+  { x: 134, y: 72, rot: -30 },
+  { x: 226, y: 72, rot: 30 },
+  { x: 174, y: 74, rot: -6 },
+  { x: 186, y: 74, rot: 6 },
+
+  // Tier 4 (29-38): Outer foliage highlights & canopy perimeter
+  { x: 150, y: 46, rot: -15 },
+  { x: 210, y: 46, rot: 15 },
+  { x: 80, y: 98, rot: -60 },
+  { x: 280, y: 98, rot: 60 },
+  { x: 60, y: 140, rot: -85 },
+  { x: 300, y: 140, rot: 85 },
+  { x: 118, y: 165, rot: -60 },
+  { x: 242, y: 165, rot: 60 },
+  { x: 102, y: 118, rot: -40 },
+  { x: 258, y: 118, rot: 40 },
+
+  // Tier 5 (39-48): Full flourishing Kalpavriksha canopy
+  { x: 165, y: 38, rot: -8 },
+  { x: 195, y: 38, rot: 8 },
+  { x: 180, y: 35, rot: 0 },
+  { x: 64, y: 118, rot: -75 },
+  { x: 296, y: 118, rot: 75 },
+  { x: 84, y: 175, rot: -85 },
+  { x: 276, y: 175, rot: 85 },
+  { x: 152, y: 98, rot: -14 },
+  { x: 208, y: 98, rot: 14 },
+  { x: 180, y: 110, rot: 0 },
+] as const;
+
 const FRUIT_SLOTS = [
-  [92, 96],
-  [228, 104],
-  [124, 160],
-  [200, 168],
-  [160, 64],
-  [262, 140],
+  [115, 92],  // Upper-left branch tip
+  [245, 92],  // Upper-right branch tip
+  [180, 52],  // Central crown peak
+  [85, 132],  // Lower-left bough tip
+  [275, 132], // Lower-right bough tip
+  [180, 138], // Central bough fork
 ] as const;
 
 function GrowthTree({
@@ -72,48 +126,212 @@ function GrowthTree({
   const leaves = [...allActivities].reverse().slice(0, MAX_LEAVES);
 
   return (
-    <svg viewBox="0 0 320 300" aria-hidden className={`mx-auto w-full ${big ? "max-w-[520px]" : "max-w-[380px]"}`}>
+    <svg
+      viewBox="0 0 360 320"
+      preserveAspectRatio="xMidYMid meet"
+      aria-hidden
+      className={`mx-auto w-full select-none ${big ? "max-w-[460px] max-h-[360px]" : "max-w-[390px] max-h-[320px]"}`}
+    >
       <defs>
-        <radialGradient id="crown-glow">
-          <stop offset="0" stopColor="var(--band, var(--violet))" stopOpacity="0.22" />
-          <stop offset="1" stopColor="var(--band, var(--violet))" stopOpacity="0" />
+        {/* Soft, harmonious crown halo that adapts across themes */}
+        <radialGradient id="crown-glow" cx="50%" cy="45%" r="55%">
+          <stop offset="0%" stopColor="var(--band, var(--violet))" stopOpacity="0.2" />
+          <stop offset="65%" stopColor="var(--band, var(--violet))" stopOpacity="0.05" />
+          <stop offset="100%" stopColor="var(--band, var(--violet))" stopOpacity="0" />
+        </radialGradient>
+
+        {/* Rich natural tree bark gradient: deep contrast in light mode, warm wood in dark mode */}
+        <linearGradient id="tree-bark" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#432613" />
+          <stop offset="35%" stopColor="#6e4122" />
+          <stop offset="65%" stopColor="#84502c" />
+          <stop offset="100%" stopColor="#432613" />
+        </linearGradient>
+
+        {/* Golden badge fruit radial gradient */}
+        <radialGradient id="fruit-gold" cx="35%" cy="35%" r="65%">
+          <stop offset="0%" stopColor="#fef08a" />
+          <stop offset="55%" stopColor="#f59e0b" />
+          <stop offset="100%" stopColor="#d97706" />
         </radialGradient>
       </defs>
-      <ellipse cx="160" cy="120" rx="150" ry="112" fill="url(#crown-glow)" />
-      <ellipse cx="160" cy="288" rx="90" ry="8" fill="rgb(255 255 255 / 0.05)" />
-      <g className="sway">
-        <path d="M150 288 C152 240 148 200 154 150 L166 150 C172 200 168 240 170 288Z" fill="#6b4f3a" />
-        <path
-          d="M158 200 C130 180 112 160 96 120 M162 186 C190 170 214 150 228 112 M160 160 C150 130 156 100 160 70"
+
+      {/* 1. Canopy background soft halo */}
+      <ellipse cx="180" cy="130" rx="142" ry="106" fill="url(#crown-glow)" />
+
+      {/* 2. Ground base shadow & fertile soil mound (clearly visible in both themes) */}
+      <ellipse cx="180" cy="292" rx="108" ry="9" className="fill-black/10 dark:fill-black/50" />
+      <path
+        d="M125 292 C145 287 215 287 235 292 C210 295 150 295 125 292 Z"
+        className="fill-amber-950/20 dark:fill-amber-950/50"
+      />
+
+      {/* 3. Swaying Living Tree Group (Hardware-accelerated pixel origin) */}
+      <g className="tree-sway">
+        {/* Canopy delicate guide boundary */}
+        <ellipse
+          cx="180"
+          cy="130"
+          rx="138"
+          ry="102"
           fill="none"
-          stroke="#6b4f3a"
-          strokeWidth="7"
-          strokeLinecap="round"
+          stroke="currentColor"
+          className="text-purple-600/30 dark:text-purple-300/25"
+          strokeWidth="1.2"
+          strokeDasharray="4 8"
         />
-        <ellipse cx="160" cy="118" rx="126" ry="92" fill="none" stroke="var(--line-strong)" strokeDasharray="3 7" />
+
+        {/* Tree Root Flares */}
+        <path
+          d="M160 268 C148 278 136 286 124 290"
+          stroke="url(#tree-bark)"
+          strokeWidth="6"
+          strokeLinecap="round"
+          fill="none"
+        />
+        <path
+          d="M200 268 C212 278 224 286 236 290"
+          stroke="url(#tree-bark)"
+          strokeWidth="6"
+          strokeLinecap="round"
+          fill="none"
+        />
+
+        {/* Solid Tapered Trunk */}
+        <path
+          d="M154 288 C158 250 163 222 168 190 C172 170 176 150 178 135 L182 135 C184 150 188 170 192 190 C197 222 202 250 206 288 C192 291 168 291 154 288 Z"
+          fill="url(#tree-bark)"
+        />
+
+        {/* Left Boughs & Twigs */}
+        <path
+          d="M170 190 C140 180 115 165 85 132"
+          stroke="url(#tree-bark)"
+          strokeWidth="9.5"
+          strokeLinecap="round"
+          fill="none"
+        />
+        <path
+          d="M135 174 C110 170 90 170 75 165"
+          stroke="url(#tree-bark)"
+          strokeWidth="5.5"
+          strokeLinecap="round"
+          fill="none"
+        />
+        <path
+          d="M174 165 C155 140 135 115 115 92"
+          stroke="url(#tree-bark)"
+          strokeWidth="7.5"
+          strokeLinecap="round"
+          fill="none"
+        />
+        <path
+          d="M142 128 C125 105 112 85 100 78"
+          stroke="url(#tree-bark)"
+          strokeWidth="4.5"
+          strokeLinecap="round"
+          fill="none"
+        />
+
+        {/* Right Boughs & Twigs */}
+        <path
+          d="M190 190 C220 180 245 165 275 132"
+          stroke="url(#tree-bark)"
+          strokeWidth="9.5"
+          strokeLinecap="round"
+          fill="none"
+        />
+        <path
+          d="M225 174 C250 170 270 170 285 165"
+          stroke="url(#tree-bark)"
+          strokeWidth="5.5"
+          strokeLinecap="round"
+          fill="none"
+        />
+        <path
+          d="M186 165 C205 140 225 115 245 92"
+          stroke="url(#tree-bark)"
+          strokeWidth="7.5"
+          strokeLinecap="round"
+          fill="none"
+        />
+        <path
+          d="M218 128 C235 105 248 85 260 78"
+          stroke="url(#tree-bark)"
+          strokeWidth="4.5"
+          strokeLinecap="round"
+          fill="none"
+        />
+
+        {/* Central Crown Forks */}
+        <path
+          d="M178 135 C170 105 158 80 152 60"
+          stroke="url(#tree-bark)"
+          strokeWidth="6.5"
+          strokeLinecap="round"
+          fill="none"
+        />
+        <path
+          d="M182 135 C190 105 202 80 208 60"
+          stroke="url(#tree-bark)"
+          strokeWidth="6.5"
+          strokeLinecap="round"
+          fill="none"
+        />
+        <path
+          d="M180 130 L180 52"
+          stroke="url(#tree-bark)"
+          strokeWidth="5.5"
+          strokeLinecap="round"
+          fill="none"
+        />
+
+        {/* 4. Botanical Leaves Sprouting Naturally Across Tree Boughs */}
         {leaves.map((a, i) => {
           const s = LEAF_SLOTS[i];
           if (!s) return null;
-          // Rotation lives on the wrapper: the grow-in animation's CSS transform would replace it.
           return (
-            <g key={a.id} transform={`rotate(${s.rot} ${s.x} ${s.y})`}>
-              <ellipse
-                className="leaf"
-                style={{ animationDelay: `${Math.min(i, 20) * 30}ms` }}
-                cx={s.x}
-                cy={s.y}
-                rx="11"
-                ry="6.5"
+            <g
+              key={a.id}
+              transform={`translate(${s.x}, ${s.y}) rotate(${s.rot})`}
+              className="transition-transform duration-300"
+            >
+              <path
+                d="M0 -11.5 C5.5 -6.5 6.5 4.5 0 11.5 C-6.5 4.5 -5.5 -6.5 0 -11.5 Z"
                 fill={AREA_INFO[a.area].color}
-                opacity="0.92"
+                stroke="currentColor"
+                strokeWidth="0.8"
+                className="text-black/20 dark:text-white/25"
+              />
+              <line
+                x1="0"
+                y1="-8"
+                x2="0"
+                y2="8"
+                stroke="rgba(255, 255, 255, 0.45)"
+                strokeWidth="0.8"
+                strokeLinecap="round"
               />
             </g>
           );
         })}
+
+        {/* 5. Golden Fruits for Badges Earned */}
         {FRUIT_SLOTS.slice(0, fruits).map(([x, y], i) => (
-          <g key={i} className="leaf" style={{ animationDelay: `${300 + i * 120}ms` }}>
-            <circle cx={x} cy={y} r="11" fill="var(--amber)" opacity="0.25" />
-            <circle cx={x} cy={y} r="6.5" fill="var(--amber)" />
+          <g key={i} className="transition-transform duration-300">
+            {/* Ambient golden glow */}
+            <circle cx={x} cy={y} r="13" fill="#f59e0b" opacity="0.28" />
+            {/* Ripe golden fruit */}
+            <circle
+              cx={x}
+              cy={y}
+              r="8"
+              fill="url(#fruit-gold)"
+              stroke="#b45309"
+              strokeWidth="1"
+            />
+            {/* Specular light highlight */}
+            <circle cx={x - 2.5} cy={y - 2.5} r="2" fill="#ffffff" opacity="0.85" />
           </g>
         ))}
       </g>
@@ -228,9 +446,9 @@ function ActivityForm({ band }: { band: Band }) {
   return (
     <LiquidGlassSurface
       radius={24}
-      className="flex flex-col gap-4 border border-white/10 p-5 sm:p-6"
+      className="flex flex-col gap-4 border border-purple-200/70 dark:border-white/10 bg-white/75 dark:bg-[#0d0720]/80 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-6"
     >
-      <h2 className="font-display text-xl tracking-[-0.02em]">{c.logTitle}</h2>
+      <h2 className="font-display text-base sm:text-lg lg:text-xl font-bold tracking-wide text-slate-900 dark:text-white">{c.logTitle}</h2>
       <fieldset>
         <legend className="font-mono text-[11.5px] uppercase tracking-[0.12em] text-muted">{c.areaLabel}</legend>
         <div className="mt-2 grid grid-cols-3 gap-1.5">
@@ -270,7 +488,7 @@ function ActivityForm({ band }: { band: Band }) {
             value={date}
             max={today}
             onChange={(e) => setDate(e.target.value)}
-            className="h-12 rounded-xl border border-line bg-bg/60 px-3 text-[15px] [color-scheme:dark] focus:border-violet/60 focus:outline-none"
+            className="h-12 rounded-xl border border-line bg-bg/60 px-3 text-[15px] [color-scheme:light] dark:[color-scheme:dark] focus:border-violet/60 focus:outline-none"
           />
         </label>
         <button
@@ -328,22 +546,30 @@ export function GrowScreen({ band }: { band: Band }) {
       <div className={`grid gap-4 ${band === "junior" ? "lg:grid-cols-[1.3fr_1fr]" : "lg:grid-cols-[1.1fr_1fr]"}`}>
         <LiquidGlassSurface
           radius={28}
-          className="border border-white/10 p-5 sm:p-6"
+          className="border border-purple-200/70 dark:border-white/10 bg-white/75 dark:bg-[#0d0720]/80 p-5 sm:p-6 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] flex flex-col justify-between"
         >
-          <h2 className="font-display text-xl tracking-[-0.02em]">{c.treeTitle}</h2>
-          <p className="mt-1 font-mono text-[12px] text-muted">
-            {c.leaves(totalLeaves, progress.lessonsDone.length)}
-          </p>
-          <GrowthTree
-            activities={progress.activities}
-            lessonsDoneCount={progress.lessonsDone.length}
-            fruits={fruits}
-            big={band === "junior"}
-          />
-          <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1">
+          <div>
+            <h2 className="font-display text-xl sm:text-2xl tracking-[-0.02em] text-slate-900 dark:text-white">{c.treeTitle}</h2>
+            <p className="mt-1 font-mono text-[12.5px] font-medium text-slate-600 dark:text-purple-200/80">
+              {c.leaves(totalLeaves, progress.lessonsDone.length)}
+            </p>
+          </div>
+          <div className="my-auto py-2 flex items-center justify-center">
+            <GrowthTree
+              activities={progress.activities}
+              lessonsDoneCount={progress.lessonsDone.length}
+              fruits={fruits}
+              big={band === "junior"}
+            />
+          </div>
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 rounded-2xl border border-purple-200/60 dark:border-white/5 bg-purple-50/50 dark:bg-white/[0.02] px-3 py-2.5">
             {AREAS.map((a) => (
-              <span key={a} className="flex items-center gap-1.5 text-[12px] text-muted">
-                <span className="size-2.5 rounded-full" style={{ background: AREA_INFO[a].color }} aria-hidden />
+              <span key={a} className="flex items-center gap-1.5 text-[12px] font-medium text-slate-700 dark:text-purple-200/80">
+                <span
+                  className="size-2.5 rounded-full ring-1 ring-black/15 dark:ring-white/20 shrink-0"
+                  style={{ background: AREA_INFO[a].color }}
+                  aria-hidden
+                />
                 {AREA_INFO[a].name[locale]}
               </span>
             ))}
@@ -354,9 +580,9 @@ export function GrowScreen({ band }: { band: Band }) {
           <ActivityForm band={band} />
           <LiquidGlassSurface
             radius={24}
-            className="border border-white/10 p-5 sm:p-6"
+            className="border border-purple-200/70 dark:border-white/10 bg-white/75 dark:bg-[#0d0720]/80 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-6"
           >
-            <h2 className="font-display text-xl tracking-[-0.02em]">{band === "junior" ? c.stickersTitle : c.skillsTitle}</h2>
+            <h2 className="font-display text-base sm:text-lg lg:text-xl font-bold tracking-wide text-slate-900 dark:text-white">{band === "junior" ? c.stickersTitle : c.skillsTitle}</h2>
             <div className="mt-4">
               {band === "junior" ? (
                 <Stickers
@@ -397,9 +623,9 @@ export function GrowScreen({ band }: { band: Band }) {
 
       <LiquidGlassSurface
         radius={28}
-        className="border border-white/10 p-5 sm:p-6"
+        className="border border-purple-200/70 dark:border-white/10 bg-white/75 dark:bg-[#0d0720]/80 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-6"
       >
-        <h2 className="font-display text-xl tracking-[-0.02em]">{c.badgesTitle}</h2>
+        <h2 className="font-display text-base sm:text-lg lg:text-xl font-bold tracking-wide text-slate-900 dark:text-white">{c.badgesTitle}</h2>
         <ul className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-7">
           {earned.map(({ id, earned: got }) => {
             const info = BADGE_INFO[id];
@@ -429,9 +655,9 @@ export function GrowScreen({ band }: { band: Band }) {
 
       <LiquidGlassSurface
         radius={28}
-        className="border border-white/10 p-5 sm:p-6"
+        className="border border-purple-200/70 dark:border-white/10 bg-white/75 dark:bg-[#0d0720]/80 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-6"
       >
-        <h2 className="font-display text-xl tracking-[-0.02em]">{band === "senior" ? c.portfolio : c.recent}</h2>
+        <h2 className="font-display text-base sm:text-lg lg:text-xl font-bold tracking-wide text-slate-900 dark:text-white">{band === "senior" ? c.portfolio : c.recent}</h2>
         {progress.activities.length === 0 ? (
           <p className="mt-3 text-[14px] text-muted">{c.empty}</p>
         ) : (

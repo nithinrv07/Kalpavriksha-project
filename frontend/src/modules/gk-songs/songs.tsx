@@ -91,13 +91,13 @@ export function Songs({ band }: { band: Band }) {
       <LiquidGlassSurface
         key={song.id}
         radius={28}
-        className="fade-up border border-white/10"
+        className="fade-up border border-purple-200/70 dark:border-white/10 bg-white/75 dark:bg-[#0d0720]/80 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)]"
       >
         <div className="flex flex-col items-center gap-6 bg-[radial-gradient(60%_80%_at_20%_0%,rgb(124_58_237/0.22),transparent_70%)] p-6 sm:flex-row sm:p-8">
           <Record spinning={playing} />
           <div className="text-center sm:text-left">
             <p className="font-mono text-[12px] text-[var(--band)]">{song.kind[locale]}</p>
-            <h2 className="mt-1 font-display text-[clamp(28px,4vw,44px)] leading-tight tracking-[-0.03em]">{song.title[locale]}</h2>
+            <h2 className="mt-1 font-serif text-2xl sm:text-3xl lg:text-4xl font-black tracking-wide text-slate-900 dark:text-white">{song.title[locale]}</h2>
             <p className="mt-1 text-[14px] text-muted">{song.credit[locale]}</p>
             <div className="relative mt-5 inline-flex">
               <button

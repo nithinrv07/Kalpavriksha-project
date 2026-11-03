@@ -47,6 +47,7 @@
   --font-mono: var(--font-plex-mono), var(--font-anek-tamil), var(--font-anek-deva), ui-monospace, monospace;
   --font-headline: var(--font-fraunces), var(--font-anek-tamil), var(--font-anek-deva), Georgia, "Times New Roman", serif;
   --font-title: var(--font-title-serif), var(--font-anek-tamil), var(--font-anek-deva), Georgia, "Times New Roman", serif;
+  --font-serif: Georgia, Cambria, "Times New Roman", Times, var(--font-anek-tamil), var(--font-anek-deva), serif;
   --ease-premium: var(--ease-out);
 }
 
@@ -325,6 +326,14 @@ body {
   animation: kp-sway 6s ease-in-out infinite;
 }
 
+
+/* Kalpavriksha Growth Tree: Hardware-accelerated pixel origin sway with zero layout recalc */
+.tree-sway {
+  transform-origin: 180px 290px;
+  animation: kp-tree-sway 7.5s ease-in-out infinite;
+  will-change: transform;
+}
+
 .leaf {
   transform-box: fill-box;
   transform-origin: 50% 100%;
@@ -338,6 +347,16 @@ body {
   }
   50% {
     transform: rotate(1.4deg);
+  }
+}
+
+@keyframes kp-tree-sway {
+  0%,
+  100% {
+    transform: rotate(-1.1deg);
+  }
+  50% {
+    transform: rotate(1.1deg);
   }
 }
 
@@ -776,6 +795,7 @@ body {
   .aurora-drift-2,
   .aurora-drift-3,
   .sway,
+  .tree-sway,
   .leaf,
   .learner-card {
     animation: none !important;
@@ -789,6 +809,7 @@ html[data-calm="true"] .aurora-drift-1,
 html[data-calm="true"] .aurora-drift-2,
 html[data-calm="true"] .aurora-drift-3,
 html[data-calm="true"] .sway,
+html[data-calm="true"] .tree-sway,
 html[data-calm="true"] .leaf,
 html[data-calm="true"] .learner-card {
   animation: none !important;
@@ -1128,3 +1149,84 @@ html {
   }
 }
 
+/* ------------------------------------------------------------------------- */
+/* Daily Encouragement Banner: Keeps dark obsidian purple card with bright text in all themes */
+/* ------------------------------------------------------------------------- */
+.daily-encouragement-card,
+[data-theme="light"] .daily-encouragement-card,
+.light .daily-encouragement-card {
+  background-color: rgba(22, 10, 43, 0.85) !important;
+  border-color: rgba(147, 51, 234, 0.35) !important;
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), 0 0 24px -4px rgba(168, 85, 247, 0.15) !important;
+}
+
+.daily-encouragement-card .quote-title,
+[data-theme="light"] .daily-encouragement-card .quote-title,
+.light .daily-encouragement-card .quote-title {
+  color: #ffffff !important;
+}
+
+.daily-encouragement-card .quote-text,
+[data-theme="light"] .daily-encouragement-card .quote-text,
+.light .daily-encouragement-card .quote-text {
+  color: #f5f3ff !important;
+}
+
+.daily-encouragement-card .quote-author,
+[data-theme="light"] .daily-encouragement-card .quote-author,
+.light .daily-encouragement-card .quote-author {
+  color: #f472b6 !important;
+}
+
+.daily-encouragement-card .quote-role,
+[data-theme="light"] .daily-encouragement-card .quote-role,
+.light .daily-encouragement-card .quote-role {
+  color: rgba(216, 180, 254, 0.85) !important;
+}
+
+.daily-encouragement-card .quote-icon,
+[data-theme="light"] .daily-encouragement-card .quote-icon,
+.light .daily-encouragement-card .quote-icon {
+  background-color: rgba(147, 51, 234, 0.2) !important;
+  border-color: rgba(147, 51, 234, 0.4) !important;
+  color: #f472b6 !important;
+}
+
+.daily-encouragement-card .quote-badge,
+[data-theme="light"] .daily-encouragement-card .quote-badge,
+.light .daily-encouragement-card .quote-badge {
+  background-color: rgba(147, 51, 234, 0.25) !important;
+  border-color: rgba(147, 51, 234, 0.4) !important;
+  color: #e9d5ff !important;
+}
+
+.daily-encouragement-card .quote-refresh-btn,
+[data-theme="light"] .daily-encouragement-card .quote-refresh-btn,
+.light .daily-encouragement-card .quote-refresh-btn {
+  background-color: rgba(147, 51, 234, 0.18) !important;
+  border-color: rgba(147, 51, 234, 0.35) !important;
+  color: #e9d5ff !important;
+}
+
+.daily-encouragement-card .quote-refresh-btn:hover,
+[data-theme="light"] .daily-encouragement-card .quote-refresh-btn:hover {
+  background-color: rgba(147, 51, 234, 0.35) !important;
+  color: #ffffff !important;
+}
+
+
+/* Signature Module Hero Banner Title (Identical across all 3 modules) */
+.module-hero-title {
+  font-family: Georgia, Cambria, "Times New Roman", Times, var(--font-anek-tamil), var(--font-anek-deva), serif !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: #ffffff;
+  text-shadow: 0 2px 18px rgba(168, 85, 247, 0.45);
+}
+
+[data-theme="light"] .module-hero-title,
+.light .module-hero-title {
+  color: #110826 !important;
+  text-shadow: 0 2px 14px rgba(124, 58, 237, 0.25);
+}

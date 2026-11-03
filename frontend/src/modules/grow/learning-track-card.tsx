@@ -33,7 +33,7 @@ export function LearningTrackCard({
   return (
     <LiquidGlassSurface
       radius={28}
-      className="relative overflow-hidden border border-white/10 p-5 sm:p-7"
+      className="relative overflow-hidden border border-purple-200/70 dark:border-white/10 bg-white/75 dark:bg-[#0d0720]/80 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-7"
     >
       {/* Background ambient radial glow */}
       <div
@@ -48,7 +48,7 @@ export function LearningTrackCard({
             <span className="grid size-8 place-items-center rounded-xl bg-violet/20 text-violet">
               <GraduationCap size={20} weight="fill" />
             </span>
-            <h2 className="font-display text-xl sm:text-2xl tracking-[-0.02em]">
+            <h2 className="font-display text-base sm:text-lg lg:text-xl font-bold tracking-wide text-slate-900 dark:text-white">
               {c.learningTrackTitle}
             </h2>
           </div>

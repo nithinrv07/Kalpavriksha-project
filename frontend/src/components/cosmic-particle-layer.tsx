@@ -115,35 +115,35 @@ export function CosmicParticleLayer({ moduleSlug = "learn", className = "" }: Co
     };
 
     // Pre-populate initial ambient particles scattered across screen
-    const initialAmbientCount = Math.min(28, Math.floor(width / 50));
+    const initialAmbientCount = Math.min(18, Math.max(10, Math.floor(width / 75)));
     for (let i = 0; i < initialAmbientCount; i++) {
       spawnAmbient(Math.random() * height);
     }
 
     // Interactive burst on click or tap
     const createBurst = (cx: number, cy: number, count?: number) => {
-      const burstCount = count ?? (16 + Math.floor(Math.random() * 8));
+      const burstCount = count ?? (12 + Math.floor(Math.random() * 6));
       for (let i = 0; i < burstCount; i++) {
         const isStar = Math.random() < 0.5;
         const type = isStar ? "star" : "petal";
         const colors = isStar ? palette.stars : palette.petals;
         const color = colors[Math.floor(Math.random() * colors.length)] ?? colors[0] ?? "#ffffff";
 
-        const speed = 2.5 + Math.random() * 5.5;
+        const speed = 2.0 + Math.random() * 4.0;
         const angle = Math.random() * Math.PI * 2;
 
         particles.push({
           x: cx,
           y: cy,
           vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed - 1.5, // slight upward impulse
-          size: isStar ? 3 + Math.random() * 4 : 9 + Math.random() * 10,
+          vy: Math.sin(angle) * speed - 1.2, // slight upward impulse
+          size: isStar ? 2.5 + Math.random() * 3.5 : 7 + Math.random() * 8,
           angle: Math.random() * Math.PI * 2,
-          vAngle: (Math.random() - 0.5) * 0.15,
+          vAngle: (Math.random() - 0.5) * 0.12,
           flip: Math.random() * Math.PI,
-          vFlip: (Math.random() - 0.5) * 0.12,
-          alpha: 1,
-          maxLife: 75 + Math.random() * 35, // short energetic lifespan
+          vFlip: (Math.random() - 0.5) * 0.1,
+          alpha: 0.95,
+          maxLife: 65 + Math.random() * 25, // short energetic lifespan
           life: 0,
           color,
           isBurst: true,
@@ -219,15 +219,19 @@ export function CosmicParticleLayer({ moduleSlug = "learn", className = "" }: Co
         ctx.translate(p.x, p.y);
         ctx.rotate(p.angle);
         ctx.scale(Math.cos(p.flip), 1);
-        ctx.globalAlpha = p.alpha;
 
         if (p.type === "star") {
-          // 4-pointed radiant starlight diamond
-          ctx.fillStyle = p.color;
-          ctx.shadowColor = p.color;
-          ctx.shadowBlur = p.isBurst ? 10 : 6;
-
           const r = p.size;
+
+          // Soft radiant outer glow without expensive blur filter
+          ctx.globalAlpha = p.alpha * 0.35;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(0, 0, r * 1.5, 0, Math.PI * 2);
+          ctx.fill();
+
+          // 4-pointed radiant starlight diamond
+          ctx.globalAlpha = p.alpha;
           ctx.beginPath();
           ctx.moveTo(0, -r);
           ctx.quadraticCurveTo(0, 0, r, 0);
@@ -243,12 +247,17 @@ export function CosmicParticleLayer({ moduleSlug = "learn", className = "" }: Co
           ctx.arc(0, 0, r * 0.35, 0, Math.PI * 2);
           ctx.fill();
         } else {
-          // Authentic curved Sakura Petal
-          ctx.fillStyle = p.color;
-          ctx.shadowColor = p.color;
-          ctx.shadowBlur = p.isBurst ? 8 : 4;
-
           const s = p.size;
+
+          // Soft petal outer glow
+          ctx.globalAlpha = p.alpha * 0.25;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(0, 0, s * 0.9, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Authentic curved Sakura Petal
+          ctx.globalAlpha = p.alpha;
           ctx.beginPath();
           ctx.moveTo(0, -s);
           ctx.bezierCurveTo(s * 0.8, -s * 0.6, s * 0.9, s * 0.3, 0, s);
@@ -284,7 +293,7 @@ export function CosmicParticleLayer({ moduleSlug = "learn", className = "" }: Co
     <canvas
       ref={canvasRef}
       aria-hidden
-      className={`pointer-events-none fixed inset-0 z-30 h-full w-full contain-strict will-change-transform ${className}`}
+      className={`pointer-events-none fixed inset-0 z-0 h-full w-full contain-strict will-change-transform ${className}`}
     />
   );
 }

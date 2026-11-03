@@ -240,7 +240,7 @@ export function Quiz({
         <div style={{ "--lvl-accent": levelInfo.accent } as React.CSSProperties}>
           <LiquidGlassSurface
             radius={28}
-            className="fade-up relative flex flex-col items-center overflow-hidden border border-white/10 px-6 py-12 text-center sm:py-16"
+            className="fade-up relative flex flex-col items-center overflow-hidden border border-purple-200/70 dark:border-white/10 bg-white/75 dark:bg-[#0d0720]/80 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] px-6 py-12 text-center sm:py-16"
           >
           <div
             aria-hidden
@@ -301,7 +301,7 @@ export function Quiz({
           <LiquidGlassSurface
             key={step}
             radius={28}
-            className="fade-up border border-white/10 p-5 sm:p-8"
+            className="fade-up border border-purple-200/70 dark:border-white/10 bg-white/75 dark:bg-[#0d0720]/80 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-8"
           >
           {/* Header with Level & Progress */}
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -365,7 +365,7 @@ export function Quiz({
           )}
 
           {/* Question Title */}
-          <h2 className="mt-6 font-display text-[clamp(20px,2.8vw,30px)] leading-snug tracking-[-0.02em] text-balance">
+          <h2 className="mt-6 font-serif text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-white text-balance">
             {question.q[locale]}
           </h2>
 
@@ -459,7 +459,7 @@ export function Quiz({
             <div className="fade-up flex flex-col gap-4" style={{ "--lvl-accent": levelInfo.accent } as React.CSSProperties}>
               <LiquidGlassSurface
                 radius={28}
-                className="relative flex flex-col items-center overflow-hidden border border-white/10 px-6 py-12 text-center"
+                className="relative flex flex-col items-center overflow-hidden border border-purple-200/70 dark:border-white/10 bg-white/75 dark:bg-[#0d0720]/80 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] px-6 py-12 text-center"
               >
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--lvl-accent)]/40 bg-[color-mix(in_srgb,var(--lvl-accent)_15%,transparent)] px-3 py-1 font-mono text-xs font-semibold text-[var(--lvl-accent)] mb-4">
                   <LevelIcon name={levelInfo.iconName} className="size-3.5" />

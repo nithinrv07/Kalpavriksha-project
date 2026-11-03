@@ -23,6 +23,8 @@ import {
   Star,
   Sun,
   Trophy,
+  ArrowClockwise,
+  Quotes,
 } from "@phosphor-icons/react/ssr";
 import { useLocale } from "@/components/locale-provider";
 import { useProgress } from "@/components/progress-store";
@@ -31,6 +33,183 @@ import type { Profile } from "@/lib/progress";
 import { SENIOR_GROUPS, type CurriculumChapter, type CurriculumSubject } from "@/lib/curriculum";
 import { MODULES } from "@/modules/registry";
 import { accentOf } from "@/modules/accents";
+
+interface EncouragementQuote {
+  quote: { en: string; ta: string };
+  author: { en: string; ta: string };
+  role?: { en: string; ta: string };
+}
+
+const DAILY_ENCOURAGEMENT_QUOTES: readonly EncouragementQuote[] = [
+  {
+    quote: {
+      en: "Learning gives creativity, creativity leads to thinking, thinking provides knowledge, and knowledge makes you great.",
+      ta: "கற்றல் படைப்பாற்றலைத் தருகிறது, படைப்பாற்றல் சிந்தனையை வளர்க்கிறது, சிந்தனை அறிவைத் தருகிறது, அறிவு உங்களை உயர்ந்தவராக்குகிறது.",
+    },
+    author: {
+      en: "Dr. A.P.J. Abdul Kalam",
+      ta: "டாக்டர் ஏ.பி.ஜே. அப்துல் கலாம்",
+    },
+    role: {
+      en: "11th President of India",
+      ta: "இந்தியாவின் 11-வது குடியரசுத் தலைவர்",
+    },
+  },
+  {
+    quote: {
+      en: "Arise, awake, and stop not until the goal is reached.",
+      ta: "எழுமின், விழுமின், உங்கள் இலக்கை அடையும் வரை ஓயாது உழையுங்கள்.",
+    },
+    author: {
+      en: "Swami Vivekananda",
+      ta: "சுவாமி விவேகானந்தர்",
+    },
+    role: {
+      en: "Youth Icon & Philosopher",
+      ta: "தத்துவஞானி",
+    },
+  },
+  {
+    quote: {
+      en: "Education is the most powerful weapon which you can use to change the world.",
+      ta: "உலகையே மாற்றி அமைப்பதற்கு நீங்கள் பயன்படுத்தக்கூடிய மிக சக்திவாய்ந்த ஆயுதம் கல்வி.",
+    },
+    author: {
+      en: "Nelson Mandela",
+      ta: "நெல்சன் மண்டேலா",
+    },
+    role: {
+      en: "Nobel Peace Laureate",
+      ta: "நோபல் அமைதிப் பரிசு பெற்றவர்",
+    },
+  },
+  {
+    quote: {
+      en: "The beautiful thing about learning is that no one can take it away from you.",
+      ta: "கற்றலின் மிக அழகான விஷயம் என்னவென்றால், அதை உங்களிடமிருந்து எவராலும் பறிக்க முடியாது.",
+    },
+    author: {
+      en: "B.B. King",
+      ta: "பி.பி. கிங்",
+    },
+    role: {
+      en: "Legendary Musician",
+      ta: "இசை மேதை",
+    },
+  },
+  {
+    quote: {
+      en: "Learning is excellence that never perishes; all other wealth is not true wealth.",
+      ta: "கேடில் விழுச்செல்வம் கல்வி யொருவற்கு மாடல்ல மற்றை யவை.",
+    },
+    author: {
+      en: "Thiruvalluvar",
+      ta: "திருவள்ளுவர் (திருக்குறள் 400)",
+    },
+    role: {
+      en: "Ancient Tamil Sage",
+      ta: "தெய்வப் புலவர்",
+    },
+  },
+  {
+    quote: {
+      en: "Live as if you were to die tomorrow. Learn as if you were to live forever.",
+      ta: "நாளை இறந்துவிடுவீர்கள் என்பது போல் வாழுங்கள். என்றும் வாழ்வீர்கள் என்பது போல் கற்றுக்கொள்ளுங்கள்.",
+    },
+    author: {
+      en: "Mahatma Gandhi",
+      ta: "மகாத்மா காந்தி",
+    },
+    role: {
+      en: "Father of the Nation",
+      ta: "தேசப்பிதா",
+    },
+  },
+  {
+    quote: {
+      en: "Cultivation of mind should be the ultimate aim of human existence.",
+      ta: "மனதைப் பண்படுத்துவதே மனித வாழ்வின் தலையாய நோக்கமாக இருக்க வேண்டும்.",
+    },
+    author: {
+      en: "Dr. B.R. Ambedkar",
+      ta: "டாக்டர் பாபாசாகேப் அம்பேத்கர்",
+    },
+    role: {
+      en: "Architect of Constitution",
+      ta: "இந்திய அரசியலமைப்பின் தந்தை",
+    },
+  },
+  {
+    quote: {
+      en: "Wisdom is not a product of schooling, but of the lifelong attempt to acquire it.",
+      ta: "ஞானம் என்பது வெறும் பள்ளிப் படிப்பின் விளைவு அல்ல, வாழ்நாள் முழுவதும் அதை அடையும் முயற்சியின் பயன்.",
+    },
+    author: {
+      en: "Albert Einstein",
+      ta: "ஆல்பர்ட் ஐன்ஸ்டீன்",
+    },
+    role: {
+      en: "Theoretical Physicist",
+      ta: "நோபல் பரிசு பெற்ற விஞ்ஞானி",
+    },
+  },
+  {
+    quote: {
+      en: "Study with clarity and pure devotion; the light of knowledge shall illuminate every horizon.",
+      ta: "கற்க கசடறக் கற்பவை கற்றபின்; அறிவின் பெருமையால் உலகம் மேன்மையடையும்.",
+    },
+    author: {
+      en: "Mahakavi Bharathiyar",
+      ta: "மகாகவி பாரதியார்",
+    },
+    role: {
+      en: "Poet & Freedom Fighter",
+      ta: "விடுதலைக் கவிஞர்",
+    },
+  },
+  {
+    quote: {
+      en: "Ask the right questions, and nature will open the doors to all her secrets.",
+      ta: "சரியான கேள்விகளைக் கேளுங்கள், இயற்கை தனது ரகசியங்களுக்கான அனைத்துக் கதவுகளையும் திறக்கும்.",
+    },
+    author: {
+      en: "Sir C.V. Raman",
+      ta: "சர் சி.வி. ராமன்",
+    },
+    role: {
+      en: "Nobel Laureate in Physics",
+      ta: "நோபல் பரிசு பெற்ற விஞ்ஞானி",
+    },
+  },
+  {
+    quote: {
+      en: "Optimism is the faith that leads to achievement. Nothing can be done without hope and confidence.",
+      ta: "நம்பிக்கையே சாதனையை நோக்கி வழிநடத்தும் ஒளி; தன்னம்பிக்கையின்றி உலகில் எதையும் சாதிக்க முடியாது.",
+    },
+    author: {
+      en: "Helen Keller",
+      ta: "ஹெலன் கெல்லர்",
+    },
+    role: {
+      en: "Author & Activist",
+      ta: "எழுத்தாளர் & சமூகப் போராளி",
+    },
+  },
+  {
+    quote: {
+      en: "You cannot cross the sea merely by standing and staring at the water.",
+      ta: "கரையில் நின்று தண்ணீரைப் பார்த்துக் கொண்டிருப்பதால் மட்டும் நீங்கள் கடலைக் கடந்துவிட முடியாது.",
+    },
+    author: {
+      en: "Rabindranath Tagore",
+      ta: "ரவீந்திரநாத் தாகூர்",
+    },
+    role: {
+      en: "Nobel Laureate in Literature",
+      ta: "நோபல் பரிசு பெற்ற கவிஞர்",
+    },
+  },
+];
 
 interface SeniorDigitalLearningProps {
   currentStandard: number;
@@ -374,6 +553,23 @@ export function SeniorDigitalLearning({
   const isSenior = currentStandard >= 11;
   const activeSeniorGroup = SENIOR_GROUPS.find((g) => g.id === (seniorGroupFilter || "cs")) || SENIOR_GROUPS[0];
 
+  // Daily Encouragement Quote Rotation (cycles naturally every day, or via Next button)
+  const dayOfYear = useMemo(() => {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 0);
+    const diff = now.getTime() - start.getTime();
+    const oneDay = 1000 * 60 * 60 * 24;
+    return Math.max(1, Math.floor(diff / oneDay));
+  }, []);
+
+  const [quoteOffset, setQuoteOffset] = useState<number>(0);
+  const currentQuoteIndex = (dayOfYear + quoteOffset) % DAILY_ENCOURAGEMENT_QUOTES.length;
+  const currentQuote = DAILY_ENCOURAGEMENT_QUOTES[currentQuoteIndex]!;
+
+  const handleNextQuote = () => {
+    setQuoteOffset((prev) => prev + 1);
+  };
+
   const handleBack = () => {
     if (activeSubjectId !== "all") {
       setActiveSubjectId("all");
@@ -524,7 +720,7 @@ export function SeniorDigitalLearning({
       <section className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center rounded-3xl border border-purple-800/30 bg-gradient-to-r from-[#170a2c]/80 via-[#210e3f]/60 to-[#120724]/80 p-6 sm:p-8 backdrop-blur-xl shadow-[0_10px_40px_rgba(10,4,20,0.5)]">
         {/* Left: Titles */}
         <div className="lg:col-span-6 flex flex-col gap-2.5">
-          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-black tracking-wider text-white uppercase drop-shadow-[0_2px_18px_rgba(168,85,247,0.35)]">
+          <h1 className="module-hero-title font-serif text-3xl sm:text-4xl lg:text-5xl font-black tracking-wider text-white uppercase drop-shadow-[0_2px_18px_rgba(168,85,247,0.35)]">
             Digital Learning
           </h1>
           <p className="font-display text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-300 via-pink-200 to-indigo-300 bg-clip-text text-transparent">
@@ -1153,32 +1349,75 @@ export function SeniorDigitalLearning({
       {/* ----------------------------------------------------------------- */}
       {/* 4. ELONGATED FULL-WIDTH DAILY ENCOURAGEMENT BANNER                */}
       {/* ----------------------------------------------------------------- */}
-      <div className="relative z-10 w-full rounded-2xl border border-purple-900/30 bg-[#160a2b]/70 p-5 sm:p-6 backdrop-blur-xl shadow-lg transition-all hover:border-purple-700/50">
-        <div className="flex items-center justify-between gap-4 sm:gap-6">
-          <div className="flex-1 flex flex-col gap-2">
-            <div className="flex items-center gap-2">
-              <span className="text-pink-400">🌸</span>
-              <h3 className="font-display text-sm sm:text-base font-bold text-white tracking-wide">
-                Daily Encouragement
-              </h3>
+      <div className="daily-encouragement-card relative z-10 w-full overflow-hidden rounded-2xl border border-purple-900/40 bg-[#160a2b]/80 p-5 sm:p-6 backdrop-blur-xl shadow-lg transition-all duration-300 hover:border-purple-600/50">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6">
+          {/* Left: Quotes Icon Badge in Front + Daily Content */}
+          <div className="flex-1 flex items-start gap-3.5 sm:gap-4 min-w-0">
+            {/* Front Quote Icon */}
+            <div className="quote-icon grid size-10 sm:size-11 shrink-0 place-items-center rounded-xl bg-purple-500/15 border border-purple-500/30 text-pink-400 shadow-sm mt-0.5">
+              <Quotes size={22} weight="fill" />
             </div>
-            <p className="font-serif italic text-xs sm:text-sm md:text-[15px] leading-relaxed text-purple-200/90 max-w-4xl">
-              “The beautiful thing about learning is that no one can take it away from you.”
-            </p>
-            <p className="font-mono text-[11px] sm:text-xs text-pink-300/80 font-semibold">
-              — B.B. King
-            </p>
+
+            <div className="flex-1 min-w-0 flex flex-col gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-pink-400">🌸</span>
+                <h3 className="quote-title font-display text-sm sm:text-base font-bold text-white tracking-wide">
+                  Daily Encouragement
+                </h3>
+                <span className="quote-badge rounded-full bg-purple-500/20 border border-purple-400/30 px-2 py-0.5 font-mono text-[10px] text-purple-200">
+                  Day #{dayOfYear} · {currentQuote.author[locale]}
+                </span>
+              </div>
+
+              {/* In Front Quote Text */}
+              <p
+                className="quote-text font-serif italic text-sm sm:text-base md:text-[16px] leading-relaxed max-w-4xl"
+                style={{ color: "#f5f3ff" }}
+              >
+                “{currentQuote.quote[locale]}”
+              </p>
+
+              {/* Author & Role in front */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <span
+                  className="quote-author font-mono text-xs sm:text-sm font-bold"
+                  style={{ color: "#f472b6" }}
+                >
+                  — {currentQuote.author[locale]}
+                </span>
+                {currentQuote.role && (
+                  <span
+                    className="quote-role font-mono text-[11px]"
+                    style={{ color: "rgba(216, 180, 254, 0.85)" }}
+                  >
+                    · {currentQuote.role[locale]}
+                  </span>
+                )}
+              </div>
+            </div>
           </div>
 
-          {/* 3D Owl Sitting on Stacked Books */}
-          <div className="relative size-16 sm:size-20 shrink-0 transition-transform hover:scale-105 duration-300">
-            <Image
-              src="/images/learn/encouragement-owl.png"
-              alt="Cute 3D owl with cherry blossom petals"
-              width={80}
-              height={80}
-              className="size-full object-contain drop-shadow-[0_4px_16px_rgba(168,85,247,0.35)]"
-            />
+          {/* Right: Next Quote button + 3D Owl Sitting on Stacked Books */}
+          <div className="flex items-center gap-4 self-end md:self-center shrink-0">
+            <button
+              type="button"
+              onClick={handleNextQuote}
+              className="quote-refresh-btn group flex items-center gap-1.5 rounded-xl border border-purple-800/40 bg-purple-950/40 px-3 py-1.5 font-mono text-xs text-purple-200 transition-all hover:border-purple-500 hover:text-white hover:bg-purple-900/50"
+              title="Next Daily Quote"
+            >
+              <ArrowClockwise size={13} className="transition-transform duration-300 group-hover:rotate-180 text-purple-300" />
+              <span>Next Quote</span>
+            </button>
+
+            <div className="relative size-16 sm:size-20 shrink-0 transition-transform hover:scale-105 duration-300">
+              <Image
+                src="/images/learn/encouragement-owl.png"
+                alt="Cute 3D owl with cherry blossom petals"
+                width={80}
+                height={80}
+                className="size-full object-contain drop-shadow-[0_4px_16px_rgba(168,85,247,0.35)]"
+              />
+            </div>
           </div>
         </div>
       </div>

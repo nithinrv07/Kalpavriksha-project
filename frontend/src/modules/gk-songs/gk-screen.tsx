@@ -33,7 +33,7 @@ export function GkScreen({ band }: { band: Band }) {
             aria-selected={tab === id}
             aria-controls={`panel-${id}`}
             onClick={() => setTab(id)}
-            className="flex h-11 items-center gap-2 rounded-xl px-5 text-[14px] text-muted transition-colors duration-200 hover:text-text aria-selected:bg-violet-deep aria-selected:text-violet-ink"
+            className="flex h-11 items-center gap-2 rounded-xl px-5 text-[14px] font-display font-bold text-muted transition-colors duration-200 hover:text-text aria-selected:bg-violet-deep aria-selected:text-violet-ink"
           >
             <Glyph size={18} weight="duotone" aria-hidden />
             {label}

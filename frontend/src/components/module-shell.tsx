@@ -84,49 +84,30 @@ export function ModuleShell({
       style={band ? ({ "--band": BAND_INFO[band].accent } as React.CSSProperties) : undefined}
       className="relative isolate min-h-[100dvh] w-full"
     >
-      {module.slug === "learn" ? (
-        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#080312]">
-          {/* 1. Underlying Signature Chrome Waves (chromatic nebula + spiral orbit rings directly from Home) */}
-          <ChromeWaves />
+      {/* Consistent Cosmic Purple & LivingTree Blossom Atmosphere across all modules */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#f8f6fc] dark:bg-[#080312]">
+        {/* 1. Underlying Signature Chrome Waves */}
+        <ChromeWaves />
 
-          {/* 2. Harmonious Plum & Cosmic Purple Mixup - subtle accent auras allowing rings to shine */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.2),transparent_65%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_35%,rgba(236,72,153,0.15),transparent_60%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.14),transparent_60%)]" />
+        {/* 2. Harmonious Plum & Cosmic Purple Mixup */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.2),transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_35%,rgba(236,72,153,0.15),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.14),transparent_60%)]" />
 
-          {/* 3. Blooming Wishing Tree with drifting petals hugging the left side */}
-          <div
-            className="pointer-events-none absolute inset-y-0 left-0 hidden sm:block h-full w-[36vw] min-w-[240px] max-w-[500px] overflow-hidden opacity-75 transform-gpu"
-            style={{
-              maskImage: "linear-gradient(to right, #000 60%, transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to right, #000 60%, transparent 100%)",
-            }}
-          >
-            <LivingTree />
-          </div>
+        {/* 3. Blooming Wishing Tree with drifting petals hugging the left side */}
+        <div
+          className="pointer-events-none absolute inset-y-0 left-0 hidden sm:block h-full w-[36vw] min-w-[240px] max-w-[500px] overflow-hidden opacity-75 transform-gpu"
+          style={{
+            maskImage: "linear-gradient(to right, #000 60%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to right, #000 60%, transparent 100%)",
+          }}
+        >
+          <LivingTree />
+        </div>
 
-          {/* 4. Soft Vignette Edge Shadow for Content Contrast & Obsidian Space Depth */}
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(4,1,8,0.35)_75%,rgba(2,0,5,0.75)_100%)]" />
-        </div>
-      ) : module.slug === "grow" ? (
-        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#050907]">
-          <ChromeWaves />
-          {/* Growth & Life Emerald-Gold Atmosphere */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#061510]/80 via-[#0a2016]/40 to-[#020704]/90" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.22),transparent_65%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(245,158,11,0.18),transparent_55%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(52,211,153,0.15),transparent_60%)]" />
-        </div>
-      ) : (
-        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#080512]">
-          <ChromeWaves />
-          {/* GK & Patriotic Songs Celestial Saffron-Cyan Atmosphere */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1a0f0a]/75 via-[#0e1628]/40 to-[#03060c]/90" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(249,115,22,0.2),transparent_65%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(56,189,248,0.18),transparent_55%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(34,197,94,0.14),transparent_60%)]" />
-        </div>
-      )}
+        {/* 4. Soft Vignette Edge Shadow for Content Contrast & Space Depth */}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(4,1,8,0.35)_75%,rgba(2,0,5,0.75)_100%)]" />
+      </div>
 
       {/* Cosmic Particles & Interactive Petal Bursts Layer (Across All 3 Modules) */}
       <CosmicParticleLayer moduleSlug={module.slug} />
@@ -135,7 +116,7 @@ export function ModuleShell({
       <div className={`relative z-10 flex min-h-[100dvh] w-full flex-col ${module.slug === "learn" ? "px-3 py-3 sm:px-6 sm:py-5 md:px-8 lg:px-10" : "px-4 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-10 xl:px-14"}`}>
         {/* 1. Header: Back to home, module switcher tabs, XP pill & language selector */}
         {(!profile || module.slug !== "learn") && (
-          <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-4 sm:pb-5">
+          <header className="flex flex-wrap items-center justify-between gap-3 border-b border-purple-200/60 dark:border-white/[0.08] pb-4 sm:pb-5">
             <div className="flex items-center gap-2">
               <Link
                 href="/"
@@ -176,45 +157,37 @@ export function ModuleShell({
           </header>
         )}
 
-        {/* 2. Module Banner: Icon, Title, Summary & Grade Badge */}
+        {/* 2. Module Banner: Styled hero matching Module 1 exactly */}
         {module.slug !== "learn" && (
-          <div className="fade-up mt-6 flex items-start gap-4 sm:mt-8 sm:items-center">
-            <span className={`hidden size-14 shrink-0 place-items-center overflow-hidden rounded-2xl sm:grid ${accent.banner}`}>
-              {module.iconImage ? (
-                <Image
-                  src={module.iconImage}
-                  alt={module.title[locale]}
-                  width={56}
-                  height={56}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <Icon size={28} weight="duotone" />
-              )}
-            </span>
-            <div>
-              <p className={`font-mono text-[12px] ${accent.text}`}>{module.index}</p>
-              <h1
-                className={`font-display text-text ${
-                  locale === "en"
-                    ? "text-[clamp(36px,5.5vw,68px)] leading-[0.95] tracking-[-0.05em]"
-                    : "text-[clamp(28px,4.4vw,54px)] leading-[1.1] tracking-[-0.01em]"
-                }`}
-              >
+          <section className="relative z-10 mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center rounded-3xl border border-purple-800/30 bg-gradient-to-r from-[#170a2c]/80 via-[#210e3f]/60 to-[#120724]/80 p-6 sm:p-8 backdrop-blur-xl shadow-[0_10px_40px_rgba(10,4,20,0.5)]">
+            {/* Left: Titles matching 1st module */}
+            <div className="lg:col-span-6 flex flex-col gap-2.5">
+              <h1 className="module-hero-title font-serif text-3xl sm:text-4xl lg:text-5xl font-black tracking-wider text-white uppercase drop-shadow-[0_2px_18px_rgba(168,85,247,0.35)]">
                 {module.title[locale]}
               </h1>
-              <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-muted">{module.summary[locale]}</p>
-              {band && (
-                <Link
-                  href="/sign-in"
-                  className="mt-3 inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--band)_40%,transparent)] bg-[color-mix(in_srgb,var(--band)_10%,transparent)] py-1 pl-1 pr-3 text-[12.5px] text-[var(--band)] transition-colors hover:bg-[color-mix(in_srgb,var(--band)_18%,transparent)]"
-                >
-                  <GrowthStage band={band} className="size-6" />
-                  {BAND_INFO[band].name[locale]} · {BAND_INFO[band].classes[locale]}
-                </Link>
-              )}
+              <p className="font-display text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-300 via-pink-200 to-indigo-300 bg-clip-text text-transparent">
+                {locale === "en" ? "Explore. Discover. Grow." : "ஆராய்க. வளர்க. உயர்க."}
+              </p>
+              <p className="font-headline text-sm sm:text-base text-purple-200/70 max-w-md">
+                {locale === "en"
+                  ? "Your learning journey, beautifully connected."
+                  : "உங்கள் கற்றல் பயணம், அழகாக இணைக்கப்பட்டுள்ளது."}
+              </p>
             </div>
-          </div>
+
+            {/* Right: 3D Scene */}
+            <div className="lg:col-span-6 relative flex items-center justify-center lg:justify-end">
+              <div className="relative w-full max-w-[420px] aspect-[780/324] cosmic-prop-float transition-transform duration-500 hover:scale-[1.03]">
+                <Image
+                  src={module.slug === "grow" ? "/images/modules/tree-growth.png" : "/images/modules/gk-songs-raw.png"}
+                  alt={module.title[locale]}
+                  fill
+                  priority
+                  className="object-contain drop-shadow-[0_10px_35px_rgba(168,85,247,0.4)]"
+                />
+              </div>
+            </div>
+          </section>
         )}
 
         {/* 3. Main Content: Full Screen Width across all modules */}
