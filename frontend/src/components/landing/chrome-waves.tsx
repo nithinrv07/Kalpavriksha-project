@@ -40,21 +40,21 @@ export function ChromeWaves() {
       />
 
       {/* 6. Sacred Chrome Spiral Ribbons */}
-      <div className="waves-scroll pointer-events-none absolute left-1/2 top-1/2 size-[130vmax] -translate-x-1/2 -translate-y-1/2 transform-gpu">
-        <div className="spin-slow size-full transform-gpu" style={{ animationDuration: "160s" }}>
+      <div className="pointer-events-none absolute left-1/2 top-1/2 size-[130vmax] -translate-x-1/2 -translate-y-1/2 transform-gpu">
+        <div className="size-full transform-gpu">
           <svg viewBox="-1100 -1100 2200 2200" className="size-full">
             <defs>
               <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0" stopColor="#fff" stopOpacity="0" />
                 <stop offset="0.3" stopColor="#fff" stopOpacity="0.85" />
-                <stop offset="0.48" stopColor="#d8b4fe" stopOpacity="0.45" />
+                <stop offset="0.48" stopColor="#fff" stopOpacity="0.8" />
                 <stop offset="0.66" stopColor="#fff" stopOpacity="0.75" />
                 <stop offset="1" stopColor="#fff" stopOpacity="0" />
               </linearGradient>
               <linearGradient id="chrome-glow" x1="1" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor="#c084fc" stopOpacity="0" />
-                <stop offset="0.5" stopColor="#ec4899" stopOpacity="0.35" />
-                <stop offset="1" stopColor="#38bdf8" stopOpacity="0" />
+                <stop offset="0" stopColor="#fff" stopOpacity="0" />
+                <stop offset="0.5" stopColor="#fff" stopOpacity="0.2" />
+                <stop offset="1" stopColor="#fff" stopOpacity="0" />
               </linearGradient>
             </defs>
             <g className="origin-center rotate-[-22deg]">

@@ -21,7 +21,7 @@ const isRevealKind = (v: string | undefined): v is RevealKind => v === "up" || v
  * Lenis smooth scrolling (both share GSAP's ticker, so they never fight).
  * - `[data-reveal="up|scale|pop"]` blocks reveal in staggered batches.
  * - `[data-reveal="words"]` headings rise word by word.
- * - Hero recedes, spiral turns, footer wordmark rises — all scrubbed to scroll.
+ * - Hero recedes, footer wordmark rises — all scrubbed to scroll.
  * Nothing is hidden until this runs, and reduced-motion users get static content.
  */
 export function ScrollFx() {
@@ -78,14 +78,6 @@ export function ScrollFx() {
           .to(".hero-stage", { y: -140, ease: "none" }, 0)
           .to(".hero-copy", { y: -70, ease: "none" }, 0);
       }
-
-      // Background spiral turns and swells through the whole page.
-      gsap.to(".waves-scroll", {
-        rotation: 110,
-        scale: 1.3,
-        ease: "none",
-        scrollTrigger: { start: 0, end: "max", scrub: 1.2 },
-      });
 
       // Footer wordmark rises into place.
       const footer = document.querySelector("footer");
