@@ -64,9 +64,8 @@
   --hl2-face: #4c1d95;
   --hl2-shadow: #e9d5ff;
   --hl2-glare: rgb(255 255 255 / 0.85);
-  /* Golden title, echoing the amber tree mark; deep amber keeps it readable on lavender. */
-  --title-face: #b45309;
-  --title-depth: #fcd34d;
+  --title-face: #2e1065;
+  --title-depth: #c4b5fd;
   --page-bg: radial-gradient(circle at 50% 0%, #efe6ff 0%, #f7f4fd 55%, #fbfaff 100%);
 }
 
@@ -160,8 +159,8 @@ html {
 }
 
 :root[data-theme="light"] .title-glow {
-  --title-glow: rgb(245 158 11 / 0.7);
-  filter: drop-shadow(0 2px 10px rgb(120 53 15 / 0.18));
+  --title-glow: rgb(139 92 246 / 0.75);
+  filter: drop-shadow(0 2px 10px rgb(76 29 149 / 0.18));
 }
 
 /* Specific enough to beat the per-theme resting rules above. */
