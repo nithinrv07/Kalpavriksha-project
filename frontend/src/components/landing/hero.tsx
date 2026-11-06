@@ -145,7 +145,7 @@ export function Hero() {
                   pointerTracking={false}
                   shadow={true}
                   active={!isFlipped}
-                  className="font-title [--depth-text-letter-spacing:-0.005em] drop-shadow-[0_2px_12px_rgba(0,0,0,0.32)]"
+                  className="title-glow pointer-events-auto font-title [--depth-text-letter-spacing:-0.005em]"
                 />
               </div>
 
@@ -323,7 +323,7 @@ export function Hero() {
                   pointerTracking={false}
                   shadow={true}
                   active={isFlipped}
-                  className="font-title [--depth-text-letter-spacing:-0.005em] drop-shadow-[0_2px_12px_rgba(0,0,0,0.32)]"
+                  className="title-glow pointer-events-auto font-title [--depth-text-letter-spacing:-0.005em]"
                 />
               </div>
 

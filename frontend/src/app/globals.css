@@ -64,8 +64,9 @@
   --hl2-face: #4c1d95;
   --hl2-shadow: #e9d5ff;
   --hl2-glare: rgb(255 255 255 / 0.85);
-  --title-face: #2e1065;
-  --title-depth: #c4b5fd;
+  /* Golden title, echoing the amber tree mark; deep amber keeps it readable on lavender. */
+  --title-face: #b45309;
+  --title-depth: #fcd34d;
   --page-bg: radial-gradient(circle at 50% 0%, #efe6ff 0%, #f7f4fd 55%, #fbfaff 100%);
 }
 
@@ -149,6 +150,25 @@ html {
   /* Glows and 3D canvases bleed past the edges on purpose; never let them add a
      sideways scroll. `clip` (unlike `hidden`) keeps sticky positioning working. */
   overflow-x: clip;
+}
+
+/* Hero "Kalpavriksha" title: resting shadow, soft violet glow on hover. */
+.title-glow {
+  --title-glow: rgb(192 132 252 / 0.85);
+  filter: drop-shadow(0 2px 12px rgb(0 0 0 / 0.32));
+  transition: filter 450ms var(--ease-out);
+}
+
+:root[data-theme="light"] .title-glow {
+  --title-glow: rgb(245 158 11 / 0.7);
+  filter: drop-shadow(0 2px 10px rgb(120 53 15 / 0.18));
+}
+
+/* Specific enough to beat the per-theme resting rules above. */
+:root .title-glow:hover,
+:root[data-theme] .title-glow:hover {
+  filter: drop-shadow(0 0 10px var(--title-glow)) drop-shadow(0 0 28px var(--title-glow))
+    drop-shadow(0 2px 12px rgb(0 0 0 / 0.32));
 }
 
 /* CSS stand-in for the WebGL pulsating border when WebGL is unavailable. */
