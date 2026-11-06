@@ -79,14 +79,6 @@ export function ScrollFx() {
           .to(".hero-copy", { y: -70, ease: "none" }, 0);
       }
 
-      // Background spiral turns and swells through the whole page.
-      gsap.to(".waves-scroll", {
-        rotation: 110,
-        scale: 1.3,
-        ease: "none",
-        scrollTrigger: { start: 0, end: "max", scrub: 1.2 },
-      });
-
       // Footer wordmark rises into place.
       const footer = document.querySelector("footer");
       if (footer) {
