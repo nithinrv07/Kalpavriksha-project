@@ -31,11 +31,11 @@ function ComfortRow({
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className="flex w-full items-center gap-3 rounded-2xl border border-transparent p-3 text-left transition-colors duration-200 hover:border-line hover:bg-white/[0.04]"
+      className="flex w-full items-center gap-3 rounded-2xl border border-transparent p-3 text-left transition-colors duration-200 hover:border-line hover:bg-ink/[0.04]"
     >
       <span
         className={`grid size-11 shrink-0 place-items-center rounded-xl transition-colors duration-200 ${
-          checked ? "bg-violet-deep/60 text-violet-ink" : "bg-white/[0.05] text-muted"
+          checked ? "bg-violet-deep/60 text-violet-ink" : "bg-ink/[0.05] text-muted"
         }`}
       >
         {icon}
@@ -47,7 +47,7 @@ function ComfortRow({
       <span
         aria-hidden
         className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${
-          checked ? "bg-violet" : "bg-white/15"
+          checked ? "bg-violet" : "bg-ink/15"
         }`}
       >
         <span
@@ -93,7 +93,7 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
             type="button"
             onClick={onClose}
             aria-label={t.close}
-            className="grid size-11 place-items-center rounded-xl border border-line bg-white/[0.04] transition-colors duration-200 hover:bg-white/[0.1]"
+            className="grid size-11 place-items-center rounded-xl border border-line bg-ink/[0.04] transition-colors duration-200 hover:bg-ink/[0.1]"
           >
             <X size={18} />
           </button>
@@ -108,7 +108,7 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
                 key={m.id}
                 href={`/m/${m.slug}`}
                 onClick={onClose}
-                className="group flex items-center gap-4 rounded-2xl border border-transparent p-3 transition-colors duration-200 hover:border-line hover:bg-white/[0.04]"
+                className="group flex items-center gap-4 rounded-2xl border border-transparent p-3 transition-colors duration-200 hover:border-line hover:bg-ink/[0.04]"
               >
                 <span className={`grid size-11 shrink-0 place-items-center overflow-hidden rounded-xl ${accent.chip}`}>
                   {m.iconImage ? (
@@ -166,7 +166,7 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
                 role="radio"
                 aria-checked={locale === l}
                 onClick={() => setLocale(l)}
-                className="h-11 rounded-xl border border-line text-sm transition-colors duration-200 hover:bg-white/[0.06] aria-checked:border-violet/50 aria-checked:bg-violet-deep/50 aria-checked:text-violet-ink"
+                className="h-11 rounded-xl border border-line text-sm transition-colors duration-200 hover:bg-ink/[0.06] aria-checked:border-violet/50 aria-checked:bg-violet-deep/50 aria-checked:text-violet-ink"
               >
                 {LOCALE_LABEL[l].native}
               </button>
@@ -178,7 +178,7 @@ export function MenuSheet({ open, onClose }: { open: boolean; onClose: () => voi
           <Link
             href="/sign-in"
             onClick={onClose}
-            className="grid h-12 place-items-center rounded-xl border border-violet/25 bg-violet-deep font-mono text-sm text-violet-ink transition-colors duration-200 hover:bg-[#4c1d95]"
+            className="grid h-12 place-items-center rounded-xl border border-violet/25 bg-violet-deep font-mono text-sm text-violet-ink transition-colors duration-200 hover:brightness-110"
           >
             {t.signIn}
           </Link>

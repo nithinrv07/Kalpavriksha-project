@@ -28,7 +28,7 @@ export function ComingSoon({ slug }: { slug: string }) {
         <p className="mt-5 text-[15px] leading-relaxed text-muted">{t.comingSoon}</p>
         <Link
           href="/"
-          className="group mt-10 inline-flex h-12 items-center gap-2 rounded-xl border border-line px-5 text-sm transition-colors duration-200 hover:bg-white/[0.06]"
+          className="group mt-10 inline-flex h-12 items-center gap-2 rounded-xl border border-line px-5 text-sm transition-colors duration-200 hover:bg-ink/[0.06]"
         >
           <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
           {t.back}

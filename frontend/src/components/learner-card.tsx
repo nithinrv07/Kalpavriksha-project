@@ -10,6 +10,7 @@ import { ChromeWaves } from "@/components/landing/chrome-waves";
 import { LangSelect } from "@/components/landing/lang-select";
 import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
 import { useLocale } from "@/components/locale-provider";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { updateProgress, useProgress } from "@/components/progress-store";
 import { BAND_INFO, SETUP_COPY } from "@/lib/bands";
 import { LOCALE_LABEL } from "@/lib/i18n";
@@ -56,15 +57,15 @@ function Card({ profile }: { profile: Profile }) {
           <GrowthStage band={band} className="ml-auto size-16 shrink-0" />
         </div>
         <div className="mt-8 grid grid-cols-3 gap-2 text-center">
-          <div className="rounded-2xl bg-white/[0.04] p-3">
+          <div className="rounded-2xl bg-ink/[0.04] p-3">
             <p className="font-mono text-xl text-text">{level}</p>
             <p className="font-mono text-[10.5px] text-muted">{t.level}</p>
           </div>
-          <div className="rounded-2xl bg-white/[0.04] p-3">
+          <div className="rounded-2xl bg-ink/[0.04] p-3">
             <p className="font-mono text-xl text-violet-ink">{progress.xp}</p>
             <p className="font-mono text-[10.5px] text-muted">XP</p>
           </div>
-          <div className="rounded-2xl bg-white/[0.04] p-3">
+          <div className="rounded-2xl bg-ink/[0.04] p-3">
             <p className="flex items-center justify-center gap-1 font-mono text-xl text-amber">
               <Fire size={18} weight="fill" aria-hidden />
               {streak(progress.activeDays, localDay())}
@@ -72,7 +73,7 @@ function Card({ profile }: { profile: Profile }) {
             <p className="font-mono text-[10.5px] text-muted">{t.streak}</p>
           </div>
         </div>
-        <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/[0.08]">
+        <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-ink/[0.08]">
           <div
             className="h-full rounded-full bg-gradient-to-r from-glow-a to-[var(--band)]"
             style={{ width: `${Math.round((into / span) * 100)}%` }}
@@ -113,13 +114,16 @@ function SignInScreenContent() {
         <header className="flex items-center justify-between gap-3 py-4 sm:py-6">
           <Link
             href="/"
-            className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.04] px-3 text-sm transition-colors duration-200 hover:bg-white/[0.1]"
+            className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-ink/[0.04] px-3 text-sm transition-colors duration-200 hover:bg-ink/[0.1]"
           >
             <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
             <BrandMark className="size-5 text-violet" />
             <span>{t.home}</span>
           </Link>
-          <LangSelect />
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <LangSelect />
+          </div>
         </header>
 
         <main className="mt-6 sm:mt-10">
@@ -171,7 +175,7 @@ function SignInScreenContent() {
                   <button
                     type="button"
                     onClick={() => setEditing(true)}
-                    className="inline-flex h-14 items-center gap-2 rounded-full border border-line px-6 text-sm transition-colors hover:bg-white/[0.06]"
+                    className="inline-flex h-14 items-center gap-2 rounded-full border border-line px-6 text-sm transition-colors hover:bg-ink/[0.06]"
                   >
                     <PencilSimple size={16} />
                     {c.edit}

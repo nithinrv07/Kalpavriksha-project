@@ -237,7 +237,7 @@ function ActivityForm({ band }: { band: Band }) {
               <label
                 key={a}
                 style={{ "--area": info.color } as React.CSSProperties}
-                className="flex cursor-pointer flex-col items-center gap-1 rounded-xl border border-line px-1 py-2.5 text-center text-[12px] text-muted transition-colors hover:bg-white/[0.05] has-[:checked]:border-[var(--area)] has-[:checked]:bg-[color-mix(in_srgb,var(--area)_14%,transparent)] has-[:checked]:text-text has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-violet"
+                className="flex cursor-pointer flex-col items-center gap-1 rounded-xl border border-line px-1 py-2.5 text-center text-[12px] text-muted transition-colors hover:bg-ink/[0.05] has-[:checked]:border-[var(--area)] has-[:checked]:bg-[color-mix(in_srgb,var(--area)_14%,transparent)] has-[:checked]:text-text has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-violet"
               >
                 <input type="radio" name="area" value={a} checked={area === a} onChange={() => setArea(a)} className="sr-only" />
                 <Glyph size={band === "junior" ? 24 : 20} weight="duotone" className="text-[var(--area)]" aria-hidden />
@@ -400,7 +400,7 @@ export function GrowScreen({ band }: { band: Band }) {
               >
                 <span
                   className={`relative grid size-14 place-items-center rounded-full ${
-                    got ? "bg-amber/20 text-amber shadow-[0_0_30px_-6px_rgb(251_191_36/0.7)]" : "bg-white/[0.04] text-muted"
+                    got ? "bg-amber/20 text-amber shadow-[0_0_30px_-6px_rgb(251_191_36/0.7)]" : "bg-ink/[0.04] text-muted"
                   }`}
                 >
                   <Glyph size={28} weight={got ? "fill" : "duotone"} aria-hidden />

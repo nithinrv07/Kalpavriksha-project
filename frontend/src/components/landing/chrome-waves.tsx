@@ -4,7 +4,7 @@
  */
 export function ChromeWaves() {
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+    <div aria-hidden className="page-glows pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {/* Radiant atmospheric violet and fuchsia nebula drifts */}
       <div className="glow-drift absolute -right-[10vmax] -top-[15vmax] size-[85vmax] rounded-full bg-[radial-gradient(closest-side,rgb(168_85_247/0.42),rgb(124_58_237/0.22),transparent)]" />
       <div

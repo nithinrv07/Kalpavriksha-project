@@ -74,7 +74,7 @@ export function StandardSwitcherModal({
                     className={`flex flex-col items-center justify-center rounded-2xl border p-3 transition-all ${
                       isSelected
                         ? "border-amber bg-amber/20 text-amber shadow-[0_0_20px_-5px_var(--amber)]"
-                        : "border-line bg-surface-2 hover:border-line-strong hover:bg-white/[0.04]"
+                        : "border-line bg-surface-2 hover:border-line-strong hover:bg-ink/[0.04]"
                     }`}
                   >
                     <span className="font-mono text-[10px] text-muted">Class</span>
@@ -105,7 +105,7 @@ export function StandardSwitcherModal({
                     className={`flex flex-col items-center justify-center rounded-2xl border p-2.5 transition-all ${
                       isSelected
                         ? "border-violet bg-violet-deep/60 text-violet-ink shadow-[0_0_20px_-5px_var(--violet)]"
-                        : "border-line bg-surface-2 hover:border-line-strong hover:bg-white/[0.04]"
+                        : "border-line bg-surface-2 hover:border-line-strong hover:bg-ink/[0.04]"
                     }`}
                   >
                     <span className="font-mono text-[10px] text-muted">Class</span>
@@ -136,7 +136,7 @@ export function StandardSwitcherModal({
                     className={`flex flex-col items-center justify-center rounded-2xl border p-3 transition-all ${
                       isSelected
                         ? "border-teal bg-teal/20 text-teal shadow-[0_0_20px_-5px_var(--teal)]"
-                        : "border-line bg-surface-2 hover:border-line-strong hover:bg-white/[0.04]"
+                        : "border-line bg-surface-2 hover:border-line-strong hover:bg-ink/[0.04]"
                     }`}
                   >
                     <span className="font-mono text-[10px] text-muted">Class</span>
@@ -167,7 +167,7 @@ export function StandardSwitcherModal({
                         className={`flex flex-col rounded-xl border p-2 text-left transition-all ${
                           isGrpActive
                             ? "border-[var(--grp-accent)] bg-[color-mix(in_srgb,var(--grp-accent)_16%,var(--surface))] shadow-[0_0_15px_-4px_var(--grp-accent)]"
-                            : "border-line bg-surface hover:border-line-strong hover:bg-white/[0.04]"
+                            : "border-line bg-surface hover:border-line-strong hover:bg-ink/[0.04]"
                         }`}
                       >
                         <div className="flex items-center justify-between">

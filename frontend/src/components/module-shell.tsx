@@ -10,6 +10,7 @@ import { LangSelect } from "@/components/landing/lang-select";
 import { useLocale } from "@/components/locale-provider";
 import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
 import { useProgress } from "@/components/progress-store";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { SoundToggle } from "@/components/sound-toggle";
 import { BAND_INFO } from "@/lib/bands";
 import { bandOf, levelOf, localDay, streak, type Band, type Profile } from "@/lib/progress";
@@ -26,13 +27,13 @@ function ProgressPill() {
   return (
     <div className="flex items-center gap-2" data-xp-pill>
       <div
-        className="hidden h-11 items-center gap-3 rounded-xl border border-line bg-white/[0.04] px-3.5 sm:flex"
+        className="hidden h-11 items-center gap-3 rounded-xl border border-line bg-ink/[0.04] px-3.5 sm:flex"
         title={`${progress.xp} XP`}
       >
         <span className="font-mono text-[12px] text-muted">
           {t.level} <span className="text-text">{level}</span>
         </span>
-        <span className="h-1.5 w-16 overflow-hidden rounded-full bg-white/[0.08]">
+        <span className="h-1.5 w-16 overflow-hidden rounded-full bg-ink/[0.08]">
           <span
             className="block h-full rounded-full bg-gradient-to-r from-glow-a to-glow-b transition-[width] duration-700"
             style={{ width: `${Math.round((into / span) * 100)}%` }}
@@ -53,7 +54,7 @@ function ProgressPill() {
       <Link
         href="/sign-in"
         aria-label={progress.profile ? `${t.myCard}: ${progress.profile.name}` : t.makeCard}
-        className="grid size-11 place-items-center rounded-xl border border-line bg-white/[0.04] transition-colors duration-200 hover:bg-white/[0.1]"
+        className="grid size-11 place-items-center rounded-xl border border-line bg-ink/[0.04] transition-colors duration-200 hover:bg-ink/[0.1]"
       >
         {progress.profile ? (
           <Avatar id={progress.profile.avatar} className="size-8" iconSize={18} />
@@ -91,23 +92,25 @@ export function ModuleShell({
       {/* Full-screen module layout: the panel fills the window edge to edge. */}
       <div
         data-band={band ?? undefined}
+        // The Class 1–3 cosmic Learn screen is a night-sky scene in both themes.
+        data-theme={isJuniorLearn ? "dark" : undefined}
         style={band ? ({ "--band": BAND_INFO[band].accent } as React.CSSProperties) : undefined}
-        className={`fade-up relative z-10 flex min-h-[100dvh] w-full flex-col ${isJuniorLearn ? "bg-gradient-to-b from-[#130722] via-[#090314] to-[#04010a]" : "bg-black"} px-4 py-4 sm:px-8 sm:py-6 lg:px-12 lg:py-8`}
+        className={`fade-up relative z-10 flex min-h-[100dvh] w-full flex-col ${isJuniorLearn ? "bg-gradient-to-b from-[#130722] via-[#090314] to-[#04010a]" : "bg-bg"} px-4 py-4 sm:px-8 sm:py-6 lg:px-12 lg:py-8`}
       >
         {/* Content keeps a readable width on very wide screens. */}
         <div className="mx-auto flex w-full max-w-[1600px] flex-1 flex-col">
           {/* 1. Header: Back to home, module switcher tabs, XP pill & language selector */}
-          <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-4 sm:pb-6">
+          <header className="flex flex-wrap items-center justify-between gap-3 border-b border-ink/[0.08] pb-4 sm:pb-6">
             <div className="flex items-center gap-2">
               <Link
                 href="/"
-                className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.04] px-3 text-sm transition-colors duration-200 hover:bg-white/[0.1]"
+                className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-ink/[0.04] px-3 text-sm transition-colors duration-200 hover:bg-ink/[0.1]"
               >
                 <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
                 <BrandMark className="size-5 text-violet" />
                 <span className="sr-only sm:not-sr-only">{t.home}</span>
               </Link>
-              <nav aria-label={t.modulesTitle} className="flex gap-1 rounded-xl border border-line bg-white/[0.03] p-1">
+              <nav aria-label={t.modulesTitle} className="flex gap-1 rounded-xl border border-line bg-ink/[0.03] p-1">
                 {MODULES.map((m) => {
                   const ModIcon = m.icon;
                   const active = m.slug === module.slug;
@@ -119,7 +122,7 @@ export function ModuleShell({
                       aria-current={active ? "page" : undefined}
                       title={m.title[locale]}
                       className={`grid size-10 place-items-center rounded-lg transition-colors duration-200 ${
-                        active ? tabAccent.tabActive : "text-muted hover:bg-white/[0.06] hover:text-text"
+                        active ? tabAccent.tabActive : "text-muted hover:bg-ink/[0.06] hover:text-text"
                       }`}
                     >
                       <ModIcon size={18} weight={active ? "fill" : "regular"} aria-hidden />
@@ -132,6 +135,7 @@ export function ModuleShell({
             <div className="flex items-center gap-2">
               <ProgressPill />
               <SoundToggle />
+              <ThemeToggle />
               <LangSelect />
             </div>
           </header>

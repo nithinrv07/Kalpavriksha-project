@@ -109,7 +109,7 @@ export function Songs({ band }: { band: Band }) {
                       })
                 }
                 className={`inline-flex h-14 items-center gap-2 rounded-full px-7 font-mono text-sm transition-colors ${
-                  playing ? "bg-white/[0.1] text-text" : "bg-[var(--band)] text-bg hover:brightness-110"
+                  playing ? "bg-ink/[0.1] text-text" : "bg-[var(--band)] text-bg hover:brightness-110"
                 }`}
               >
                 {playing ? <Stop size={18} weight="fill" /> : <Play size={18} weight="fill" />}

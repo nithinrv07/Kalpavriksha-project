@@ -594,6 +594,7 @@ function CosmicCurriculumLessonDialog({
         if (e.target === ref.current) close();
       }}
       aria-label={chapter.title[locale]}
+      data-theme="dark"
       className="fixed inset-x-0 bottom-0 top-auto m-0 max-h-[92dvh] w-full max-w-none overflow-y-auto rounded-t-[32px] border-2 border-violet-500/80 bg-[#0e0524] p-0 text-white shadow-[0_0_80px_rgba(168,85,247,0.5)] backdrop:bg-black/80 backdrop:backdrop-blur-md open:animate-[fade-up_0.45s_var(--ease-out)_both] md:inset-0 md:m-auto md:max-h-[88dvh] md:w-[min(860px,calc(100%-3rem))] md:rounded-[32px]"
     >
       <div className="relative flex flex-col p-5 sm:p-8">
@@ -1060,7 +1061,7 @@ function StandardCurriculumLessonDialog({
             type="button"
             onClick={close}
             aria-label="Close dialog"
-            className="grid size-11 shrink-0 place-items-center rounded-xl border border-line bg-white/[0.04] transition-colors hover:bg-white/[0.1]"
+            className="grid size-11 shrink-0 place-items-center rounded-xl border border-line bg-ink/[0.04] transition-colors hover:bg-ink/[0.1]"
           >
             <X size={18} />
           </button>
@@ -1096,7 +1097,7 @@ function StandardCurriculumLessonDialog({
               }
               className={`inline-flex h-12 items-center gap-2 rounded-full px-5 font-mono text-sm transition-colors ${
                 reading
-                  ? "bg-white/[0.1] text-text"
+                  ? "bg-ink/[0.1] text-text"
                   : "bg-[var(--cat)] text-bg hover:brightness-110"
               }`}
             >
@@ -1168,7 +1169,7 @@ function StandardCurriculumLessonDialog({
                   <p className="truncate text-xs font-semibold text-text group-hover:text-violet-ink">
                     Tamilnadu School Textbooks
                   </p>
-                  <span className="shrink-0 rounded bg-white/[0.06] px-1.5 py-0.5 font-mono text-[9px] text-muted">
+                  <span className="shrink-0 rounded bg-ink/[0.06] px-1.5 py-0.5 font-mono text-[9px] text-muted">
                     Official
                   </span>
                 </div>
@@ -1395,7 +1396,7 @@ function CosmicSubjectCard({
       onClick={onOpen}
       className={`group relative flex flex-col overflow-hidden rounded-[26px] bg-[#140828] text-left transition-all duration-300 hover:-translate-y-1.5 ${borderClass}`}
     >
-      <span className="relative grid h-36 place-items-center overflow-hidden bg-gradient-to-b from-white/[0.05] to-transparent">
+      <span className="relative grid h-36 place-items-center overflow-hidden bg-gradient-to-b from-ink/[0.05] to-transparent">
         {isTamil ? (
           <TamilLetterA />
         ) : isEnglish ? (
@@ -1464,7 +1465,7 @@ function CosmicChapterCard({
       style={style}
       className="group relative flex flex-col overflow-hidden rounded-[26px] border-2 border-violet-500/60 bg-[#140828] text-left transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(34,211,238,0.45)]"
     >
-      <span className="relative grid h-36 place-items-center overflow-hidden bg-gradient-to-b from-white/[0.06] to-transparent">
+      <span className="relative grid h-36 place-items-center overflow-hidden bg-gradient-to-b from-ink/[0.06] to-transparent">
         <ChapterIcon
           name={iconName}
           className="size-16 text-cyan-300 drop-shadow-[0_0_15px_rgba(34,211,238,0.7)] transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110"
@@ -1748,7 +1749,7 @@ function PersonalisedLearnDashboard({
   };
 
   return (
-    <div className={isJunior ? "relative flex flex-col gap-8" : "flex flex-col gap-8"}>
+    <div data-theme={isJunior ? "dark" : undefined} className={isJunior ? "relative flex flex-col gap-8" : "flex flex-col gap-8"}>
       {/* Standard Selector Modal */}
       <StandardSwitcherModal
         currentGrade={currentStandard}
@@ -2058,7 +2059,7 @@ function PersonalisedLearnDashboard({
           className={`relative flex h-12 shrink-0 items-center gap-2 rounded-full border px-5 text-sm font-semibold transition-all duration-200 ${
             filter === "subjects"
               ? "border-2 border-violet-400 bg-violet-600/35 text-white shadow-[0_0_20px_rgba(168,85,247,0.6)]"
-              : "border-white/10 bg-[#140828] text-purple-200/80 hover:text-white hover:border-violet-400/60"
+              : "border-ink/10 bg-[#140828] text-purple-200/80 hover:text-white hover:border-violet-400/60"
           }`}
         >
           <span>All Subjects</span>
@@ -2078,7 +2079,7 @@ function PersonalisedLearnDashboard({
           className={`relative flex h-12 shrink-0 items-center gap-2 rounded-full border px-5 text-sm font-semibold transition-all duration-200 ${
             filter === "all"
               ? "border-2 border-violet-400 bg-violet-600/35 text-white shadow-[0_0_20px_rgba(168,85,247,0.6)]"
-              : "border-white/10 bg-[#140828] text-purple-200/80 hover:text-white hover:border-violet-400/60"
+              : "border-ink/10 bg-[#140828] text-purple-200/80 hover:text-white hover:border-violet-400/60"
           }`}
         >
           <span>All Chapters</span>
@@ -2122,7 +2123,7 @@ function PersonalisedLearnDashboard({
               className={`relative flex h-12 shrink-0 items-center gap-2 rounded-full border px-5 text-sm font-semibold transition-all duration-200 ${
                 active
                   ? "border-2 border-cyan-400 bg-cyan-600/30 text-white shadow-[0_0_20px_rgba(34,211,238,0.6)]"
-                  : "border-white/10 bg-[#140828] text-purple-200/80 hover:text-white hover:border-violet-400/60"
+                  : "border-ink/10 bg-[#140828] text-purple-200/80 hover:text-white hover:border-violet-400/60"
               }`}
             >
               <span>{label}</span>
@@ -2230,7 +2231,7 @@ function PersonalisedLearnDashboard({
                 <span className="font-mono text-xs uppercase tracking-wider text-violet">
                   Class {currentStandard} · {BAND_INFO[band].name[locale]}
                 </span>
-                <span className="rounded-full bg-white/[0.06] px-2 py-0.5 font-mono text-[10px] text-muted">
+                <span className="rounded-full bg-ink/[0.06] px-2 py-0.5 font-mono text-[10px] text-muted">
                   Samacheer Kalvi
                 </span>
               </div>
@@ -2370,7 +2371,7 @@ function PersonalisedLearnDashboard({
                   className={`flex flex-col rounded-2xl border p-3.5 text-left transition-all ${
                     active
                       ? "border-[var(--grp)] bg-[color-mix(in_srgb,var(--grp)_18%,var(--surface))] shadow-[0_0_20px_-5px_var(--grp)] font-medium"
-                      : "border-line bg-surface text-muted hover:border-line-strong hover:bg-white/[0.04] hover:text-text"
+                      : "border-line bg-surface text-muted hover:border-line-strong hover:bg-ink/[0.04] hover:text-text"
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -2408,7 +2409,7 @@ function PersonalisedLearnDashboard({
           }`}
         >
           <span>All Subjects</span>
-          <span className="rounded-full bg-white/[0.08] px-1.5 py-0.5 text-[10px]">
+          <span className="rounded-full bg-ink/[0.08] px-1.5 py-0.5 text-[10px]">
             {subjects.length}
           </span>
         </button>
@@ -2425,7 +2426,7 @@ function PersonalisedLearnDashboard({
           }`}
         >
           <span>All Chapters</span>
-          <span className="rounded-full bg-white/[0.08] px-1.5 py-0.5 text-[10px]">
+          <span className="rounded-full bg-ink/[0.08] px-1.5 py-0.5 text-[10px]">
             {totalChapters}
           </span>
         </button>
@@ -2448,7 +2449,7 @@ function PersonalisedLearnDashboard({
               style={{ "--cat": sub.accent } as React.CSSProperties}
             >
               <span>{sub.name[locale]}</span>
-              <span className="rounded-full bg-white/[0.08] px-1.5 py-0.5 text-[10px]">
+              <span className="rounded-full bg-ink/[0.08] px-1.5 py-0.5 text-[10px]">
                 {count}
               </span>
             </button>

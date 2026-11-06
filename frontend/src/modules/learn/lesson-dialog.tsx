@@ -72,7 +72,7 @@ export function LessonDialog({ lesson, band, onClose }: { lesson: Lesson | null;
               type="button"
               onClick={close}
               aria-label={t.close}
-              className="grid size-11 shrink-0 place-items-center rounded-xl border border-line bg-white/[0.04] transition-colors hover:bg-white/[0.1]"
+              className="grid size-11 shrink-0 place-items-center rounded-xl border border-line bg-ink/[0.04] transition-colors hover:bg-ink/[0.1]"
             >
               <X size={18} />
             </button>
@@ -101,7 +101,7 @@ export function LessonDialog({ lesson, band, onClose }: { lesson: Lesson | null;
               onClick={() => (reading ? stop() : play(lesson.id, text.lines, text.lang, { rate: slow ? 0.8 : 1 }))}
               className={`inline-flex h-12 items-center gap-2 rounded-full px-5 font-mono text-sm transition-colors ${
                 reading
-                  ? "bg-white/[0.1] text-text"
+                  ? "bg-ink/[0.1] text-text"
                   : "bg-[var(--cat)] text-bg hover:brightness-110"
               }`}
             >

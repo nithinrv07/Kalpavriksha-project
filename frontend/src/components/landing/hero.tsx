@@ -11,6 +11,7 @@ import { ParticleCanvas } from "@/components/particle-canvas";
 import { FlipCard } from "@/components/flip-card";
 import { SparkleButton } from "@/components/sparkle-button";
 import { SphereGallery3D } from "@/components/sphere-gallery-3d";
+import { ThemeToggle } from "@/components/theme-toggle";
 import type { ShapeName } from "@/lib/shapes";
 import { MODULES } from "@/modules/registry";
 import { accentOf } from "@/modules/accents";
@@ -93,13 +94,14 @@ export function Hero() {
                 </span>
                 <div className="flex items-center gap-2">
                   <LangSelect />
+                  <ThemeToggle />
                   <button
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       setIsFlipped(true);
                     }}
-                    className="flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.06] px-3.5 font-mono text-[14px] text-text transition-colors duration-200 hover:border-violet/40 hover:bg-violet-deep hover:text-violet-ink active:scale-[0.98]"
+                    className="flex h-11 items-center gap-2 rounded-xl border border-line bg-ink/[0.06] px-3.5 font-mono text-[14px] text-text transition-colors duration-200 hover:border-violet/40 hover:bg-violet-deep hover:text-violet-ink active:scale-[0.98]"
                     title="Explore Particle Tree View"
                   >
                     <ArrowsClockwise size={15} />
@@ -107,7 +109,7 @@ export function Hero() {
                   </button>
                   <Link
                     href="/sign-in"
-                    className="hidden h-11 items-center rounded-xl border border-violet/25 bg-violet-deep px-5 font-mono text-[14px] text-violet-ink transition-colors duration-200 hover:bg-[#4c1d95] active:scale-[0.98] sm:flex"
+                    className="hidden h-11 items-center rounded-xl border border-violet/25 bg-violet-deep px-5 font-mono text-[14px] text-violet-ink transition-colors duration-200 hover:brightness-110 active:scale-[0.98] sm:flex"
                   >
                     {t.signIn}
                   </Link>
@@ -132,8 +134,8 @@ export function Hero() {
                   text="Kalpavriksha"
                   fontSize="clamp(40px, 5.15vw, 74px)"
                   fontWeight={400}
-                  faceColor="#FFFFFF"
-                  depthColor="#6d28d9"
+                  faceColor="var(--title-face)"
+                  depthColor="var(--title-depth)"
                   layers={4}
                   depth={1}
                   tilt={0}
@@ -181,9 +183,9 @@ export function Hero() {
                     fontWeight={600}
                     letterSpacing={locale === "en" ? "-0.015em" : "-0.005em"}
                     lineHeight={locale === "en" ? 0.98 : 1.1}
-                    textColor="#C3AFD4"
-                    shadowColor="#1E0028"
-                    glareColor="#4A105DBF"
+                    textColor="var(--hl-face)"
+                    shadowColor="var(--hl-shadow)"
+                    glareColor="var(--hl-glare)"
                     className="w-full"
                   />
                 </div>
@@ -204,7 +206,7 @@ export function Hero() {
                         <Link
                           key={m.id}
                           href={`/m/${m.slug}`}
-                          className="group flex min-h-11 w-full items-center justify-between gap-3 rounded-2xl border border-white/12 bg-[#140d28]/90 px-3.5 py-3 text-center shadow-[0_8px_24px_-4px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-violet/50 hover:bg-[#1e133c] hover:shadow-[0_12px_28px_-4px_rgba(147,51,234,0.3)]"
+                          className="group flex min-h-11 w-full items-center justify-between gap-3 rounded-2xl border border-ink/12 bg-surface/90 px-3.5 py-3 text-center shadow-[0_8px_24px_-4px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-violet/50 hover:bg-[#1e133c] hover:shadow-[0_12px_28px_-4px_rgba(147,51,234,0.3)]"
                         >
                           <span className={`w-8 shrink-0 text-center font-mono text-[11px] font-semibold ${accent.text} transition-colors`}>
                             {m.index}
@@ -212,7 +214,7 @@ export function Hero() {
                           <span className="min-w-0 flex-1 truncate text-[14px] font-medium text-text group-hover:text-violet-ink transition-colors">
                             {m.title[locale]}
                           </span>
-                          <span className={`grid size-8 shrink-0 place-items-center overflow-hidden rounded-xl border border-white/10 bg-surface-2 ${accent.text} shadow-sm transition-transform duration-200 group-hover:scale-105`}>
+                          <span className={`grid size-8 shrink-0 place-items-center overflow-hidden rounded-xl border border-ink/10 bg-surface-2 ${accent.text} shadow-sm transition-transform duration-200 group-hover:scale-105`}>
                             {m.iconImage ? (
                               <Image
                                 src={m.iconImage}
@@ -235,7 +237,7 @@ export function Hero() {
                     {t.stats.map((stat, i) => (
                       <span
                         key={i}
-                        className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 font-mono text-[11.5px] text-muted backdrop-blur-md shadow-sm transition-colors hover:border-white/20"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-ink/[0.05] px-3 py-1 font-mono text-[11.5px] text-muted backdrop-blur-md shadow-sm transition-colors hover:border-ink/20"
                       >
                         <strong className="font-semibold text-amber-300">{stat.value}</strong>
                         <span className="text-muted/90">{stat.label}</span>
@@ -270,13 +272,14 @@ export function Hero() {
                 </span>
                 <div className="flex items-center gap-2">
                   <LangSelect />
+                  <ThemeToggle />
                   <button
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       setIsFlipped(false);
                     }}
-                    className="flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.06] px-3.5 font-mono text-[14px] text-text transition-colors duration-200 hover:border-violet/40 hover:bg-violet-deep hover:text-violet-ink active:scale-[0.98]"
+                    className="flex h-11 items-center gap-2 rounded-xl border border-line bg-ink/[0.06] px-3.5 font-mono text-[14px] text-text transition-colors duration-200 hover:border-violet/40 hover:bg-violet-deep hover:text-violet-ink active:scale-[0.98]"
                     title="Return to 3D Sphere Gallery"
                   >
                     <ArrowsClockwise size={15} />
@@ -284,7 +287,7 @@ export function Hero() {
                   </button>
                   <Link
                     href="/sign-in"
-                    className="hidden h-11 items-center rounded-xl border border-violet/25 bg-violet-deep px-5 font-mono text-[14px] text-violet-ink transition-colors duration-200 hover:bg-[#4c1d95] active:scale-[0.98] sm:flex"
+                    className="hidden h-11 items-center rounded-xl border border-violet/25 bg-violet-deep px-5 font-mono text-[14px] text-violet-ink transition-colors duration-200 hover:brightness-110 active:scale-[0.98] sm:flex"
                   >
                     {t.signIn}
                   </Link>
@@ -309,8 +312,8 @@ export function Hero() {
                   text="Kalpavriksha"
                   fontSize="clamp(40px, 5.15vw, 74px)"
                   fontWeight={400}
-                  faceColor="#FFFFFF"
-                  depthColor="#6d28d9"
+                  faceColor="var(--title-face)"
+                  depthColor="var(--title-depth)"
                   layers={4}
                   depth={1}
                   tilt={0}
@@ -368,9 +371,9 @@ export function Hero() {
                     fontWeight={600}
                     letterSpacing={locale === "en" ? "-0.025em" : "-0.01em"}
                     lineHeight={locale === "en" ? 0.92 : 1.08}
-                    textColor="#FFFFFF"
-                    shadowColor="#3b0764"
-                    glareColor="rgba(255, 255, 255, 0.85)"
+                    textColor="var(--hl2-face)"
+                    shadowColor="var(--hl2-shadow)"
+                    glareColor="var(--hl2-glare)"
                     className="w-full text-right"
                   />
                 </div>
@@ -415,12 +418,12 @@ export function Hero() {
                       onBlur={() => setHovering(false)}
                       aria-current={active ? "true" : undefined}
                       className={`relative flex min-h-11 shrink-0 items-center gap-2.5 overflow-hidden rounded-full border py-2.5 pl-2 pr-5 text-[14px] transition-colors duration-300 ${
-                        active ? "border-line-strong bg-white/[0.08] text-text" : "border-line text-muted hover:text-text"
+                        active ? "border-line-strong bg-ink/[0.08] text-text" : "border-line text-muted hover:text-text"
                       }`}
                     >
                       <span
                         className={`grid size-8 place-items-center rounded-full font-mono text-[10.5px] transition-colors duration-300 ${
-                          active ? accent.solid : `bg-white/[0.06] text-muted`
+                          active ? accent.solid : `bg-ink/[0.06] text-muted`
                         }`}
                       >
                         {m.index}

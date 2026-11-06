@@ -57,21 +57,21 @@ export function BentoModules() {
 
           <Link
             href={`/m/${m1.slug}`}
-            className={`group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl border border-white/15 bg-[#120a24]/92 px-6 py-8 shadow-[0_16px_50px_-5px_rgba(0,0,0,0.85),0_0_30px_rgba(147,51,234,0.18)] backdrop-blur-2xl transition-all duration-300 hover:bg-[#1a0e33] ${a1.cardHover} sm:px-8 sm:py-10 md:grid-cols-[120px_1fr_1.2fr] lg:grid-cols-[160px_1.05fr_1.2fr] lg:gap-10 lg:px-12 lg:py-12`}
+            className={`group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl border border-ink/15 bg-[#120a24]/92 px-6 py-8 shadow-[0_16px_50px_-5px_rgba(0,0,0,0.85),0_0_30px_rgba(147,51,234,0.18)] backdrop-blur-2xl transition-all duration-300 hover:bg-[#1a0e33] ${a1.cardHover} sm:px-8 sm:py-10 md:grid-cols-[120px_1fr_1.2fr] lg:grid-cols-[160px_1.05fr_1.2fr] lg:gap-10 lg:px-12 lg:py-12`}
           >
             {/* Left: Big Number 01 */}
             <div className="flex items-center justify-between md:justify-start">
-              <span className="font-display text-[clamp(60px,7.5vw,118px)] font-light leading-none tracking-tight text-white/50 transition-colors duration-300 group-hover:text-white">
+              <span className="font-display text-[clamp(60px,7.5vw,118px)] font-light leading-none tracking-tight text-ink/50 transition-colors duration-300 group-hover:text-white">
                 01
               </span>
-              <span className={`grid size-10 place-items-center rounded-full border border-line bg-white/[0.04] text-muted transition-all duration-300 ${a1.chipHover} md:hidden`}>
+              <span className={`grid size-10 place-items-center rounded-full border border-line bg-ink/[0.04] text-muted transition-all duration-300 ${a1.chipHover} md:hidden`}>
                 <ArrowUpRight size={18} />
               </span>
             </div>
 
             {/* Middle: Media Preview Container */}
             <div className="flex items-center justify-center">
-              <div className={`relative aspect-[16/10] w-full max-w-[380px] overflow-hidden rounded-2xl border border-white/15 bg-surface/90 shadow-[0_12px_40px_-10px_rgba(0,0,0,0.8)] transition-all duration-500 group-hover:scale-[1.03] ${a1.frameHover}`}>
+              <div className={`relative aspect-[16/10] w-full max-w-[380px] overflow-hidden rounded-2xl border border-ink/15 bg-surface/90 shadow-[0_12px_40px_-10px_rgba(0,0,0,0.8)] transition-all duration-500 group-hover:scale-[1.03] ${a1.frameHover}`}>
                 <Image
                   src="/images/modules/digital-learning.png"
                   alt={m1.title[locale]}
@@ -82,13 +82,13 @@ export function BentoModules() {
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
                 {/* Pill badge */}
-                <div className="absolute bottom-3 left-3 z-10 flex items-center gap-2 rounded-full border border-white/10 bg-black/65 px-3 py-1 backdrop-blur-md">
+                <div className="absolute bottom-3 left-3 z-10 flex items-center gap-2 rounded-full border border-ink/10 bg-black/65 px-3 py-1 backdrop-blur-md">
                   <Play size={11} weight="fill" className={`${a1.text} animate-pulse`} />
-                  <span className="font-mono text-[10.5px] tracking-wide text-white/90">Interactive Lessons</span>
+                  <span className="font-mono text-[10.5px] tracking-wide text-ink/90">Interactive Lessons</span>
                 </div>
 
                 {/* Top-right icon badge */}
-                <div className={`absolute right-3 top-3 z-10 grid size-8 place-items-center rounded-lg border border-white/10 bg-black/65 ${a1.text} backdrop-blur-md shadow-sm`}>
+                <div className={`absolute right-3 top-3 z-10 grid size-8 place-items-center rounded-lg border border-ink/10 bg-black/65 ${a1.text} backdrop-blur-md shadow-sm`}>
                   <m1.icon size={15} weight="duotone" />
                 </div>
               </div>
@@ -132,14 +132,14 @@ export function BentoModules() {
 
           <Link
             href={`/m/${m2.slug}`}
-            className={`group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl border border-white/15 bg-[#120a24]/92 px-6 py-8 shadow-[0_16px_50px_-5px_rgba(0,0,0,0.85),0_0_30px_rgba(147,51,234,0.18)] backdrop-blur-2xl transition-all duration-300 hover:bg-[#1a0e33] ${a2.cardHover} sm:px-8 sm:py-10 md:grid-cols-[1.2fr_1.05fr_120px] lg:grid-cols-[1.2fr_1.05fr_160px] lg:gap-10 lg:px-12 lg:py-12`}
+            className={`group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl border border-ink/15 bg-[#120a24]/92 px-6 py-8 shadow-[0_16px_50px_-5px_rgba(0,0,0,0.85),0_0_30px_rgba(147,51,234,0.18)] backdrop-blur-2xl transition-all duration-300 hover:bg-[#1a0e33] ${a2.cardHover} sm:px-8 sm:py-10 md:grid-cols-[1.2fr_1.05fr_120px] lg:grid-cols-[1.2fr_1.05fr_160px] lg:gap-10 lg:px-12 lg:py-12`}
           >
             {/* Mobile Header: Number 02 shows at top on small screens */}
             <div className="flex items-center justify-between md:hidden">
-              <span className="font-display text-[clamp(60px,7.5vw,118px)] font-light leading-none tracking-tight text-white/50 transition-colors duration-300 group-hover:text-white">
+              <span className="font-display text-[clamp(60px,7.5vw,118px)] font-light leading-none tracking-tight text-ink/50 transition-colors duration-300 group-hover:text-white">
                 02
               </span>
-              <span className={`grid size-10 place-items-center rounded-full border border-line bg-white/[0.04] text-muted transition-all duration-300 ${a2.chipHover}`}>
+              <span className={`grid size-10 place-items-center rounded-full border border-line bg-ink/[0.04] text-muted transition-all duration-300 ${a2.chipHover}`}>
                 <ArrowUpRight size={18} />
               </span>
             </div>
@@ -162,7 +162,7 @@ export function BentoModules() {
             <div className="order-2 flex items-center justify-center">
               <div className="flex items-center justify-center gap-2.5 sm:gap-3.5">
                 {/* Vertical Card 1: Academics */}
-                <div className="relative flex h-[160px] w-[80px] flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-surface/90 p-2.5 shadow-md transition-all duration-300 group-hover:-translate-y-1 group-hover:border-teal/40 sm:h-[190px] sm:w-[94px]">
+                <div className="relative flex h-[160px] w-[80px] flex-col justify-between overflow-hidden rounded-xl border border-ink/10 bg-surface/90 p-2.5 shadow-md transition-all duration-300 group-hover:-translate-y-1 group-hover:border-teal/40 sm:h-[190px] sm:w-[94px]">
                   <div className="flex items-start justify-between">
                     <span className="font-mono text-[9px] text-teal">01</span>
                     <span className="size-2 rounded-full bg-teal animate-pulse" />
@@ -171,7 +171,7 @@ export function BentoModules() {
                     <span className="block font-mono text-[13px] font-bold text-text">98%</span>
                     <span className="mt-0.5 block font-mono text-[8px] uppercase tracking-wider text-muted">Academic</span>
                   </div>
-                  <div className="h-1 w-full overflow-hidden rounded-full bg-white/10">
+                  <div className="h-1 w-full overflow-hidden rounded-full bg-ink/10">
                     <div className="h-full w-[85%] rounded-full bg-teal" />
                   </div>
                 </div>
@@ -199,7 +199,7 @@ export function BentoModules() {
                 </div>
 
                 {/* Vertical Card 3: Skills & Character */}
-                <div className="relative flex h-[160px] w-[80px] flex-col justify-between overflow-hidden rounded-xl border border-white/10 bg-surface/90 p-2.5 shadow-md transition-all duration-300 group-hover:-translate-y-1 group-hover:border-teal/40 sm:h-[190px] sm:w-[94px]">
+                <div className="relative flex h-[160px] w-[80px] flex-col justify-between overflow-hidden rounded-xl border border-ink/10 bg-surface/90 p-2.5 shadow-md transition-all duration-300 group-hover:-translate-y-1 group-hover:border-teal/40 sm:h-[190px] sm:w-[94px]">
                   <div className="flex items-start justify-between">
                     <span className="font-mono text-[9px] text-teal">03</span>
                     <span className="size-2 rounded-full bg-teal animate-pulse" />
@@ -208,7 +208,7 @@ export function BentoModules() {
                     <span className="block font-mono text-[13px] font-bold text-text">12+</span>
                     <span className="mt-0.5 block font-mono text-[8px] uppercase tracking-wider text-muted">Skills</span>
                   </div>
-                  <div className="h-1 w-full overflow-hidden rounded-full bg-white/10">
+                  <div className="h-1 w-full overflow-hidden rounded-full bg-ink/10">
                     <div className="h-full w-[90%] rounded-full bg-teal" />
                   </div>
                 </div>
@@ -217,7 +217,7 @@ export function BentoModules() {
 
             {/* Right Column on Desktop: Big Number 02 */}
             <div className="hidden items-center justify-end md:flex md:order-3">
-              <span className="font-display text-[clamp(60px,7.5vw,118px)] font-light leading-none tracking-tight text-white/50 transition-colors duration-300 group-hover:text-white">
+              <span className="font-display text-[clamp(60px,7.5vw,118px)] font-light leading-none tracking-tight text-ink/50 transition-colors duration-300 group-hover:text-white">
                 02
               </span>
             </div>
@@ -246,21 +246,21 @@ export function BentoModules() {
 
           <Link
             href={`/m/${m3.slug}`}
-            className={`group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl border border-white/15 bg-[#120a24]/92 px-6 py-8 shadow-[0_16px_50px_-5px_rgba(0,0,0,0.85),0_0_30px_rgba(147,51,234,0.18)] backdrop-blur-2xl transition-all duration-300 hover:bg-[#1a0e33] ${a3.cardHover} sm:px-8 sm:py-10 md:grid-cols-[120px_1fr_1.2fr] lg:grid-cols-[160px_1.05fr_1.2fr] lg:gap-10 lg:px-12 lg:py-12`}
+            className={`group relative z-10 grid grid-cols-1 items-center gap-6 rounded-3xl border border-ink/15 bg-[#120a24]/92 px-6 py-8 shadow-[0_16px_50px_-5px_rgba(0,0,0,0.85),0_0_30px_rgba(147,51,234,0.18)] backdrop-blur-2xl transition-all duration-300 hover:bg-[#1a0e33] ${a3.cardHover} sm:px-8 sm:py-10 md:grid-cols-[120px_1fr_1.2fr] lg:grid-cols-[160px_1.05fr_1.2fr] lg:gap-10 lg:px-12 lg:py-12`}
           >
             {/* Left: Big Number 03 */}
             <div className="flex items-center justify-between md:justify-start">
-              <span className="font-display text-[clamp(60px,7.5vw,118px)] font-light leading-none tracking-tight text-white/50 transition-colors duration-300 group-hover:text-white">
+              <span className="font-display text-[clamp(60px,7.5vw,118px)] font-light leading-none tracking-tight text-ink/50 transition-colors duration-300 group-hover:text-white">
                 03
               </span>
-              <span className="grid size-10 place-items-center rounded-full border border-line bg-white/[0.04] text-muted transition-all duration-300 group-hover:border-amber-400 group-hover:bg-amber-500/20 group-hover:text-amber-300 md:hidden">
+              <span className="grid size-10 place-items-center rounded-full border border-line bg-ink/[0.04] text-muted transition-all duration-300 group-hover:border-amber-400 group-hover:bg-amber-500/20 group-hover:text-amber-300 md:hidden">
                 <ArrowUpRight size={18} />
               </span>
             </div>
 
             {/* Middle: Media Preview Container */}
             <div className="flex items-center justify-center">
-              <div className="relative aspect-[16/10] w-full max-w-[380px] overflow-hidden rounded-2xl border border-white/15 bg-surface/90 shadow-[0_12px_40px_-10px_rgba(0,0,0,0.8)] transition-all duration-500 group-hover:scale-[1.03] group-hover:border-amber-400/40 group-hover:shadow-[0_20px_50px_-10px_rgba(251,191,36,0.25)]">
+              <div className="relative aspect-[16/10] w-full max-w-[380px] overflow-hidden rounded-2xl border border-ink/15 bg-surface/90 shadow-[0_12px_40px_-10px_rgba(0,0,0,0.8)] transition-all duration-500 group-hover:scale-[1.03] group-hover:border-amber-400/40 group-hover:shadow-[0_20px_50px_-10px_rgba(251,191,36,0.25)]">
                 <Image
                   src="/images/modules/gk-songs.jpg"
                   alt={m3.title[locale]}
@@ -271,13 +271,13 @@ export function BentoModules() {
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
                 {/* Pill badge */}
-                <div className="absolute bottom-3 left-3 z-10 flex items-center gap-2 rounded-full border border-white/10 bg-black/65 px-3 py-1 backdrop-blur-md">
+                <div className="absolute bottom-3 left-3 z-10 flex items-center gap-2 rounded-full border border-ink/10 bg-black/65 px-3 py-1 backdrop-blur-md">
                   <Flag size={11} weight="fill" className="text-amber-400" />
-                  <span className="font-mono text-[10.5px] tracking-wide text-white/90">3-Level Quiz & Heritage</span>
+                  <span className="font-mono text-[10.5px] tracking-wide text-ink/90">3-Level Quiz & Heritage</span>
                 </div>
 
                 {/* Top-right icon badge */}
-                <div className="absolute right-3 top-3 z-10 grid size-8 place-items-center rounded-lg border border-white/10 bg-black/65 text-amber-300 backdrop-blur-md shadow-sm">
+                <div className="absolute right-3 top-3 z-10 grid size-8 place-items-center rounded-lg border border-ink/10 bg-black/65 text-amber-300 backdrop-blur-md shadow-sm">
                   <m3.icon size={15} weight="duotone" />
                 </div>
               </div>
@@ -301,9 +301,9 @@ export function BentoModules() {
       </div>
 
       {/* Subtle Future Extension Banner */}
-      <div data-reveal="up" className="mt-10 flex items-center justify-between rounded-2xl border border-dashed border-white/15 bg-[#120a24]/60 px-6 py-4 backdrop-blur-xl sm:px-8">
+      <div data-reveal="up" className="mt-10 flex items-center justify-between rounded-2xl border border-dashed border-ink/15 bg-[#120a24]/60 px-6 py-4 backdrop-blur-xl sm:px-8">
         <div className="flex items-center gap-3">
-          <span className="grid size-7 place-items-center rounded-lg border border-white/15 bg-white/[0.04] text-muted">
+          <span className="grid size-7 place-items-center rounded-lg border border-ink/15 bg-ink/[0.04] text-muted">
             <Plus size={14} />
           </span>
           <p className="text-[14px] text-muted">

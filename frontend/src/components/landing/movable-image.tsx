@@ -121,7 +121,7 @@ export function MovableImage({
       }}
     >
       {framed ? (
-        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-surface shadow-[0_20px_50px_-15px_rgba(0,0,0,0.85),0_0_30px_-8px_rgba(124,58,237,0.3)] transition-all duration-300 group-hover/movable:border-violet/50 group-hover/movable:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_40px_-5px_rgba(124,58,237,0.45)] lg:rounded-3xl">
+        <div className="relative overflow-hidden rounded-2xl border border-ink/10 bg-surface shadow-[0_20px_50px_-15px_rgba(0,0,0,0.85),0_0_30px_-8px_rgba(124,58,237,0.3)] transition-all duration-300 group-hover/movable:border-violet/50 group-hover/movable:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_40px_-5px_rgba(124,58,237,0.45)] lg:rounded-3xl">
           <Image
             src={src}
             alt={alt}
@@ -134,7 +134,7 @@ export function MovableImage({
           {/* Subtle highlight sheen */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.04] to-transparent"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-ink/[0.04] to-transparent"
           />
         </div>
       ) : (
