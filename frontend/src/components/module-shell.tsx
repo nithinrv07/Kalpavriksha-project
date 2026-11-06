@@ -3,7 +3,7 @@
 import { ArrowLeft, Fire, IdentificationCard } from "@phosphor-icons/react/ssr";
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Avatar } from "@/components/avatar";
 import { BrandMark } from "@/components/brand-mark";
 import { LangSelect } from "@/components/landing/lang-select";
@@ -12,7 +12,7 @@ import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-set
 import { useProgress } from "@/components/progress-store";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { SoundToggle } from "@/components/sound-toggle";
-import { BAND_INFO } from "@/lib/bands";
+import { BAND_INFO, SETUP_COPY } from "@/lib/bands";
 import { bandOf, levelOf, localDay, streak, type Band, type Profile } from "@/lib/progress";
 import { MODULES, type KalpaModule } from "@/modules/registry";
 import { accentOf } from "@/modules/accents";
@@ -51,17 +51,106 @@ function ProgressPill() {
           <span className="sr-only">{t.streak}</span>
         </span>
       )}
-      <Link
-        href="/sign-in"
-        aria-label={progress.profile ? `${t.myCard}: ${progress.profile.name}` : t.makeCard}
-        className="grid size-11 place-items-center rounded-xl border border-line bg-ink/[0.04] transition-colors duration-200 hover:bg-ink/[0.1]"
-      >
-        {progress.profile ? (
-          <Avatar id={progress.profile.avatar} className="size-8" iconSize={18} />
-        ) : (
+      {progress.profile ? (
+        <ProfileMenu profile={progress.profile} />
+      ) : (
+        <Link
+          href="/sign-in"
+          aria-label={t.makeCard}
+          className="grid size-11 place-items-center rounded-xl border border-line bg-ink/[0.04] transition-colors duration-200 hover:bg-ink/[0.1]"
+        >
           <IdentificationCard size={20} className="text-violet" />
-        )}
-      </Link>
+        </Link>
+      )}
+    </div>
+  );
+}
+
+/** Avatar button that opens a small panel with the student's class, growth stage and progress. */
+function ProfileMenu({ profile }: { profile: Profile }) {
+  const { t, locale } = useLocale();
+  const progress = useProgress();
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const band = bandOf(profile.grade);
+  const { level } = levelOf(progress.xp);
+  const days = streak(progress.activeDays, localDay());
+
+  // Close on outside click or Escape.
+  useEffect(() => {
+    if (!open) return;
+    const onPointer = (e: PointerEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointer);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={rootRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-label={`${t.myCard}: ${profile.name}`}
+        aria-expanded={open}
+        aria-haspopup="dialog"
+        className="grid size-11 place-items-center rounded-xl border border-line bg-ink/[0.04] transition-colors duration-200 hover:bg-ink/[0.1] aria-expanded:border-violet/50 aria-expanded:bg-ink/[0.1]"
+      >
+        <Avatar id={profile.avatar} className="size-8" iconSize={18} />
+      </button>
+      {open && (
+        <div
+          role="dialog"
+          aria-label={t.myCard}
+          style={{ "--band": BAND_INFO[band].accent } as React.CSSProperties}
+          className="pop-in absolute right-0 top-full z-50 mt-2 w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-line-strong bg-surface p-4 text-left shadow-[0_24px_60px_-20px_rgb(0_0_0/0.6)]"
+        >
+          <div className="flex items-center gap-3">
+            <Avatar id={profile.avatar} className="size-12" iconSize={26} />
+            <div className="min-w-0">
+              <p className="truncate font-display text-lg leading-tight text-text">{profile.name}</p>
+              <p className="font-mono text-[11px] text-muted">{profile.studentId}</p>
+            </div>
+          </div>
+          <div className="mt-3 flex items-center gap-2 rounded-xl border border-[color-mix(in_srgb,var(--band)_40%,transparent)] bg-[color-mix(in_srgb,var(--band)_10%,transparent)] px-2 py-1.5 text-[13px] text-[var(--band)]">
+            <GrowthStage band={band} className="size-6 shrink-0" />
+            <span>
+              {SETUP_COPY[locale].classWord} {profile.grade} · {BAND_INFO[band].name[locale]}
+            </span>
+          </div>
+          <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-xl bg-ink/[0.05] p-2">
+              <p className="font-mono text-base text-text">{level}</p>
+              <p className="font-mono text-[10px] text-muted">{t.level}</p>
+            </div>
+            <div className="rounded-xl bg-ink/[0.05] p-2">
+              <p className="font-mono text-base text-violet">{progress.xp}</p>
+              <p className="font-mono text-[10px] text-muted">XP</p>
+            </div>
+            <div className="rounded-xl bg-ink/[0.05] p-2">
+              <p className="flex items-center justify-center gap-1 font-mono text-base text-amber">
+                <Fire size={14} weight="fill" aria-hidden />
+                {days}
+              </p>
+              <p className="font-mono text-[10px] text-muted">{t.streak}</p>
+            </div>
+          </div>
+          <Link
+            href="/sign-in"
+            className="mt-3 flex h-10 items-center justify-center gap-2 rounded-xl border border-line text-[13px] text-text transition-colors hover:bg-ink/[0.06]"
+          >
+            <IdentificationCard size={16} aria-hidden />
+            {t.myCard}
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
@@ -168,15 +257,6 @@ export function ModuleShell({
                 {module.title[locale]}
               </h1>
               <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-muted">{module.summary[locale]}</p>
-              {band && (
-                <Link
-                  href="/sign-in"
-                  className="mt-3 inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--band)_40%,transparent)] bg-[color-mix(in_srgb,var(--band)_10%,transparent)] py-1 pl-1 pr-3 text-[12.5px] text-[var(--band)] transition-colors hover:bg-[color-mix(in_srgb,var(--band)_18%,transparent)]"
-                >
-                  <GrowthStage band={band} className="size-6" />
-                  {BAND_INFO[band].name[locale]} · {BAND_INFO[band].classes[locale]}
-                </Link>
-              )}
             </div>
           </div>
           )}

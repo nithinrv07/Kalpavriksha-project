@@ -119,10 +119,8 @@ import { BAND_INFO } from "@/lib/bands";
 import {
   filterSubjectsByGroup,
   getChapterById,
-  getSeniorGroup,
   getSubjectsForStandard,
   isSupportedStandard,
-  SENIOR_GROUPS,
   type SeniorGroupId,
   TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL,
   TN_NEW_SYLLABUS_2026_27_URL,
@@ -2252,38 +2250,6 @@ function PersonalisedLearnDashboard({
         </div>
       </div>
 
-      {/* 2. Personalised Continue Learning Pointer (if available) */}
-      {continueRecord && (
-        <div className="relative overflow-hidden rounded-3xl border border-violet/30 bg-gradient-to-r from-violet-deep/20 via-surface to-surface p-5 sm:p-6">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-violet/20 text-violet">
-                <ChapterIcon name={resolveChapterIcon(continueRecord.subject, continueRecord.chapter)} className="size-7" />
-              </span>
-              <div>
-                <p className="font-mono text-[11px] uppercase tracking-wider text-violet">
-                  {continueRecord.isStarter ? "Start your first lesson" : "Continue Learning"}
-                </p>
-                <h3 className="font-display text-lg font-bold text-text">
-                  {continueRecord.chapter.title[locale]}
-                </h3>
-                <p className="text-xs text-muted">
-                  {continueRecord.subject.name[locale]} · Chapter {continueRecord.chapter.chapterNumber}
-                </p>
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setOpenChapterId(continueRecord.chapter.id)}
-              className="beam-border inline-flex h-11 items-center gap-2 rounded-full bg-violet-deep px-5 font-mono text-xs font-semibold text-violet-ink transition-transform hover:-translate-y-0.5"
-            >
-              {continueRecord.isStarter ? "Start Lesson →" : "Resume →"}
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* 3. Official Tamil Nadu Textbooks Reference Links */}
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-surface/70 px-4 py-3 sm:px-5">
         <div className="flex items-center gap-2.5">
@@ -2324,72 +2290,6 @@ function PersonalisedLearnDashboard({
           </a>
         </div>
       </div>
-
-      {/* Higher Secondary Group Selector (Class 11 & 12) */}
-      {isSenior && (
-        <div className="rounded-3xl border border-teal/40 bg-teal/[0.04] p-4 sm:p-5">
-          <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
-            <div className="flex items-center gap-2">
-              <span className="grid size-7 place-items-center rounded-lg bg-teal/20 text-teal">
-                <GraduationCap size={18} weight="fill" />
-              </span>
-              <div>
-                <h3 className="font-display text-base font-bold text-text">
-                  {locale === "ta"
-                    ? "மேல்நிலைப் பிரிவு பாடங்கள் (Class 11 & 12 Streams)"
-                    : "Higher Secondary Stream Groups"}
-                </h3>
-                <p className="text-xs text-muted">
-                  {locale === "ta"
-                    ? "தமிழ்நாடு மாநிலப் பாடத்திட்டத்தின் முக்கியப் பாடப்பிரிவுகள்"
-                    : "Tamil Nadu Samacheer Kalvi standard-wise group tracks"}
-                </p>
-              </div>
-            </div>
-
-            {profile.seniorGroup && (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-teal/30 bg-teal/15 px-3 py-1 font-mono text-[11px] text-teal">
-                <span className="size-1.5 rounded-full bg-teal" />
-                <span>Enrolled: {getSeniorGroup(profile.seniorGroup)?.name[locale] ?? profile.seniorGroup}</span>
-              </span>
-            )}
-          </div>
-
-          <div className="grid gap-3 sm:grid-cols-3">
-            {SENIOR_GROUPS.map((grp) => {
-              const active = seniorGroupFilter === grp.id;
-              return (
-                <button
-                  key={grp.id}
-                  type="button"
-                  onClick={() => {
-                    setSeniorGroupFilter(grp.id);
-                    setFilter("subjects");
-                    authService.updateStandard(currentStandard, grp.id);
-                  }}
-                  style={{ "--grp": grp.accent } as React.CSSProperties}
-                  className={`flex flex-col rounded-2xl border p-3.5 text-left transition-all ${
-                    active
-                      ? "border-[var(--grp)] bg-[color-mix(in_srgb,var(--grp)_18%,var(--surface))] shadow-[0_0_20px_-5px_var(--grp)] font-medium"
-                      : "border-line bg-surface text-muted hover:border-line-strong hover:bg-ink/[0.04] hover:text-text"
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[10.5px] font-semibold text-[var(--grp)]">{grp.badge}</span>
-                    {active && <CheckCircle size={15} weight="fill" className="text-[var(--grp)]" />}
-                  </div>
-                  <span className="font-display text-sm font-bold text-text mt-1.5 line-clamp-1">
-                    {grp.name[locale]}
-                  </span>
-                  <span className="text-[11.5px] text-muted line-clamp-2 mt-1">
-                    {grp.description[locale]}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
 
       {/* 4. Filter Capsules: All Subjects vs All Chapters vs Individual Subject */}
       <div
