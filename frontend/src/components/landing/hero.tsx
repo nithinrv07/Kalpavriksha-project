@@ -115,30 +115,14 @@ export function Hero() {
                     type="button"
                     onClick={() => setMenuOpen(true)}
                     aria-label={t.menu}
-                    className="grid size-11 place-items-center rounded-xl border border-white/15 bg-surface/90 text-amber-300 shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all hover:border-amber-400/50 hover:bg-surface-2 hover:text-amber-200 lg:hidden"
+                    className="flex h-11 items-center gap-2 rounded-xl border border-amber-400/35 bg-amber-400/10 px-3.5 font-mono text-[14px] text-amber-200 transition-colors duration-200 hover:border-amber-400/60 hover:bg-amber-400/20 active:scale-[0.98]"
                   >
-                    <DotsNine size={18} />
+                    <DotsNine size={16} aria-hidden />
+                    <span className="hidden sm:inline">{t.menu}</span>
                   </button>
                 </div>
               </div>
 
-              {/* Desktop rail: menu pill + vertical wordmark */}
-              <button
-                type="button"
-                onClick={() => setMenuOpen(true)}
-                aria-label={t.menu}
-                className="group absolute left-6 xl:left-8 top-6 xl:top-8 z-20 hidden flex-col items-center gap-3 rounded-2xl border border-white/15 bg-surface/90 backdrop-blur-xl p-1.5 pb-3 shadow-[0_10px_35px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-amber-400/50 hover:bg-surface-2 hover:shadow-[0_10px_35px_rgba(251,191,36,0.18)] lg:flex"
-              >
-                <span className="grid size-10 place-items-center rounded-xl border border-amber-400/35 bg-amber-400/15 text-amber-300 shadow-[0_0_16px_-2px_rgba(251,191,36,0.45)] transition-all duration-300 group-hover:scale-105 group-hover:border-amber-400 group-hover:bg-amber-400/25 group-hover:text-amber-200 group-hover:shadow-[0_0_22px_rgba(251,191,36,0.65)]">
-                  <BrandMark className="size-5" strokeWidth={1.8} />
-                </span>
-                {locale === "en" && (
-                  <span aria-hidden className="font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-white/90 transition-colors group-hover:text-amber-200 [writing-mode:vertical-rl]">
-                    {t.menu}
-                  </span>
-                )}
-                <DotsNine size={14} className="text-amber-400/80 transition-colors group-hover:text-amber-300" aria-hidden />
-              </button>
               {/* Brand title above the sphere: steady, flat face with a thin emboss (no tilt or motion) */}
               <div
                 aria-hidden
@@ -308,30 +292,14 @@ export function Hero() {
                     type="button"
                     onClick={() => setMenuOpen(true)}
                     aria-label={t.menu}
-                    className="grid size-11 place-items-center rounded-xl border border-white/15 bg-surface/90 text-amber-300 shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all hover:border-amber-400/50 hover:bg-surface-2 hover:text-amber-200 lg:hidden"
+                    className="flex h-11 items-center gap-2 rounded-xl border border-amber-400/35 bg-amber-400/10 px-3.5 font-mono text-[14px] text-amber-200 transition-colors duration-200 hover:border-amber-400/60 hover:bg-amber-400/20 active:scale-[0.98]"
                   >
-                    <DotsNine size={18} />
+                    <DotsNine size={16} aria-hidden />
+                    <span className="hidden sm:inline">{t.menu}</span>
                   </button>
                 </div>
               </div>
 
-              {/* Desktop rail: menu pill + vertical wordmark */}
-              <button
-                type="button"
-                onClick={() => setMenuOpen(true)}
-                aria-label={t.menu}
-                className="group absolute left-6 xl:left-8 top-6 xl:top-8 z-20 hidden flex-col items-center gap-3 rounded-2xl border border-white/15 bg-surface/90 backdrop-blur-xl p-1.5 pb-3 shadow-[0_10px_35px_rgba(0,0,0,0.6)] transition-all duration-300 hover:border-amber-400/50 hover:bg-surface-2 hover:shadow-[0_10px_35px_rgba(251,191,36,0.18)] lg:flex"
-              >
-                <span className="grid size-10 place-items-center rounded-xl border border-amber-400/35 bg-amber-400/15 text-amber-300 shadow-[0_0_16px_-2px_rgba(251,191,36,0.45)] transition-all duration-300 group-hover:scale-105 group-hover:border-amber-400 group-hover:bg-amber-400/25 group-hover:text-amber-200 group-hover:shadow-[0_0_22px_rgba(251,191,36,0.65)]">
-                  <BrandMark className="size-5" strokeWidth={1.8} />
-                </span>
-                {locale === "en" && (
-                  <span aria-hidden className="font-mono text-[10.5px] font-semibold tracking-[0.16em] uppercase text-white/90 transition-colors group-hover:text-amber-200 [writing-mode:vertical-rl]">
-                    {t.menu}
-                  </span>
-                )}
-                <DotsNine size={14} className="text-amber-400/80 transition-colors group-hover:text-amber-300" aria-hidden />
-              </button>
               {/* Brand title above the sphere: steady, flat face with a thin emboss (no tilt or motion) */}
               <div
                 aria-hidden
