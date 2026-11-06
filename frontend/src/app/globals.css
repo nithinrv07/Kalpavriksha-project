@@ -79,6 +79,22 @@
   color: var(--amber);
 }
 
+/* Primary call-to-action buttons stay solid and bold in daylight. */
+:root[data-theme="light"] .beam-border.bg-violet-deep:not([data-theme="dark"] *) {
+  background: var(--violet);
+  color: #ffffff;
+}
+
+/* Learner card: crisp white card on the lavender page, faint shimmer, soft violet shadow. */
+:root[data-theme="light"] .learner-card {
+  background: var(--surface);
+  box-shadow: 0 30px 70px -28px rgb(76 29 149 / 0.35), 0 0 0 1px rgb(30 16 64 / 0.06);
+}
+
+:root[data-theme="light"] .learner-card-sheen {
+  opacity: 0.18;
+}
+
 /* Dark islands (e.g. the Class 1–3 cosmic scenes) keep dark tokens inside a light page. */
 :root[data-theme="light"] [data-theme="dark"] {
   color-scheme: dark;

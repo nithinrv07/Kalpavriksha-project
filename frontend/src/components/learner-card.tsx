@@ -28,12 +28,12 @@ function Card({ profile }: { profile: Profile }) {
   return (
     <div
       style={{ "--band": info.accent } as React.CSSProperties}
-      className="pop-in relative mx-auto w-full max-w-[440px] overflow-hidden rounded-[28px] border border-line-strong bg-surface-2 p-6 shadow-[0_30px_90px_-20px_rgb(0_0_0/0.9),0_0_80px_-30px_var(--band)]"
+      className="learner-card pop-in relative mx-auto w-full max-w-[520px] overflow-hidden rounded-[28px] border border-line-strong bg-surface-2 p-6 shadow-[0_30px_90px_-20px_rgb(0_0_0/0.9),0_0_80px_-30px_var(--band)]"
     >
       {/* Holographic sheen. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -inset-1/2 bg-[conic-gradient(from_var(--beam-angle),transparent_0_60%,color-mix(in_srgb,var(--band)_35%,transparent)_75%,transparent_90%)] opacity-60 [animation:beam_9s_linear_infinite]"
+        className="learner-card-sheen pointer-events-none absolute -inset-1/2 bg-[conic-gradient(from_var(--beam-angle),transparent_0_60%,color-mix(in_srgb,var(--band)_35%,transparent)_75%,transparent_90%)] opacity-60 [animation:beam_9s_linear_infinite]"
       />
       <div className="relative">
         <div className="flex items-center justify-between">
@@ -110,7 +110,7 @@ function SignInScreenContent() {
   return (
     <>
       <ChromeWaves />
-      <div className="relative z-10 mx-auto w-full max-w-[1100px] px-4 pb-24 sm:px-6">
+      <div className="relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-[1600px] flex-col px-4 pb-10 sm:px-8 lg:px-12">
         <header className="flex items-center justify-between gap-3 py-4 sm:py-6">
           <Link
             href="/"
@@ -126,7 +126,8 @@ function SignInScreenContent() {
           </div>
         </header>
 
-        <main className="mt-6 sm:mt-10">
+        {/* Fills the rest of the screen and centres the card section vertically. */}
+        <main className="mt-6 flex flex-1 flex-col justify-center sm:mt-10">
           {!hydrated ? (
             <div aria-hidden className="h-96 animate-pulse rounded-3xl border border-line bg-surface/60" />
           ) : !profile || editing ? (
@@ -148,7 +149,7 @@ function SignInScreenContent() {
               />
             </div>
           ) : (
-            <div className="grid items-center gap-10 lg:grid-cols-[1fr_1fr]">
+            <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
               <div className="fade-up">
                 <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-violet/30 bg-violet-deep/20 px-3 py-1 font-mono text-[11px] text-violet-ink">
                   <ShieldCheck size={14} weight="fill" />
