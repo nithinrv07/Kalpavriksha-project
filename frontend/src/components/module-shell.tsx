@@ -6,11 +6,9 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Avatar } from "@/components/avatar";
 import { BrandMark } from "@/components/brand-mark";
-import { ChromeWaves } from "@/components/landing/chrome-waves";
 import { LangSelect } from "@/components/landing/lang-select";
 import { useLocale } from "@/components/locale-provider";
 import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
-import { PulsatingBorder } from "@/components/pulsating-border";
 import { useProgress } from "@/components/progress-store";
 import { SoundToggle } from "@/components/sound-toggle";
 import { BAND_INFO } from "@/lib/bands";
@@ -89,22 +87,15 @@ export function ModuleShell({
   const isJuniorLearn = module.slug === "learn" && profile && profile.grade >= 1 && profile.grade <= 3;
 
   return (
-    <div className="relative isolate min-h-[100dvh] w-full px-2 py-3 sm:px-4 sm:py-6 lg:px-8 lg:py-8">
-      <ChromeWaves />
-
-      {/* Main Module Layout Frame */}
+    <div className="relative isolate min-h-[100dvh] w-full">
+      {/* Full-screen module layout: the panel fills the window edge to edge. */}
       <div
         data-band={band ?? undefined}
         style={band ? ({ "--band": BAND_INFO[band].accent } as React.CSSProperties) : undefined}
-        className="hero-frame fade-up relative z-10 mx-auto w-full max-w-[1280px]"
+        className={`fade-up relative z-10 flex min-h-[100dvh] w-full flex-col ${isJuniorLearn ? "bg-gradient-to-b from-[#130722] via-[#090314] to-[#04010a]" : "bg-black"} px-4 py-4 sm:px-8 sm:py-6 lg:px-12 lg:py-8`}
       >
-        {/* Pulsating border glow around the module frame boundaries */}
-        <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
-          <PulsatingBorder colors={["#000000", "#ffffff", accent.hex]} thickness={0.35} />
-        </div>
-
-        {/* Solid deep black layout container */}
-        <div className={`relative z-10 flex min-h-[calc(100dvh-4rem)] w-full flex-col overflow-hidden rounded-[22px] border border-line ${isJuniorLearn ? "bg-gradient-to-b from-[#130722] via-[#090314] to-[#04010a]" : "bg-black"} p-4 shadow-[0_40px_120px_-20px_rgb(0_0_0/0.95),0_0_90px_-25px_rgb(124_58_237/0.35),inset_0_1px_0_rgb(255_255_255/0.06)] sm:p-7 lg:rounded-[28px] lg:p-9`}>
+        {/* Content keeps a readable width on very wide screens. */}
+        <div className="mx-auto flex w-full max-w-[1600px] flex-1 flex-col">
           {/* 1. Header: Back to home, module switcher tabs, XP pill & language selector */}
           <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-4 sm:pb-6">
             <div className="flex items-center gap-2">
