@@ -69,6 +69,16 @@ export function ScrollFx() {
           gsap.to(batch, { y: 0, scale: 1, autoAlpha: 1, duration: 1.2, ease: "expo.out", stagger: 0.1 }),
       });
 
+      // Hero recedes as it scrolls away; layers drift at different speeds.
+      const hero = document.querySelector("[data-hero]");
+      if (hero) {
+        gsap
+          .timeline({ scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } })
+          .to(".hero-frame", { yPercent: 10, ease: "none" }, 0)
+          .to(".hero-stage", { y: -140, ease: "none" }, 0)
+          .to(".hero-copy", { y: -70, ease: "none" }, 0);
+      }
+
       // Footer wordmark rises into place.
       const footer = document.querySelector("footer");
       if (footer) {

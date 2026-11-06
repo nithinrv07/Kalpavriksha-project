@@ -14,7 +14,7 @@ export function CtaFooter() {
   const firstModule = "/m/learn";
 
   return (
-    <footer id="about" className="relative mt-8 overflow-hidden border-t border-line sm:mt-10 lg:mt-14">
+    <footer className="relative mt-8 overflow-hidden border-t border-line sm:mt-10 lg:mt-14">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-[radial-gradient(60%_80%_at_20%_100%,rgb(124_58_237/0.22),transparent_70%)]"
