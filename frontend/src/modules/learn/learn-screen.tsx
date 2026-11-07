@@ -61,7 +61,6 @@ import {
   MusicNotes,
   NavigationArrow,
   PawPrint,
-  PencilSimple,
   PenNib,
   Plant,
   Question,
@@ -69,7 +68,6 @@ import {
   Receipt,
   Scales,
   ShieldCheck,
-  Sparkle,
   SpeakerHigh,
   Stop,
   Sun,
@@ -84,7 +82,7 @@ import {
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Burst } from "@/components/burst";
-import { GrowthStage, useHydrated } from "@/components/learner-setup";
+import { useHydrated } from "@/components/learner-setup";
 import { useLocale } from "@/components/locale-provider";
 import { updateProgress, useProgress } from "@/components/progress-store";
 import {
@@ -115,7 +113,6 @@ import {
 import { JuniorCosmicLessonPlayer } from "./junior-lesson-scene";
 import { KaraokeLines, useReadAloud } from "@/components/read-aloud";
 import { authService } from "@/lib/auth-service";
-import { BAND_INFO } from "@/lib/bands";
 import {
   filterSubjectsByGroup,
   getChapterById,
@@ -444,31 +441,6 @@ function SubjectIcon({
 }
 
 // ----------------------------------------------------------------------------
-// Progress Ring Component
-// ----------------------------------------------------------------------------
-function ProgressRing({ done, total }: { done: number; total: number }) {
-  const r = 34;
-  const circ = 2 * Math.PI * r;
-  const frac = total > 0 ? done / total : 0;
-  return (
-    <svg viewBox="0 0 80 80" className="size-20 shrink-0 -rotate-90" aria-hidden>
-      <circle cx="40" cy="40" r={r} fill="none" stroke="rgb(255 255 255 / 0.08)" strokeWidth="7" />
-      <circle
-        cx="40"
-        cy="40"
-        r={r}
-        fill="none"
-        stroke="var(--band, var(--violet))"
-        strokeWidth="7"
-        strokeLinecap="round"
-        strokeDasharray={`${Math.round(circ * frac * 100) / 100} ${Math.round(circ * 100) / 100}`}
-        className="transition-[stroke-dasharray] duration-700"
-      />
-    </svg>
-  );
-}
-
-// ----------------------------------------------------------------------------
 // Interactive Lesson Dialog (Reader, Karaoke Audio, Textbook Link & Quiz)
 // ----------------------------------------------------------------------------
 
@@ -593,9 +565,9 @@ function CosmicCurriculumLessonDialog({
       }}
       aria-label={chapter.title[locale]}
       data-theme="dark"
-      className="fixed inset-x-0 bottom-0 top-auto m-0 max-h-[92dvh] w-full max-w-none overflow-y-auto rounded-t-[32px] border-2 border-violet-500/80 bg-[#0e0524] p-0 text-white shadow-[0_0_80px_rgba(168,85,247,0.5)] backdrop:bg-black/80 backdrop:backdrop-blur-md open:animate-[fade-up_0.45s_var(--ease-out)_both] md:inset-0 md:m-auto md:max-h-[88dvh] md:w-[min(860px,calc(100%-3rem))] md:rounded-[32px]"
+      className="fixed inset-0 m-0 h-[100dvh] max-h-none w-full max-w-none overflow-y-auto bg-[#0e0524] p-0 text-white shadow-[0_0_80px_rgba(168,85,247,0.5)] backdrop:bg-black/80 backdrop:backdrop-blur-md open:animate-[fade-up_0.45s_var(--ease-out)_both]"
     >
-      <div className="relative flex flex-col p-5 sm:p-8">
+      <div className="relative mx-auto flex w-full max-w-[1100px] flex-col p-5 sm:p-8">
         {/* Glow backdrop with stars */}
         <div
           aria-hidden
@@ -1031,9 +1003,9 @@ function StandardCurriculumLessonDialog({
       }}
       aria-label={chapter.title[locale]}
       style={catStyle}
-      className="fixed inset-x-0 bottom-0 top-auto m-0 max-h-[92dvh] w-full max-w-none overflow-y-auto rounded-t-[28px] border border-line-strong bg-surface/95 p-0 text-text shadow-[0_-30px_90px_-10px_rgb(0_0_0/0.8)] backdrop-blur-2xl backdrop:bg-black/65 backdrop:backdrop-blur-sm open:animate-[fade-up_0.45s_var(--ease-out)_both] md:inset-0 md:m-auto md:max-h-[88dvh] md:w-[min(820px,calc(100%-3rem))] md:rounded-[28px]"
+      className="fixed inset-0 m-0 h-[100dvh] max-h-none w-full max-w-none overflow-y-auto bg-surface/95 p-0 text-text shadow-[0_-30px_90px_-10px_rgb(0_0_0/0.8)] backdrop-blur-2xl backdrop:bg-black/65 backdrop:backdrop-blur-sm open:animate-[fade-up_0.45s_var(--ease-out)_both]"
     >
-      <div className="relative flex flex-col p-5 sm:p-8">
+      <div className="relative mx-auto flex w-full max-w-[1100px] flex-col p-5 sm:p-8">
         {/* Glow backdrop */}
         <div
           aria-hidden
@@ -1648,7 +1620,6 @@ function ChapterCard(props: {
 }
 
 function PersonalisedLearnDashboard({
-  band,
   profile,
 }: {
   band: Band;
@@ -2197,99 +2168,6 @@ function PersonalisedLearnDashboard({
       ) : (
         // CLASS 4 TO 12: Clean Standard Educational Portal
         <>
-
-      {/* 1. Top Row: Progress Ring & Speech Bubble Mascot / Standard Hint */}
-      <div className="grid gap-3 md:grid-cols-[auto_1fr] md:items-center">
-        <div className="flex items-center gap-4 rounded-3xl border border-line bg-surface px-5 py-4">
-          <ProgressRing done={completedChaptersCount} total={totalChapters} />
-          <div>
-            <p className="font-mono text-2xl">
-              {completedChaptersCount}
-              <span className="text-muted">/{totalChapters}</span>
-            </p>
-            <p className="text-[13px] text-muted">
-              {completedChaptersCount === totalChapters ? (
-                <span className="inline-flex items-center gap-1 text-success">
-                  <Sparkle size={14} weight="fill" aria-hidden />
-                  All caught up!
-                </span>
-              ) : (
-                `${totalChapters - completedChaptersCount} more to complete Class ${currentStandard}`
-              )}
-            </p>
-          </div>
-        </div>
-
-        {/* Band hint with speech bubble & standard badge */}
-        <div className="flex flex-wrap items-center justify-between gap-4 rounded-3xl border border-line bg-surface px-6 py-4">
-          <div className="flex items-center gap-3">
-            <GrowthStage band={band} className="size-10 shrink-0" />
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-xs uppercase tracking-wider text-violet">
-                  Class {currentStandard} · {BAND_INFO[band].name[locale]}
-                </span>
-                <span className="rounded-full bg-ink/[0.06] px-2 py-0.5 font-mono text-[10px] text-muted">
-                  Samacheer Kalvi
-                </span>
-              </div>
-              <p className="text-sm text-text">
-                Tap a subject or chapter card below, then listen and read along!
-              </p>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setSwitcherOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-full border border-violet/40 bg-violet-deep/30 px-3.5 py-1.5 font-mono text-xs font-semibold text-violet-ink hover:bg-violet-deep transition-colors"
-          >
-            <PencilSimple size={13} />
-            <span>Change Standard</span>
-          </button>
-        </div>
-      </div>
-
-      {/* 3. Official Tamil Nadu Textbooks Reference Links */}
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-surface/70 px-4 py-3 sm:px-5">
-        <div className="flex items-center gap-2.5">
-          <FilePdf size={18} weight="duotone" className="shrink-0 text-violet" />
-          <span className="font-mono text-xs text-muted">Official TN Textbooks:</span>
-          <span className="rounded-full bg-violet/15 px-2.5 py-0.5 font-mono text-[11px] text-violet-ink">
-            New Syllabus 2026–27
-          </span>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
-          <a
-            href={TN_NEW_SYLLABUS_2026_27_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full border border-violet/40 bg-violet-deep/30 px-3.5 py-1 text-violet-ink hover:bg-violet-deep transition-colors"
-          >
-            <span>New Syllabus 2026–27 (Tnkalvi.net)</span>
-            <ArrowSquareOut size={12} />
-          </a>
-          <a
-            href={TN_TEXTBOOK_PORTAL_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-muted hover:border-line-strong hover:text-text transition-colors"
-          >
-            <span>TN School Textbooks Portal</span>
-            <ArrowSquareOut size={12} />
-          </a>
-          <a
-            href={TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-muted hover:border-line-strong hover:text-text transition-colors"
-          >
-            <span>Class 1, 2, 3 PDF</span>
-            <ArrowSquareOut size={12} />
-          </a>
-        </div>
-      </div>
 
       {/* 4. Filter Capsules: All Subjects vs All Chapters vs Individual Subject */}
       <div

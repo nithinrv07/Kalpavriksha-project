@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, Fire, IdentificationCard } from "@phosphor-icons/react/ssr";
+import { ArrowLeft, ArrowSquareOut, FilePdf, Fire, IdentificationCard } from "@phosphor-icons/react/ssr";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
@@ -13,6 +13,7 @@ import { useProgress } from "@/components/progress-store";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { SoundToggle } from "@/components/sound-toggle";
 import { BAND_INFO, SETUP_COPY } from "@/lib/bands";
+import { PROFILE_TEXTBOOK_LINKS } from "@/lib/textbook-links";
 import { bandOf, levelOf, localDay, streak, type Band, type Profile } from "@/lib/progress";
 import { MODULES, type KalpaModule } from "@/modules/registry";
 import { accentOf } from "@/modules/accents";
@@ -141,6 +142,27 @@ function ProfileMenu({ profile }: { profile: Profile }) {
               </p>
               <p className="font-mono text-[10px] text-muted">{t.streak}</p>
             </div>
+          </div>
+          <div className="mt-3 border-t border-line pt-3">
+            <p className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-[0.12em] text-muted">
+              <FilePdf size={14} weight="duotone" className="text-violet" aria-hidden />
+              Official TN Textbooks
+            </p>
+            <ul className="mt-2 flex flex-col gap-1">
+              {PROFILE_TEXTBOOK_LINKS.map((link) => (
+                <li key={link.url}>
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between gap-2 rounded-lg px-2 py-1.5 text-[13px] text-text transition-colors hover:bg-ink/[0.06]"
+                  >
+                    {link.label}
+                    <ArrowSquareOut size={13} className="shrink-0 text-muted" aria-hidden />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
           <Link
             href="/sign-in"
