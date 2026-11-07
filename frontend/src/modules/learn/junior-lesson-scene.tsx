@@ -921,7 +921,7 @@ export function JuniorCosmicLessonPlayer({
   const isDone = progress.lessonsDone.includes(chapter.id);
 
   return (
-    <div data-theme="dark" className="relative min-h-[92vh] w-full overflow-hidden rounded-[32px] border-2 border-violet-500/80 bg-[#0c041f] text-white p-3 sm:p-6 shadow-[0_0_60px_rgba(168,85,247,0.5)] flex flex-col justify-between">
+    <div className="relative min-h-[92vh] w-full overflow-hidden rounded-[32px] border-2 border-violet-500/80 bg-[#0c041f] text-white p-3 sm:p-6 shadow-[0_0_60px_rgba(168,85,247,0.5)] flex flex-col justify-between">
       {/* Background cosmic doodles */}
       <CosmicBackgroundDoodles />
 
@@ -987,7 +987,7 @@ export function JuniorCosmicLessonPlayer({
               />
 
               {/* Overlaid Speech / Read-Along Bubble */}
-              <div className="absolute bottom-3 left-3 max-w-[85%] rounded-2xl border-2 border-purple-400 bg-ink/95 px-4 py-2.5 shadow-2xl text-slate-900 transition-all hover:scale-102">
+              <div className="absolute bottom-3 left-3 max-w-[85%] rounded-2xl border-2 border-purple-400 bg-white/95 px-4 py-2.5 shadow-2xl text-slate-900 transition-all hover:scale-102">
                 <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-fuchsia-700 uppercase">
                   <span>{sceneConfig.bubbleTag}</span>
                   <span>✨</span>

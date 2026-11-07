@@ -2,9 +2,9 @@ import type { Locale, LocalizedText } from "@/lib/i18n";
 
 export type ResourceType = "text" | "pdf" | "video" | "audio" | "practice" | "link";
 
-// Defined in a tiny module so the header profile panel can link them without this file.
-import { TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL, TN_NEW_SYLLABUS_2026_27_URL, TN_TEXTBOOK_PORTAL_URL } from "@/lib/textbook-links";
-export { TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL, TN_NEW_SYLLABUS_2026_27_URL, TN_TEXTBOOK_PORTAL_URL };
+export const TN_TEXTBOOK_PORTAL_URL = "https://share.google/DWaDvFsGIVE5d4HHs";
+export const TN_NEW_SYLLABUS_2026_27_URL = "https://share.google/qaF2Aopcl5hgnN7p0";
+export const TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL = "https://share.google/KPUGozoLZRzEdc9wP";
 export const TN_11TH_TEXTBOOKS_URL = "https://www.tntextbooks.net/p/11th-books.html";
 export const TN_12TH_TEXTBOOKS_URL = "https://www.tntextbooks.net/p/12th-books.html";
 

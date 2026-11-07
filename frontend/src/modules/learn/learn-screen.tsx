@@ -61,6 +61,7 @@ import {
   MusicNotes,
   NavigationArrow,
   PawPrint,
+  PencilSimple,
   PenNib,
   Plant,
   Question,
@@ -68,6 +69,7 @@ import {
   Receipt,
   Scales,
   ShieldCheck,
+  Sparkle,
   SpeakerHigh,
   Stop,
   Sun,
@@ -82,7 +84,7 @@ import {
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Burst } from "@/components/burst";
-import { useHydrated } from "@/components/learner-setup";
+import { GrowthStage, useHydrated } from "@/components/learner-setup";
 import { useLocale } from "@/components/locale-provider";
 import { updateProgress, useProgress } from "@/components/progress-store";
 import {
@@ -113,11 +115,14 @@ import {
 import { JuniorCosmicLessonPlayer } from "./junior-lesson-scene";
 import { KaraokeLines, useReadAloud } from "@/components/read-aloud";
 import { authService } from "@/lib/auth-service";
+import { BAND_INFO } from "@/lib/bands";
 import {
   filterSubjectsByGroup,
   getChapterById,
+  getSeniorGroup,
   getSubjectsForStandard,
   isSupportedStandard,
+  SENIOR_GROUPS,
   type SeniorGroupId,
   TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL,
   TN_NEW_SYLLABUS_2026_27_URL,
@@ -441,6 +446,31 @@ function SubjectIcon({
 }
 
 // ----------------------------------------------------------------------------
+// Progress Ring Component
+// ----------------------------------------------------------------------------
+function ProgressRing({ done, total }: { done: number; total: number }) {
+  const r = 34;
+  const circ = 2 * Math.PI * r;
+  const frac = total > 0 ? done / total : 0;
+  return (
+    <svg viewBox="0 0 80 80" className="size-20 shrink-0 -rotate-90" aria-hidden>
+      <circle cx="40" cy="40" r={r} fill="none" stroke="rgb(255 255 255 / 0.08)" strokeWidth="7" />
+      <circle
+        cx="40"
+        cy="40"
+        r={r}
+        fill="none"
+        stroke="var(--band, var(--violet))"
+        strokeWidth="7"
+        strokeLinecap="round"
+        strokeDasharray={`${Math.round(circ * frac * 100) / 100} ${Math.round(circ * 100) / 100}`}
+        className="transition-[stroke-dasharray] duration-700"
+      />
+    </svg>
+  );
+}
+
+// ----------------------------------------------------------------------------
 // Interactive Lesson Dialog (Reader, Karaoke Audio, Textbook Link & Quiz)
 // ----------------------------------------------------------------------------
 
@@ -564,10 +594,9 @@ function CosmicCurriculumLessonDialog({
         if (e.target === ref.current) close();
       }}
       aria-label={chapter.title[locale]}
-      data-theme="dark"
-      className="fixed inset-0 m-0 h-[100dvh] max-h-none w-full max-w-none overflow-y-auto bg-[#0e0524] p-0 text-white shadow-[0_0_80px_rgba(168,85,247,0.5)] backdrop:bg-black/80 backdrop:backdrop-blur-md open:animate-[fade-up_0.45s_var(--ease-out)_both]"
+      className="fixed inset-x-0 bottom-0 top-auto m-0 max-h-[92dvh] w-full max-w-none overflow-y-auto rounded-t-[32px] border-2 border-violet-500/80 bg-[#0e0524] p-0 text-white shadow-[0_0_80px_rgba(168,85,247,0.5)] backdrop:bg-black/80 backdrop:backdrop-blur-md open:animate-[fade-up_0.45s_var(--ease-out)_both] md:inset-0 md:m-auto md:max-h-[88dvh] md:w-[min(860px,calc(100%-3rem))] md:rounded-[32px]"
     >
-      <div className="relative mx-auto flex w-full max-w-[1100px] flex-col p-5 sm:p-8">
+      <div className="relative flex flex-col p-5 sm:p-8">
         {/* Glow backdrop with stars */}
         <div
           aria-hidden
@@ -1003,9 +1032,9 @@ function StandardCurriculumLessonDialog({
       }}
       aria-label={chapter.title[locale]}
       style={catStyle}
-      className="fixed inset-0 m-0 h-[100dvh] max-h-none w-full max-w-none overflow-y-auto bg-surface/95 p-0 text-text shadow-[0_-30px_90px_-10px_rgb(0_0_0/0.8)] backdrop-blur-2xl backdrop:bg-black/65 backdrop:backdrop-blur-sm open:animate-[fade-up_0.45s_var(--ease-out)_both]"
+      className="fixed inset-x-0 bottom-0 top-auto m-0 max-h-[92dvh] w-full max-w-none overflow-y-auto rounded-t-[28px] border border-line-strong bg-surface/95 p-0 text-text shadow-[0_-30px_90px_-10px_rgb(0_0_0/0.8)] backdrop-blur-2xl backdrop:bg-black/65 backdrop:backdrop-blur-sm open:animate-[fade-up_0.45s_var(--ease-out)_both] md:inset-0 md:m-auto md:max-h-[88dvh] md:w-[min(820px,calc(100%-3rem))] md:rounded-[28px]"
     >
-      <div className="relative mx-auto flex w-full max-w-[1100px] flex-col p-5 sm:p-8">
+      <div className="relative flex flex-col p-5 sm:p-8">
         {/* Glow backdrop */}
         <div
           aria-hidden
@@ -1031,7 +1060,7 @@ function StandardCurriculumLessonDialog({
             type="button"
             onClick={close}
             aria-label="Close dialog"
-            className="grid size-11 shrink-0 place-items-center rounded-xl border border-line bg-ink/[0.04] transition-colors hover:bg-ink/[0.1]"
+            className="grid size-11 shrink-0 place-items-center rounded-xl border border-line bg-white/[0.04] transition-colors hover:bg-white/[0.1]"
           >
             <X size={18} />
           </button>
@@ -1067,7 +1096,7 @@ function StandardCurriculumLessonDialog({
               }
               className={`inline-flex h-12 items-center gap-2 rounded-full px-5 font-mono text-sm transition-colors ${
                 reading
-                  ? "bg-ink/[0.1] text-text"
+                  ? "bg-white/[0.1] text-text"
                   : "bg-[var(--cat)] text-bg hover:brightness-110"
               }`}
             >
@@ -1139,7 +1168,7 @@ function StandardCurriculumLessonDialog({
                   <p className="truncate text-xs font-semibold text-text group-hover:text-violet-ink">
                     Tamilnadu School Textbooks
                   </p>
-                  <span className="shrink-0 rounded bg-ink/[0.06] px-1.5 py-0.5 font-mono text-[9px] text-muted">
+                  <span className="shrink-0 rounded bg-white/[0.06] px-1.5 py-0.5 font-mono text-[9px] text-muted">
                     Official
                   </span>
                 </div>
@@ -1366,7 +1395,7 @@ function CosmicSubjectCard({
       onClick={onOpen}
       className={`group relative flex flex-col overflow-hidden rounded-[26px] bg-[#140828] text-left transition-all duration-300 hover:-translate-y-1.5 ${borderClass}`}
     >
-      <span className="relative grid h-36 place-items-center overflow-hidden bg-gradient-to-b from-ink/[0.05] to-transparent">
+      <span className="relative grid h-36 place-items-center overflow-hidden bg-gradient-to-b from-white/[0.05] to-transparent">
         {isTamil ? (
           <TamilLetterA />
         ) : isEnglish ? (
@@ -1435,7 +1464,7 @@ function CosmicChapterCard({
       style={style}
       className="group relative flex flex-col overflow-hidden rounded-[26px] border-2 border-violet-500/60 bg-[#140828] text-left transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(34,211,238,0.45)]"
     >
-      <span className="relative grid h-36 place-items-center overflow-hidden bg-gradient-to-b from-ink/[0.06] to-transparent">
+      <span className="relative grid h-36 place-items-center overflow-hidden bg-gradient-to-b from-white/[0.06] to-transparent">
         <ChapterIcon
           name={iconName}
           className="size-16 text-cyan-300 drop-shadow-[0_0_15px_rgba(34,211,238,0.7)] transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110"
@@ -1620,6 +1649,7 @@ function ChapterCard(props: {
 }
 
 function PersonalisedLearnDashboard({
+  band,
   profile,
 }: {
   band: Band;
@@ -1718,7 +1748,7 @@ function PersonalisedLearnDashboard({
   };
 
   return (
-    <div data-theme={isJunior ? "dark" : undefined} className={isJunior ? "relative flex flex-col gap-8" : "flex flex-col gap-8"}>
+    <div className={isJunior ? "relative flex flex-col gap-8" : "flex flex-col gap-8"}>
       {/* Standard Selector Modal */}
       <StandardSwitcherModal
         currentGrade={currentStandard}
@@ -2028,7 +2058,7 @@ function PersonalisedLearnDashboard({
           className={`relative flex h-12 shrink-0 items-center gap-2 rounded-full border px-5 text-sm font-semibold transition-all duration-200 ${
             filter === "subjects"
               ? "border-2 border-violet-400 bg-violet-600/35 text-white shadow-[0_0_20px_rgba(168,85,247,0.6)]"
-              : "border-ink/10 bg-[#140828] text-purple-200/80 hover:text-white hover:border-violet-400/60"
+              : "border-white/10 bg-[#140828] text-purple-200/80 hover:text-white hover:border-violet-400/60"
           }`}
         >
           <span>All Subjects</span>
@@ -2048,7 +2078,7 @@ function PersonalisedLearnDashboard({
           className={`relative flex h-12 shrink-0 items-center gap-2 rounded-full border px-5 text-sm font-semibold transition-all duration-200 ${
             filter === "all"
               ? "border-2 border-violet-400 bg-violet-600/35 text-white shadow-[0_0_20px_rgba(168,85,247,0.6)]"
-              : "border-ink/10 bg-[#140828] text-purple-200/80 hover:text-white hover:border-violet-400/60"
+              : "border-white/10 bg-[#140828] text-purple-200/80 hover:text-white hover:border-violet-400/60"
           }`}
         >
           <span>All Chapters</span>
@@ -2092,7 +2122,7 @@ function PersonalisedLearnDashboard({
               className={`relative flex h-12 shrink-0 items-center gap-2 rounded-full border px-5 text-sm font-semibold transition-all duration-200 ${
                 active
                   ? "border-2 border-cyan-400 bg-cyan-600/30 text-white shadow-[0_0_20px_rgba(34,211,238,0.6)]"
-                  : "border-ink/10 bg-[#140828] text-purple-200/80 hover:text-white hover:border-violet-400/60"
+                  : "border-white/10 bg-[#140828] text-purple-200/80 hover:text-white hover:border-violet-400/60"
               }`}
             >
               <span>{label}</span>
@@ -2169,6 +2199,197 @@ function PersonalisedLearnDashboard({
         // CLASS 4 TO 12: Clean Standard Educational Portal
         <>
 
+      {/* 1. Top Row: Progress Ring & Speech Bubble Mascot / Standard Hint */}
+      <div className="grid gap-3 md:grid-cols-[auto_1fr] md:items-center">
+        <div className="flex items-center gap-4 rounded-3xl border border-line bg-surface px-5 py-4">
+          <ProgressRing done={completedChaptersCount} total={totalChapters} />
+          <div>
+            <p className="font-mono text-2xl">
+              {completedChaptersCount}
+              <span className="text-muted">/{totalChapters}</span>
+            </p>
+            <p className="text-[13px] text-muted">
+              {completedChaptersCount === totalChapters ? (
+                <span className="inline-flex items-center gap-1 text-success">
+                  <Sparkle size={14} weight="fill" aria-hidden />
+                  All caught up!
+                </span>
+              ) : (
+                `${totalChapters - completedChaptersCount} more to complete Class ${currentStandard}`
+              )}
+            </p>
+          </div>
+        </div>
+
+        {/* Band hint with speech bubble & standard badge */}
+        <div className="flex flex-wrap items-center justify-between gap-4 rounded-3xl border border-line bg-surface px-6 py-4">
+          <div className="flex items-center gap-3">
+            <GrowthStage band={band} className="size-10 shrink-0" />
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-xs uppercase tracking-wider text-violet">
+                  Class {currentStandard} · {BAND_INFO[band].name[locale]}
+                </span>
+                <span className="rounded-full bg-white/[0.06] px-2 py-0.5 font-mono text-[10px] text-muted">
+                  Samacheer Kalvi
+                </span>
+              </div>
+              <p className="text-sm text-text">
+                Tap a subject or chapter card below, then listen and read along!
+              </p>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setSwitcherOpen(true)}
+            className="inline-flex items-center gap-1.5 rounded-full border border-violet/40 bg-violet-deep/30 px-3.5 py-1.5 font-mono text-xs font-semibold text-violet-ink hover:bg-violet-deep transition-colors"
+          >
+            <PencilSimple size={13} />
+            <span>Change Standard</span>
+          </button>
+        </div>
+      </div>
+
+      {/* 2. Personalised Continue Learning Pointer (if available) */}
+      {continueRecord && (
+        <div className="relative overflow-hidden rounded-3xl border border-violet/30 bg-gradient-to-r from-violet-deep/20 via-surface to-surface p-5 sm:p-6">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-violet/20 text-violet">
+                <ChapterIcon name={resolveChapterIcon(continueRecord.subject, continueRecord.chapter)} className="size-7" />
+              </span>
+              <div>
+                <p className="font-mono text-[11px] uppercase tracking-wider text-violet">
+                  {continueRecord.isStarter ? "Start your first lesson" : "Continue Learning"}
+                </p>
+                <h3 className="font-display text-lg font-bold text-text">
+                  {continueRecord.chapter.title[locale]}
+                </h3>
+                <p className="text-xs text-muted">
+                  {continueRecord.subject.name[locale]} · Chapter {continueRecord.chapter.chapterNumber}
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setOpenChapterId(continueRecord.chapter.id)}
+              className="beam-border inline-flex h-11 items-center gap-2 rounded-full bg-violet-deep px-5 font-mono text-xs font-semibold text-violet-ink transition-transform hover:-translate-y-0.5"
+            >
+              {continueRecord.isStarter ? "Start Lesson →" : "Resume →"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* 3. Official Tamil Nadu Textbooks Reference Links */}
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-surface/70 px-4 py-3 sm:px-5">
+        <div className="flex items-center gap-2.5">
+          <FilePdf size={18} weight="duotone" className="shrink-0 text-violet" />
+          <span className="font-mono text-xs text-muted">Official TN Textbooks:</span>
+          <span className="rounded-full bg-violet/15 px-2.5 py-0.5 font-mono text-[11px] text-violet-ink">
+            New Syllabus 2026–27
+          </span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
+          <a
+            href={TN_NEW_SYLLABUS_2026_27_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-full border border-violet/40 bg-violet-deep/30 px-3.5 py-1 text-violet-ink hover:bg-violet-deep transition-colors"
+          >
+            <span>New Syllabus 2026–27 (Tnkalvi.net)</span>
+            <ArrowSquareOut size={12} />
+          </a>
+          <a
+            href={TN_TEXTBOOK_PORTAL_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-muted hover:border-line-strong hover:text-text transition-colors"
+          >
+            <span>TN School Textbooks Portal</span>
+            <ArrowSquareOut size={12} />
+          </a>
+          <a
+            href={TN_CLASS_1_2_3_NEW_TEXTBOOKS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-muted hover:border-line-strong hover:text-text transition-colors"
+          >
+            <span>Class 1, 2, 3 PDF</span>
+            <ArrowSquareOut size={12} />
+          </a>
+        </div>
+      </div>
+
+      {/* Higher Secondary Group Selector (Class 11 & 12) */}
+      {isSenior && (
+        <div className="rounded-3xl border border-teal/40 bg-teal/[0.04] p-4 sm:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+            <div className="flex items-center gap-2">
+              <span className="grid size-7 place-items-center rounded-lg bg-teal/20 text-teal">
+                <GraduationCap size={18} weight="fill" />
+              </span>
+              <div>
+                <h3 className="font-display text-base font-bold text-text">
+                  {locale === "ta"
+                    ? "மேல்நிலைப் பிரிவு பாடங்கள் (Class 11 & 12 Streams)"
+                    : "Higher Secondary Stream Groups"}
+                </h3>
+                <p className="text-xs text-muted">
+                  {locale === "ta"
+                    ? "தமிழ்நாடு மாநிலப் பாடத்திட்டத்தின் முக்கியப் பாடப்பிரிவுகள்"
+                    : "Tamil Nadu Samacheer Kalvi standard-wise group tracks"}
+                </p>
+              </div>
+            </div>
+
+            {profile.seniorGroup && (
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-teal/30 bg-teal/15 px-3 py-1 font-mono text-[11px] text-teal">
+                <span className="size-1.5 rounded-full bg-teal" />
+                <span>Enrolled: {getSeniorGroup(profile.seniorGroup)?.name[locale] ?? profile.seniorGroup}</span>
+              </span>
+            )}
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            {SENIOR_GROUPS.map((grp) => {
+              const active = seniorGroupFilter === grp.id;
+              return (
+                <button
+                  key={grp.id}
+                  type="button"
+                  onClick={() => {
+                    setSeniorGroupFilter(grp.id);
+                    setFilter("subjects");
+                    authService.updateStandard(currentStandard, grp.id);
+                  }}
+                  style={{ "--grp": grp.accent } as React.CSSProperties}
+                  className={`flex flex-col rounded-2xl border p-3.5 text-left transition-all ${
+                    active
+                      ? "border-[var(--grp)] bg-[color-mix(in_srgb,var(--grp)_18%,var(--surface))] shadow-[0_0_20px_-5px_var(--grp)] font-medium"
+                      : "border-line bg-surface text-muted hover:border-line-strong hover:bg-white/[0.04] hover:text-text"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[10.5px] font-semibold text-[var(--grp)]">{grp.badge}</span>
+                    {active && <CheckCircle size={15} weight="fill" className="text-[var(--grp)]" />}
+                  </div>
+                  <span className="font-display text-sm font-bold text-text mt-1.5 line-clamp-1">
+                    {grp.name[locale]}
+                  </span>
+                  <span className="text-[11.5px] text-muted line-clamp-2 mt-1">
+                    {grp.description[locale]}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* 4. Filter Capsules: All Subjects vs All Chapters vs Individual Subject */}
       <div
         role="radiogroup"
@@ -2187,7 +2408,7 @@ function PersonalisedLearnDashboard({
           }`}
         >
           <span>All Subjects</span>
-          <span className="rounded-full bg-ink/[0.08] px-1.5 py-0.5 text-[10px]">
+          <span className="rounded-full bg-white/[0.08] px-1.5 py-0.5 text-[10px]">
             {subjects.length}
           </span>
         </button>
@@ -2204,7 +2425,7 @@ function PersonalisedLearnDashboard({
           }`}
         >
           <span>All Chapters</span>
-          <span className="rounded-full bg-ink/[0.08] px-1.5 py-0.5 text-[10px]">
+          <span className="rounded-full bg-white/[0.08] px-1.5 py-0.5 text-[10px]">
             {totalChapters}
           </span>
         </button>
@@ -2227,7 +2448,7 @@ function PersonalisedLearnDashboard({
               style={{ "--cat": sub.accent } as React.CSSProperties}
             >
               <span>{sub.name[locale]}</span>
-              <span className="rounded-full bg-ink/[0.08] px-1.5 py-0.5 text-[10px]">
+              <span className="rounded-full bg-white/[0.08] px-1.5 py-0.5 text-[10px]">
                 {count}
               </span>
             </button>

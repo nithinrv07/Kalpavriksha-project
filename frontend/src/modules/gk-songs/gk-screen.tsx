@@ -18,7 +18,7 @@ export function GkScreen({ band }: { band: Band }) {
     <div className="flex flex-col gap-6">
       <BandHint band={band} text={c.bandHint[band]} />
 
-      <div role="tablist" aria-label={`${c.tabs.quiz} / ${c.tabs.songs}`} className="flex w-fit gap-1 rounded-2xl border border-line bg-ink/[0.03] p-1">
+      <div role="tablist" aria-label={`${c.tabs.quiz} / ${c.tabs.songs}`} className="flex w-fit gap-1 rounded-2xl border border-line bg-white/[0.03] p-1">
         {(
           [
             ["quiz", Lightning, c.tabs.quiz],

@@ -206,7 +206,7 @@ export function Quiz({
                     <LevelIcon name={cfg.iconName} className="size-4" />
                     <span>{cfg.badge[locale]}</span>
                   </span>
-                  <span className="rounded-full bg-ink/[0.08] px-2 py-0.5 font-mono text-[10.5px] text-muted">
+                  <span className="rounded-full bg-white/[0.08] px-2 py-0.5 font-mono text-[10.5px] text-muted">
                     {qCount} Qs · {timerText}
                   </span>
                 </div>
@@ -345,14 +345,14 @@ export function Quiz({
                       : "bg-danger"
                     : i === step
                       ? "bg-[var(--lvl-accent)] shadow-[0_0_8px_var(--lvl-accent)]"
-                      : "bg-ink/[0.08]"
+                      : "bg-white/[0.08]"
                 }`}
               />
             ))}
           </div>
 
           {seconds !== null && !answered && (
-            <div className="mt-2 h-1 overflow-hidden rounded-full bg-ink/[0.05]" aria-hidden>
+            <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/[0.05]" aria-hidden>
               <div
                 className="h-full rounded-full bg-[var(--lvl-accent)] transition-[width] duration-1000 ease-linear"
                 style={{ width: `${(left / seconds) * 100}%` }}
@@ -384,7 +384,7 @@ export function Quiz({
                         ? "shake border-danger bg-danger/12"
                         : answered
                           ? "border-line opacity-45"
-                          : "border-line bg-ink/[0.03] hover:-translate-y-0.5 hover:border-[var(--tint)] hover:bg-ink/[0.06]"
+                          : "border-line bg-white/[0.03] hover:-translate-y-0.5 hover:border-[var(--tint)] hover:bg-white/[0.06]"
                   }`}
                 >
                   <span
@@ -468,7 +468,7 @@ export function Quiz({
                       size={48}
                       weight="fill"
                       className={`pop-in ${
-                        i < stars ? "text-amber drop-shadow-[0_0_14px_rgb(251_191_36/0.6)]" : "text-ink/10"
+                        i < stars ? "text-amber drop-shadow-[0_0_14px_rgb(251_191_36/0.6)]" : "text-white/10"
                       }`}
                       style={{ animationDelay: `${200 + i * 180}ms` }}
                     />
@@ -488,7 +488,7 @@ export function Quiz({
                   <button
                     type="button"
                     onClick={start}
-                    className="inline-flex h-12 items-center gap-2 rounded-full border border-line px-6 text-sm transition-colors hover:bg-ink/[0.06]"
+                    className="inline-flex h-12 items-center gap-2 rounded-full border border-line px-6 text-sm transition-colors hover:bg-white/[0.06]"
                   >
                     <ArrowsClockwise size={16} />
                     <span>{c.again}</span>

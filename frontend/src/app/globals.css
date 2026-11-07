@@ -20,100 +20,8 @@
   --pink: #f472b6;
   --success: #4ade80;
   --danger: #f87171;
-  /* Overlay ink: tints, hairlines and hover washes are drawn in this colour. */
-  --ink: #ffffff;
-  /* Hero headline colours (front: "Rooted to Rise", back: Tree View) and the 3D title. */
-  --hl-face: #c3afd4;
-  --hl-shadow: #1e0028;
-  --hl-glare: #4a105dbf;
-  --hl2-face: #ffffff;
-  --hl2-shadow: #3b0764;
-  --hl2-glare: rgb(255 255 255 / 0.85);
-  --title-face: #ffffff;
-  --title-depth: #6d28d9;
-  --page-bg: radial-gradient(circle at 50% 0%, #1e0d38 0%, #0e061c 50%, #07030e 100%);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* Light theme: same tokens, daylight values. Accents are darkened so text on white keeps 4.5:1. */
-:root[data-theme="light"] {
-  color-scheme: light;
-  --bg: #f7f4fd;
-  --surface: #ffffff;
-  --surface-2: #f1ecfb;
-  --line: rgb(30 16 64 / 0.12);
-  --line-strong: rgb(30 16 64 / 0.22);
-  --text: #1b1530;
-  --muted: #5b5470;
-  --violet: #6d28d9;
-  /* Violet pills become lavender with deep-violet text in daylight. */
-  --violet-deep: #ede9fe;
-  --violet-ink: #4c1d95;
-  --glow-a: #a855f7;
-  --glow-b: #e879f9;
-  --amber: #b45309;
-  --teal: #0f766e;
-  --pink: #be185d;
-  --success: #15803d;
-  --danger: #b91c1c;
-  --ink: #1b1530;
-  --hl-face: #4c1d95;
-  --hl-shadow: #e9d5ff;
-  --hl-glare: rgb(255 255 255 / 0.75);
-  --hl2-face: #4c1d95;
-  --hl2-shadow: #e9d5ff;
-  --hl2-glare: rgb(255 255 255 / 0.85);
-  --title-face: #2e1065;
-  --title-depth: #c4b5fd;
-  --page-bg: radial-gradient(circle at 50% 0%, #efe6ff 0%, #f7f4fd 55%, #fbfaff 100%);
-}
-
-/* Background glows are tuned for night; keep them soft on a light page. */
-:root[data-theme="light"] .page-glows {
-  opacity: 0.4;
-}
-
-/* Bright amber text (stat numbers, Menu) is unreadable on white; use the darker amber token. */
-:root[data-theme="light"] :is(.text-amber-200, .text-amber-300, .text-amber-400):not([data-theme="dark"] *) {
-  color: var(--amber);
-}
-
-/* Primary call-to-action buttons stay solid and bold in daylight. */
-:root[data-theme="light"] .beam-border.bg-violet-deep:not([data-theme="dark"] *) {
-  background: var(--violet);
-  color: #ffffff;
-}
-
-/* Learner card: crisp white card on the lavender page, faint shimmer, soft violet shadow. */
-:root[data-theme="light"] .learner-card {
-  background: var(--surface);
-  box-shadow: 0 30px 70px -28px rgb(76 29 149 / 0.35), 0 0 0 1px rgb(30 16 64 / 0.06);
-}
-
-:root[data-theme="light"] .learner-card-sheen {
-  opacity: 0.18;
-}
-
-/* Dark islands (e.g. the Class 1–3 cosmic scenes) keep dark tokens inside a light page. */
-:root[data-theme="light"] [data-theme="dark"] {
-  color-scheme: dark;
-  --bg: #090514;
-  --surface: #140d28;
-  --surface-2: #1e133c;
-  --line: rgb(255 255 255 / 0.14);
-  --line-strong: rgb(255 255 255 / 0.25);
-  --text: #ffffff;
-  --muted: #cbc7de;
-  --violet: #c084fc;
-  --violet-deep: #4c1d95;
-  --violet-ink: #f3e8ff;
-  --amber: #fbbf24;
-  --teal: #2dd4bf;
-  --pink: #f472b6;
-  --success: #4ade80;
-  --danger: #f87171;
-  --ink: #ffffff;
 }
 
 @theme inline {
@@ -134,7 +42,6 @@
   --color-pink: var(--pink);
   --color-success: var(--success);
   --color-danger: var(--danger);
-  --color-ink: var(--ink);
   --font-display: var(--font-geist), var(--font-anek-tamil), var(--font-anek-deva), ui-sans-serif, sans-serif;
   --font-sans: var(--font-geist), var(--font-anek-tamil), var(--font-anek-deva), ui-sans-serif, sans-serif;
   --font-mono: var(--font-plex-mono), var(--font-anek-tamil), var(--font-anek-deva), ui-monospace, monospace;
@@ -149,25 +56,6 @@ html {
   /* Glows and 3D canvases bleed past the edges on purpose; never let them add a
      sideways scroll. `clip` (unlike `hidden`) keeps sticky positioning working. */
   overflow-x: clip;
-}
-
-/* Hero "Kalpavriksha" title: resting shadow, soft violet glow on hover. */
-.title-glow {
-  --title-glow: rgb(192 132 252 / 0.85);
-  filter: drop-shadow(0 2px 12px rgb(0 0 0 / 0.32));
-  transition: filter 450ms var(--ease-out);
-}
-
-:root[data-theme="light"] .title-glow {
-  --title-glow: rgb(139 92 246 / 0.75);
-  filter: drop-shadow(0 2px 10px rgb(76 29 149 / 0.18));
-}
-
-/* Specific enough to beat the per-theme resting rules above. */
-:root .title-glow:hover,
-:root[data-theme] .title-glow:hover {
-  filter: drop-shadow(0 0 10px var(--title-glow)) drop-shadow(0 0 28px var(--title-glow))
-    drop-shadow(0 2px 12px rgb(0 0 0 / 0.32));
 }
 
 /* CSS stand-in for the WebGL pulsating border when WebGL is unavailable. */
@@ -186,7 +74,7 @@ html {
 }
 
 body {
-  background: var(--page-bg);
+  background: radial-gradient(circle at 50% 0%, #1e0d38 0%, #0e061c 50%, #07030e 100%);
   color: var(--text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

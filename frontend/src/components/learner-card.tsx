@@ -10,7 +10,6 @@ import { ChromeWaves } from "@/components/landing/chrome-waves";
 import { LangSelect } from "@/components/landing/lang-select";
 import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-setup";
 import { useLocale } from "@/components/locale-provider";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { updateProgress, useProgress } from "@/components/progress-store";
 import { BAND_INFO, SETUP_COPY } from "@/lib/bands";
 import { LOCALE_LABEL } from "@/lib/i18n";
@@ -28,12 +27,12 @@ function Card({ profile }: { profile: Profile }) {
   return (
     <div
       style={{ "--band": info.accent } as React.CSSProperties}
-      className="learner-card pop-in relative mx-auto w-full max-w-[520px] overflow-hidden rounded-[28px] border border-line-strong bg-surface-2 p-6 shadow-[0_30px_90px_-20px_rgb(0_0_0/0.9),0_0_80px_-30px_var(--band)]"
+      className="pop-in relative mx-auto w-full max-w-[440px] overflow-hidden rounded-[28px] border border-line-strong bg-surface-2 p-6 shadow-[0_30px_90px_-20px_rgb(0_0_0/0.9),0_0_80px_-30px_var(--band)]"
     >
       {/* Holographic sheen. */}
       <div
         aria-hidden
-        className="learner-card-sheen pointer-events-none absolute -inset-1/2 bg-[conic-gradient(from_var(--beam-angle),transparent_0_60%,color-mix(in_srgb,var(--band)_35%,transparent)_75%,transparent_90%)] opacity-60 [animation:beam_9s_linear_infinite]"
+        className="pointer-events-none absolute -inset-1/2 bg-[conic-gradient(from_var(--beam-angle),transparent_0_60%,color-mix(in_srgb,var(--band)_35%,transparent)_75%,transparent_90%)] opacity-60 [animation:beam_9s_linear_infinite]"
       />
       <div className="relative">
         <div className="flex items-center justify-between">
@@ -57,15 +56,15 @@ function Card({ profile }: { profile: Profile }) {
           <GrowthStage band={band} className="ml-auto size-16 shrink-0" />
         </div>
         <div className="mt-8 grid grid-cols-3 gap-2 text-center">
-          <div className="rounded-2xl bg-ink/[0.04] p-3">
+          <div className="rounded-2xl bg-white/[0.04] p-3">
             <p className="font-mono text-xl text-text">{level}</p>
             <p className="font-mono text-[10.5px] text-muted">{t.level}</p>
           </div>
-          <div className="rounded-2xl bg-ink/[0.04] p-3">
+          <div className="rounded-2xl bg-white/[0.04] p-3">
             <p className="font-mono text-xl text-violet-ink">{progress.xp}</p>
             <p className="font-mono text-[10.5px] text-muted">XP</p>
           </div>
-          <div className="rounded-2xl bg-ink/[0.04] p-3">
+          <div className="rounded-2xl bg-white/[0.04] p-3">
             <p className="flex items-center justify-center gap-1 font-mono text-xl text-amber">
               <Fire size={18} weight="fill" aria-hidden />
               {streak(progress.activeDays, localDay())}
@@ -73,7 +72,7 @@ function Card({ profile }: { profile: Profile }) {
             <p className="font-mono text-[10.5px] text-muted">{t.streak}</p>
           </div>
         </div>
-        <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-ink/[0.08]">
+        <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/[0.08]">
           <div
             className="h-full rounded-full bg-gradient-to-r from-glow-a to-[var(--band)]"
             style={{ width: `${Math.round((into / span) * 100)}%` }}
@@ -110,24 +109,20 @@ function SignInScreenContent() {
   return (
     <>
       <ChromeWaves />
-      <div className="relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-[1600px] flex-col px-4 pb-10 sm:px-8 lg:px-12">
+      <div className="relative z-10 mx-auto w-full max-w-[1100px] px-4 pb-24 sm:px-6">
         <header className="flex items-center justify-between gap-3 py-4 sm:py-6">
           <Link
             href="/"
-            className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-ink/[0.04] px-3 text-sm transition-colors duration-200 hover:bg-ink/[0.1]"
+            className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.04] px-3 text-sm transition-colors duration-200 hover:bg-white/[0.1]"
           >
             <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
             <BrandMark className="size-5 text-violet" />
             <span>{t.home}</span>
           </Link>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <LangSelect />
-          </div>
+          <LangSelect />
         </header>
 
-        {/* Fills the rest of the screen and centres the card section vertically. */}
-        <main className="mt-6 flex flex-1 flex-col justify-center sm:mt-10">
+        <main className="mt-6 sm:mt-10">
           {!hydrated ? (
             <div aria-hidden className="h-96 animate-pulse rounded-3xl border border-line bg-surface/60" />
           ) : !profile || editing ? (
@@ -149,7 +144,7 @@ function SignInScreenContent() {
               />
             </div>
           ) : (
-            <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+            <div className="grid items-center gap-10 lg:grid-cols-[1fr_1fr]">
               <div className="fade-up">
                 <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-violet/30 bg-violet-deep/20 px-3 py-1 font-mono text-[11px] text-violet-ink">
                   <ShieldCheck size={14} weight="fill" />
@@ -176,7 +171,7 @@ function SignInScreenContent() {
                   <button
                     type="button"
                     onClick={() => setEditing(true)}
-                    className="inline-flex h-14 items-center gap-2 rounded-full border border-line px-6 text-sm transition-colors hover:bg-ink/[0.06]"
+                    className="inline-flex h-14 items-center gap-2 rounded-full border border-line px-6 text-sm transition-colors hover:bg-white/[0.06]"
                   >
                     <PencilSimple size={16} />
                     {c.edit}

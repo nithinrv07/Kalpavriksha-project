@@ -1522,13 +1522,13 @@ function SphereGalleryFallback({ images, className, style }: Pick<SphereGallery3
     >
       <div className="spin-slow relative aspect-square w-[min(72%,62vh)]" style={{ animationDuration: "120s" }}>
         <div className="absolute inset-[28%] rounded-full bg-[radial-gradient(closest-side,rgb(255_255_255/0.35),rgb(167_139_250/0.12),transparent)]" />
-        <div className="absolute inset-[12%] rounded-full border border-ink/10" />
+        <div className="absolute inset-[12%] rounded-full border border-white/10" />
         {items.map((item, i) => {
           const a = (Math.PI * 2 * i) / items.length - Math.PI / 2;
           return (
             <div
               key={i}
-              className="absolute aspect-square w-[22%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border border-ink/15 shadow-[0_10px_30px_-10px_rgb(0_0_0/0.8)]"
+              className="absolute aspect-square w-[22%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border border-white/15 shadow-[0_10px_30px_-10px_rgb(0_0_0/0.8)]"
               style={{ left: pct(50 + Math.cos(a) * 38), top: pct(50 + Math.sin(a) * 38) }}
             >
               <NextImage src={item.image!} alt="" fill sizes="160px" className="object-cover" unoptimized />

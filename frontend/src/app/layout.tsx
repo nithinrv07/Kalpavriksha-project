@@ -23,11 +23,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#090514" },
-    { media: "(prefers-color-scheme: light)", color: "#f7f4fd" },
-  ],
-  colorScheme: "dark light",
+  themeColor: "#050507",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -38,13 +35,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geist.variable} ${plexMono.variable} ${fraunces.variable} ${titleSerif.variable} ${anekTamil.variable} ${anekDeva.variable}`}
     >
       <body className="min-h-svh">
-        {/* Apply the saved (or device) light/dark theme before the first paint; mirrors lib/theme.ts. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "try{var t=localStorage.getItem('kalpavriksha.theme');if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}var r=document.documentElement;r.dataset.theme=t;r.style.colorScheme=t}catch(e){}",
-          }}
-        />
         {/* Apply calm / projector before the first paint so motion never flashes. */}
         <script
           dangerouslySetInnerHTML={{

@@ -171,7 +171,7 @@ export function LearnerSetup({
             <strong>Authentication Mode:</strong> Mock / Device Profile (Stored persistently & synced to /api/profile)
           </span>
         </span>
-        <span className="rounded-full bg-ink/[0.08] px-2.5 py-0.5 font-mono text-[11px] text-muted">
+        <span className="rounded-full bg-white/[0.08] px-2.5 py-0.5 font-mono text-[11px] text-muted">
           Ready for School SSO
         </span>
       </div>
@@ -266,7 +266,7 @@ export function LearnerSetup({
                   className={`group relative flex h-13 min-w-[76px] flex-col items-center justify-center rounded-2xl border px-4 py-2 transition-all duration-200 ${
                     isSelected
                       ? "border-[var(--band)] bg-[var(--band)] text-bg font-bold shadow-[0_0_20px_-4px_var(--band)]"
-                      : "border-line bg-surface text-text hover:border-line-strong hover:bg-ink/[0.04]"
+                      : "border-line bg-surface text-text hover:border-line-strong hover:bg-white/[0.04]"
                   }`}
                 >
                   <span className={`font-mono text-[10px] uppercase opacity-75 ${isSelected ? "text-bg" : "text-muted"}`}>
@@ -312,7 +312,7 @@ export function LearnerSetup({
                     className={`flex flex-col text-left rounded-2xl border p-3.5 transition-all duration-200 ${
                       isGrpSelected
                         ? "border-[var(--grp-accent)] bg-[color-mix(in_srgb,var(--grp-accent)_16%,var(--surface))] shadow-[0_0_25px_-5px_var(--grp-accent)]"
-                        : "border-line bg-surface hover:border-line-strong hover:bg-ink/[0.04]"
+                        : "border-line bg-surface hover:border-line-strong hover:bg-white/[0.04]"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1.5">
@@ -412,7 +412,7 @@ export function LearnerSetup({
               <label
                 key={a}
                 title={AVATAR_NAME[a][locale]}
-                className="grid cursor-pointer place-items-center rounded-2xl border border-transparent p-1 transition-all duration-200 hover:bg-ink/[0.06] has-[:checked]:scale-105 has-[:checked]:border-violet/60 has-[:checked]:bg-violet-deep/40 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-violet"
+                className="grid cursor-pointer place-items-center rounded-2xl border border-transparent p-1 transition-all duration-200 hover:bg-white/[0.06] has-[:checked]:scale-105 has-[:checked]:border-violet/60 has-[:checked]:bg-violet-deep/40 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-violet"
               >
                 <input
                   type="radio"

@@ -81,7 +81,7 @@ export function LearningTrackCard({
                 /{stats.totalChaptersInStandard}
               </span>
             </p>
-            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-ink/[0.08]">
+            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/[0.08]">
               <div
                 className="h-full rounded-full bg-gradient-to-r from-violet to-emerald transition-all duration-700"
                 style={{ width: `${Math.min(100, stats.standardPercentage)}%` }}
@@ -109,7 +109,7 @@ export function LearningTrackCard({
                 {stats.totalLessonsDoneOverall === 1 ? "lesson" : "lessons"}
               </span>
             </p>
-            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-ink/[0.08]">
+            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/[0.08]">
               <div
                 className="h-full rounded-full bg-amber transition-all duration-700"
                 style={{ width: `${(stats.level.into / stats.level.span) * 100}%` }}
@@ -172,7 +172,7 @@ export function LearningTrackCard({
 
       {/* Recommended / Last Accessed Chapter Banner */}
       {(stats.lastAccessed || stats.nextRecommendedChapter) && (
-        <div className="relative mt-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-line-strong bg-ink/[0.03] p-4 transition-colors hover:bg-ink/[0.05]">
+        <div className="relative mt-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-line-strong bg-white/[0.03] p-4 transition-colors hover:bg-white/[0.05]">
           <div className="flex items-center gap-3">
             <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-violet-deep text-violet-ink">
               <BookOpen size={20} weight="duotone" />
@@ -225,7 +225,7 @@ export function LearningTrackCard({
               <div
                 key={sub.id}
                 style={{ "--subj": sub.accent } as React.CSSProperties}
-                className="group flex flex-col justify-between rounded-2xl border border-line bg-surface-2/70 p-3.5 transition-all hover:border-[var(--subj)] hover:bg-ink/[0.04]"
+                className="group flex flex-col justify-between rounded-2xl border border-line bg-surface-2/70 p-3.5 transition-all hover:border-[var(--subj)] hover:bg-white/[0.04]"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0 flex-1">
@@ -242,7 +242,7 @@ export function LearningTrackCard({
                         ? "border border-emerald/40 bg-emerald/10 text-emerald"
                         : sub.completedChapters > 0
                           ? "border border-violet/40 bg-violet/10 text-violet"
-                          : "border border-line bg-ink/[0.02] text-muted"
+                          : "border border-line bg-white/[0.02] text-muted"
                     }`}
                   >
                     {sub.isComplete
@@ -254,7 +254,7 @@ export function LearningTrackCard({
                 </div>
 
                 <div className="mt-3">
-                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-ink/[0.08]">
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/[0.08]">
                     <div
                       className="h-full rounded-full transition-all duration-700"
                       style={{
@@ -271,7 +271,7 @@ export function LearningTrackCard({
       </div>
 
       {/* Holistic Synergy Note */}
-      <div className="relative mt-6 flex items-start gap-3 rounded-2xl border border-line bg-ink/[0.02] p-4 text-[12.5px] text-muted">
+      <div className="relative mt-6 flex items-start gap-3 rounded-2xl border border-line bg-white/[0.02] p-4 text-[12.5px] text-muted">
         <Sparkle size={18} weight="fill" className="text-violet shrink-0 mt-0.5" />
         <p className="leading-relaxed">
           {c.academicsContributionHint}

@@ -1,10 +1,13 @@
+const RINGS = Array.from({ length: 30 }, (_, i) => i);
+
 /**
- * Plain fixed background behind the whole page (decorative): soft violet and
- * fuchsia glows only, no rings, so the foreground stays the focus.
+ * Fixed chrome spiral behind the whole page (decorative, pure SVG).
+ * Delicate, luminous liquid-chrome ribbons with vibrant atmospheric violet & fuchsia glows.
+ * Tuned with high vibrancy and luminous nebulae so the entire page is bright and radiant.
  */
 export function ChromeWaves() {
   return (
-    <div aria-hidden className="page-glows pointer-events-none fixed inset-0 z-0 overflow-hidden">
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {/* Radiant atmospheric violet and fuchsia nebula drifts */}
       <div className="glow-drift absolute -right-[10vmax] -top-[15vmax] size-[85vmax] rounded-full bg-[radial-gradient(closest-side,rgb(168_85_247/0.42),rgb(124_58_237/0.22),transparent)]" />
       <div
@@ -16,6 +19,55 @@ export function ChromeWaves() {
 
       {/* Right side ambient luminescence for hero typography */}
       <div className="absolute right-[10%] top-[40%] size-[60vmax] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgb(168_85_247/0.28),rgb(217_70_239/0.15),transparent_70%)]" />
+
+      <div className="waves-scroll will-change-transform absolute left-1/2 top-1/2 size-[170vmax] -translate-x-1/2 -translate-y-1/2">
+        <div className="spin-slow will-change-transform size-full" style={{ animationDuration: "160s" }}>
+          <svg viewBox="-1100 -1100 2200 2200" className="size-full">
+            <defs>
+              <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stopColor="#fff" stopOpacity="0" />
+                <stop offset="0.3" stopColor="#fff" stopOpacity="0.85" />
+                <stop offset="0.48" stopColor="#d8b4fe" stopOpacity="0.45" />
+                <stop offset="0.66" stopColor="#fff" stopOpacity="0.75" />
+                <stop offset="1" stopColor="#fff" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="chrome-glow" x1="1" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#e879f9" stopOpacity="0" />
+                <stop offset="0.4" stopColor="#c084fc" stopOpacity="0.85" />
+                <stop offset="0.7" stopColor="#a855f7" stopOpacity="0.65" />
+                <stop offset="1" stopColor="#7c3aed" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <g transform="rotate(-22)">
+              {/* Radiant violet-fuchsia atmospheric halo behind the brightest ribbons (pure SVG strokes, 0 raster filter lag) */}
+              <g opacity="0.6">
+                {RINGS.filter((i) => i % 4 === 0).map((i) => (
+                  <ellipse
+                    key={i}
+                    rx={200 + i * 30}
+                    ry={92 + i * 17}
+                    fill="none"
+                    stroke="url(#chrome-glow)"
+                    strokeWidth="8"
+                    strokeOpacity="0.4"
+                  />
+                ))}
+              </g>
+              {RINGS.map((i) => (
+                <ellipse
+                  key={i}
+                  rx={200 + i * 30}
+                  ry={92 + i * 17}
+                  fill="none"
+                  stroke="url(#chrome)"
+                  strokeWidth={i % 5 === 0 ? 5.5 : i % 2 === 0 ? 2 : 1}
+                  strokeOpacity={0.45 + (i % 4) * 0.12}
+                />
+              ))}
+            </g>
+          </svg>
+        </div>
+      </div>
 
       {/* Subtle edge vignette (soft, non-darkening, ensures foreground contrast without making the scene dim) */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgb(8_4_16/0.4)_92%)]" />

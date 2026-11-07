@@ -18,7 +18,7 @@ export function BandHint({ band, text, className = "" }: { band: Band; text: str
   }
   return (
     <p
-      className={`flex items-center gap-3 rounded-2xl border border-line bg-ink/[0.03] px-4 py-3 text-[14px] text-muted ${className}`}
+      className={`flex items-center gap-3 rounded-2xl border border-line bg-white/[0.03] px-4 py-3 text-[14px] text-muted ${className}`}
     >
       <GrowthStage band={band} className="size-8 shrink-0" />
       {text}
