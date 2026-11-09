@@ -33,6 +33,7 @@ import type { Profile } from "@/lib/progress";
 import { SENIOR_GROUPS, type CurriculumChapter, type CurriculumSubject } from "@/lib/curriculum";
 import { MODULES } from "@/modules/registry";
 import { accentOf } from "@/modules/accents";
+import { FullScreenToggle } from "@/components/fullscreen-toggle";
 
 interface EncouragementQuote {
   quote: { en: string; ta: string };
@@ -687,11 +688,14 @@ export function SeniorDigitalLearning({
             {theme === "dark" ? <Moon size={16} weight="fill" /> : <Sun size={16} weight="fill" />}
           </button>
 
+          {/* Fullscreen Toggle */}
+          <FullScreenToggle />
+
           {/* Profile Card */}
           <Link
-            href="/sign-in?edit=true&redirect=/m/learn"
+            href="/sign-in"
             className="group flex items-center gap-2.5 rounded-full border border-purple-700/50 bg-gradient-to-r from-purple-950/80 to-[#1e0e38]/80 py-1 pl-1 pr-3 shadow-[0_0_15px_rgba(168,85,247,0.2)] transition-all hover:border-purple-500 hover:scale-[1.02]"
-            title="Edit Academic Profile"
+            title="View Student Profile"
           >
             <div className="relative size-8 shrink-0 overflow-hidden rounded-full border border-purple-400 bg-purple-900 p-0.5">
               <Image

@@ -1927,7 +1927,7 @@ export function LearnScreen({ band }: { band: Band }) {
 
   if (!profile) {
     return (
-      <div className="mx-auto max-w-4xl rounded-[28px] border border-line bg-surface/80 p-5 backdrop-blur-sm sm:p-10">
+      <div className="w-full rounded-[32px] border border-white/20 dark:border-purple-400/30 bg-white/[0.04] dark:bg-purple-950/20 backdrop-blur-2xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-[0_30px_90px_-20px_rgba(0,0,0,0.85),inset_0_1px_2px_0_rgba(255,255,255,0.25)]">
         <LearnerSetup redirectTo="/m/learn" />
       </div>
     );

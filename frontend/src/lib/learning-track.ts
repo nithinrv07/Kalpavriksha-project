@@ -4,6 +4,7 @@ import {
   getSubjectsForStandard,
   getChapterById,
   isSupportedStandard,
+  SUPPORTED_STANDARDS,
   type SupportedStandard,
 } from "@/lib/curriculum";
 
@@ -20,6 +21,18 @@ export type SubjectProgress = {
   readonly status: "completed" | "in-progress" | "not-started";
 };
 
+export type CompletedChapterDetail = {
+  readonly chapterId: string;
+  readonly chapterNumber?: number;
+  readonly chapterTitle: LocalizedText;
+  readonly subjectId: string;
+  readonly subjectName: LocalizedText;
+  readonly standard: number;
+  readonly accent: string;
+  readonly icon: string;
+  readonly reviewHref: string;
+};
+
 export type LearningTrackStats = {
   readonly standard: SupportedStandard;
   readonly totalChaptersInStandard: number;
@@ -31,6 +44,7 @@ export type LearningTrackStats = {
   readonly level: { level: number; into: number; span: number };
   readonly streakDays: number;
   readonly subjects: readonly SubjectProgress[];
+  readonly completedChaptersList: readonly CompletedChapterDetail[];
   readonly lastAccessed?: {
     readonly standard: number;
     readonly subjectId: string;
@@ -173,7 +187,65 @@ export function getLearningTrackStats(
     level: levelOf(progress.xp),
     streakDays: streak(progress.activeDays, today),
     subjects: subjectProgressList,
+    completedChaptersList: getCompletedChaptersList(progress.lessonsDone, standard),
     lastAccessed: lastAccessedMeta,
     nextRecommendedChapter: nextRecommended,
   };
+}
+
+/**
+ * Resolves all completed chapter IDs into human-readable details,
+ * localized titles, subject names, accents, and classroom navigation URLs.
+ */
+export function getCompletedChaptersList(
+  lessonsDone: readonly string[],
+  preferredStandard?: number,
+): readonly CompletedChapterDetail[] {
+  const result: CompletedChapterDetail[] = [];
+  const searchOrder =
+    preferredStandard && isSupportedStandard(preferredStandard)
+      ? [preferredStandard, ...SUPPORTED_STANDARDS.filter((s) => s !== preferredStandard)]
+      : [...SUPPORTED_STANDARDS];
+
+  for (const chId of lessonsDone) {
+    let matched = false;
+    for (const std of searchOrder) {
+      const subjects = getSubjectsForStandard(std);
+      for (const sub of subjects) {
+        const ch = sub.chapters.find((c) => c.id === chId);
+        if (ch) {
+          result.push({
+            chapterId: ch.id,
+            chapterNumber: ch.chapterNumber,
+            chapterTitle: ch.title,
+            subjectId: sub.id,
+            subjectName: sub.name,
+            standard: std,
+            accent: sub.accent || "var(--violet)",
+            icon: sub.icon || "book",
+            reviewHref: `/m/learn?subject=${sub.id}&chapter=${ch.id}`,
+          });
+          matched = true;
+          break;
+        }
+      }
+      if (matched) break;
+    }
+
+    if (!matched) {
+      const cleanTitle = chId.replace(/[-_]/g, " ");
+      result.push({
+        chapterId: chId,
+        chapterTitle: { en: cleanTitle, ta: cleanTitle },
+        subjectId: "general",
+        subjectName: { en: "Digital Learning", ta: "டிஜிட்டல் கற்றல்" },
+        standard: preferredStandard ?? 6,
+        accent: "var(--violet)",
+        icon: "book",
+        reviewHref: `/m/learn`,
+      });
+    }
+  }
+
+  return result;
 }

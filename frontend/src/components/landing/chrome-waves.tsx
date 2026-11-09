@@ -1,5 +1,3 @@
-const RINGS = Array.from({ length: 30 }, (_, i) => i);
-
 /**
  * Dynamic Living Chromatic Nebula & Chrome Waves.
  * A rich, shifting blend of cosmic violet, emerald teal, warm gold, and celestial cyan
@@ -39,54 +37,7 @@ export function ChromeWaves() {
         style={{ animationDelay: "-6s" }}
       />
 
-      {/* 6. Sacred Chrome Spiral Ribbons */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 size-[130vmax] -translate-x-1/2 -translate-y-1/2 transform-gpu">
-        <div className="size-full transform-gpu">
-          <svg viewBox="-1100 -1100 2200 2200" className="size-full">
-            <defs>
-              <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stopColor="#fff" stopOpacity="0" />
-                <stop offset="0.3" stopColor="#fff" stopOpacity="0.85" />
-                <stop offset="0.48" stopColor="#fff" stopOpacity="0.8" />
-                <stop offset="0.66" stopColor="#fff" stopOpacity="0.75" />
-                <stop offset="1" stopColor="#fff" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient id="chrome-glow" x1="1" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor="#fff" stopOpacity="0" />
-                <stop offset="0.5" stopColor="#fff" stopOpacity="0.2" />
-                <stop offset="1" stopColor="#fff" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            <g className="origin-center rotate-[-22deg]">
-              {/* Outer soft aura rings */}
-              <g stroke="url(#chrome-glow)" fill="none" opacity="0.6">
-                {RINGS.filter((i) => i % 4 === 0).map((i) => (
-                  <ellipse
-                    key={`glow-${i}`}
-                    rx={230 + i * 32}
-                    ry={105 + i * 18}
-                    strokeWidth={14}
-                    strokeOpacity={0.12}
-                  />
-                ))}
-              </g>
-              {RINGS.map((i) => (
-                <ellipse
-                  key={i}
-                  rx={200 + i * 30}
-                  ry={92 + i * 17}
-                  fill="none"
-                  stroke="url(#chrome)"
-                  strokeWidth={i % 5 === 0 ? 5.5 : i % 2 === 0 ? 2 : 1}
-                  strokeOpacity={0.45 + (i % 4) * 0.12}
-                />
-              ))}
-            </g>
-          </svg>
-        </div>
-      </div>
-
-      {/* 7. Deep Black Shading Layers for High Contrast & Obsidian Space Depth (Dark Mode) */}
+      {/* 6. Deep Black Shading Layers for High Contrast & Obsidian Space Depth (Dark Mode) */}
       {/* A. Deep black radial vignette from center outwards */}
       <div className="chrome-black-shade pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(3,1,8,0.45)_58%,rgba(0,0,0,0.85)_95%)]" />
 
@@ -96,12 +47,12 @@ export function ChromeWaves() {
       {/* C. Bottom floor deep black shadow fade */}
       <div className="chrome-black-shade pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black via-black/60 to-transparent" />
 
-      {/* 8. Pearlescent Ambient Veil (Light Mode) — luminous lavender, not flat white */}
+      {/* 7. Pearlescent Ambient Veil (Light Mode) — luminous lavender, not flat white */}
       <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-[#f7f1fd]/45" />
       <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-gradient-to-b from-white/45 via-transparent to-[#f2eafb]/55" />
       <div className="chrome-light-shade pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#f6f0fc]/80 via-[#f6f0fc]/40 to-transparent" />
 
-      {/* 9. Light Depth Shading across Landing Page (Light Mode: violet depth, no grey mud) */}
+      {/* 8. Light Depth Shading across Landing Page (Light Mode: violet depth, no grey mud) */}
       <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-[#7c3aed]/[0.045]" />
       <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_34%,rgba(124,58,237,0.07)_72%,rgba(76,29,149,0.15)_100%)]" />
       <div className="chrome-light-shade pointer-events-none absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-[#7c3aed]/[0.05]" />

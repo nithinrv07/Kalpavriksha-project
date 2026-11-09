@@ -10,6 +10,7 @@ import { AVATAR_NAME, BAND_INFO, SETUP_COPY } from "@/lib/bands";
 import { SENIOR_GROUPS, type SeniorGroupId } from "@/lib/curriculum";
 import { LOCALES, LOCALE_LABEL, type Locale } from "@/lib/i18n";
 import { AVATARS, bandOf, type AvatarId, type Band, type Profile } from "@/lib/progress";
+import { enterFullscreen } from "@/lib/fullscreen";
 
 const noopSubscribe = () => () => {};
 /** False during SSR and hydration, true afterwards: lets device-stored state render without a flash. */
@@ -197,6 +198,9 @@ export function LearnerSetup({
       return;
     }
 
+    // Enter full screen on login
+    enterFullscreen();
+
     const saved = authService.saveProfile({
       name: name.trim(),
       email: email.trim() || undefined,
@@ -257,7 +261,7 @@ export function LearnerSetup({
             required
             autoComplete="name"
             placeholder={c.namePlaceholder}
-            className="h-13 rounded-2xl border border-line bg-bg/70 px-4 text-[16px] text-text placeholder:text-muted/60 focus:border-violet/60 focus:outline-none"
+            className="h-13 rounded-2xl border border-white/15 dark:border-purple-400/20 bg-white/[0.04] dark:bg-black/35 backdrop-blur-md px-4 text-[16px] text-text placeholder:text-muted/60 focus:border-violet/80 focus:ring-2 focus:ring-violet/30 focus:outline-none transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.25)]"
           />
         </label>
 
@@ -272,7 +276,7 @@ export function LearnerSetup({
             maxLength={80}
             autoComplete="email"
             placeholder="student@school.edu.in"
-            className="h-13 rounded-2xl border border-line bg-bg/70 px-4 text-[16px] text-text placeholder:text-muted/60 focus:border-violet/60 focus:outline-none"
+            className="h-13 rounded-2xl border border-white/15 dark:border-purple-400/20 bg-white/[0.04] dark:bg-black/35 backdrop-blur-md px-4 text-[16px] text-text placeholder:text-muted/60 focus:border-violet/80 focus:ring-2 focus:ring-violet/30 focus:outline-none transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.25)]"
           />
         </label>
       </div>
@@ -298,8 +302,8 @@ export function LearnerSetup({
                 onClick={() => setBoard(b.id)}
                 className={`flex flex-col text-left rounded-2xl border p-4 transition-all duration-200 ${
                   isSelected
-                    ? "border-violet bg-violet-deep/30 shadow-[0_0_25px_rgba(168,85,247,0.25)] ring-1 ring-violet"
-                    : "border-line bg-bg/60 hover:border-line-strong hover:bg-white/[0.04]"
+                    ? "border-violet bg-violet-deep/40 shadow-[0_0_25px_rgba(168,85,247,0.35),inset_0_1px_1px_rgba(255,255,255,0.2)] ring-1 ring-violet backdrop-blur-md"
+                    : "border-white/10 dark:border-purple-400/15 bg-white/[0.03] dark:bg-purple-950/20 backdrop-blur-md hover:border-white/25 hover:bg-white/[0.07]"
                 }`}
               >
                 <div className="flex items-center justify-between mb-1.5">
@@ -358,7 +362,7 @@ export function LearnerSetup({
                     className={`group relative flex h-14 flex-col items-center justify-center rounded-2xl border px-3 py-2 transition-all duration-200 ${
                       isSelected
                         ? "border-violet bg-violet text-bg font-bold shadow-[0_0_20px_rgba(168,85,247,0.4)] scale-105"
-                        : "border-line bg-bg/60 text-text hover:border-line-strong hover:bg-white/[0.04]"
+                        : "border-white/10 dark:border-purple-400/15 bg-white/[0.03] dark:bg-purple-950/20 backdrop-blur-md text-text hover:border-white/25 hover:bg-white/[0.07]"
                     }`}
                   >
                     <span className={`font-mono text-[10px] uppercase opacity-75 ${isSelected ? "text-bg" : "text-muted"}`}>
@@ -383,7 +387,7 @@ export function LearnerSetup({
             <span className="font-mono text-[11px] text-violet uppercase tracking-wider block mb-2 font-semibold">
               Higher Secondary School (Classes 11–12):
             </span>
-            <div className="grid grid-cols-2 gap-3 max-w-sm">
+            <div className="grid grid-cols-2 gap-3 max-w-sm sm:max-w-md">
               {[11, 12].map((g) => {
                 const isSelected = grade === g;
                 return (
@@ -394,7 +398,7 @@ export function LearnerSetup({
                     className={`group relative flex h-16 flex-col items-center justify-center rounded-2xl border px-4 py-2 transition-all duration-200 ${
                       isSelected
                         ? "border-purple-400 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold shadow-[0_0_25px_rgba(168,85,247,0.5)] scale-105"
-                        : "border-purple-900/40 bg-purple-950/20 text-text hover:border-purple-700 hover:bg-purple-900/30"
+                        : "border-white/10 dark:border-purple-400/15 bg-white/[0.03] dark:bg-purple-950/20 backdrop-blur-md text-text hover:border-purple-600/60 hover:bg-white/[0.07]"
                     }`}
                   >
                     <span className={`font-mono text-[10px] uppercase tracking-wider ${isSelected ? "text-purple-100" : "text-purple-300/70"}`}>
@@ -459,8 +463,8 @@ export function LearnerSetup({
                     onClick={() => setSeniorGroup(grp.id)}
                     className={`group relative flex flex-col text-left rounded-2xl border p-4 transition-all duration-200 ${
                       isGrpSelected
-                        ? "border-purple-400 bg-purple-900/60 shadow-[0_0_25px_rgba(168,85,247,0.4)] ring-1 ring-purple-400 scale-[1.02]"
-                        : "border-purple-900/40 bg-purple-950/20 hover:border-purple-700/60 hover:bg-purple-900/30"
+                        ? "border-purple-400 bg-purple-900/60 shadow-[0_0_25px_rgba(168,85,247,0.4)] ring-1 ring-purple-400 scale-[1.02] backdrop-blur-md"
+                        : "border-white/10 dark:border-purple-400/15 bg-white/[0.03] dark:bg-purple-950/20 backdrop-blur-md hover:border-purple-600/60 hover:bg-white/[0.07]"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1.5">
@@ -502,9 +506,9 @@ export function LearnerSetup({
       {/* ------------------------------------------------------------------- */}
       {/* 4. PREFERRED LANGUAGE & BUDDY AVATAR                                */}
       {/* ------------------------------------------------------------------- */}
-      <div className="grid gap-5 glass-inset rounded-3xl border p-5 sm:p-7 md:grid-cols-2">
+      <div className="grid gap-5 glass-inset rounded-3xl border p-5 sm:p-7 md:grid-cols-2 lg:grid-cols-12">
         {/* Preferred Language */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 lg:col-span-4">
           <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-violet font-semibold">
             4. {locale === "ta" ? "விருப்ப மொழி" : "Preferred Language"} *
           </span>
@@ -519,7 +523,7 @@ export function LearnerSetup({
                   className={`flex h-12 flex-1 items-center justify-center gap-1.5 rounded-xl border font-mono text-xs font-bold transition-colors ${
                     active
                       ? "border-violet bg-violet-deep text-violet-ink shadow-sm"
-                      : "border-line bg-bg/60 text-muted hover:text-text"
+                      : "border-white/10 dark:border-purple-400/15 bg-white/[0.03] dark:bg-purple-950/20 backdrop-blur-md text-muted hover:text-text hover:border-white/25 hover:bg-white/[0.07]"
                   }`}
                 >
                   {LOCALE_LABEL[l].native}
@@ -531,11 +535,11 @@ export function LearnerSetup({
         </div>
 
         {/* Buddy Avatar Selector */}
-        <fieldset>
+        <fieldset className="lg:col-span-8">
           <legend className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
             5. {c.avatarLabel}
           </legend>
-          <div className="mt-3 grid grid-cols-4 gap-x-2 gap-y-3 sm:grid-cols-8 md:grid-cols-4">
+          <div className="mt-3 grid grid-cols-4 gap-x-2 gap-y-3 sm:grid-cols-8">
             {AVATARS.map((a) => (
               <label
                 key={a}
@@ -572,7 +576,7 @@ export function LearnerSetup({
         </fieldset>
 
         {/* Submit / Proceed Action */}
-        <div className="flex flex-col gap-3 pt-3 md:col-span-2 md:flex-row md:items-center md:justify-between border-t border-line/60">
+        <div className="flex flex-col gap-3 pt-3 md:col-span-2 lg:col-span-12 md:flex-row md:items-center md:justify-between border-t border-line/60">
           <p className="text-[12.5px] text-muted/80">
             {locale === "ta"
               ? "உங்கள் வகுப்பு அல்லது பாடப்பிரிவை எப்போது வேண்டுமானாலும் மாற்றலாம்."

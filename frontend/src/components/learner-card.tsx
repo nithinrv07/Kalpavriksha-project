@@ -6,6 +6,7 @@ import {
   BookOpen,
   CalendarBlank,
   Check,
+  CheckCircle,
   Clock,
   Flag,
   Flame,
@@ -21,13 +22,16 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { ChromeWaves } from "@/components/landing/chrome-waves";
 import { LivingTree } from "@/components/landing/living-tree";
 import { CosmicParticleLayer } from "@/components/cosmic-particle-layer";
 import { LangSelect } from "@/components/landing/lang-select";
 import { LearnerSetup, useHydrated } from "@/components/learner-setup";
 import { LiquidGlassSurface } from "@/components/liquid-glass-surface";
+import { FullScreenToggle } from "@/components/fullscreen-toggle";
+import { enterFullscreen } from "@/lib/fullscreen";
+import { getCompletedChaptersList } from "@/lib/learning-track";
 import { useLocale } from "@/components/locale-provider";
 import { updateProgress, useProgress } from "@/components/progress-store";
 import { BAND_INFO, boardName, SETUP_COPY } from "@/lib/bands";
@@ -198,6 +202,29 @@ function ProfileIdentityCard({ profile, confirming, onRemove, onBlurRemove }: Pr
             </span>
           </div>
         </div>
+
+        <div className="col-span-2 rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-3 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="grid size-9 shrink-0 place-items-center rounded-xl border border-emerald-500/40 bg-emerald-900/30 text-emerald-400">
+              <CheckCircle size={18} weight="fill" />
+            </div>
+            <div className="flex flex-col min-w-0">
+              <span className="text-[10px] text-emerald-300/80 font-mono uppercase tracking-wider">
+                {locale === "ta" ? "பாடங்கள் நிறைவு நிலை" : "Chapters Completed"}
+              </span>
+              <span className="font-display text-sm font-bold text-white">
+                {progress.lessonsDone.length > 0
+                  ? `${progress.lessonsDone.length} ${progress.lessonsDone.length === 1 ? "Chapter" : "Chapters"} Finished`
+                  : (locale === "ta" ? "இன்னும் பாடங்கள் முடியவில்லை" : "No chapters finished yet")}
+              </span>
+            </div>
+          </div>
+          {progress.lessonsDone.length > 0 && (
+            <span className="rounded-full bg-emerald-500/20 border border-emerald-500/40 px-2.5 py-0.5 font-mono text-[10px] font-bold text-emerald-300">
+              Verified
+            </span>
+          )}
+        </div>
       </div>
 
       {/* 5. My Achievements Section */}
@@ -225,13 +252,23 @@ function ProfileIdentityCard({ profile, confirming, onRemove, onBlurRemove }: Pr
             <span className="font-mono text-[9px] text-purple-300/70 mt-0.5">Oct 10, 2026</span>
           </div>
 
-          {/* Badge 2: 3 Lessons Completed */}
+          {/* Badge 2: Chapters Completed */}
           <div className="flex flex-col items-center text-center rounded-2xl border border-purple-800/35 bg-purple-950/25 p-2 sm:p-2.5 transition-transform hover:scale-105">
-            <div className="grid size-9 sm:size-10 place-items-center rounded-xl border border-purple-500/40 bg-gradient-to-br from-purple-500/20 to-purple-800/30 text-purple-300 mb-1.5 shadow-[0_0_10px_rgba(168,85,247,0.2)]">
+            <div
+              className={`grid size-9 sm:size-10 place-items-center rounded-xl border mb-1.5 ${
+                progress.lessonsDone.length > 0
+                  ? "border-emerald-500/50 bg-gradient-to-br from-emerald-500/20 to-emerald-800/30 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.35)]"
+                  : "border-purple-500/40 bg-gradient-to-br from-purple-500/20 to-purple-800/30 text-purple-300 shadow-[0_0_10px_rgba(168,85,247,0.2)]"
+              }`}
+            >
               <BookOpen size={18} weight="fill" />
             </div>
-            <span className="font-display text-[11px] font-bold text-white leading-tight">3 Lessons</span>
-            <span className="font-mono text-[9px] text-purple-300/70 mt-0.5">Completed</span>
+            <span className="font-display text-[11px] font-bold text-white leading-tight">
+              {progress.lessonsDone.length > 0 ? `${progress.lessonsDone.length} Done` : "First Chapter"}
+            </span>
+            <span className="font-mono text-[9px] text-purple-300/70 mt-0.5">
+              {progress.lessonsDone.length > 0 ? "Completed" : "In Progress"}
+            </span>
           </div>
 
           {/* Badge 3: 3 Day Streak */}
@@ -279,14 +316,23 @@ type DashboardHubCardProps = {
   readonly onEdit: () => void;
 };
 
-/** Right Card: Greeting, Tree Art, Continue Learning, 4 Metrics, Learning Journey */
+/** Right Card: Greeting, Tree Art, Continue Learning, 4 Metrics, Learning Journey & Completed Chapters */
 function DashboardHubCard({ profile, continueHref, onEdit }: DashboardHubCardProps) {
   const { locale } = useLocale();
   const progress = useProgress();
   const today = localDay();
   const dayStreak = streak(progress.activeDays, today);
-  const streakCount = dayStreak > 0 ? dayStreak : 3;
-  const lessonsCount = progress.lessonsDone.length > 0 ? progress.lessonsDone.length : 12;
+  const streakCount = dayStreak;
+  const lessonsCount = progress.lessonsDone.length;
+
+  const completedChapters = useMemo(
+    () => getCompletedChaptersList(progress.lessonsDone, profile.grade),
+    [progress.lessonsDone, profile.grade],
+  );
+
+  const targetMilestone =
+    lessonsCount < 5 ? 5 : Math.ceil((lessonsCount + 1) / 5) * 5;
+  const remainingForMilestone = Math.max(1, targetMilestone - lessonsCount);
 
   return (
     <div className="rounded-3xl border border-purple-500/40 bg-[#0d0720]/80 p-5 sm:p-6 backdrop-blur-xl shadow-[0_16px_40px_-10px_rgba(0,0,0,0.6),0_0_35px_rgba(168,85,247,0.22)] flex flex-col justify-between gap-5 transition-all duration-300 hover:border-purple-400/60">
@@ -341,6 +387,9 @@ function DashboardHubCard({ profile, continueHref, onEdit }: DashboardHubCardPro
       <div className="flex flex-wrap items-center gap-3">
         <Link
           href={continueHref}
+          onClick={() => {
+            enterFullscreen();
+          }}
           className="group inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 px-6 py-2.5 text-sm font-semibold text-white shadow-[0_0_24px_rgba(168,85,247,0.5)] transition-all hover:scale-[1.02] hover:shadow-[0_0_32px_rgba(168,85,247,0.7)]"
         >
           <div className="grid size-5 place-items-center rounded-full bg-white text-purple-700">
@@ -362,24 +411,28 @@ function DashboardHubCard({ profile, continueHref, onEdit }: DashboardHubCardPro
 
       {/* 3. Four Metric Stats Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
-        {/* Metric 1: Lessons Completed */}
+        {/* Metric 1: Chapters Completed */}
         <div className="rounded-2xl border border-purple-800/35 bg-purple-950/25 p-3 flex flex-col gap-1 transition-transform hover:scale-[1.02]">
           <BookOpen size={18} weight="fill" className="text-purple-400 mb-1" />
           <span className="font-display text-xl sm:text-2xl font-bold text-white leading-none">
             {lessonsCount}
           </span>
-          <span className="text-[11px] text-purple-200/80 font-medium">Lessons Completed</span>
-          <span className="font-mono text-[10px] text-emerald-400 font-semibold mt-0.5">+2 this week</span>
+          <span className="text-[11px] text-purple-200/80 font-medium">Chapters Done</span>
+          <span className="font-mono text-[10px] text-emerald-400 font-semibold mt-0.5">
+            {lessonsCount > 0 ? `${lessonsCount} completed` : "Ready to learn"}
+          </span>
         </div>
 
         {/* Metric 2: Hours Learned */}
         <div className="rounded-2xl border border-purple-800/35 bg-purple-950/25 p-3 flex flex-col gap-1 transition-transform hover:scale-[1.02]">
           <Clock size={18} weight="fill" className="text-purple-400 mb-1" />
           <span className="font-display text-xl sm:text-2xl font-bold text-white leading-none">
-            8.5
+            {lessonsCount > 0 ? (lessonsCount * 0.5).toFixed(1) : "0.0"}
           </span>
           <span className="text-[11px] text-purple-200/80 font-medium">Hours Learned</span>
-          <span className="font-mono text-[10px] text-emerald-400 font-semibold mt-0.5">+1.2 this week</span>
+          <span className="font-mono text-[10px] text-emerald-400 font-semibold mt-0.5">
+            {lessonsCount > 0 ? `+${(lessonsCount * 0.25).toFixed(1)} this week` : "Start today"}
+          </span>
         </div>
 
         {/* Metric 3: Day Streak */}
@@ -389,17 +442,21 @@ function DashboardHubCard({ profile, continueHref, onEdit }: DashboardHubCardPro
             {streakCount}
           </span>
           <span className="text-[11px] text-purple-200/80 font-medium">Day Streak</span>
-          <span className="font-mono text-[10px] text-emerald-400 font-semibold mt-0.5">Keep it up!</span>
+          <span className="font-mono text-[10px] text-emerald-400 font-semibold mt-0.5">
+            {streakCount > 0 ? "Keep it up!" : "Daily streak"}
+          </span>
         </div>
 
         {/* Metric 4: Achievements */}
         <div className="rounded-2xl border border-purple-800/35 bg-purple-950/25 p-3 flex flex-col gap-1 transition-transform hover:scale-[1.02]">
           <Trophy size={18} weight="fill" className="text-amber-400 mb-1" />
           <span className="font-display text-xl sm:text-2xl font-bold text-white leading-none">
-            2
+            {lessonsCount >= 1 ? 2 : 1}
           </span>
           <span className="text-[11px] text-purple-200/80 font-medium">Achievements</span>
-          <span className="font-mono text-[10px] text-emerald-400 font-semibold mt-0.5">+1 new</span>
+          <span className="font-mono text-[10px] text-emerald-400 font-semibold mt-0.5">
+            {lessonsCount >= 1 ? "Level 1 Achieved" : "First badge"}
+          </span>
         </div>
       </div>
 
@@ -424,7 +481,10 @@ function DashboardHubCard({ profile, continueHref, onEdit }: DashboardHubCardPro
           <div className="flex-1 w-full flex items-center justify-between relative px-2">
             {/* Connecting Track Line */}
             <div className="absolute left-6 right-6 top-3.5 h-[2px] bg-purple-900/60 -z-0" />
-            <div className="absolute left-6 right-1/2 top-3.5 h-[2px] bg-gradient-to-r from-purple-500 to-indigo-500 -z-0" />
+            <div
+              className="absolute left-6 top-3.5 h-[2px] bg-gradient-to-r from-purple-500 to-indigo-500 -z-0 transition-all duration-500"
+              style={{ width: lessonsCount > 0 ? "50%" : "15%" }}
+            />
 
             {/* Step 1: Start */}
             <div className="flex flex-col items-center gap-1.5 z-10">
@@ -433,18 +493,28 @@ function DashboardHubCard({ profile, continueHref, onEdit }: DashboardHubCardPro
               </div>
               <div className="text-center">
                 <span className="block font-display text-[10px] font-bold text-white">Start</span>
-                <span className="block font-mono text-[9px] text-purple-300/70">Welcome to GSX</span>
+                <span className="block font-mono text-[9px] text-purple-300/70">Profile Ready</span>
               </div>
             </div>
 
             {/* Step 2: Current */}
             <div className="flex flex-col items-center gap-1.5 z-10">
-              <div className="grid size-8 place-items-center rounded-full border-2 border-white bg-purple-600 text-white shadow-[0_0_15px_rgba(168,85,247,0.8)]">
-                <BookOpen size={14} weight="fill" />
+              <div
+                className={`grid size-8 place-items-center rounded-full border-2 text-white transition-all ${
+                  lessonsCount > 0
+                    ? "border-emerald-400 bg-emerald-600 shadow-[0_0_15px_rgba(16,185,129,0.8)]"
+                    : "border-white bg-purple-600 shadow-[0_0_15px_rgba(168,85,247,0.8)]"
+                }`}
+              >
+                {lessonsCount > 0 ? <Check size={14} weight="bold" /> : <BookOpen size={14} weight="fill" />}
               </div>
               <div className="text-center">
-                <span className="block font-display text-[10px] font-bold text-white">Current</span>
-                <span className="block font-mono text-[9px] text-purple-300/70">Chapter 3</span>
+                <span className="block font-display text-[10px] font-bold text-white">
+                  {lessonsCount > 0 ? `${lessonsCount} Done` : "Chapter 1"}
+                </span>
+                <span className="block font-mono text-[9px] text-purple-300/70">
+                  {lessonsCount > 0 ? "Chapters Finished" : "Ready to begin"}
+                </span>
               </div>
             </div>
 
@@ -454,8 +524,10 @@ function DashboardHubCard({ profile, continueHref, onEdit }: DashboardHubCardPro
                 <Star size={13} weight="fill" />
               </div>
               <div className="text-center">
-                <span className="block font-display text-[10px] font-bold text-white">Next Milestone</span>
-                <span className="block font-mono text-[9px] text-purple-300/70">Complete 5 Chapters</span>
+                <span className="block font-display text-[10px] font-bold text-white">Milestone</span>
+                <span className="block font-mono text-[9px] text-purple-300/70">
+                  Goal: {targetMilestone} Chapters
+                </span>
               </div>
             </div>
           </div>
@@ -466,11 +538,92 @@ function DashboardHubCard({ profile, continueHref, onEdit }: DashboardHubCardPro
               <Plant size={18} weight="fill" />
             </div>
             <div className="flex flex-col">
-              <span className="font-display text-xs font-bold text-white">You&apos;re doing great!</span>
-              <span className="font-mono text-[10px] text-purple-300/80">Next milestone in 3 chapters</span>
+              <span className="font-display text-xs font-bold text-white">
+                {lessonsCount > 0 ? "Brilliant progress!" : "Welcome aboard!"}
+              </span>
+              <span className="font-mono text-[10px] text-purple-300/80">
+                Next milestone in {remainingForMilestone} {remainingForMilestone === 1 ? "chapter" : "chapters"}
+              </span>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* 5. Completed Chapters Showcase */}
+      <div className="rounded-2xl border border-purple-800/35 bg-purple-950/25 p-4 flex flex-col gap-3">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <CheckCircle size={18} weight="fill" className="text-emerald-400" />
+            <span className="font-display text-xs sm:text-sm font-bold text-white">
+              {locale === "ta" ? "நிறைவு செய்த பாடங்கள்" : "Completed Chapters"}
+            </span>
+            <span className="rounded-full bg-emerald-500/20 border border-emerald-500/40 px-2 py-0.5 font-mono text-[10px] font-bold text-emerald-300">
+              {completedChapters.length}
+            </span>
+          </div>
+          {completedChapters.length > 0 && (
+            <Link
+              href="/m/learn"
+              className="group inline-flex items-center gap-1 font-mono text-[11px] text-purple-300 hover:text-white transition-colors"
+            >
+              <span>{locale === "ta" ? "கற்றலுக்குச் செல்" : "Go to Classroom"}</span>
+              <ArrowRight size={12} className="transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          )}
+        </div>
+
+        {completedChapters.length > 0 ? (
+          <div className="flex flex-col gap-2 max-h-64 overflow-y-auto pr-1 scrollbar-glass">
+            {completedChapters.map((item) => (
+              <div
+                key={item.chapterId}
+                className="group flex items-center justify-between gap-3 rounded-xl border border-purple-800/40 bg-purple-900/20 p-2.5 transition-all hover:bg-purple-900/40 hover:border-purple-600/50"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="grid size-8 shrink-0 place-items-center rounded-lg border border-emerald-500/50 bg-emerald-950/60 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]">
+                    <Check size={14} weight="bold" />
+                  </div>
+                  <div className="flex flex-col min-w-0">
+                    <span className="font-display text-xs sm:text-sm font-bold text-white truncate group-hover:text-purple-200">
+                      {item.chapterNumber ? `${locale === "ta" ? "அத்தியாயம்" : "Chapter"} ${item.chapterNumber}: ` : ""}
+                      {locale === "ta" ? item.chapterTitle.ta : item.chapterTitle.en}
+                    </span>
+                    <div className="flex items-center gap-2 text-[10px] sm:text-[11px] font-mono text-purple-300/80">
+                      <span className="font-semibold text-purple-200">{locale === "ta" ? item.subjectName.ta : item.subjectName.en}</span>
+                      <span>•</span>
+                      <span>Class {item.standard}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <Link
+                  href={item.reviewHref}
+                  onClick={() => enterFullscreen()}
+                  className="shrink-0 rounded-lg border border-purple-500/40 bg-purple-800/30 px-3 py-1 text-[11px] font-medium text-purple-200 transition-colors hover:bg-purple-700/60 hover:text-white"
+                >
+                  {locale === "ta" ? "மீண்டும் படிக்க" : "Review"}
+                </Link>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-purple-800/50 bg-purple-950/20 py-6 px-4 text-center">
+            <BookOpen size={24} weight="duotone" className="text-purple-400/60 mb-2" />
+            <p className="text-xs text-purple-200/80 max-w-sm">
+              {locale === "ta"
+                ? "இன்னும் பாடங்கள் நிறைவு செய்யப்படவில்லை. டிஜிட்டல் கற்றலில் முதல் பாடத்தைப் படித்து முடிக்கவும்!"
+                : "No chapters completed yet. Complete a chapter in Digital Learning to see it tracked here!"}
+            </p>
+            <Link
+              href="/m/learn"
+              onClick={() => enterFullscreen()}
+              className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-purple-400/50 bg-purple-600/30 px-3.5 py-1 text-xs font-semibold text-white transition-all hover:bg-purple-600/60"
+            >
+              <span>{locale === "ta" ? "கற்கத் தொடங்கு" : "Start Learning"}</span>
+              <ArrowRight size={12} />
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -511,9 +664,9 @@ function SignInScreenContent() {
         <CosmicParticleLayer moduleSlug="learn" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1320px] px-4 pb-20 sm:px-6">
+      <div className="relative z-10 flex min-h-[100dvh] w-full flex-col px-3 py-3 sm:px-6 sm:py-4 md:px-8 lg:px-10 pb-12">
         {/* Top Header Navigation */}
-        <header className="flex items-center justify-between gap-3 py-4 sm:py-6">
+        <header className="flex items-center justify-between gap-3 py-3 sm:py-4">
           <Link
             href="/"
             className="group flex h-10 items-center gap-2 rounded-full border border-purple-500/30 bg-purple-950/40 px-4 text-sm text-purple-200 backdrop-blur-xl transition-all duration-200 hover:bg-purple-900/60 hover:text-white shadow-sm"
@@ -522,22 +675,25 @@ function SignInScreenContent() {
             <Trophy size={16} weight="fill" className="text-purple-300" />
             <span>{t.home}</span>
           </Link>
-          <LangSelect />
+          <div className="flex items-center gap-2">
+            <FullScreenToggle />
+            <LangSelect />
+          </div>
         </header>
 
-        <main className="mt-4 sm:mt-6">
+        <main className="mt-3 flex flex-1 flex-col justify-center sm:mt-5">
           {!hydrated ? (
-            <div aria-hidden className="mx-auto h-96 w-full max-w-[520px] animate-pulse rounded-3xl border border-purple-900/30 bg-purple-950/30" />
+            <div aria-hidden className="mx-auto h-96 w-full animate-pulse rounded-3xl border border-purple-900/30 bg-purple-950/30" />
           ) : !profile || editing ? (
             <LiquidGlassSurface
-              radius={28}
-              className="border border-purple-500/30 bg-[#0d0720]/90 p-5 shadow-[0_30px_80px_-40px_rgb(0_0_0/0.9)] sm:p-10 max-w-2xl mx-auto"
+              radius={32}
+              className="w-full border border-white/20 dark:border-purple-400/30 bg-white/[0.04] dark:bg-purple-950/20 backdrop-blur-2xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-[0_30px_90px_-20px_rgba(0,0,0,0.85),inset_0_1px_2px_0_rgba(255,255,255,0.25),0_0_50px_rgba(168,85,247,0.18)]"
             >
               {profile && (
                 <button
                   type="button"
                   onClick={() => setEditing(false)}
-                  className="mb-6 inline-flex h-10 items-center gap-2 rounded-xl border border-purple-700/50 bg-purple-950/40 px-3 text-sm text-purple-200 transition-colors hover:text-white"
+                  className="mb-6 inline-flex h-10 items-center gap-2 rounded-xl border border-white/15 bg-white/10 dark:bg-purple-900/30 px-3.5 text-sm text-purple-200 backdrop-blur-md transition-all hover:bg-white/20 hover:text-white shadow-sm"
                 >
                   <ArrowLeft size={14} />
                   <span>Back</span>
