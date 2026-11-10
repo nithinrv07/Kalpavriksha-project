@@ -21,6 +21,7 @@ import {
 import { useLocale } from "@/components/locale-provider";
 import { BrandMark } from "@/components/brand-mark";
 import { SoundToggle } from "@/components/sound-toggle";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { LangSelect } from "@/components/landing/lang-select";
 import type { CurriculumChapter, CurriculumSubject } from "@/lib/curriculum";
 import { MODULES } from "@/modules/registry";
@@ -179,8 +180,9 @@ export function JuniorSuperAdventure({
 
         {/* Right: Controls & Learner Profile Chip */}
         <div className="flex items-center gap-2.5 self-end lg:self-auto">
-          <div className="hidden sm:flex items-center gap-1.5 rounded-2xl border border-white/80 bg-white/80 p-1 shadow-[0_4px_16px_rgba(30,58,138,0.06)] backdrop-blur-xl">
+          <div className="flex items-center gap-1.5 rounded-2xl border border-white/80 bg-white/80 p-1 shadow-[0_4px_16px_rgba(30,58,138,0.06)] backdrop-blur-xl">
             <SoundToggle />
+            <ThemeToggle />
             <LangSelect />
           </div>
           <Link

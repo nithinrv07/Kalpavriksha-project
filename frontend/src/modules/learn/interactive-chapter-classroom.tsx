@@ -44,6 +44,7 @@ import { Burst } from "@/components/burst";
 import { useLocale } from "@/components/locale-provider";
 import { updateProgress, useProgress } from "@/components/progress-store";
 import { KaraokeLines, useReadAloud } from "@/components/read-aloud";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { useTheme } from "@/lib/theme";
 import { ChromeWaves } from "@/components/landing/chrome-waves";
 import { LivingTree } from "@/components/landing/living-tree";
@@ -1006,6 +1007,9 @@ export function InteractiveChapterClassroom({
             <BookmarkSimple size={15} weight={isBookmarked ? "fill" : "regular"} />
             <span className="hidden sm:inline">{isBookmarked ? "Bookmarked" : "Bookmark"}</span>
           </button>
+
+          {/* Theme Toggle */}
+          <ThemeToggle className="size-9 rounded-xl" />
 
           {/* Close Button */}
           <button

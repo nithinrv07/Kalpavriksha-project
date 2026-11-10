@@ -15,7 +15,6 @@ import { GrowthStage, LearnerSetup, useHydrated } from "@/components/learner-set
 import { useProgress } from "@/components/progress-store";
 import { SoundToggle } from "@/components/sound-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { FullScreenToggle } from "@/components/fullscreen-toggle";
 import { BAND_INFO } from "@/lib/bands";
 import { authService } from "@/lib/auth-service";
 import { bandOf, localDay, streak, type Band, type Profile } from "@/lib/progress";
@@ -43,7 +42,7 @@ function ProgressPill() {
       <Link
         href="/sign-in"
         aria-label={progress.profile ? `${t.myCard}: ${progress.profile.name}` : t.makeCard}
-        className="grid size-11 place-items-center rounded-xl border border-line bg-white/[0.04] transition-colors duration-200 hover:bg-white/[0.1]"
+        className="grid size-11 place-items-center rounded-xl border border-line bg-surface/60 backdrop-blur-md transition-colors duration-200 hover:bg-surface"
       >
         {progress.profile ? (
           <Avatar id={progress.profile.avatar} className="size-8" iconSize={18} />
@@ -107,7 +106,7 @@ export function ModuleShell({
         </div>
 
         {/* 4. Soft Vignette Edge Shadow for Content Contrast & Space Depth */}
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(4,1,8,0.35)_75%,rgba(2,0,5,0.75)_100%)]" />
+        <div className="pointer-events-none absolute inset-0 hidden dark:block bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(4,1,8,0.35)_75%,rgba(2,0,5,0.75)_100%)]" />
       </div>
 
       {/* Cosmic Particles & Interactive Petal Bursts Layer (Across All 3 Modules) */}
@@ -121,13 +120,13 @@ export function ModuleShell({
             <div className="flex items-center gap-2">
               <Link
                 href="/"
-                className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-white/[0.04] px-3 text-sm transition-colors duration-200 hover:bg-white/[0.1]"
+                className="group flex h-11 items-center gap-2 rounded-xl border border-line bg-surface/60 px-3 text-sm text-text backdrop-blur-md transition-colors duration-200 hover:bg-surface"
               >
                 <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
                 <BrandMark className="size-5 text-violet" />
                 <span className="sr-only sm:not-sr-only">{t.home}</span>
               </Link>
-              <nav aria-label={t.modulesTitle} className="flex gap-1 rounded-xl border border-line bg-white/[0.03] p-1">
+              <nav aria-label={t.modulesTitle} className="flex gap-1 rounded-xl border border-line bg-surface/60 p-1 backdrop-blur-md">
                 {MODULES.map((m) => {
                   const ModIcon = m.icon;
                   const active = m.slug === module.slug;
@@ -152,7 +151,6 @@ export function ModuleShell({
             <div className="flex items-center gap-2">
               <ProgressPill />
               <SoundToggle />
-              <FullScreenToggle />
               <ThemeToggle />
               <LangSelect />
             </div>

@@ -10,7 +10,6 @@ import { AVATAR_NAME, BAND_INFO, SETUP_COPY } from "@/lib/bands";
 import { SENIOR_GROUPS, type SeniorGroupId } from "@/lib/curriculum";
 import { LOCALES, LOCALE_LABEL, type Locale } from "@/lib/i18n";
 import { AVATARS, bandOf, type AvatarId, type Band, type Profile } from "@/lib/progress";
-import { enterFullscreen } from "@/lib/fullscreen";
 
 const noopSubscribe = () => () => {};
 /** False during SSR and hydration, true afterwards: lets device-stored state render without a flash. */
@@ -197,9 +196,6 @@ export function LearnerSetup({
     if (!ready || grade === null) {
       return;
     }
-
-    // Enter full screen on login
-    enterFullscreen();
 
     const saved = authService.saveProfile({
       name: name.trim(),
@@ -427,20 +423,20 @@ export function LearnerSetup({
             className={`mt-4 rounded-2xl border p-4 sm:p-5 transition-all duration-300 animate-in fade-in slide-in-from-top-3 ${
               !seniorGroup
                 ? "border-amber-500/80 bg-amber-500/10 shadow-[0_0_30px_rgba(245,158,11,0.2)] ring-2 ring-amber-500/50"
-                : "border-purple-500/50 bg-gradient-to-b from-purple-950/40 to-[#120724]/60 shadow-[0_0_25px_rgba(168,85,247,0.2)]"
+                : "border-purple-200/80 bg-white/75 dark:border-purple-500/50 dark:bg-gradient-to-b dark:from-purple-950/40 dark:to-[#120724]/60 shadow-[0_0_25px_rgba(168,85,247,0.12)] dark:shadow-[0_0_25px_rgba(168,85,247,0.2)]"
             }`}
           >
             <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
               <div className="flex items-center gap-2">
-                <GraduationCap size={20} weight="fill" className={!seniorGroup ? "text-amber-400" : "text-purple-300"} />
+                <GraduationCap size={20} weight="fill" className={!seniorGroup ? "text-amber-600 dark:text-amber-400" : "text-purple-700 dark:text-purple-300"} />
                 <span className={`font-display text-base font-bold tracking-wide ${
-                  !seniorGroup ? "text-amber-300" : "text-white"
+                  !seniorGroup ? "text-amber-800 dark:text-amber-300" : "text-slate-900 dark:text-white"
                 }`}>
                   Choose Your Group / Stream *
                 </span>
               </div>
               <span className={`rounded-full px-2.5 py-0.5 font-mono text-[11px] font-bold ${
-                !seniorGroup ? "bg-amber-500/20 text-amber-300 border border-amber-500/40" : "bg-purple-900/60 text-purple-200 border border-purple-700/50"
+                !seniorGroup ? "bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-500/40" : "bg-purple-100 text-purple-800 border border-purple-200 dark:bg-purple-900/60 dark:text-purple-200 dark:border-purple-700/50"
               }`}>
                 {!seniorGroup ? "Required for Class " + grade : "Stream Selected"}
               </span>
@@ -463,30 +459,30 @@ export function LearnerSetup({
                     onClick={() => setSeniorGroup(grp.id)}
                     className={`group relative flex flex-col text-left rounded-2xl border p-4 transition-all duration-200 ${
                       isGrpSelected
-                        ? "border-purple-400 bg-purple-900/60 shadow-[0_0_25px_rgba(168,85,247,0.4)] ring-1 ring-purple-400 scale-[1.02] backdrop-blur-md"
-                        : "border-white/10 dark:border-purple-400/15 bg-white/[0.03] dark:bg-purple-950/20 backdrop-blur-md hover:border-purple-600/60 hover:bg-white/[0.07]"
+                        ? "border-purple-500 bg-purple-600 text-white dark:border-purple-400 dark:bg-purple-900/60 shadow-[0_0_25px_rgba(168,85,247,0.4)] ring-1 ring-purple-400 scale-[1.02] backdrop-blur-md"
+                        : "border-purple-200/80 bg-white/75 text-slate-900 hover:border-purple-400 hover:bg-purple-50/80 dark:border-purple-400/15 dark:bg-purple-950/20 dark:text-white backdrop-blur-md dark:hover:border-purple-600/60 dark:hover:bg-white/[0.07]"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-purple-300">
+                      <span className={`font-mono text-[11px] font-bold uppercase tracking-wider ${isGrpSelected ? "text-purple-100" : "text-purple-700 dark:text-purple-300"}`}>
                         {grp.badge}
                       </span>
                       <span
                         className={`grid size-5 place-items-center rounded-full border transition-colors ${
                           isGrpSelected
-                            ? "border-purple-400 bg-purple-400 text-purple-950 font-bold"
-                            : "border-purple-800 text-transparent"
+                            ? "border-purple-300 bg-white text-purple-700 dark:border-purple-400 dark:bg-purple-400 dark:text-purple-950 font-bold"
+                            : "border-purple-300 dark:border-purple-800 text-transparent"
                         }`}
                       >
                         <Check size={11} weight="bold" />
                       </span>
                     </div>
 
-                    <span className="font-display text-sm font-bold text-white group-hover:text-pink-300 transition-colors">
+                    <span className={`font-display text-sm font-bold transition-colors ${isGrpSelected ? "text-white" : "text-slate-900 group-hover:text-purple-800 dark:text-white dark:group-hover:text-pink-300"}`}>
                       {grp.name[locale] || grp.name.en}
                     </span>
 
-                    <span className="mt-1 text-[11.5px] leading-snug text-purple-200/70">
+                    <span className={`mt-1 text-[11.5px] leading-snug ${isGrpSelected ? "text-purple-100/90" : "text-slate-600 dark:text-purple-200/70"}`}>
                       {grp.description[locale] || grp.description.en}
                     </span>
                   </button>
