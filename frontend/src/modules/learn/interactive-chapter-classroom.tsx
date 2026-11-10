@@ -49,6 +49,8 @@ import { useTheme } from "@/lib/theme";
 import { ChromeWaves } from "@/components/landing/chrome-waves";
 import { LivingTree } from "@/components/landing/living-tree";
 import { CosmicParticleLayer } from "@/components/cosmic-particle-layer";
+import { InteractiveVideoPlayer } from "@/components/video-portal/interactive-video-player";
+import { getOrCreateLessonManifest } from "@/data/manifests";
 import {
   CurriculumChapter,
   CurriculumSubject,
@@ -2518,68 +2520,13 @@ export function InteractiveChapterClassroom({
       )}
 
       {/* --------------------------------------------------------------------- */}
-      {/* VIDEO LESSON MODAL OVERLAY                                            */}
+      {/* ZERO-LATENCY INTERACTIVE VIDEO VIEWPORT MODAL                         */}
       {/* --------------------------------------------------------------------- */}
       {activeVideoModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-xl animate-fade-in">
-          <div
-            className={`relative w-full max-w-3xl rounded-3xl border p-6 shadow-2xl flex flex-col gap-4 ${
-              isLight
-                ? "border-purple-300 bg-white text-purple-950"
-                : "border-purple-800/60 bg-[#160a2b] text-white"
-            }`}
-          >
-            <div
-              className={`flex items-center justify-between border-b pb-3 ${
-                isLight ? "border-purple-200" : "border-purple-900/50"
-              }`}
-            >
-              <div className="flex items-center gap-2">
-                <VideoCamera size={20} className="text-pink-500" weight="fill" />
-                <h3 className={`font-display text-base font-bold truncate ${isLight ? "text-purple-950" : "text-white"}`}>
-                  {activeVideoModal}
-                </h3>
-              </div>
-              <button
-                type="button"
-                onClick={() => setActiveVideoModal(null)}
-                className={`grid size-8 place-items-center rounded-xl transition-colors ${
-                  isLight
-                    ? "text-purple-900 hover:bg-purple-100"
-                    : "text-purple-300 hover:text-white hover:bg-purple-800/40"
-                }`}
-              >
-                <X size={16} />
-              </button>
-            </div>
-
-            {/* Video Placeholder Player */}
-            <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-purple-800/40 bg-purple-950/80 flex flex-col items-center justify-center text-center p-6">
-              <div className="size-16 rounded-full bg-purple-600/30 border border-purple-400/50 flex items-center justify-center text-white mb-3 shadow-[0_0_20px_rgba(168,85,247,0.4)]">
-                <Play size={24} weight="fill" className="ml-1 text-purple-300" />
-              </div>
-              <h4 className="font-display text-base font-bold text-white">
-                Interactive Samacheer Kalvi Visual Lesson
-              </h4>
-              <p className="font-mono text-xs text-purple-300/70 max-w-md mt-1">
-                Visual walkthrough aligned with Tamil Nadu State Board Class {standard} curriculum.
-              </p>
-              <span className="mt-4 rounded-full bg-emerald-500/20 border border-emerald-500/40 px-3 py-1 font-mono text-xs text-emerald-300">
-                ✓ Streaming ready on all student devices
-              </span>
-            </div>
-
-            <div className="flex justify-end pt-2">
-              <button
-                type="button"
-                onClick={() => setActiveVideoModal(null)}
-                className="rounded-xl bg-purple-600 hover:bg-purple-500 px-5 py-2 font-display text-xs font-bold text-white transition-colors"
-              >
-                Close Video Player
-              </button>
-            </div>
-          </div>
-        </div>
+        <InteractiveVideoPlayer
+          manifest={getOrCreateLessonManifest(chapter, standard, subject.name.en)}
+          onClose={() => setActiveVideoModal(null)}
+        />
       )}
     </div>
   );

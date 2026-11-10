@@ -1,0 +1,130 @@
+{
+  "lessonId": "c10-science-ch1",
+  "videoId": "kKKM8Y-u7ds",
+  "title": {
+    "en": "Unit 1: Laws of Motion (இயக்க விதிகள்)",
+    "ta": "அலகு 1: இயக்க விதிகள்"
+  },
+  "durationSec": 720,
+  "totalCheckpoints": 2,
+  "timeline": [
+    {
+      "checkpointId": "cp_c10_s1_01",
+      "triggerSec": 180,
+      "gate": "HARD",
+      "rewindSec": 30,
+      "subtopicTitle": {
+        "en": "1.2 Inertia & Newton's First Law",
+        "ta": "1.2 நிலைமம் மற்றும் நியூட்டனின் முதல் இயக்க விதி"
+      },
+      "quiz": {
+        "id": "q_c10_sci_ch1_cp1",
+        "stem": {
+          "en": "An inherent property of a physical body to resist any change in its state of rest or uniform motion is defined as:",
+          "ta": "ஒரு பொருள் தன் ஓய்வு நிலையையோ, அல்லது சீரான இயக்க நிலையையோ மாற்றிக்கொள்ளாமல் இருக்கும் உள்ளார்ந்த பண்பு எவ்வாறு அழைக்கப்படுகிறது?"
+        },
+        "options": [
+          {
+            "en": "Inertia (நிலைமம்)",
+            "ta": "நிலைமம் (Inertia)"
+          },
+          {
+            "en": "Linear Momentum (நேர்க்கோட்டு உந்தம்)",
+            "ta": "நேர்க்கோட்டு உந்தம்"
+          },
+          {
+            "en": "Impulsive Force (கணத்தாக்கு விசை)",
+            "ta": "கணத்தாக்கு விசை"
+          },
+          {
+            "en": "Rotational Torque (திருப்புத்திறன்)",
+            "ta": "திருப்புத்திறன்"
+          }
+        ],
+        "correctHash": "88abbed0e4f9d8e2490a87eeabef6250924ba247001ada8246b94a974fe77386",
+        "socraticCues": {
+          "distractor_1": "Linear momentum measures mass × velocity, but what opposes change in state?",
+          "distractor_2": "Impulse is a very large force acting for a very short duration, not an inherent resistance property.",
+          "distractor_3": "Torque causes angular rotational acceleration about an axis."
+        },
+        "explanation": {
+          "en": "Inertia is the natural tendency of an object to resist changes in its state of motion (Newton's First Law).",
+          "ta": "நிலைமம் என்பது ஒரு பொருள் புறவிசை செயல்படாதவரை தனது ஓய்வு நிலையையோ அல்லது இயக்க நிலையையோ மாற்றிக்கொள்ள இயலாத இயல்பான பண்பாகும்."
+        }
+      },
+      "analogies": {
+        "sports": "Like a football resting motionless on the penalty spot that will never move until kicked by a striker's boot.",
+        "gaming": "Like a high-tier Tank hero with maximum Knockback Immunity who cannot be pushed back by ordinary mob attacks.",
+        "cooking": "Like a heavy iron skillet that stays anchored on the stove until deliberately lifted by the chef.",
+        "daily_life": "Like passengers abruptly lurching forward when a fast-moving city bus slams on the brakes."
+      },
+      "bookCitation": {
+        "standard": 10,
+        "subject": "Science",
+        "chapter": 1,
+        "page": 3,
+        "paragraphAnchor": "para_c10_sci_sec1_2",
+        "excerpt": "The inherent property of a body to resist any change in its state of rest or the state of uniform motion, unless it is influenced upon by an external unbalanced force, is known as 'inertia'."
+      }
+    },
+    {
+      "checkpointId": "cp_c10_s1_02",
+      "triggerSec": 360,
+      "gate": "HARD",
+      "rewindSec": 35,
+      "subtopicTitle": {
+        "en": "1.4 Newton's Second Law of Motion (F = ma)",
+        "ta": "1.4 நியூட்டனின் இரண்டாம் இயக்க விதி (F = ma)"
+      },
+      "quiz": {
+        "id": "q_c10_sci_ch1_cp2",
+        "stem": {
+          "en": "According to Newton's Second Law of Motion, the force acting on a body is mathematically expressed as:",
+          "ta": "நியூட்டனின் இரண்டாம் இயக்க விதியின்படி, ஒரு பொருளின் மீது செயல்படும் விசைக்கான கணிதச் சமன்பாடு எது?"
+        },
+        "options": [
+          {
+            "en": "F = m / a",
+            "ta": "F = m / a"
+          },
+          {
+            "en": "F = m × a (Force = Mass × Acceleration)",
+            "ta": "F = m × a (விசை = நிறை × முடுக்கம்)"
+          },
+          {
+            "en": "F = ½ m v²",
+            "ta": "F = ½ m v²"
+          },
+          {
+            "en": "F = m × v",
+            "ta": "F = m × v"
+          }
+        ],
+        "correctHash": "e8f08ae364c6db88384bb5c279e7c61213e46ba0aa9c16782609a9008424a47b",
+        "socraticCues": {
+          "distractor_0": "Remember force is directly proportional to both mass and acceleration, not inversely.",
+          "distractor_2": "½mv² is kinetic energy, which measures mechanical work capacity, not force.",
+          "distractor_3": "m × v is linear momentum (p), while force is the rate of change of momentum (dp/dt)."
+        },
+        "explanation": {
+          "en": "Force equals the rate of change of linear momentum: F = dp/dt = d(mv)/dt = m × a.",
+          "ta": "பொருளொன்றின் மீது செயல்படும் விசையானது அப்பொருளின் உந்த மாறுபாட்டு வீதத்திற்கு நேர்விகிதத்தில் அமையும்: F = m × a."
+        }
+      },
+      "analogies": {
+        "sports": "Kicking a lightweight tennis ball produces massive speed (high acceleration), but kicking a heavy medicine ball with the same force produces sluggish movement.",
+        "gaming": "Applying the same Attack Power stat produces high projectile speed for light arrows, but slower trajectory for heavy siege cannonballs.",
+        "cooking": "Pushing a light spatula through milk requires tiny force, while pushing through stiff bread dough requires maximum muscle power.",
+        "daily_life": "Pushing an empty supermarket grocery cart vs. pushing a cart loaded with 50 kg of sacks."
+      },
+      "bookCitation": {
+        "standard": 10,
+        "subject": "Science",
+        "chapter": 1,
+        "page": 5,
+        "paragraphAnchor": "para_c10_sci_sec1_4",
+        "excerpt": "The force acting on a body is directly proportional to the rate of change of linear momentum of the body and the change in momentum takes place in the direction of the force. Hence, F = m × a."
+      }
+    }
+  ]
+}
