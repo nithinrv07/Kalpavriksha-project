@@ -1,0 +1,189 @@
+{
+  "lessonId": "c10-social-ch10",
+  "videoId": "9PQRVt0o2kE",
+  "title": {
+    "en": "Chapter 10",
+    "ta": "அத்தியாயம் 10"
+  },
+  "durationSec": 720,
+  "totalCheckpoints": 3,
+  "timeline": [
+    {
+      "checkpointId": "cp_c10-social-ch10_1",
+      "triggerSec": 180,
+      "gate": "HARD",
+      "rewindSec": 30,
+      "subtopicTitle": {
+        "en": "Section 10.1: Core Concept Review",
+        "ta": "பிரிவு 10.1: முக்கியக் கருத்து மீள்பார்வை"
+      },
+      "quiz": {
+        "id": "q_c10-social-ch10_cp1",
+        "stem": {
+          "en": "Checkpoint 1: What is the primary concept governing this segment of Chapter 10?",
+          "ta": "பகுதி 1: அத்தியாயம் 10 பாடப்பகுதியின் முதன்மைக் கருத்து எது?"
+        },
+        "options": [
+          {
+            "en": "The fundamental standard principle detailed in Section 10.1",
+            "ta": "பிரிவு 10.1-ல் விவரிக்கப்பட்ட அடிப்படை விதி"
+          },
+          {
+            "en": "An empirical approximation that only holds under isolated conditions",
+            "ta": "தனிமைப்படுத்தப்பட்ட சூழலில் மட்டுமே பொருந்தும் தோராய மதிப்பு"
+          },
+          {
+            "en": "An obsolete historical hypothesis superseded by modern analysis",
+            "ta": "நவீன ஆய்வுகளால் மாற்றப்பட்ட பழைய கருதுகோள்"
+          },
+          {
+            "en": "None of the observed principles apply to this case",
+            "ta": "இவற்றுள் எதுவும் பொருந்தாது"
+          }
+        ],
+        "correctHash": "664758e5fe9ced6f21ee6e9fad4e12b3e1c7a21e546c85125d7f1a9d1486e2a5",
+        "explanation": {
+          "en": "Option A correctly identifies the core standard principle mandated in the Tamil Nadu State Board syllabus.",
+          "ta": "விருப்பம் A தமிழ்நாடு மாநிலக் கல்வி வாரியப் பாடத்திட்டத்தின் முதன்மை விதியைச் சரியாகக் குறிக்கிறது."
+        },
+        "socraticCues": {
+          "distractor_1": "Think carefully: Is this law truly an isolated approximation, or a universally conserved principle in this domain?",
+          "distractor_2": "Historical context is informative, but this equation is active in modern engineering and science.",
+          "distractor_3": "Re-examine the textbook chapter heading: a direct principle is explicitly demonstrated."
+        }
+      },
+      "analogies": {
+        "sports": "Like a disciplined athlete maintaining balance, footwork, and momentum under competitive pressure during Chapter 10 (Part 1).",
+        "gaming": "Like allocating strategic attribute points and matching elemental mechanics to conquer a complex challenge.",
+        "cooking": "Like balancing precision temperature and ingredient timing to ensure the ultimate flavor profile.",
+        "daily_life": "Like budgeting resources and choosing the optimal route through morning peak-hour transit."
+      },
+      "bookCitation": {
+        "standard": 10,
+        "subject": "SOCIAL",
+        "chapter": 10,
+        "page": 81,
+        "paragraphAnchor": "para_c10-social-ch10_cp1",
+        "excerpt": "Curriculum specification for Class 10 social Chapter 10."
+      }
+    },
+    {
+      "checkpointId": "cp_c10-social-ch10_2",
+      "triggerSec": 360,
+      "gate": "HARD",
+      "rewindSec": 30,
+      "subtopicTitle": {
+        "en": "Section 10.2: Core Concept Review",
+        "ta": "பிரிவு 10.2: முக்கியக் கருத்து மீள்பார்வை"
+      },
+      "quiz": {
+        "id": "q_c10-social-ch10_cp2",
+        "stem": {
+          "en": "Checkpoint 2: What is the primary concept governing this segment of Chapter 10?",
+          "ta": "பகுதி 2: அத்தியாயம் 10 பாடப்பகுதியின் முதன்மைக் கருத்து எது?"
+        },
+        "options": [
+          {
+            "en": "The fundamental standard principle detailed in Section 10.2",
+            "ta": "பிரிவு 10.2-ல் விவரிக்கப்பட்ட அடிப்படை விதி"
+          },
+          {
+            "en": "An empirical approximation that only holds under isolated conditions",
+            "ta": "தனிமைப்படுத்தப்பட்ட சூழலில் மட்டுமே பொருந்தும் தோராய மதிப்பு"
+          },
+          {
+            "en": "An obsolete historical hypothesis superseded by modern analysis",
+            "ta": "நவீன ஆய்வுகளால் மாற்றப்பட்ட பழைய கருதுகோள்"
+          },
+          {
+            "en": "None of the observed principles apply to this case",
+            "ta": "இவற்றுள் எதுவும் பொருந்தாது"
+          }
+        ],
+        "correctHash": "ba82f3aae7bfd50d9828a43ba9e5db4897a2c5dfe0da427821c6ea2bb93f750e",
+        "explanation": {
+          "en": "Option A correctly identifies the core standard principle mandated in the Tamil Nadu State Board syllabus.",
+          "ta": "விருப்பம் A தமிழ்நாடு மாநிலக் கல்வி வாரியப் பாடத்திட்டத்தின் முதன்மை விதியைச் சரியாகக் குறிக்கிறது."
+        },
+        "socraticCues": {
+          "distractor_1": "Think carefully: Is this law truly an isolated approximation, or a universally conserved principle in this domain?",
+          "distractor_2": "Historical context is informative, but this equation is active in modern engineering and science.",
+          "distractor_3": "Re-examine the textbook chapter heading: a direct principle is explicitly demonstrated."
+        }
+      },
+      "analogies": {
+        "sports": "Like a disciplined athlete maintaining balance, footwork, and momentum under competitive pressure during Chapter 10 (Part 2).",
+        "gaming": "Like allocating strategic attribute points and matching elemental mechanics to conquer a complex challenge.",
+        "cooking": "Like balancing precision temperature and ingredient timing to ensure the ultimate flavor profile.",
+        "daily_life": "Like budgeting resources and choosing the optimal route through morning peak-hour transit."
+      },
+      "bookCitation": {
+        "standard": 10,
+        "subject": "SOCIAL",
+        "chapter": 10,
+        "page": 82,
+        "paragraphAnchor": "para_c10-social-ch10_cp2",
+        "excerpt": "Curriculum specification for Class 10 social Chapter 10."
+      }
+    },
+    {
+      "checkpointId": "cp_c10-social-ch10_3",
+      "triggerSec": 540,
+      "gate": "HARD",
+      "rewindSec": 30,
+      "subtopicTitle": {
+        "en": "Section 10.3: Core Concept Review",
+        "ta": "பிரிவு 10.3: முக்கியக் கருத்து மீள்பார்வை"
+      },
+      "quiz": {
+        "id": "q_c10-social-ch10_cp3",
+        "stem": {
+          "en": "Checkpoint 3: What is the primary concept governing this segment of Chapter 10?",
+          "ta": "பகுதி 3: அத்தியாயம் 10 பாடப்பகுதியின் முதன்மைக் கருத்து எது?"
+        },
+        "options": [
+          {
+            "en": "The fundamental standard principle detailed in Section 10.3",
+            "ta": "பிரிவு 10.3-ல் விவரிக்கப்பட்ட அடிப்படை விதி"
+          },
+          {
+            "en": "An empirical approximation that only holds under isolated conditions",
+            "ta": "தனிமைப்படுத்தப்பட்ட சூழலில் மட்டுமே பொருந்தும் தோராய மதிப்பு"
+          },
+          {
+            "en": "An obsolete historical hypothesis superseded by modern analysis",
+            "ta": "நவீன ஆய்வுகளால் மாற்றப்பட்ட பழைய கருதுகோள்"
+          },
+          {
+            "en": "None of the observed principles apply to this case",
+            "ta": "இவற்றுள் எதுவும் பொருந்தாது"
+          }
+        ],
+        "correctHash": "ed2c3cc4c6546fed0eca1af2bb8d004028510c13da33d4f206334a8378ab2113",
+        "explanation": {
+          "en": "Option A correctly identifies the core standard principle mandated in the Tamil Nadu State Board syllabus.",
+          "ta": "விருப்பம் A தமிழ்நாடு மாநிலக் கல்வி வாரியப் பாடத்திட்டத்தின் முதன்மை விதியைச் சரியாகக் குறிக்கிறது."
+        },
+        "socraticCues": {
+          "distractor_1": "Think carefully: Is this law truly an isolated approximation, or a universally conserved principle in this domain?",
+          "distractor_2": "Historical context is informative, but this equation is active in modern engineering and science.",
+          "distractor_3": "Re-examine the textbook chapter heading: a direct principle is explicitly demonstrated."
+        }
+      },
+      "analogies": {
+        "sports": "Like a disciplined athlete maintaining balance, footwork, and momentum under competitive pressure during Chapter 10 (Part 3).",
+        "gaming": "Like allocating strategic attribute points and matching elemental mechanics to conquer a complex challenge.",
+        "cooking": "Like balancing precision temperature and ingredient timing to ensure the ultimate flavor profile.",
+        "daily_life": "Like budgeting resources and choosing the optimal route through morning peak-hour transit."
+      },
+      "bookCitation": {
+        "standard": 10,
+        "subject": "SOCIAL",
+        "chapter": 10,
+        "page": 83,
+        "paragraphAnchor": "para_c10-social-ch10_cp3",
+        "excerpt": "Curriculum specification for Class 10 social Chapter 10."
+      }
+    }
+  ]
+}

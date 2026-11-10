@@ -1,0 +1,189 @@
+{
+  "lessonId": "c10-science-ch21",
+  "videoId": "XmyoYVcRjOI",
+  "title": {
+    "en": "Chapter 21",
+    "ta": "அத்தியாயம் 21"
+  },
+  "durationSec": 720,
+  "totalCheckpoints": 3,
+  "timeline": [
+    {
+      "checkpointId": "cp_c10-science-ch21_1",
+      "triggerSec": 180,
+      "gate": "HARD",
+      "rewindSec": 30,
+      "subtopicTitle": {
+        "en": "Section 21.1: Core Concept Review",
+        "ta": "பிரிவு 21.1: முக்கியக் கருத்து மீள்பார்வை"
+      },
+      "quiz": {
+        "id": "q_c10-science-ch21_cp1",
+        "stem": {
+          "en": "Checkpoint 1: What is the primary concept governing this segment of Chapter 21?",
+          "ta": "பகுதி 1: அத்தியாயம் 21 பாடப்பகுதியின் முதன்மைக் கருத்து எது?"
+        },
+        "options": [
+          {
+            "en": "The fundamental standard principle detailed in Section 21.1",
+            "ta": "பிரிவு 21.1-ல் விவரிக்கப்பட்ட அடிப்படை விதி"
+          },
+          {
+            "en": "An empirical approximation that only holds under isolated conditions",
+            "ta": "தனிமைப்படுத்தப்பட்ட சூழலில் மட்டுமே பொருந்தும் தோராய மதிப்பு"
+          },
+          {
+            "en": "An obsolete historical hypothesis superseded by modern analysis",
+            "ta": "நவீன ஆய்வுகளால் மாற்றப்பட்ட பழைய கருதுகோள்"
+          },
+          {
+            "en": "None of the observed principles apply to this case",
+            "ta": "இவற்றுள் எதுவும் பொருந்தாது"
+          }
+        ],
+        "correctHash": "412f5fae7a1a601e7f170003642fec090c5ec76ff2f2f5491091967a712d2d94",
+        "explanation": {
+          "en": "Option A correctly identifies the core standard principle mandated in the Tamil Nadu State Board syllabus.",
+          "ta": "விருப்பம் A தமிழ்நாடு மாநிலக் கல்வி வாரியப் பாடத்திட்டத்தின் முதன்மை விதியைச் சரியாகக் குறிக்கிறது."
+        },
+        "socraticCues": {
+          "distractor_1": "Think carefully: Is this law truly an isolated approximation, or a universally conserved principle in this domain?",
+          "distractor_2": "Historical context is informative, but this equation is active in modern engineering and science.",
+          "distractor_3": "Re-examine the textbook chapter heading: a direct principle is explicitly demonstrated."
+        }
+      },
+      "analogies": {
+        "sports": "Like a disciplined athlete maintaining balance, footwork, and momentum under competitive pressure during Chapter 21 (Part 1).",
+        "gaming": "Like allocating strategic attribute points and matching elemental mechanics to conquer a complex challenge.",
+        "cooking": "Like balancing precision temperature and ingredient timing to ensure the ultimate flavor profile.",
+        "daily_life": "Like budgeting resources and choosing the optimal route through morning peak-hour transit."
+      },
+      "bookCitation": {
+        "standard": 10,
+        "subject": "SCIENCE",
+        "chapter": 21,
+        "page": 169,
+        "paragraphAnchor": "para_c10-science-ch21_cp1",
+        "excerpt": "Curriculum specification for Class 10 science Chapter 21."
+      }
+    },
+    {
+      "checkpointId": "cp_c10-science-ch21_2",
+      "triggerSec": 360,
+      "gate": "HARD",
+      "rewindSec": 30,
+      "subtopicTitle": {
+        "en": "Section 21.2: Core Concept Review",
+        "ta": "பிரிவு 21.2: முக்கியக் கருத்து மீள்பார்வை"
+      },
+      "quiz": {
+        "id": "q_c10-science-ch21_cp2",
+        "stem": {
+          "en": "Checkpoint 2: What is the primary concept governing this segment of Chapter 21?",
+          "ta": "பகுதி 2: அத்தியாயம் 21 பாடப்பகுதியின் முதன்மைக் கருத்து எது?"
+        },
+        "options": [
+          {
+            "en": "The fundamental standard principle detailed in Section 21.2",
+            "ta": "பிரிவு 21.2-ல் விவரிக்கப்பட்ட அடிப்படை விதி"
+          },
+          {
+            "en": "An empirical approximation that only holds under isolated conditions",
+            "ta": "தனிமைப்படுத்தப்பட்ட சூழலில் மட்டுமே பொருந்தும் தோராய மதிப்பு"
+          },
+          {
+            "en": "An obsolete historical hypothesis superseded by modern analysis",
+            "ta": "நவீன ஆய்வுகளால் மாற்றப்பட்ட பழைய கருதுகோள்"
+          },
+          {
+            "en": "None of the observed principles apply to this case",
+            "ta": "இவற்றுள் எதுவும் பொருந்தாது"
+          }
+        ],
+        "correctHash": "dffebd1d69ba4bd85e5a7b0ac47ede8baaf73005148b145e45de4796d25113e9",
+        "explanation": {
+          "en": "Option A correctly identifies the core standard principle mandated in the Tamil Nadu State Board syllabus.",
+          "ta": "விருப்பம் A தமிழ்நாடு மாநிலக் கல்வி வாரியப் பாடத்திட்டத்தின் முதன்மை விதியைச் சரியாகக் குறிக்கிறது."
+        },
+        "socraticCues": {
+          "distractor_1": "Think carefully: Is this law truly an isolated approximation, or a universally conserved principle in this domain?",
+          "distractor_2": "Historical context is informative, but this equation is active in modern engineering and science.",
+          "distractor_3": "Re-examine the textbook chapter heading: a direct principle is explicitly demonstrated."
+        }
+      },
+      "analogies": {
+        "sports": "Like a disciplined athlete maintaining balance, footwork, and momentum under competitive pressure during Chapter 21 (Part 2).",
+        "gaming": "Like allocating strategic attribute points and matching elemental mechanics to conquer a complex challenge.",
+        "cooking": "Like balancing precision temperature and ingredient timing to ensure the ultimate flavor profile.",
+        "daily_life": "Like budgeting resources and choosing the optimal route through morning peak-hour transit."
+      },
+      "bookCitation": {
+        "standard": 10,
+        "subject": "SCIENCE",
+        "chapter": 21,
+        "page": 170,
+        "paragraphAnchor": "para_c10-science-ch21_cp2",
+        "excerpt": "Curriculum specification for Class 10 science Chapter 21."
+      }
+    },
+    {
+      "checkpointId": "cp_c10-science-ch21_3",
+      "triggerSec": 540,
+      "gate": "HARD",
+      "rewindSec": 30,
+      "subtopicTitle": {
+        "en": "Section 21.3: Core Concept Review",
+        "ta": "பிரிவு 21.3: முக்கியக் கருத்து மீள்பார்வை"
+      },
+      "quiz": {
+        "id": "q_c10-science-ch21_cp3",
+        "stem": {
+          "en": "Checkpoint 3: What is the primary concept governing this segment of Chapter 21?",
+          "ta": "பகுதி 3: அத்தியாயம் 21 பாடப்பகுதியின் முதன்மைக் கருத்து எது?"
+        },
+        "options": [
+          {
+            "en": "The fundamental standard principle detailed in Section 21.3",
+            "ta": "பிரிவு 21.3-ல் விவரிக்கப்பட்ட அடிப்படை விதி"
+          },
+          {
+            "en": "An empirical approximation that only holds under isolated conditions",
+            "ta": "தனிமைப்படுத்தப்பட்ட சூழலில் மட்டுமே பொருந்தும் தோராய மதிப்பு"
+          },
+          {
+            "en": "An obsolete historical hypothesis superseded by modern analysis",
+            "ta": "நவீன ஆய்வுகளால் மாற்றப்பட்ட பழைய கருதுகோள்"
+          },
+          {
+            "en": "None of the observed principles apply to this case",
+            "ta": "இவற்றுள் எதுவும் பொருந்தாது"
+          }
+        ],
+        "correctHash": "d06bbfbb3619ac01670c7d49115a53bf0a462fd0e89ba3b3134e8336f2d1b3ca",
+        "explanation": {
+          "en": "Option A correctly identifies the core standard principle mandated in the Tamil Nadu State Board syllabus.",
+          "ta": "விருப்பம் A தமிழ்நாடு மாநிலக் கல்வி வாரியப் பாடத்திட்டத்தின் முதன்மை விதியைச் சரியாகக் குறிக்கிறது."
+        },
+        "socraticCues": {
+          "distractor_1": "Think carefully: Is this law truly an isolated approximation, or a universally conserved principle in this domain?",
+          "distractor_2": "Historical context is informative, but this equation is active in modern engineering and science.",
+          "distractor_3": "Re-examine the textbook chapter heading: a direct principle is explicitly demonstrated."
+        }
+      },
+      "analogies": {
+        "sports": "Like a disciplined athlete maintaining balance, footwork, and momentum under competitive pressure during Chapter 21 (Part 3).",
+        "gaming": "Like allocating strategic attribute points and matching elemental mechanics to conquer a complex challenge.",
+        "cooking": "Like balancing precision temperature and ingredient timing to ensure the ultimate flavor profile.",
+        "daily_life": "Like budgeting resources and choosing the optimal route through morning peak-hour transit."
+      },
+      "bookCitation": {
+        "standard": 10,
+        "subject": "SCIENCE",
+        "chapter": 21,
+        "page": 171,
+        "paragraphAnchor": "para_c10-science-ch21_cp3",
+        "excerpt": "Curriculum specification for Class 10 science Chapter 21."
+      }
+    }
+  ]
+}

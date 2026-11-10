@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
+    "compile:manifests": "node ../scripts/compile-manifests.js",
     "test": "vitest run",
     "format": "prettier --write src"
   },

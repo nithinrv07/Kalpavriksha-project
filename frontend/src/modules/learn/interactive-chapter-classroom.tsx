@@ -2525,6 +2525,9 @@ export function InteractiveChapterClassroom({
       {activeVideoModal && (
         <InteractiveVideoPlayer
           manifest={getOrCreateLessonManifest(chapter, standard, subject.name.en)}
+          chapter={chapter}
+          subject={subject}
+          standard={standard}
           onClose={() => setActiveVideoModal(null)}
         />
       )}

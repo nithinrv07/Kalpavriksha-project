@@ -15,6 +15,8 @@ import { useLocale } from "@/components/locale-provider";
 import { useTheme } from "@/lib/theme";
 import { updateProgress } from "@/components/progress-store";
 import { verifyAnswer } from "@/lib/hash-utils";
+import { getSocraticReflection } from "@/lib/socratic-engine";
+import { SocraticMicroTutor } from "./socratic-micro-tutor";
 import type { TimelineCheckpoint } from "@/lib/manifest-schema";
 
 interface CheckpointModalProps {
@@ -195,32 +197,44 @@ export function CheckpointModal({
           })}
         </div>
 
-        {/* Socratic / Diagnostic Feedback on Incorrect Choice */}
-        {resultState === "incorrect" && (
-          <div className="p-4 rounded-2xl border border-rose-500/40 bg-rose-950/30 text-rose-200 text-xs sm:text-sm flex flex-col gap-2 animate-fade-in">
-            <div className="flex items-center gap-2 font-bold text-rose-400">
-              <ArrowsCounterClockwise size={16} weight="bold" />
-              <span>Not quite right — Active Recall Remediation</span>
+        {/* Socratic Stumble Recovery on 2+ Failures */}
+        {resultState === "incorrect" && failCount >= 2 && selectedIdx !== null ? (
+          <SocraticMicroTutor
+            reflection={getSocraticReflection(quiz, selectedIdx, subtopicTitle)}
+            onExploreAnalogy={() => setShowAnalogies(true)}
+            onRewind={() => onRewind(rewindSec)}
+            onRetry={() => {
+              setResultState("idle");
+              setSelectedIdx(null);
+            }}
+          />
+        ) : (
+          resultState === "incorrect" && (
+            <div className="p-4 rounded-2xl border border-rose-500/40 bg-rose-950/30 text-rose-200 text-xs sm:text-sm flex flex-col gap-2 animate-fade-in">
+              <div className="flex items-center gap-2 font-bold text-rose-400">
+                <ArrowsCounterClockwise size={16} weight="bold" />
+                <span>Not quite right — Active Recall Remediation (Attempt {failCount})</span>
+              </div>
+              {selectedIdx !== null && quiz.socraticCues?.[`distractor_${selectedIdx}`] && (
+                <p className="font-mono text-xs text-rose-200/90 pl-6 border-l-2 border-rose-500/40 my-1">
+                  {quiz.socraticCues[`distractor_${selectedIdx}`]}
+                </p>
+              )}
+              <div className="flex items-center justify-between pt-1">
+                <span className="text-xs text-rose-300/80">
+                  Rewind {rewindSec}s to re-watch this core concept in the lecture.
+                </span>
+                <button
+                  type="button"
+                  onClick={() => onRewind(rewindSec)}
+                  className="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-mono text-xs font-bold transition-colors inline-flex items-center gap-1.5"
+                >
+                  <ArrowsCounterClockwise size={13} weight="bold" />
+                  Rewind & Replay (-{rewindSec}s)
+                </button>
+              </div>
             </div>
-            {selectedIdx !== null && quiz.socraticCues?.[`distractor_${selectedIdx}`] && (
-              <p className="font-mono text-xs text-rose-200/90 pl-6 border-l-2 border-rose-500/40 my-1">
-                {quiz.socraticCues[`distractor_${selectedIdx}`]}
-              </p>
-            )}
-            <div className="flex items-center justify-between pt-1">
-              <span className="text-xs text-rose-300/80">
-                Rewind {rewindSec}s to re-watch this core concept in the lecture.
-              </span>
-              <button
-                type="button"
-                onClick={() => onRewind(rewindSec)}
-                className="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-mono text-xs font-bold transition-colors inline-flex items-center gap-1.5"
-              >
-                <ArrowsCounterClockwise size={13} weight="bold" />
-                Rewind & Replay (-{rewindSec}s)
-              </button>
-            </div>
-          </div>
+          )
         )}
 
         {/* Success Banner */}

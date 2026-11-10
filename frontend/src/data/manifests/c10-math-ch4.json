@@ -1,0 +1,189 @@
+{
+  "lessonId": "c10-math-ch4",
+  "videoId": "g7XlAD8-Z3I",
+  "title": {
+    "en": "Chapter 4",
+    "ta": "அத்தியாயம் 4"
+  },
+  "durationSec": 720,
+  "totalCheckpoints": 3,
+  "timeline": [
+    {
+      "checkpointId": "cp_c10-math-ch4_1",
+      "triggerSec": 180,
+      "gate": "HARD",
+      "rewindSec": 30,
+      "subtopicTitle": {
+        "en": "Section 4.1: Core Concept Review",
+        "ta": "பிரிவு 4.1: முக்கியக் கருத்து மீள்பார்வை"
+      },
+      "quiz": {
+        "id": "q_c10-math-ch4_cp1",
+        "stem": {
+          "en": "Checkpoint 1: What is the primary concept governing this segment of Chapter 4?",
+          "ta": "பகுதி 1: அத்தியாயம் 4 பாடப்பகுதியின் முதன்மைக் கருத்து எது?"
+        },
+        "options": [
+          {
+            "en": "The fundamental standard principle detailed in Section 4.1",
+            "ta": "பிரிவு 4.1-ல் விவரிக்கப்பட்ட அடிப்படை விதி"
+          },
+          {
+            "en": "An empirical approximation that only holds under isolated conditions",
+            "ta": "தனிமைப்படுத்தப்பட்ட சூழலில் மட்டுமே பொருந்தும் தோராய மதிப்பு"
+          },
+          {
+            "en": "An obsolete historical hypothesis superseded by modern analysis",
+            "ta": "நவீன ஆய்வுகளால் மாற்றப்பட்ட பழைய கருதுகோள்"
+          },
+          {
+            "en": "None of the observed principles apply to this case",
+            "ta": "இவற்றுள் எதுவும் பொருந்தாது"
+          }
+        ],
+        "correctHash": "5206b4ebad0e4b116c72f377ce597ac58d7eeb8043479d30e8867785bb3c637f",
+        "explanation": {
+          "en": "Option A correctly identifies the core standard principle mandated in the Tamil Nadu State Board syllabus.",
+          "ta": "விருப்பம் A தமிழ்நாடு மாநிலக் கல்வி வாரியப் பாடத்திட்டத்தின் முதன்மை விதியைச் சரியாகக் குறிக்கிறது."
+        },
+        "socraticCues": {
+          "distractor_1": "Think carefully: Is this law truly an isolated approximation, or a universally conserved principle in this domain?",
+          "distractor_2": "Historical context is informative, but this equation is active in modern engineering and science.",
+          "distractor_3": "Re-examine the textbook chapter heading: a direct principle is explicitly demonstrated."
+        }
+      },
+      "analogies": {
+        "sports": "Like a disciplined athlete maintaining balance, footwork, and momentum under competitive pressure during Chapter 4 (Part 1).",
+        "gaming": "Like allocating strategic attribute points and matching elemental mechanics to conquer a complex challenge.",
+        "cooking": "Like balancing precision temperature and ingredient timing to ensure the ultimate flavor profile.",
+        "daily_life": "Like budgeting resources and choosing the optimal route through morning peak-hour transit."
+      },
+      "bookCitation": {
+        "standard": 10,
+        "subject": "MATH",
+        "chapter": 4,
+        "page": 33,
+        "paragraphAnchor": "para_c10-math-ch4_cp1",
+        "excerpt": "Curriculum specification for Class 10 math Chapter 4."
+      }
+    },
+    {
+      "checkpointId": "cp_c10-math-ch4_2",
+      "triggerSec": 360,
+      "gate": "HARD",
+      "rewindSec": 30,
+      "subtopicTitle": {
+        "en": "Section 4.2: Core Concept Review",
+        "ta": "பிரிவு 4.2: முக்கியக் கருத்து மீள்பார்வை"
+      },
+      "quiz": {
+        "id": "q_c10-math-ch4_cp2",
+        "stem": {
+          "en": "Checkpoint 2: What is the primary concept governing this segment of Chapter 4?",
+          "ta": "பகுதி 2: அத்தியாயம் 4 பாடப்பகுதியின் முதன்மைக் கருத்து எது?"
+        },
+        "options": [
+          {
+            "en": "The fundamental standard principle detailed in Section 4.2",
+            "ta": "பிரிவு 4.2-ல் விவரிக்கப்பட்ட அடிப்படை விதி"
+          },
+          {
+            "en": "An empirical approximation that only holds under isolated conditions",
+            "ta": "தனிமைப்படுத்தப்பட்ட சூழலில் மட்டுமே பொருந்தும் தோராய மதிப்பு"
+          },
+          {
+            "en": "An obsolete historical hypothesis superseded by modern analysis",
+            "ta": "நவீன ஆய்வுகளால் மாற்றப்பட்ட பழைய கருதுகோள்"
+          },
+          {
+            "en": "None of the observed principles apply to this case",
+            "ta": "இவற்றுள் எதுவும் பொருந்தாது"
+          }
+        ],
+        "correctHash": "54b0cb0afad07f00be1779efd598db3636c547908bb34a53c16a1cec2c1d596f",
+        "explanation": {
+          "en": "Option A correctly identifies the core standard principle mandated in the Tamil Nadu State Board syllabus.",
+          "ta": "விருப்பம் A தமிழ்நாடு மாநிலக் கல்வி வாரியப் பாடத்திட்டத்தின் முதன்மை விதியைச் சரியாகக் குறிக்கிறது."
+        },
+        "socraticCues": {
+          "distractor_1": "Think carefully: Is this law truly an isolated approximation, or a universally conserved principle in this domain?",
+          "distractor_2": "Historical context is informative, but this equation is active in modern engineering and science.",
+          "distractor_3": "Re-examine the textbook chapter heading: a direct principle is explicitly demonstrated."
+        }
+      },
+      "analogies": {
+        "sports": "Like a disciplined athlete maintaining balance, footwork, and momentum under competitive pressure during Chapter 4 (Part 2).",
+        "gaming": "Like allocating strategic attribute points and matching elemental mechanics to conquer a complex challenge.",
+        "cooking": "Like balancing precision temperature and ingredient timing to ensure the ultimate flavor profile.",
+        "daily_life": "Like budgeting resources and choosing the optimal route through morning peak-hour transit."
+      },
+      "bookCitation": {
+        "standard": 10,
+        "subject": "MATH",
+        "chapter": 4,
+        "page": 34,
+        "paragraphAnchor": "para_c10-math-ch4_cp2",
+        "excerpt": "Curriculum specification for Class 10 math Chapter 4."
+      }
+    },
+    {
+      "checkpointId": "cp_c10-math-ch4_3",
+      "triggerSec": 540,
+      "gate": "HARD",
+      "rewindSec": 30,
+      "subtopicTitle": {
+        "en": "Section 4.3: Core Concept Review",
+        "ta": "பிரிவு 4.3: முக்கியக் கருத்து மீள்பார்வை"
+      },
+      "quiz": {
+        "id": "q_c10-math-ch4_cp3",
+        "stem": {
+          "en": "Checkpoint 3: What is the primary concept governing this segment of Chapter 4?",
+          "ta": "பகுதி 3: அத்தியாயம் 4 பாடப்பகுதியின் முதன்மைக் கருத்து எது?"
+        },
+        "options": [
+          {
+            "en": "The fundamental standard principle detailed in Section 4.3",
+            "ta": "பிரிவு 4.3-ல் விவரிக்கப்பட்ட அடிப்படை விதி"
+          },
+          {
+            "en": "An empirical approximation that only holds under isolated conditions",
+            "ta": "தனிமைப்படுத்தப்பட்ட சூழலில் மட்டுமே பொருந்தும் தோராய மதிப்பு"
+          },
+          {
+            "en": "An obsolete historical hypothesis superseded by modern analysis",
+            "ta": "நவீன ஆய்வுகளால் மாற்றப்பட்ட பழைய கருதுகோள்"
+          },
+          {
+            "en": "None of the observed principles apply to this case",
+            "ta": "இவற்றுள் எதுவும் பொருந்தாது"
+          }
+        ],
+        "correctHash": "e322d2d48327657ba721c87c20b2cd5791a6073d8c91f3c31b2e67d32b584702",
+        "explanation": {
+          "en": "Option A correctly identifies the core standard principle mandated in the Tamil Nadu State Board syllabus.",
+          "ta": "விருப்பம் A தமிழ்நாடு மாநிலக் கல்வி வாரியப் பாடத்திட்டத்தின் முதன்மை விதியைச் சரியாகக் குறிக்கிறது."
+        },
+        "socraticCues": {
+          "distractor_1": "Think carefully: Is this law truly an isolated approximation, or a universally conserved principle in this domain?",
+          "distractor_2": "Historical context is informative, but this equation is active in modern engineering and science.",
+          "distractor_3": "Re-examine the textbook chapter heading: a direct principle is explicitly demonstrated."
+        }
+      },
+      "analogies": {
+        "sports": "Like a disciplined athlete maintaining balance, footwork, and momentum under competitive pressure during Chapter 4 (Part 3).",
+        "gaming": "Like allocating strategic attribute points and matching elemental mechanics to conquer a complex challenge.",
+        "cooking": "Like balancing precision temperature and ingredient timing to ensure the ultimate flavor profile.",
+        "daily_life": "Like budgeting resources and choosing the optimal route through morning peak-hour transit."
+      },
+      "bookCitation": {
+        "standard": 10,
+        "subject": "MATH",
+        "chapter": 4,
+        "page": 35,
+        "paragraphAnchor": "para_c10-math-ch4_cp3",
+        "excerpt": "Curriculum specification for Class 10 math Chapter 4."
+      }
+    }
+  ]
+}

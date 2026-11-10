@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
+  BookOpen,
   CheckCircle,
   Play,
   SpeakerHigh,
@@ -12,15 +13,26 @@ import {
 } from "@phosphor-icons/react/ssr";
 import { loadYouTubeIframeAPI, YTPlayerInstance } from "./youtube-loader";
 import { CheckpointModal } from "./checkpoint-modal";
+import { TextbookReader } from "./dual-scroll-hud";
 import { useTheme } from "@/lib/theme";
 import type { LessonManifest, TimelineCheckpoint } from "@/lib/manifest-schema";
+import type { CurriculumChapter, CurriculumSubject } from "@/lib/curriculum";
 
 interface InteractiveVideoPlayerProps {
   manifest: LessonManifest;
+  chapter?: CurriculumChapter;
+  subject?: CurriculumSubject;
+  standard?: number;
   onClose: () => void;
 }
 
-export function InteractiveVideoPlayer({ manifest, onClose }: InteractiveVideoPlayerProps) {
+export function InteractiveVideoPlayer({
+  manifest,
+  chapter,
+  subject,
+  standard,
+  onClose,
+}: InteractiveVideoPlayerProps) {
   const { theme } = useTheme();
   const isLight = theme === "light";
 
@@ -33,6 +45,7 @@ export function InteractiveVideoPlayer({ manifest, onClose }: InteractiveVideoPl
   const [duration, setDuration] = useState(manifest.durationSec || 720);
   const [activeCheckpoint, setActiveCheckpoint] = useState<TimelineCheckpoint | null>(null);
   const [completedCheckpoints, setCompletedCheckpoints] = useState<Set<string>>(new Set());
+  const [isDualScrollOpen, setIsDualScrollOpen] = useState(false);
 
   // Ref tracking completed checkpoints inside interval to prevent closure staleness
   const completedRef = useRef<Set<string>>(new Set());
@@ -180,7 +193,9 @@ export function InteractiveVideoPlayer({ manifest, onClose }: InteractiveVideoPl
     >
       <div
         ref={containerRef}
-        className={`relative w-full max-w-4xl rounded-3xl border shadow-2xl flex flex-col overflow-hidden ${
+        className={`relative w-full ${
+          isDualScrollOpen ? "max-w-6xl" : "max-w-4xl"
+        } rounded-3xl border shadow-2xl flex flex-col overflow-hidden transition-all duration-300 ${
           isLight
             ? "border-purple-300 bg-white text-purple-950"
             : "border-purple-800/70 bg-[#0d041a] text-white"
@@ -204,7 +219,24 @@ export function InteractiveVideoPlayer({ manifest, onClose }: InteractiveVideoPl
             </div>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+            {chapter && subject && standard && (
+              <button
+                type="button"
+                onClick={() => setIsDualScrollOpen(!isDualScrollOpen)}
+                className={`px-3 py-1.5 rounded-xl border font-mono text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                  isDualScrollOpen
+                    ? "bg-purple-600 border-purple-400 text-white shadow-lg shadow-purple-900/40"
+                    : isLight
+                    ? "bg-purple-100/80 border-purple-200 text-purple-900 hover:bg-purple-200"
+                    : "bg-purple-950/60 border-purple-700/50 text-purple-200 hover:bg-purple-900/50"
+                }`}
+              >
+                <BookOpen size={14} weight="fill" className="text-amber-400" />
+                <span className="hidden sm:inline">{isDualScrollOpen ? "Hide Reader" : "Dual-Scroll HUD"}</span>
+                <span className="sm:hidden">{isDualScrollOpen ? "Hide" : "HUD"}</span>
+              </button>
+            )}
             <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs">
               <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
               Active Ticker
@@ -223,29 +255,46 @@ export function InteractiveVideoPlayer({ manifest, onClose }: InteractiveVideoPl
           </div>
         </div>
 
-        {/* Video Viewport Container */}
-        <div className="relative aspect-video w-full bg-black">
-          <div id={`yt-player-${manifest.lessonId}`} className="w-full h-full" />
+        {/* Main Viewport Content Area (Split-View capable) */}
+        <div className={`flex flex-col ${isDualScrollOpen ? "lg:flex-row" : ""} overflow-hidden`}>
+          {/* Video Viewport Container */}
+          <div className={`relative ${isDualScrollOpen ? "lg:w-1/2" : "w-full"} aspect-video bg-black shrink-0`}>
+            <div id={`yt-player-${manifest.lessonId}`} className="w-full h-full" />
 
-          {/* Loading Placeholder while YouTube API mounts */}
-          {!playerReady && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-purple-950/90 text-purple-200">
-              <div className="size-12 rounded-full border-2 border-purple-400 border-t-transparent animate-spin mb-3" />
-              <span className="font-mono text-xs text-purple-300">
-                Mounting Zero-Latency Video Viewport...
-              </span>
+            {/* Loading Placeholder while YouTube API mounts */}
+            {!playerReady && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-purple-950/90 text-purple-200">
+                <div className="size-12 rounded-full border-2 border-purple-400 border-t-transparent animate-spin mb-3" />
+                <span className="font-mono text-xs text-purple-300">
+                  Mounting Zero-Latency Video Viewport...
+                </span>
+              </div>
+            )}
+
+            {/* Checkpoint Modal Overlay (< 5ms Zero-Latency Mount) */}
+            {activeCheckpoint && (
+              <CheckpointModal
+                checkpoint={activeCheckpoint}
+                checkpointNumber={activeCheckpointIdx}
+                totalCheckpoints={manifest.timeline.length}
+                onPass={handleCheckpointPass}
+                onRewind={handleCheckpointRewind}
+              />
+            )}
+          </div>
+
+          {/* Right Column: Synchronized Interactive Textbook Reader */}
+          {isDualScrollOpen && chapter && subject && standard && (
+            <div className="lg:w-1/2 flex flex-col min-w-0">
+              <TextbookReader
+                chapter={chapter}
+                subject={subject}
+                standard={standard}
+                manifest={manifest}
+                currentTime={currentTime}
+                onSeekVideo={(sec) => playerRef.current?.seekTo(sec, true)}
+              />
             </div>
-          )}
-
-          {/* Checkpoint Modal Overlay (< 5ms Zero-Latency Mount) */}
-          {activeCheckpoint && (
-            <CheckpointModal
-              checkpoint={activeCheckpoint}
-              checkpointNumber={activeCheckpointIdx}
-              totalCheckpoints={manifest.timeline.length}
-              onPass={handleCheckpointPass}
-              onRewind={handleCheckpointRewind}
-            />
           )}
         </div>
 

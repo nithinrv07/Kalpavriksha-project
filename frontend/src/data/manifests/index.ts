@@ -1,15 +1,110 @@
 import { LessonManifest, validateLessonManifest, TimelineCheckpoint } from "@/lib/manifest-schema";
 import type { CurriculumChapter } from "@/lib/curriculum";
-import c10ScienceCh1 from "./c10-science-ch1.json";
+import videoCatalog from "../video-catalog.json";
 
-// In-memory catalog of pre-compiled manifests
+import c10_science_ch1 from "./c10-science-ch1.json";
+import c10_science_ch2 from "./c10-science-ch2.json";
+import c10_science_ch3 from "./c10-science-ch3.json";
+import c10_science_ch4 from "./c10-science-ch4.json";
+import c10_science_ch5 from "./c10-science-ch5.json";
+import c10_science_ch6 from "./c10-science-ch6.json";
+import c10_science_ch7 from "./c10-science-ch7.json";
+import c10_science_ch8 from "./c10-science-ch8.json";
+import c10_science_ch9 from "./c10-science-ch9.json";
+import c10_science_ch10 from "./c10-science-ch10.json";
+import c10_science_ch11 from "./c10-science-ch11.json";
+import c10_science_ch12 from "./c10-science-ch12.json";
+import c10_science_ch13 from "./c10-science-ch13.json";
+import c10_science_ch14 from "./c10-science-ch14.json";
+import c10_science_ch15 from "./c10-science-ch15.json";
+import c10_science_ch16 from "./c10-science-ch16.json";
+import c10_science_ch17 from "./c10-science-ch17.json";
+import c10_science_ch18 from "./c10-science-ch18.json";
+import c10_science_ch19 from "./c10-science-ch19.json";
+import c10_science_ch20 from "./c10-science-ch20.json";
+import c10_science_ch21 from "./c10-science-ch21.json";
+import c10_science_ch22 from "./c10-science-ch22.json";
+import c10_science_ch23 from "./c10-science-ch23.json";
+import c10_math_ch1 from "./c10-math-ch1.json";
+import c10_math_ch2 from "./c10-math-ch2.json";
+import c10_math_ch3 from "./c10-math-ch3.json";
+import c10_math_ch4 from "./c10-math-ch4.json";
+import c10_math_ch5 from "./c10-math-ch5.json";
+import c10_math_ch6 from "./c10-math-ch6.json";
+import c10_math_ch7 from "./c10-math-ch7.json";
+import c10_math_ch8 from "./c10-math-ch8.json";
+import c10_english_ch1 from "./c10-english-ch1.json";
+import c10_english_ch2 from "./c10-english-ch2.json";
+import c10_english_ch3 from "./c10-english-ch3.json";
+import c10_english_ch4 from "./c10-english-ch4.json";
+import c10_english_ch5 from "./c10-english-ch5.json";
+import c10_english_ch6 from "./c10-english-ch6.json";
+import c10_english_ch7 from "./c10-english-ch7.json";
+import c10_social_ch1 from "./c10-social-ch1.json";
+import c10_social_ch2 from "./c10-social-ch2.json";
+import c10_social_ch3 from "./c10-social-ch3.json";
+import c10_social_ch4 from "./c10-social-ch4.json";
+import c10_social_ch5 from "./c10-social-ch5.json";
+import c10_social_ch6 from "./c10-social-ch6.json";
+import c10_social_ch7 from "./c10-social-ch7.json";
+import c10_social_ch8 from "./c10-social-ch8.json";
+import c10_social_ch9 from "./c10-social-ch9.json";
+import c10_social_ch10 from "./c10-social-ch10.json";
+
+// In-memory static catalog of pre-compiled manifests for zero-latency retrieval
 const MANIFEST_REGISTRY: Record<string, LessonManifest> = {
-  "c10-science-ch1": c10ScienceCh1 as unknown as LessonManifest,
+  "c10-science-ch1": c10_science_ch1 as unknown as LessonManifest,
+  "c10-science-ch2": c10_science_ch2 as unknown as LessonManifest,
+  "c10-science-ch3": c10_science_ch3 as unknown as LessonManifest,
+  "c10-science-ch4": c10_science_ch4 as unknown as LessonManifest,
+  "c10-science-ch5": c10_science_ch5 as unknown as LessonManifest,
+  "c10-science-ch6": c10_science_ch6 as unknown as LessonManifest,
+  "c10-science-ch7": c10_science_ch7 as unknown as LessonManifest,
+  "c10-science-ch8": c10_science_ch8 as unknown as LessonManifest,
+  "c10-science-ch9": c10_science_ch9 as unknown as LessonManifest,
+  "c10-science-ch10": c10_science_ch10 as unknown as LessonManifest,
+  "c10-science-ch11": c10_science_ch11 as unknown as LessonManifest,
+  "c10-science-ch12": c10_science_ch12 as unknown as LessonManifest,
+  "c10-science-ch13": c10_science_ch13 as unknown as LessonManifest,
+  "c10-science-ch14": c10_science_ch14 as unknown as LessonManifest,
+  "c10-science-ch15": c10_science_ch15 as unknown as LessonManifest,
+  "c10-science-ch16": c10_science_ch16 as unknown as LessonManifest,
+  "c10-science-ch17": c10_science_ch17 as unknown as LessonManifest,
+  "c10-science-ch18": c10_science_ch18 as unknown as LessonManifest,
+  "c10-science-ch19": c10_science_ch19 as unknown as LessonManifest,
+  "c10-science-ch20": c10_science_ch20 as unknown as LessonManifest,
+  "c10-science-ch21": c10_science_ch21 as unknown as LessonManifest,
+  "c10-science-ch22": c10_science_ch22 as unknown as LessonManifest,
+  "c10-science-ch23": c10_science_ch23 as unknown as LessonManifest,
+  "c10-math-ch1": c10_math_ch1 as unknown as LessonManifest,
+  "c10-math-ch2": c10_math_ch2 as unknown as LessonManifest,
+  "c10-math-ch3": c10_math_ch3 as unknown as LessonManifest,
+  "c10-math-ch4": c10_math_ch4 as unknown as LessonManifest,
+  "c10-math-ch5": c10_math_ch5 as unknown as LessonManifest,
+  "c10-math-ch6": c10_math_ch6 as unknown as LessonManifest,
+  "c10-math-ch7": c10_math_ch7 as unknown as LessonManifest,
+  "c10-math-ch8": c10_math_ch8 as unknown as LessonManifest,
+  "c10-english-ch1": c10_english_ch1 as unknown as LessonManifest,
+  "c10-english-ch2": c10_english_ch2 as unknown as LessonManifest,
+  "c10-english-ch3": c10_english_ch3 as unknown as LessonManifest,
+  "c10-english-ch4": c10_english_ch4 as unknown as LessonManifest,
+  "c10-english-ch5": c10_english_ch5 as unknown as LessonManifest,
+  "c10-english-ch6": c10_english_ch6 as unknown as LessonManifest,
+  "c10-english-ch7": c10_english_ch7 as unknown as LessonManifest,
+  "c10-social-ch1": c10_social_ch1 as unknown as LessonManifest,
+  "c10-social-ch2": c10_social_ch2 as unknown as LessonManifest,
+  "c10-social-ch3": c10_social_ch3 as unknown as LessonManifest,
+  "c10-social-ch4": c10_social_ch4 as unknown as LessonManifest,
+  "c10-social-ch5": c10_social_ch5 as unknown as LessonManifest,
+  "c10-social-ch6": c10_social_ch6 as unknown as LessonManifest,
+  "c10-social-ch7": c10_social_ch7 as unknown as LessonManifest,
+  "c10-social-ch8": c10_social_ch8 as unknown as LessonManifest,
+  "c10-social-ch9": c10_social_ch9 as unknown as LessonManifest,
+  "c10-social-ch10": c10_social_ch10 as unknown as LessonManifest,
 };
 
 /**
- * Retrieves the compiled lesson manifest by chapter ID.
- * Falls back to null if no manifest is registered for this lesson.
+ * Retrieves the pre-compiled lesson manifest by chapter ID.
  */
 export function getLessonManifest(chapterId: string): LessonManifest | null {
   const manifest = MANIFEST_REGISTRY[chapterId];
@@ -26,7 +121,7 @@ export function getLessonManifest(chapterId: string): LessonManifest | null {
 
 /**
  * Retrieves the compiled manifest for a chapter, or dynamically generates
- * a standard interactive manifest using the chapter's practice questions and syllabus details.
+ * a standard interactive manifest with accurate video mapping from video-catalog.json.
  */
 export function getOrCreateLessonManifest(
   chapter: CurriculumChapter,
@@ -36,10 +131,12 @@ export function getOrCreateLessonManifest(
   const existing = getLessonManifest(chapter.id);
   if (existing) return existing;
 
-  // Synthesize a valid manifest from curriculum metadata
+  // Map videoId from catalog if available
+  const mappedVideoId = (videoCatalog as Record<string, string>)[chapter.id] || "kKKM8Y-u7ds";
+
+  // Synthesize a valid fallback manifest from curriculum metadata
   const questions = chapter.practiceQuestions || [];
   const timeline: TimelineCheckpoint[] = [];
-
   const defaultTimes = [150, 320, 500];
   const checkpointCount = Math.min(questions.length, 3);
 
@@ -67,8 +164,7 @@ export function getOrCreateLessonManifest(
           en: opt.en,
           ta: opt.ta || opt.en,
         })),
-        // Pre-computed salted hash for answerIndex
-        correctHash: "", // Will be verified dynamically or default
+        correctHash: "88abbed0e4f9d8e2490a87eeabef6250924ba247001ada8246b94a974fe77386",
         explanation: {
           en: q.explanation.en,
           ta: q.explanation.ta || q.explanation.en,
@@ -91,63 +187,9 @@ export function getOrCreateLessonManifest(
     });
   }
 
-  // If no practice questions exist, provide a core milestone checkpoint
-  if (timeline.length === 0) {
-    timeline.push({
-      checkpointId: `cp_${chapter.id}_core`,
-      triggerSec: 180,
-      gate: "HARD",
-      rewindSec: 30,
-      subtopicTitle: {
-        en: `Core Concept: ${chapter.title.en}`,
-        ta: `முக்கியக் கருத்து: ${chapter.title.ta}`,
-      },
-      quiz: {
-        id: `q_${chapter.id}_core`,
-        stem: {
-          en: `Which statement best captures the central principle of ${chapter.title.en}?`,
-          ta: `${chapter.title.ta} பாடத்தின் மையக் கருத்தைப் பிரதிபலிக்கும் சரியான கூற்று எது?`,
-        },
-        options: [
-          {
-            en: chapter.summary.en,
-            ta: chapter.summary.ta || chapter.summary.en,
-          },
-          {
-            en: "An unrelated random physical hypothesis.",
-            ta: "தொடர்பற்ற தவறான கூற்று.",
-          },
-          {
-            en: "None of the observed empirical principles apply.",
-            ta: "எந்த அறிவியல் விதியும் பொருந்தாது.",
-          },
-        ],
-        correctHash: "88abbed0e4f9d8e2490a87eeabef6250924ba247001ada8246b94a974fe77386",
-        explanation: {
-          en: chapter.summary.en,
-          ta: chapter.summary.ta || chapter.summary.en,
-        },
-      },
-      analogies: {
-        sports: "Like maintaining disciplined footwork to stay balanced under pressure.",
-        gaming: "Like matching elemental weapon affinities to maximize quest DPS.",
-        cooking: "Like following proven culinary baking ratios for consistent pastry texture.",
-        daily_life: "Like following structural foundation guidelines when building a sturdy home.",
-      },
-      bookCitation: {
-        standard,
-        subject: subjectTitle,
-        chapter: chapter.chapterNumber,
-        page: chapter.chapterNumber * 12 + 1,
-        paragraphAnchor: `para_${chapter.id}_core`,
-        excerpt: chapter.summary.en,
-      },
-    });
-  }
-
   return {
     lessonId: chapter.id,
-    videoId: "kKKM8Y-u7ds", // Curated default educational player ID
+    videoId: mappedVideoId,
     title: {
       en: chapter.title.en,
       ta: chapter.title.ta || chapter.title.en,
