@@ -544,7 +544,7 @@ export function SeniorDigitalLearning({
   };
 
   return (
-    <div className="relative flex flex-col gap-6 sm:gap-8 pb-28 sm:pb-36 select-none text-slate-900 dark:text-slate-100">
+    <div className="relative mx-auto flex w-full max-w-[1460px] flex-col gap-6 pb-28 select-none text-slate-900 sm:gap-8 sm:pb-36 dark:text-slate-100">
       {/* ========================================================================= */}
       {/* 1. TOP NAVBAR: BRAND LOGO + CENTER NAV + LANG / THEME / PROFILE           */}
       {/* ========================================================================= */}
