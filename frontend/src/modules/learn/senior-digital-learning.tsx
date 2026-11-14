@@ -554,7 +554,7 @@ export function SeniorDigitalLearning({
           <button
             type="button"
             onClick={handleBack}
-            className="group flex items-center gap-1.5 rounded-xl border border-purple-200 bg-white/85 px-3 py-2 text-xs font-semibold text-purple-900 transition-all hover:bg-purple-50 hover:border-purple-400 dark:border-purple-800/50 dark:bg-purple-950/60 dark:text-purple-200 dark:hover:bg-purple-900/60 dark:hover:text-white dark:hover:border-purple-500 shadow-sm"
+            className="group flex items-center gap-1.5 rounded-xl border border-purple-200 bg-white/85 px-3 py-2 text-[13px] font-semibold text-purple-900 transition-all hover:bg-purple-50 hover:border-purple-400 dark:border-purple-800/50 dark:bg-purple-950/60 dark:text-purple-200 dark:hover:bg-purple-900/60 dark:hover:text-white dark:hover:border-purple-500 shadow-sm"
             title="Go Back"
           >
             <ArrowLeft size={15} className="transition-transform duration-200 group-hover:-translate-x-0.5 text-purple-600 group-hover:text-purple-900 dark:text-purple-400 dark:group-hover:text-purple-200" />
@@ -591,10 +591,10 @@ export function SeniorDigitalLearning({
           <button
             type="button"
             onClick={() => setLocale(locale === "en" ? "ta" : "en")}
-            className="flex items-center gap-1 rounded-xl border border-purple-200 bg-white/85 px-3 py-1.5 text-xs font-medium text-purple-900 transition-colors hover:border-purple-400 hover:bg-purple-50 dark:border-purple-800/40 dark:bg-purple-950/50 dark:text-purple-200 dark:hover:border-purple-600/60 dark:hover:text-white"
+            className="flex items-center gap-1 rounded-xl border border-purple-200 bg-white/85 px-3 py-1.5 text-[13px] font-medium text-purple-900 transition-colors hover:border-purple-400 hover:bg-purple-50 dark:border-purple-800/40 dark:bg-purple-950/50 dark:text-purple-200 dark:hover:border-purple-600/60 dark:hover:text-white"
           >
             <span>{locale === "en" ? "English" : "தமிழ்"}</span>
-            <span className="text-[10px] text-purple-600 dark:text-purple-400">▾</span>
+            <span className="text-[11px] text-purple-600 dark:text-purple-400">▾</span>
           </button>
 
           {/* Dark / Light Toggle */}
@@ -616,10 +616,10 @@ export function SeniorDigitalLearning({
               />
             </div>
             <div className="flex flex-col text-left">
-              <span className="font-display text-xs font-bold text-slate-900 dark:text-white leading-tight">
+              <span className="font-display text-[13px] font-bold text-slate-900 dark:text-white leading-tight">
                 {learnerName}
               </span>
-              <span className="font-mono text-[10px] text-purple-700 dark:text-purple-300/80 flex items-center gap-1">
+              <span className="font-mono text-[11px] text-purple-700 dark:text-purple-300/80 flex items-center gap-1">
                 Class {currentStandard} {isSenior && activeSeniorGroup ? `· ${activeSeniorGroup.badge}` : ""}
               </span>
             </div>
@@ -648,17 +648,17 @@ export function SeniorDigitalLearning({
           </div>
 
           <div className="min-w-0">
-            <h1 className="module-hero-title font-serif text-2xl font-black tracking-wide text-slate-900 uppercase dark:text-white sm:text-3xl">
+            <h1 className="module-hero-title font-serif text-[26px] font-black tracking-wide text-slate-900 uppercase dark:text-white sm:text-[32px]">
               Digital Learning
             </h1>
-            <p className="font-display text-sm font-bold text-purple-700 dark:text-purple-300">
+            <p className="font-display text-[15px] font-bold text-purple-700 dark:text-purple-300">
               Explore. Discover. Grow.
             </p>
             <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
-              <span className="rounded-full border border-purple-200 bg-purple-50 px-2.5 py-0.5 font-mono text-[10.5px] font-semibold text-purple-800 dark:border-purple-400/30 dark:bg-purple-500/20 dark:text-purple-200">
+              <span className="rounded-full border border-purple-200 bg-purple-50 px-2.5 py-0.5 font-mono text-[11.5px] font-semibold text-purple-800 dark:border-purple-400/30 dark:bg-purple-500/20 dark:text-purple-200">
                 Class {currentStandard}
               </span>
-              <span className="rounded-full border border-purple-200 bg-white px-2.5 py-0.5 font-mono text-[10.5px] text-slate-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-purple-200/70">
+              <span className="rounded-full border border-purple-200 bg-white px-2.5 py-0.5 font-mono text-[11.5px] text-slate-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-purple-200/70">
                 {currentStandard <= 5
                   ? "Primary Stage"
                   : currentStandard <= 8
@@ -667,7 +667,7 @@ export function SeniorDigitalLearning({
                   ? "Secondary School"
                   : "Higher Secondary"}
               </span>
-              <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 font-mono text-[10.5px] font-semibold text-emerald-800 dark:border-emerald-400/30 dark:bg-emerald-500/15 dark:text-emerald-300">
+              <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 font-mono text-[11.5px] font-semibold text-emerald-800 dark:border-emerald-400/30 dark:bg-emerald-500/15 dark:text-emerald-300">
                 {profile?.board === "cbse"
                   ? "CBSE"
                   : profile?.board === "icse_other"
@@ -675,7 +675,7 @@ export function SeniorDigitalLearning({
                   : "Tamil Nadu State Board"}
               </span>
               {isSenior && activeSeniorGroup && (
-                <span className="rounded-full border border-indigo-200 bg-indigo-50 px-2.5 py-0.5 font-mono text-[10.5px] font-semibold text-indigo-800 dark:border-indigo-400/30 dark:bg-indigo-500/15 dark:text-indigo-200">
+                <span className="rounded-full border border-indigo-200 bg-indigo-50 px-2.5 py-0.5 font-mono text-[11.5px] font-semibold text-indigo-800 dark:border-indigo-400/30 dark:bg-indigo-500/15 dark:text-indigo-200">
                   {activeSeniorGroup.badge}
                 </span>
               )}
@@ -685,16 +685,16 @@ export function SeniorDigitalLearning({
 
         <div className="w-full shrink-0 self-stretch sm:w-60 sm:self-auto">
           <div className="flex items-center justify-between gap-3">
-            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500 dark:text-purple-200/70">
+            <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-slate-500 dark:text-purple-200/70">
               Overall progress
             </span>
-            <span className="font-mono text-xs font-bold text-purple-700 dark:text-purple-300">
+            <span className="font-mono text-[13px] font-bold text-purple-700 dark:text-purple-300">
               {progressPct}%
             </span>
           </div>
-          <p className="mt-1 font-display text-lg font-black leading-none text-slate-900 dark:text-white">
+          <p className="mt-1 font-display text-[19px] font-black leading-none text-slate-900 dark:text-white">
             {completedChaptersCount}
-            <span className="text-sm font-semibold text-slate-400 dark:text-purple-200/60">
+            <span className="text-[15px] font-semibold text-slate-400 dark:text-purple-200/60">
               {" "}/ {totalChapters} chapters
             </span>
           </p>
@@ -725,19 +725,19 @@ export function SeniorDigitalLearning({
                   <span className="grid size-7 place-items-center rounded-full bg-purple-600 text-white shadow-[0_0_14px_rgba(168,85,247,0.45)]">
                     <Play size={11} weight="fill" className="ml-0.5" />
                   </span>
-                  <span className="font-mono text-[10.5px] font-bold uppercase tracking-[0.18em] text-purple-700 dark:text-purple-300">
+                  <span className="font-mono text-[11.5px] font-bold uppercase tracking-[0.18em] text-purple-700 dark:text-purple-300">
                     Continue Learning
                   </span>
-                  <span className="rounded-full border border-purple-200 bg-purple-50 px-2 py-0.5 font-mono text-[10px] font-semibold text-purple-800 dark:border-purple-400/30 dark:bg-purple-500/20 dark:text-purple-200">
+                  <span className="rounded-full border border-purple-200 bg-purple-50 px-2 py-0.5 font-mono text-[11px] font-semibold text-purple-800 dark:border-purple-400/30 dark:bg-purple-500/20 dark:text-purple-200">
                     {continueRecord ? "In progress" : "Start here"}
                   </span>
                 </div>
 
-                <h2 className="mt-2.5 font-display text-lg font-black leading-tight text-slate-900 dark:text-white sm:text-xl">
+                <h2 className="mt-2.5 font-display text-[19px] font-black leading-tight text-slate-900 dark:text-white sm:text-[22px]">
                   {continueRecord ? continueRecord.chapter.title[locale] : "Chapter 3: Plants Around Us"}
                 </h2>
 
-                <p className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 font-mono text-[11px] text-slate-600 dark:text-purple-200/70">
+                <p className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 font-mono text-[12px] text-slate-600 dark:text-purple-200/70">
                   <span className="font-semibold text-purple-700 dark:text-purple-300">Class {currentStandard}</span>
                   <span aria-hidden>›</span>
                   <span className="font-semibold text-pink-700 dark:text-pink-300">
@@ -754,7 +754,7 @@ export function SeniorDigitalLearning({
                       style={{ width: `${Math.max(4, continuePct)}%` }}
                     />
                   </div>
-                  <div className="mt-1.5 flex items-center justify-between font-mono text-[10.5px] text-slate-600 dark:text-purple-200/60">
+                  <div className="mt-1.5 flex items-center justify-between font-mono text-[11.5px] text-slate-600 dark:text-purple-200/60">
                     <span>
                       {continueTotal > 0
                         ? `${continueDone} of ${continueTotal} chapters in this subject`
@@ -778,7 +778,7 @@ export function SeniorDigitalLearning({
                 <button
                   type="button"
                   onClick={handleLaunchContinue}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-purple-600 px-4 py-2.5 font-display text-sm font-bold text-white shadow-[0_0_18px_rgba(168,85,247,0.45)] transition-all hover:scale-[1.03] hover:bg-purple-500 active:scale-95"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-purple-600 px-4 py-2.5 font-display text-[15px] font-bold text-white shadow-[0_0_18px_rgba(168,85,247,0.45)] transition-all hover:scale-[1.03] hover:bg-purple-500 active:scale-95"
                 >
                   <span>{continueDone > 0 ? "Resume" : "Start"}</span>
                   <ArrowRight size={14} weight="bold" />
@@ -798,14 +798,14 @@ export function SeniorDigitalLearning({
             <div className="flex items-center justify-between gap-3">
               <div className="flex flex-wrap items-center gap-2">
                 <Sparkle size={14} weight="fill" className="text-purple-600 animate-starlight dark:text-purple-400" />
-                <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-slate-700 dark:text-purple-200/80">
+                <h2 className="font-mono text-[12px] font-bold uppercase tracking-[0.18em] text-slate-700 dark:text-purple-200/80">
                   Your Subjects
                 </h2>
-                <span className="rounded-full border border-purple-200 bg-purple-50 px-2 py-0.5 font-mono text-[10.5px] font-semibold text-purple-800 dark:border-purple-400/30 dark:bg-purple-500/20 dark:text-purple-200">
+                <span className="rounded-full border border-purple-200 bg-purple-50 px-2 py-0.5 font-mono text-[11.5px] font-semibold text-purple-800 dark:border-purple-400/30 dark:bg-purple-500/20 dark:text-purple-200">
                   {subjects.length}
                 </span>
                 {isSenior && (
-                  <span className="rounded-full border border-indigo-200 bg-indigo-50 px-2 py-0.5 font-mono text-[10.5px] font-semibold text-indigo-800 dark:border-indigo-400/30 dark:bg-indigo-500/15 dark:text-indigo-200">
+                  <span className="rounded-full border border-indigo-200 bg-indigo-50 px-2 py-0.5 font-mono text-[11.5px] font-semibold text-indigo-800 dark:border-indigo-400/30 dark:bg-indigo-500/15 dark:text-indigo-200">
                     {activeSeniorGroup?.badge || "Computer Science"}
                   </span>
                 )}
@@ -815,7 +815,7 @@ export function SeniorDigitalLearning({
                 <button
                   type="button"
                   onClick={() => setActiveSubjectId("all")}
-                  className="shrink-0 font-mono text-[11px] font-semibold text-purple-700 hover:text-purple-950 hover:underline dark:text-purple-300 dark:hover:text-white"
+                  className="shrink-0 font-mono text-[12px] font-semibold text-purple-700 hover:text-purple-950 hover:underline dark:text-purple-300 dark:hover:text-white"
                 >
                   Clear filter
                 </button>
@@ -850,21 +850,21 @@ export function SeniorDigitalLearning({
 
                     <div>
                       <div className="flex items-center justify-between gap-2">
-                        <span className="flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-purple-200/60">
+                        <span className="flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-purple-200/60">
                           <span aria-hidden className={`size-1.5 rounded-full ${visual.accentBg}`} />
                           {sub.code || "SUB"}
                         </span>
                         {completedCount > 0 && (
-                          <span className="rounded-full border border-emerald-300 bg-emerald-100 px-1.5 py-0.5 font-mono text-[9px] font-semibold text-emerald-800 dark:border-emerald-500/40 dark:bg-emerald-500/20 dark:text-emerald-300">
+                          <span className="rounded-full border border-emerald-300 bg-emerald-100 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-emerald-800 dark:border-emerald-500/40 dark:bg-emerald-500/20 dark:text-emerald-300">
                             {completedCount}/{sub.chapters.length}
                           </span>
                         )}
                       </div>
 
-                      <h3 className="mt-2 line-clamp-2 font-display text-base font-semibold leading-tight text-slate-900 dark:text-white">
+                      <h3 className="mt-2 line-clamp-2 font-display text-[17px] font-semibold leading-tight text-slate-900 dark:text-white">
                         {sub.name[locale] || sub.name.en}
                       </h3>
-                      <p className="mt-1 font-display text-[11px] leading-snug text-slate-500 line-clamp-1 dark:text-purple-200/60">
+                      <p className="mt-1 font-display text-[12px] leading-snug text-slate-500 line-clamp-1 dark:text-purple-200/60">
                         {visual.tagline}
                       </p>
                     </div>
@@ -877,7 +877,7 @@ export function SeniorDigitalLearning({
                         />
                       </div>
                       <div className="mt-2 flex items-center justify-between">
-                        <span className="font-mono text-[10.5px] text-slate-500 dark:text-purple-200/60">
+                        <span className="font-mono text-[11.5px] text-slate-500 dark:text-purple-200/60">
                           {completedCount}/{sub.chapters.length} chapters
                         </span>
                         <button
@@ -886,7 +886,7 @@ export function SeniorDigitalLearning({
                             e.stopPropagation();
                             handleSelectSubject(sub);
                           }}
-                          className="inline-flex items-center gap-1 font-display text-xs font-bold text-purple-700 transition-colors hover:text-purple-950 dark:text-purple-300 dark:hover:text-white"
+                          className="inline-flex items-center gap-1 font-display text-[13px] font-bold text-purple-700 transition-colors hover:text-purple-950 dark:text-purple-300 dark:hover:text-white"
                         >
                           <span>Explore</span>
                           <ArrowRight size={12} weight="bold" className="transition-transform group-hover:translate-x-0.5" />
@@ -905,19 +905,19 @@ export function SeniorDigitalLearning({
           {activeSubjectId !== "all" && (
             <section className="fade-up">
               <div className="flex items-center justify-between mb-3">
-                <span className="font-display text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span className="font-display text-[15px] font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <BookOpen size={16} className="text-purple-600 dark:text-purple-400" />
                   <span>
                     {subjects.find((s) => s.id === activeSubjectId)?.name[locale] || "Chapters"}
                   </span>
-                  <span className="font-mono text-xs text-slate-500 dark:text-purple-300/60 font-normal">
+                  <span className="font-mono text-[13px] text-slate-500 dark:text-purple-300/60 font-normal">
                     ({displayedChapters.length} chapters)
                   </span>
                 </span>
                 <button
                   type="button"
                   onClick={() => setActiveSubjectId("all")}
-                  className="rounded-lg border border-purple-200 bg-purple-50 px-2.5 py-1 font-mono text-[11px] font-medium text-purple-800 hover:bg-purple-100 hover:text-purple-950 hover:border-purple-400 dark:border-purple-800/40 dark:bg-purple-950/50 dark:text-purple-300 dark:hover:text-white dark:hover:border-purple-600 transition-colors"
+                  className="rounded-lg border border-purple-200 bg-purple-50 px-2.5 py-1 font-mono text-[12px] font-medium text-purple-800 hover:bg-purple-100 hover:text-purple-950 hover:border-purple-400 dark:border-purple-800/40 dark:bg-purple-950/50 dark:text-purple-300 dark:hover:text-white dark:hover:border-purple-600 transition-colors"
                 >
                   ✕ Close Explorer
                 </button>
@@ -932,14 +932,14 @@ export function SeniorDigitalLearning({
                     className="group flex items-center justify-between gap-3 border-b border-purple-200/60 px-1 py-3 text-left transition-colors duration-200 last:border-0 hover:text-purple-800 dark:border-white/10 dark:hover:text-purple-300"
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <span className="w-5 shrink-0 font-mono text-[11px] font-bold text-purple-700 dark:text-purple-300">
+                      <span className="w-5 shrink-0 font-mono text-[12px] font-bold text-purple-700 dark:text-purple-300">
                         {idx + 1}
                       </span>
                       <div className="min-w-0">
-                        <p className="truncate font-display text-xs sm:text-[13px] font-bold text-slate-900 group-hover:text-purple-800 dark:text-slate-100 dark:group-hover:text-purple-300">
+                        <p className="truncate font-display text-[13px] sm:text-[14px] font-bold text-slate-900 group-hover:text-purple-800 dark:text-slate-100 dark:group-hover:text-purple-300">
                           {item.chapter.title[locale]}
                         </p>
-                        <p className="truncate font-mono text-[10.5px] text-slate-600 dark:text-purple-300/60">
+                        <p className="truncate font-mono text-[11.5px] text-slate-600 dark:text-purple-300/60">
                           {item.subject.name[locale]} • {item.chapter.summary[locale]}
                         </p>
                       </div>
@@ -967,13 +967,13 @@ export function SeniorDigitalLearning({
               <span className="text-purple-700 dark:text-purple-300">
                 <GraduationCap size={17} weight="fill" />
               </span>
-              <h3 className="font-display text-sm font-bold text-slate-900 dark:text-white">
+              <h3 className="font-display text-[15px] font-bold text-slate-900 dark:text-white">
                 Your Learning Path
               </h3>
             </div>
 
             {/* Breadcrumb Path */}
-            <p className="mb-3 flex flex-wrap items-center gap-1.5 font-mono text-[11px] text-slate-700 dark:text-purple-200/80">
+            <p className="mb-3 flex flex-wrap items-center gap-1.5 font-mono text-[12px] text-slate-700 dark:text-purple-200/80">
               <span className="font-bold text-purple-700 dark:text-purple-300">Class {currentStandard}</span>
               <span aria-hidden>›</span>
               <span className="font-semibold text-pink-700 dark:text-pink-300">
@@ -994,7 +994,7 @@ export function SeniorDigitalLearning({
                 style={{ width: `${Math.max(4, progressPct)}%` }}
               />
             </div>
-            <div className="flex items-center justify-between font-mono text-[10.5px] text-slate-600 dark:text-purple-200/80">
+            <div className="flex items-center justify-between font-mono text-[11.5px] text-slate-600 dark:text-purple-200/80">
               <span>{completedChaptersCount} of {totalChapters} chapters completed</span>
               <span className="font-bold text-purple-700 dark:text-purple-300">{progressPct}%</span>
             </div>
@@ -1008,7 +1008,7 @@ export function SeniorDigitalLearning({
           <div className="flex flex-col">
             <div className="flex items-center gap-2 mb-1">
               <span className="text-purple-600 dark:text-purple-400">📚</span>
-              <h3 className="font-display text-sm sm:text-base font-bold text-slate-900 dark:text-white">
+              <h3 className="font-display text-[15px] sm:text-[17px] font-bold text-slate-900 dark:text-white">
                 Quick Access
               </h3>
             </div>
@@ -1022,7 +1022,7 @@ export function SeniorDigitalLearning({
                 <span className="text-purple-700 dark:text-purple-400">
                   <FileText size={16} />
                 </span>
-                <span className="font-display text-xs font-bold text-slate-900 group-hover:text-purple-950 dark:text-purple-100 dark:group-hover:text-white">
+                <span className="font-display text-[13px] font-bold text-slate-900 group-hover:text-purple-950 dark:text-purple-100 dark:group-hover:text-white">
                   My Notes
                 </span>
               </div>
@@ -1038,7 +1038,7 @@ export function SeniorDigitalLearning({
                 <span className="text-purple-700 dark:text-purple-400">
                   <PencilSimple size={16} />
                 </span>
-                <span className="font-display text-xs font-bold text-slate-900 group-hover:text-purple-950 dark:text-purple-100 dark:group-hover:text-white">
+                <span className="font-display text-[13px] font-bold text-slate-900 group-hover:text-purple-950 dark:text-purple-100 dark:group-hover:text-white">
                   Practice Questions
                 </span>
               </div>
@@ -1054,7 +1054,7 @@ export function SeniorDigitalLearning({
                 <span className="text-purple-700 dark:text-purple-400">
                   <DownloadSimple size={16} />
                 </span>
-                <span className="font-display text-xs font-bold text-slate-900 group-hover:text-purple-950 dark:text-purple-100 dark:group-hover:text-white">
+                <span className="font-display text-[13px] font-bold text-slate-900 group-hover:text-purple-950 dark:text-purple-100 dark:group-hover:text-white">
                   Download PDFs
                 </span>
               </div>
@@ -1071,26 +1071,26 @@ export function SeniorDigitalLearning({
                 <span className="text-pink-500 dark:text-pink-400">
                   <Quotes size={16} weight="fill" />
                 </span>
-                <h3 className="font-display text-sm font-bold tracking-wide text-slate-900 dark:text-white">
+                <h3 className="font-display text-[15px] font-bold tracking-wide text-slate-900 dark:text-white">
                   Daily Encouragement
                 </h3>
               </div>
-              <span className="shrink-0 rounded-full border border-purple-200 bg-purple-50 px-2 py-0.5 font-mono text-[9.5px] text-purple-700 dark:border-purple-400/30 dark:bg-purple-500/20 dark:text-purple-200">
+              <span className="shrink-0 rounded-full border border-purple-200 bg-purple-50 px-2 py-0.5 font-mono text-[10.5px] text-purple-700 dark:border-purple-400/30 dark:bg-purple-500/20 dark:text-purple-200">
                 Day #{dayOfYear}
               </span>
             </div>
 
-            <p className="font-serif text-[13px] italic leading-relaxed text-slate-700 dark:text-purple-100">
+            <p className="font-serif text-[14px] italic leading-relaxed text-slate-700 dark:text-purple-100">
               “{currentQuote.quote[locale]}”
             </p>
 
             <div className="mt-3 flex items-end justify-between gap-3">
               <div className="min-w-0">
-                <p className="truncate font-mono text-[11px] font-bold text-pink-600 dark:text-pink-400">
+                <p className="truncate font-mono text-[12px] font-bold text-pink-600 dark:text-pink-400">
                   — {currentQuote.author[locale]}
                 </p>
                 {currentQuote.role && (
-                  <p className="truncate font-mono text-[10px] text-purple-700/80 dark:text-purple-300/80">
+                  <p className="truncate font-mono text-[11px] text-purple-700/80 dark:text-purple-300/80">
                     {currentQuote.role[locale]}
                   </p>
                 )}
@@ -1098,7 +1098,7 @@ export function SeniorDigitalLearning({
               <button
                 type="button"
                 onClick={handleNextQuote}
-                className="group inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-purple-200 bg-white/70 px-2.5 py-1.5 font-mono text-[10.5px] text-purple-700 transition-colors hover:border-purple-400 hover:text-purple-900 dark:border-purple-400/30 dark:bg-white/[0.04] dark:text-purple-200 dark:hover:border-purple-400 dark:hover:text-white"
+                className="group inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-purple-200 bg-white/70 px-2.5 py-1.5 font-mono text-[11.5px] text-purple-700 transition-colors hover:border-purple-400 hover:text-purple-900 dark:border-purple-400/30 dark:bg-white/[0.04] dark:text-purple-200 dark:hover:border-purple-400 dark:hover:text-white"
                 title="Next Daily Quote"
               >
                 <ArrowClockwise size={11} className="transition-transform duration-300 group-hover:rotate-180" />
