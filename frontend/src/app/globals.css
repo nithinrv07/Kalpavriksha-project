@@ -1237,3 +1237,17 @@ html {
   color: #110826 !important;
   text-shadow: 0 2px 14px rgba(124, 58, 237, 0.25);
 }
+
+/* Gently scale the Digital Learning layout up on large desktop displays so the
+   page does not read as small when the window is very wide. */
+@media (min-width: 1536px) {
+  .learn-page-scale {
+    zoom: 1.07;
+  }
+}
+
+@media (min-width: 1760px) {
+  .learn-page-scale {
+    zoom: 1.14;
+  }
+}

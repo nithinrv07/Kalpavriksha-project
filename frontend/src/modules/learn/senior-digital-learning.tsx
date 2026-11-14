@@ -544,7 +544,7 @@ export function SeniorDigitalLearning({
   };
 
   return (
-    <div className="relative mx-auto flex w-full max-w-[1460px] flex-col gap-6 pb-28 select-none text-slate-900 sm:gap-8 sm:pb-36 dark:text-slate-100">
+    <div className="learn-page-scale relative mx-auto flex w-full max-w-[1460px] flex-col gap-6 pb-28 select-none text-slate-900 sm:gap-8 sm:pb-36 dark:text-slate-100">
       {/* ========================================================================= */}
       {/* 1. TOP NAVBAR: BRAND LOGO + CENTER NAV + LANG / THEME / PROFILE           */}
       {/* ========================================================================= */}
@@ -583,13 +583,6 @@ export function SeniorDigitalLearning({
               );
             })}
           </nav>
-        </div>
-
-        {/* Center: Module Title Pill */}
-        <div className="hidden lg:flex items-center gap-2 rounded-full border border-purple-200/80 bg-white/80 dark:border-purple-800/40 dark:bg-purple-950/50 px-4 py-1.5 backdrop-blur-md shadow-inner">
-          <GraduationCap size={16} weight="fill" className="text-purple-700 dark:text-purple-300" />
-          <span className="font-display text-xs font-bold text-slate-900 dark:text-white tracking-wide">Digital Learning</span>
-          <span className="h-1.5 w-1.5 rounded-full bg-purple-600 dark:bg-purple-400 shadow-[0_0_8px_#a855f7]" />
         </div>
 
         {/* Right: Language, Theme & Profile Pill */}
