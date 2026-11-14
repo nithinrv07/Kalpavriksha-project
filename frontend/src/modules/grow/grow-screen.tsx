@@ -24,7 +24,6 @@ import {
 } from "@/lib/progress";
 import { AREA_INFO, BADGE_INFO, GROW_COPY } from "./content";
 import { LearningTrackCard } from "./learning-track-card";
-import { LiquidGlassSurface } from "@/components/liquid-glass-surface";
 
 /** Fixed precision so server and browser render identical SVG attributes. */
 const round = (n: number) => Math.round(n * 100) / 100;
@@ -444,10 +443,7 @@ function ActivityForm({ band }: { band: Band }) {
   };
 
   return (
-    <LiquidGlassSurface
-      radius={24}
-      className="flex flex-col gap-4 border border-purple-200/70 dark:border-white/10 bg-white/75 dark:bg-[#0d0720]/80 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-6"
-    >
+    <div className="relative overflow-hidden rounded-3xl flex flex-col gap-4 border border-purple-200/70 dark:border-white/10 bg-[#faf7ff] dark:bg-[#0d0720] shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-6">
       <h2 className="font-display text-base sm:text-lg lg:text-xl font-bold tracking-wide text-slate-900 dark:text-white">{c.logTitle}</h2>
       <fieldset>
         <legend className="font-mono text-[11.5px] uppercase tracking-[0.12em] text-muted">{c.areaLabel}</legend>
@@ -508,7 +504,7 @@ function ActivityForm({ band }: { band: Band }) {
           )}
         </button>
       </div>
-    </LiquidGlassSurface>
+    </div>
   );
 }
 
@@ -544,10 +540,7 @@ export function GrowScreen({ band }: { band: Band }) {
       />
 
       <div className={`grid gap-4 ${band === "junior" ? "lg:grid-cols-[1.3fr_1fr]" : "lg:grid-cols-[1.1fr_1fr]"}`}>
-        <LiquidGlassSurface
-          radius={28}
-          className="border border-purple-200/70 dark:border-white/10 bg-white/75 dark:bg-[#0d0720]/80 p-5 sm:p-6 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] flex flex-col justify-between"
-        >
+        <div className="relative overflow-hidden rounded-3xl border border-purple-200/70 dark:border-white/10 bg-[#faf7ff] dark:bg-[#0d0720] p-5 sm:p-6 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] flex flex-col justify-between">
           <div>
             <h2 className="font-display text-xl sm:text-2xl tracking-[-0.02em] text-slate-900 dark:text-white">{c.treeTitle}</h2>
             <p className="mt-1 font-mono text-[12.5px] font-medium text-slate-600 dark:text-purple-200/80">
@@ -574,14 +567,11 @@ export function GrowScreen({ band }: { band: Band }) {
               </span>
             ))}
           </div>
-        </LiquidGlassSurface>
+        </div>
 
         <div className="flex flex-col gap-4">
           <ActivityForm band={band} />
-          <LiquidGlassSurface
-            radius={24}
-            className="border border-purple-200/70 dark:border-white/10 bg-white/75 dark:bg-[#0d0720]/80 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-6"
-          >
+          <div className="relative overflow-hidden rounded-3xl border border-purple-200/70 dark:border-white/10 bg-[#faf7ff] dark:bg-[#0d0720] shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-6">
             <h2 className="font-display text-base sm:text-lg lg:text-xl font-bold tracking-wide text-slate-900 dark:text-white">{band === "junior" ? c.stickersTitle : c.skillsTitle}</h2>
             <div className="mt-4">
               {band === "junior" ? (
@@ -610,7 +600,7 @@ export function GrowScreen({ band }: { band: Band }) {
                 </p>
               </div>
             )}
-          </LiquidGlassSurface>
+          </div>
         </div>
       </div>
 
@@ -621,10 +611,7 @@ export function GrowScreen({ band }: { band: Band }) {
         onOpenStandardSwitcher={() => setSwitcherOpen(true)}
       />
 
-      <LiquidGlassSurface
-        radius={28}
-        className="border border-purple-200/70 dark:border-white/10 bg-white/75 dark:bg-[#0d0720]/80 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-6"
-      >
+      <div className="relative overflow-hidden rounded-3xl border border-purple-200/70 dark:border-white/10 bg-[#faf7ff] dark:bg-[#0d0720] shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-6">
         <h2 className="font-display text-base sm:text-lg lg:text-xl font-bold tracking-wide text-slate-900 dark:text-white">{c.badgesTitle}</h2>
         <ul className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-7">
           {earned.map(({ id, earned: got }) => {
@@ -651,12 +638,9 @@ export function GrowScreen({ band }: { band: Band }) {
             );
           })}
         </ul>
-        </LiquidGlassSurface>
+      </div>
 
-      <LiquidGlassSurface
-        radius={28}
-        className="border border-purple-200/70 dark:border-white/10 bg-white/75 dark:bg-[#0d0720]/80 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-6"
-      >
+      <div className="relative overflow-hidden rounded-3xl border border-purple-200/70 dark:border-white/10 bg-[#faf7ff] dark:bg-[#0d0720] shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-6">
         <h2 className="font-display text-base sm:text-lg lg:text-xl font-bold tracking-wide text-slate-900 dark:text-white">{band === "senior" ? c.portfolio : c.recent}</h2>
         {progress.activities.length === 0 ? (
           <p className="mt-3 text-[14px] text-muted">{c.empty}</p>
@@ -692,7 +676,7 @@ export function GrowScreen({ band }: { band: Band }) {
             })}
           </ul>
         )}
-      </LiquidGlassSurface>
+      </div>
     </div>
   );
 }
