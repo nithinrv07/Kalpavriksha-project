@@ -84,7 +84,8 @@ export function ModuleShell({
       style={band ? ({ "--band": BAND_INFO[band].accent } as React.CSSProperties) : undefined}
       className="relative isolate min-h-[100dvh] w-full"
     >
-      {/* Consistent Cosmic Purple & LivingTree Blossom Atmosphere across all modules */}
+      {/* Consistent Cosmic Purple atmosphere across all modules (the LivingTree
+          blossoms stay on grow & gk-songs; Digital Learning uses its own hero). */}
       <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#f8f6fc] dark:bg-[#080312]">
         {/* 1. Underlying Signature Chrome Waves */}
         <ChromeWaves />
@@ -94,16 +95,20 @@ export function ModuleShell({
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_35%,rgba(236,72,153,0.15),transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.14),transparent_60%)]" />
 
-        {/* 3. Blooming Wishing Tree with drifting petals hugging the left side */}
-        <div
-          className="pointer-events-none absolute inset-y-0 left-0 hidden sm:block h-full w-[36vw] min-w-[240px] max-w-[500px] overflow-hidden opacity-75 transform-gpu"
-          style={{
-            maskImage: "linear-gradient(to right, #000 60%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to right, #000 60%, transparent 100%)",
-          }}
-        >
-          <LivingTree />
-        </div>
+        {/* 3. Blooming Wishing Tree with drifting petals hugging the left side.
+            The Digital Learning screen has its own hero artwork, so the shared
+            tree backdrop is reserved for the other modules. */}
+        {module.slug !== "learn" && (
+          <div
+            className="pointer-events-none absolute inset-y-0 left-0 hidden sm:block h-full w-[36vw] min-w-[240px] max-w-[500px] overflow-hidden opacity-75 transform-gpu"
+            style={{
+              maskImage: "linear-gradient(to right, #000 60%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to right, #000 60%, transparent 100%)",
+            }}
+          >
+            <LivingTree />
+          </div>
+        )}
 
         {/* 4. Soft Vignette Edge Shadow for Content Contrast & Space Depth */}
         <div className="pointer-events-none absolute inset-0 hidden dark:block bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(4,1,8,0.35)_75%,rgba(2,0,5,0.75)_100%)]" />
