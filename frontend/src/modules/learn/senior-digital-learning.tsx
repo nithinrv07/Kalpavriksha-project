@@ -667,7 +667,7 @@ export function SeniorDigitalLearning({
             </div>
           </div>
 
-          {/* Right: Next Quote button + 3D Owl Sitting on Stacked Books */}
+          {/* Right: Next Quote button */}
           <div className="flex items-center gap-4 self-end md:self-center shrink-0">
             <button
               type="button"
@@ -678,16 +678,6 @@ export function SeniorDigitalLearning({
               <ArrowClockwise size={13} className="transition-transform duration-300 group-hover:rotate-180 !text-purple-200" />
               <span>Next Quote</span>
             </button>
-
-            <div className="relative size-16 sm:size-20 shrink-0 transition-transform hover:scale-105 duration-300">
-              <Image
-                src="/images/learn/encouragement-owl.png"
-                alt="Cute 3D owl with cherry blossom petals"
-                width={80}
-                height={80}
-                className="size-full object-contain drop-shadow-[0_4px_16px_rgba(168,85,247,0.35)]"
-              />
-            </div>
           </div>
         </div>
       </div>
