@@ -928,17 +928,6 @@ export function SeniorDigitalLearning({
                       </p>
                     </div>
 
-                    {/* 3D Visual Asset */}
-                    <div className="relative my-3 size-20 self-center transition-transform group-hover:scale-105">
-                      <Image
-                        src={visual.image}
-                        alt={sub.name.en}
-                        width={80}
-                        height={80}
-                        className="size-full object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.4)]"
-                      />
-                    </div>
-
                     {/* Bottom Bar: Chapters + Explore Button */}
                     <div className="flex flex-col gap-2">
                       <span className={`font-mono text-[11px] ${visual.subtextColor} flex items-center gap-1.5`}>
