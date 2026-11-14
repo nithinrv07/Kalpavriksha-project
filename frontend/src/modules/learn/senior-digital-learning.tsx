@@ -639,12 +639,9 @@ export function SeniorDigitalLearning({
       {/* ========================================================================= */}
       {/* 2. SLIM PAGE HEADER: IDENTITY + CLASS / BOARD / STREAM + EDIT PROFILE    */}
       {/* ========================================================================= */}
-      <section className="relative z-10 flex flex-col gap-4 overflow-hidden rounded-2xl border border-purple-200/80 bg-white/80 p-4 backdrop-blur-xl shadow-[0_8px_24px_-12px_rgba(76,29,149,0.35)] sm:flex-row sm:items-center sm:justify-between sm:p-5 dark:border-white/10 dark:bg-white/[0.035]">
-        {/* Accent top edge keeps the purple theme without a heavy hero */}
-        <span aria-hidden className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-purple-500/0 via-purple-400 to-pink-500/0" />
-
+      <section className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex min-w-0 items-center gap-3.5 sm:gap-4">
-          <div className="relative size-12 shrink-0 rounded-2xl border border-purple-200 bg-purple-50 p-2 dark:border-purple-500/40 dark:bg-purple-900/40 sm:size-14">
+          <div className="relative size-12 shrink-0 sm:size-14">
             <Image
               src={
                 CLASS_ITEMS.find((c) => c.std === currentStandard)?.image ||
@@ -695,7 +692,7 @@ export function SeniorDigitalLearning({
 
         <div className="w-full shrink-0 self-stretch sm:w-60 sm:self-auto">
           <div className="flex items-center justify-between gap-3">
-            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500 dark:text-purple-200/50">
+            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500 dark:text-purple-200/70">
               Overall progress
             </span>
             <span className="font-mono text-xs font-bold text-purple-700 dark:text-purple-300">
@@ -704,7 +701,7 @@ export function SeniorDigitalLearning({
           </div>
           <p className="mt-1 font-display text-lg font-black leading-none text-slate-900 dark:text-white">
             {completedChaptersCount}
-            <span className="text-sm font-semibold text-slate-400 dark:text-purple-200/40">
+            <span className="text-sm font-semibold text-slate-400 dark:text-purple-200/60">
               {" "}/ {totalChapters} chapters
             </span>
           </p>
@@ -728,10 +725,7 @@ export function SeniorDigitalLearning({
           {/* ----------------------------------------------------------------- */}
           {/* A. CONTINUE LEARNING — primary action card                        */}
           {/* ----------------------------------------------------------------- */}
-          <section className="relative overflow-hidden rounded-2xl border border-purple-200/80 bg-white/85 p-5 backdrop-blur-xl shadow-[0_10px_30px_-12px_rgba(76,29,149,0.45)] sm:p-6 dark:border-white/10 dark:bg-white/[0.045]">
-            <span aria-hidden className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500" />
-            <div className="pointer-events-none absolute -right-12 -top-12 size-56 rounded-full bg-purple-400/20 blur-3xl dark:bg-purple-600/25" />
-
+          <section className="relative">
             <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
@@ -779,7 +773,7 @@ export function SeniorDigitalLearning({
               </div>
 
               <div className="flex shrink-0 items-center gap-3 sm:flex-col sm:items-end">
-                <div className="relative hidden size-20 rounded-2xl border border-purple-200 bg-purple-50 p-1.5 dark:border-white/10 dark:bg-white/[0.04] sm:block">
+                <div className="relative hidden size-20 sm:block">
                   <Image
                     src="/images/learn/continue-sprout.png"
                     alt="Sprout in soil pot"
@@ -852,7 +846,7 @@ export function SeniorDigitalLearning({
                   <div
                     key={sub.id}
                     onClick={() => handleSelectSubject(sub)}
-                    className={`group relative flex cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border bg-white/85 p-4 backdrop-blur-xl shadow-[0_8px_24px_-14px_rgba(15,8,30,0.45)] transition-all duration-300 hover:-translate-y-0.5 dark:bg-white/[0.035] ${
+                    className={`group relative flex cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border bg-white/90 p-4 backdrop-blur-xl shadow-[0_8px_24px_-14px_rgba(15,8,30,0.45)] transition-all duration-300 hover:-translate-y-0.5 dark:bg-[#140a28]/85 ${
                       isSelected
                         ? "border-purple-500 ring-1 ring-purple-400 dark:border-purple-400/70 dark:ring-purple-400/40"
                         : "border-purple-200/70 hover:border-purple-400/70 dark:border-white/10 dark:hover:border-white/20"
@@ -916,7 +910,7 @@ export function SeniorDigitalLearning({
           {/* C. EXPANDED CHAPTERS EXPLORER (Shown only when subject is clicked)*/}
           {/* ----------------------------------------------------------------- */}
           {activeSubjectId !== "all" && (
-            <section className="fade-up rounded-2xl border border-purple-200/80 bg-white/85 dark:border-purple-900/30 dark:bg-[#140a28]/80 p-4 sm:p-5 backdrop-blur-md shadow-md">
+            <section className="fade-up">
               <div className="flex items-center justify-between mb-3">
                 <span className="font-display text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <BookOpen size={16} className="text-purple-600 dark:text-purple-400" />
@@ -942,10 +936,10 @@ export function SeniorDigitalLearning({
                     key={item.chapter.id}
                     type="button"
                     onClick={() => onOpenChapter(item.chapter.id)}
-                    className="group flex items-center justify-between gap-3 rounded-xl border border-purple-200/80 bg-purple-50/70 px-3.5 py-2.5 text-left transition-all duration-200 hover:border-purple-400 hover:bg-purple-100/70 dark:border-purple-900/40 dark:bg-purple-950/30 dark:hover:border-purple-600/60 dark:hover:bg-purple-900/30 hover:shadow-sm"
+                    className="group flex items-center justify-between gap-3 border-b border-purple-200/60 px-1 py-3 text-left transition-colors duration-200 last:border-0 hover:text-purple-800 dark:border-white/10 dark:hover:text-purple-300"
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <span className="grid size-6 shrink-0 place-items-center rounded-lg bg-purple-100 border border-purple-200 font-mono text-[11px] font-bold text-purple-800 dark:bg-purple-900/60 dark:border-purple-700/40 dark:text-purple-200">
+                      <span className="w-5 shrink-0 font-mono text-[11px] font-bold text-purple-700 dark:text-purple-300">
                         {idx + 1}
                       </span>
                       <div className="min-w-0">
@@ -957,8 +951,8 @@ export function SeniorDigitalLearning({
                         </p>
                       </div>
                     </div>
-                    <span className="grid size-6 shrink-0 place-items-center rounded-full bg-purple-100 text-purple-700 group-hover:bg-purple-600 group-hover:text-white dark:bg-purple-600/40 dark:text-purple-300 dark:group-hover:bg-purple-600 transition-colors">
-                      <Play size={10} weight="fill" className="ml-0.5" />
+                    <span className="shrink-0 text-purple-600 transition-colors group-hover:text-purple-800 dark:text-purple-400 dark:group-hover:text-purple-200">
+                      <Play size={11} weight="fill" className="ml-0.5" />
                     </span>
                   </button>
                 ))}
@@ -975,10 +969,10 @@ export function SeniorDigitalLearning({
           {/* ----------------------------------------------------------------- */}
           {/* CARD 1: YOUR LEARNING PATH                                        */}
           {/* ----------------------------------------------------------------- */}
-          <div className="rounded-2xl border border-purple-200/80 bg-white/85 p-5 backdrop-blur-xl shadow-[0_8px_24px_-14px_rgba(15,8,30,0.45)] dark:border-white/10 dark:bg-white/[0.035]">
+          <div>
             <div className="mb-3 flex items-center gap-2.5">
-              <span className="grid size-7 place-items-center rounded-lg border border-purple-200 bg-purple-50 text-purple-700 dark:border-purple-400/30 dark:bg-purple-500/15 dark:text-purple-300">
-                <GraduationCap size={15} weight="fill" />
+              <span className="text-purple-700 dark:text-purple-300">
+                <GraduationCap size={17} weight="fill" />
               </span>
               <h3 className="font-display text-sm font-bold text-slate-900 dark:text-white">
                 Your Learning Path
@@ -1007,7 +1001,7 @@ export function SeniorDigitalLearning({
                 style={{ width: `${Math.max(4, progressPct)}%` }}
               />
             </div>
-            <div className="flex items-center justify-between font-mono text-[10.5px] text-slate-600 dark:text-purple-200/60">
+            <div className="flex items-center justify-between font-mono text-[10.5px] text-slate-600 dark:text-purple-200/80">
               <span>{completedChaptersCount} of {totalChapters} chapters completed</span>
               <span className="font-bold text-purple-700 dark:text-purple-300">{progressPct}%</span>
             </div>
@@ -1018,7 +1012,7 @@ export function SeniorDigitalLearning({
           {/* ----------------------------------------------------------------- */}
           {/* CARD 3: QUICK ACCESS                                              */}
           {/* ----------------------------------------------------------------- */}
-          <div className="flex flex-col gap-2.5 rounded-2xl border border-purple-200/80 bg-white/85 p-5 backdrop-blur-xl shadow-[0_8px_24px_-14px_rgba(15,8,30,0.45)] dark:border-white/10 dark:bg-white/[0.035]">
+          <div className="flex flex-col">
             <div className="flex items-center gap-2 mb-1">
               <span className="text-purple-600 dark:text-purple-400">📚</span>
               <h3 className="font-display text-sm sm:text-base font-bold text-slate-900 dark:text-white">
@@ -1029,10 +1023,10 @@ export function SeniorDigitalLearning({
             <button
               type="button"
               onClick={handleLaunchContinue}
-              className="group flex items-center justify-between rounded-xl border border-purple-200/70 bg-purple-50/60 px-3.5 py-2.5 text-left transition-all hover:border-purple-400/70 hover:bg-purple-100/70 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-white/20 dark:hover:bg-white/[0.06]"
+              className="group flex items-center justify-between border-b border-purple-200/60 py-2.5 text-left transition-colors last:border-0 hover:text-purple-900 dark:border-white/10 dark:hover:text-white"
             >
               <div className="flex items-center gap-2.5">
-                <span className="grid size-7 place-items-center rounded-lg bg-purple-100 text-purple-700 dark:bg-purple-900/60 dark:text-purple-300">
+                <span className="text-purple-700 dark:text-purple-400">
                   <FileText size={16} />
                 </span>
                 <span className="font-display text-xs font-bold text-slate-900 group-hover:text-purple-950 dark:text-purple-100 dark:group-hover:text-white">
@@ -1045,10 +1039,10 @@ export function SeniorDigitalLearning({
             <button
               type="button"
               onClick={handleLaunchContinue}
-              className="group flex items-center justify-between rounded-xl border border-purple-200/70 bg-purple-50/60 px-3.5 py-2.5 text-left transition-all hover:border-purple-400/70 hover:bg-purple-100/70 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-white/20 dark:hover:bg-white/[0.06]"
+              className="group flex items-center justify-between border-b border-purple-200/60 py-2.5 text-left transition-colors last:border-0 hover:text-purple-900 dark:border-white/10 dark:hover:text-white"
             >
               <div className="flex items-center gap-2.5">
-                <span className="grid size-7 place-items-center rounded-lg bg-purple-100 text-purple-700 dark:bg-purple-900/60 dark:text-purple-300">
+                <span className="text-purple-700 dark:text-purple-400">
                   <PencilSimple size={16} />
                 </span>
                 <span className="font-display text-xs font-bold text-slate-900 group-hover:text-purple-950 dark:text-purple-100 dark:group-hover:text-white">
@@ -1061,10 +1055,10 @@ export function SeniorDigitalLearning({
             <button
               type="button"
               onClick={handleLaunchContinue}
-              className="group flex items-center justify-between rounded-xl border border-purple-200/70 bg-purple-50/60 px-3.5 py-2.5 text-left transition-all hover:border-purple-400/70 hover:bg-purple-100/70 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-white/20 dark:hover:bg-white/[0.06]"
+              className="group flex items-center justify-between border-b border-purple-200/60 py-2.5 text-left transition-colors last:border-0 hover:text-purple-900 dark:border-white/10 dark:hover:text-white"
             >
               <div className="flex items-center gap-2.5">
-                <span className="grid size-7 place-items-center rounded-lg bg-purple-100 text-purple-700 dark:bg-purple-900/60 dark:text-purple-300">
+                <span className="text-purple-700 dark:text-purple-400">
                   <DownloadSimple size={16} />
                 </span>
                 <span className="font-display text-xs font-bold text-slate-900 group-hover:text-purple-950 dark:text-purple-100 dark:group-hover:text-white">
@@ -1078,43 +1072,32 @@ export function SeniorDigitalLearning({
           {/* ----------------------------------------------------------------- */}
           {/* CARD 3: DAILY ENCOURAGEMENT (compact rail card)                   */}
           {/* ----------------------------------------------------------------- */}
-          <div className="daily-encouragement-card relative overflow-hidden rounded-2xl border border-purple-900/40 bg-[#160a2b]/85 p-5 backdrop-blur-xl shadow-[0_8px_24px_-14px_rgba(15,8,30,0.6)] transition-all duration-300 hover:border-purple-600/50">
-            <span aria-hidden className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-pink-500/0 via-pink-400 to-purple-500/0" />
-
+          <div className="relative">
             <div className="mb-2.5 flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <span className="quote-icon grid size-7 place-items-center rounded-lg border border-purple-500/30 bg-purple-500/15 text-pink-400">
-                  <Quotes size={14} weight="fill" />
+                <span className="text-pink-500 dark:text-pink-400">
+                  <Quotes size={16} weight="fill" />
                 </span>
-                <h3 className="quote-title font-display text-sm font-bold tracking-wide text-white">
+                <h3 className="font-display text-sm font-bold tracking-wide text-slate-900 dark:text-white">
                   Daily Encouragement
                 </h3>
               </div>
-              <span className="quote-badge shrink-0 rounded-full border border-purple-400/30 bg-purple-500/20 px-2 py-0.5 font-mono text-[9.5px] text-purple-200">
+              <span className="shrink-0 rounded-full border border-purple-200 bg-purple-50 px-2 py-0.5 font-mono text-[9.5px] text-purple-700 dark:border-purple-400/30 dark:bg-purple-500/20 dark:text-purple-200">
                 Day #{dayOfYear}
               </span>
             </div>
 
-            <p
-              className="quote-text font-serif text-[13px] italic leading-relaxed"
-              style={{ color: "#f5f3ff" }}
-            >
+            <p className="font-serif text-[13px] italic leading-relaxed text-slate-700 dark:text-purple-100">
               “{currentQuote.quote[locale]}”
             </p>
 
             <div className="mt-3 flex items-end justify-between gap-3">
               <div className="min-w-0">
-                <p
-                  className="quote-author truncate font-mono text-[11px] font-bold"
-                  style={{ color: "#f472b6" }}
-                >
+                <p className="truncate font-mono text-[11px] font-bold text-pink-600 dark:text-pink-400">
                   — {currentQuote.author[locale]}
                 </p>
                 {currentQuote.role && (
-                  <p
-                    className="quote-role truncate font-mono text-[10px]"
-                    style={{ color: "rgba(216, 180, 254, 0.85)" }}
-                  >
+                  <p className="truncate font-mono text-[10px] text-purple-700/80 dark:text-purple-300/80">
                     {currentQuote.role[locale]}
                   </p>
                 )}
@@ -1122,10 +1105,10 @@ export function SeniorDigitalLearning({
               <button
                 type="button"
                 onClick={handleNextQuote}
-                className="quote-refresh-btn group inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-purple-800/40 bg-purple-950/40 px-2.5 py-1.5 font-mono text-[10.5px] text-purple-200 transition-all hover:border-purple-500 hover:bg-purple-900/50 hover:text-white"
+                className="group inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-purple-200 bg-white/70 px-2.5 py-1.5 font-mono text-[10.5px] text-purple-700 transition-colors hover:border-purple-400 hover:text-purple-900 dark:border-purple-400/30 dark:bg-white/[0.04] dark:text-purple-200 dark:hover:border-purple-400 dark:hover:text-white"
                 title="Next Daily Quote"
               >
-                <ArrowClockwise size={11} className="transition-transform duration-300 group-hover:rotate-180 !text-purple-200" />
+                <ArrowClockwise size={11} className="transition-transform duration-300 group-hover:rotate-180" />
                 <span>Next</span>
               </button>
             </div>
