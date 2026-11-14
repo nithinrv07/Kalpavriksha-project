@@ -960,6 +960,51 @@ export function SeniorDigitalLearning({
         {/* ===================================================================== */}
         <aside className="lg:col-span-4 flex flex-col gap-5">
           {/* ----------------------------------------------------------------- */}
+          {/* DAILY ENCOURAGEMENT (top of the rail)                             */}
+          {/* ----------------------------------------------------------------- */}
+          <div className="relative">
+            <div className="mb-2.5 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-pink-500 dark:text-pink-400">
+                  <Quotes size={16} weight="fill" />
+                </span>
+                <h3 className="font-display text-[15px] font-bold tracking-wide text-slate-900 dark:text-white">
+                  Daily Encouragement
+                </h3>
+              </div>
+              <span className="shrink-0 rounded-full border border-purple-200 bg-purple-50 px-2 py-0.5 font-mono text-[10.5px] text-purple-700 dark:border-purple-400/30 dark:bg-purple-500/20 dark:text-purple-200">
+                Day #{dayOfYear}
+              </span>
+            </div>
+
+            <p className="font-serif text-[14px] italic leading-relaxed text-slate-700 dark:text-purple-100">
+              “{currentQuote.quote[locale]}”
+            </p>
+
+            <div className="mt-3 flex items-end justify-between gap-3">
+              <div className="min-w-0">
+                <p className="truncate font-mono text-[12px] font-bold text-pink-600 dark:text-pink-400">
+                  — {currentQuote.author[locale]}
+                </p>
+                {currentQuote.role && (
+                  <p className="truncate font-mono text-[11px] text-purple-700/80 dark:text-purple-300/80">
+                    {currentQuote.role[locale]}
+                  </p>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={handleNextQuote}
+                className="group inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-purple-200 bg-white/70 px-2.5 py-1.5 font-mono text-[11.5px] text-purple-700 transition-colors hover:border-purple-400 hover:text-purple-900 dark:border-purple-400/30 dark:bg-white/[0.04] dark:text-purple-200 dark:hover:border-purple-400 dark:hover:text-white"
+                title="Next Daily Quote"
+              >
+                <ArrowClockwise size={11} className="transition-transform duration-300 group-hover:rotate-180" />
+                <span>Next</span>
+              </button>
+            </div>
+          </div>
+
+          {/* ----------------------------------------------------------------- */}
           {/* CARD 1: YOUR LEARNING PATH                                        */}
           {/* ----------------------------------------------------------------- */}
           <div>
@@ -1060,51 +1105,6 @@ export function SeniorDigitalLearning({
               </div>
               <CaretRight size={12} className="text-purple-600 dark:text-purple-400 transition-transform group-hover:translate-x-0.5" />
             </button>
-          </div>
-
-          {/* ----------------------------------------------------------------- */}
-          {/* CARD 3: DAILY ENCOURAGEMENT (compact rail card)                   */}
-          {/* ----------------------------------------------------------------- */}
-          <div className="relative">
-            <div className="mb-2.5 flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <span className="text-pink-500 dark:text-pink-400">
-                  <Quotes size={16} weight="fill" />
-                </span>
-                <h3 className="font-display text-[15px] font-bold tracking-wide text-slate-900 dark:text-white">
-                  Daily Encouragement
-                </h3>
-              </div>
-              <span className="shrink-0 rounded-full border border-purple-200 bg-purple-50 px-2 py-0.5 font-mono text-[10.5px] text-purple-700 dark:border-purple-400/30 dark:bg-purple-500/20 dark:text-purple-200">
-                Day #{dayOfYear}
-              </span>
-            </div>
-
-            <p className="font-serif text-[14px] italic leading-relaxed text-slate-700 dark:text-purple-100">
-              “{currentQuote.quote[locale]}”
-            </p>
-
-            <div className="mt-3 flex items-end justify-between gap-3">
-              <div className="min-w-0">
-                <p className="truncate font-mono text-[12px] font-bold text-pink-600 dark:text-pink-400">
-                  — {currentQuote.author[locale]}
-                </p>
-                {currentQuote.role && (
-                  <p className="truncate font-mono text-[11px] text-purple-700/80 dark:text-purple-300/80">
-                    {currentQuote.role[locale]}
-                  </p>
-                )}
-              </div>
-              <button
-                type="button"
-                onClick={handleNextQuote}
-                className="group inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-purple-200 bg-white/70 px-2.5 py-1.5 font-mono text-[11.5px] text-purple-700 transition-colors hover:border-purple-400 hover:text-purple-900 dark:border-purple-400/30 dark:bg-white/[0.04] dark:text-purple-200 dark:hover:border-purple-400 dark:hover:text-white"
-                title="Next Daily Quote"
-              >
-                <ArrowClockwise size={11} className="transition-transform duration-300 group-hover:rotate-180" />
-                <span>Next</span>
-              </button>
-            </div>
           </div>
         </aside>
       </div>
