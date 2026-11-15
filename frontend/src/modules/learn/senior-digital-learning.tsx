@@ -612,7 +612,61 @@ export function SeniorDigitalLearning({
         </div>
       </header>
 
-      {/* Daily Encouragement now lives in the compact right-hand rail below. */}
+      {/* ========================================================================= */}
+      {/* 2. DAILY ENCOURAGEMENT BANNER (TOP)                                       */}
+      {/* ========================================================================= */}
+      <div className="daily-encouragement-card relative z-10 w-full overflow-hidden rounded-2xl border border-purple-900/40 bg-[#160a2b]/85 p-5 backdrop-blur-xl shadow-lg transition-all duration-300 hover:border-purple-600/50">
+        <span aria-hidden className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-pink-500/0 via-pink-400 to-purple-500/0" />
+
+        <div className="mb-2.5 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <span className="quote-icon grid size-7 place-items-center rounded-lg border border-purple-500/30 bg-purple-500/15 text-pink-400">
+              <Quotes size={14} weight="fill" />
+            </span>
+            <h3 className="quote-title font-display text-sm font-bold tracking-wide text-white">
+              Daily Encouragement
+            </h3>
+          </div>
+          <span className="quote-badge shrink-0 rounded-full border border-purple-400/30 bg-purple-500/20 px-2 py-0.5 font-mono text-[9.5px] text-purple-200">
+            Day #{dayOfYear}
+          </span>
+        </div>
+
+        <p
+          className="quote-text font-serif text-[13px] sm:text-[14px] italic leading-relaxed"
+          style={{ color: "#f5f3ff" }}
+        >
+          “{currentQuote.quote[locale]}”
+        </p>
+
+        <div className="mt-3 flex items-end justify-between gap-3">
+          <div className="min-w-0">
+            <p
+              className="quote-author truncate font-mono text-[11px] font-bold"
+              style={{ color: "#f472b6" }}
+            >
+              — {currentQuote.author[locale]}
+            </p>
+            {currentQuote.role && (
+              <p
+                className="quote-role truncate font-mono text-[10px]"
+                style={{ color: "rgba(216, 180, 254, 0.85)" }}
+              >
+                {currentQuote.role[locale]}
+              </p>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={handleNextQuote}
+            className="quote-refresh-btn group inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-purple-800/40 bg-purple-950/40 px-2.5 py-1.5 font-mono text-[10.5px] text-purple-200 transition-all hover:border-purple-500 hover:bg-purple-900/50 hover:text-white"
+            title="Next Daily Quote"
+          >
+            <ArrowClockwise size={11} className="transition-transform duration-300 group-hover:rotate-180 !text-purple-200" />
+            <span>Next</span>
+          </button>
+        </div>
+      </div>
 
       {/* ========================================================================= */}
       {/* 2. SLIM PAGE HEADER: IDENTITY + CLASS / BOARD / STREAM + EDIT PROFILE    */}
@@ -922,51 +976,6 @@ export function SeniorDigitalLearning({
         {/* RIGHT SIDEBAR (4 cols)                                                */}
         {/* ===================================================================== */}
         <aside className="lg:col-span-4 flex flex-col gap-5">
-          {/* ----------------------------------------------------------------- */}
-          {/* DAILY ENCOURAGEMENT (top of the rail)                             */}
-          {/* ----------------------------------------------------------------- */}
-          <div className="relative">
-            <div className="mb-2.5 flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <span className="text-pink-500 dark:text-pink-400">
-                  <Quotes size={16} weight="fill" />
-                </span>
-                <h3 className="font-display text-[15px] font-bold tracking-wide text-slate-900 dark:text-white">
-                  Daily Encouragement
-                </h3>
-              </div>
-              <span className="shrink-0 rounded-full border border-purple-200 bg-purple-50 px-2 py-0.5 font-mono text-[10.5px] text-purple-700 dark:border-purple-400/30 dark:bg-purple-500/20 dark:text-purple-200">
-                Day #{dayOfYear}
-              </span>
-            </div>
-
-            <p className="font-serif text-[14px] italic leading-relaxed text-slate-700 dark:text-purple-100">
-              “{currentQuote.quote[locale]}”
-            </p>
-
-            <div className="mt-3 flex items-end justify-between gap-3">
-              <div className="min-w-0">
-                <p className="truncate font-mono text-[12px] font-bold text-pink-600 dark:text-pink-400">
-                  — {currentQuote.author[locale]}
-                </p>
-                {currentQuote.role && (
-                  <p className="truncate font-mono text-[11px] text-purple-700/80 dark:text-purple-300/80">
-                    {currentQuote.role[locale]}
-                  </p>
-                )}
-              </div>
-              <button
-                type="button"
-                onClick={handleNextQuote}
-                className="group inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-purple-200 bg-white/70 px-2.5 py-1.5 font-mono text-[11.5px] text-purple-700 transition-colors hover:border-purple-400 hover:text-purple-900 dark:border-purple-400/30 dark:bg-white/[0.04] dark:text-purple-200 dark:hover:border-purple-400 dark:hover:text-white"
-                title="Next Daily Quote"
-              >
-                <ArrowClockwise size={11} className="transition-transform duration-300 group-hover:rotate-180" />
-                <span>Next</span>
-              </button>
-            </div>
-          </div>
-
           {/* ----------------------------------------------------------------- */}
           {/* CARD 1: YOUR LEARNING PATH                                        */}
           {/* ----------------------------------------------------------------- */}
