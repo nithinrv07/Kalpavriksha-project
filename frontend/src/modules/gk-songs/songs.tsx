@@ -1,162 +1,279 @@
 "use client";
 
-import { CheckCircle, Info, MusicNotes, Play, Stop } from "@phosphor-icons/react/ssr";
-import { useState } from "react";
+/**
+ * Songs — Module 03 Part B: Immersive music learning experience.
+ *
+ * Replaces the original TTS-based Songs component with a full HTML5 audio player.
+ * Preserves all existing XP/completion integration via updateProgress + completeSong.
+ * Does NOT modify the GK Quiz, Module 01 or Module 02.
+ */
+
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { MusicNote } from "@phosphor-icons/react/ssr";
 import { Burst } from "@/components/burst";
 import { useLocale } from "@/components/locale-provider";
 import { updateProgress, useProgress } from "@/components/progress-store";
-import { KaraokeLines, useReadAloud } from "@/components/read-aloud";
-import { LiquidGlassSurface } from "@/components/liquid-glass-surface";
-import { XP, completeSong, localDay, type Band } from "@/lib/progress";
-import { GK_COPY, SONGS } from "./content";
+import { XP, completeSong, localDay } from "@/lib/progress";
+import type { Band } from "@/lib/progress";
+import type { Locale } from "@/lib/i18n";
+import { SONG_LIBRARY } from "./songs-data";
+import type { SongEntry } from "./songs-data";
+import { useMusicPlayer } from "./use-music-player";
+import { MusicPlayer } from "./music-player";
+import { SongCard } from "./song-card";
+import { SongFilters, filterSongs } from "./song-filters";
+import type { FilterState } from "./song-filters";
+import { MiniPlayer } from "./mini-player";
+import { LyricTimingEditor } from "./lyric-timing-editor";
 
-/** Fixed precision so server and browser render identical SVG attributes. */
-const round = (n: number) => Math.round(n * 100) / 100;
-
-/** Vinyl record with an Ashoka-chakra label; spins while the song plays. */
-function Record({ spinning }: { spinning: boolean }) {
-  return (
-    <svg
-      viewBox="0 0 200 200"
-      aria-hidden
-      className="size-44 shrink-0 animate-[spin-slow_6s_linear_infinite] drop-shadow-[0_20px_40px_rgb(0_0_0/0.6)] sm:size-52"
-      style={{ animationPlayState: spinning ? "running" : "paused" }}
-    >
-      <circle cx="100" cy="100" r="98" fill="#0b0a10" stroke="var(--line-strong)" />
-      {[88, 80, 72, 64, 56].map((r) => (
-        <circle key={r} cx="100" cy="100" r={r} fill="none" stroke="rgb(255 255 255 / 0.05)" />
-      ))}
-      <path d="M40 60 A75 75 0 0 1 150 38" fill="none" stroke="rgb(255 255 255 / 0.12)" strokeWidth="6" strokeLinecap="round" />
-      <circle cx="100" cy="100" r="40" fill="var(--violet-deep)" />
-      <circle cx="100" cy="100" r="30" fill="none" stroke="var(--violet)" strokeWidth="2" />
-      {Array.from({ length: 24 }, (_, i) => (
-        <line
-          key={i}
-          x1="100"
-          y1="100"
-          x2={round(100 + Math.cos((i * Math.PI) / 12) * 30)}
-          y2={round(100 + Math.sin((i * Math.PI) / 12) * 30)}
-          stroke="var(--violet)"
-          strokeOpacity="0.8"
-        />
-      ))}
-      <circle cx="100" cy="100" r="5" fill="var(--bg)" />
-    </svg>
-  );
-}
+const INITIAL_FILTERS: FilterState = {
+  search: "",
+  category: "all",
+  language: "all",
+};
 
 export function Songs({ band }: { band: Band }) {
   const { locale } = useLocale();
-  const c = GK_COPY[locale];
   const { songsHeard } = useProgress();
-  const { state, play, stop } = useReadAloud();
-  const [songId, setSongId] = useState(SONGS[0]?.id ?? "");
+  const isJunior = band === "junior";
+
+  const [selectedId, setSelectedId] = useState<string>(SONG_LIBRARY[0]?.id ?? "");
+  const [filters, setFilters] = useState<FilterState>(INITIAL_FILTERS);
+  const [favourites, setFavourites] = useState<Set<string>>(new Set());
   const [celebrate, setCelebrate] = useState(0);
-  const song = SONGS.find((s) => s.id === songId) ?? SONGS[0];
-  if (!song) return null;
-  const playing = state.id === song.id;
+  const [playerMode, setPlayerMode] = useState<"expanded" | "minimized">("expanded");
+  const [showDevEditor, setShowDevEditor] = useState(false);
+
+  const selectedSong = SONG_LIBRARY.find((s) => s.id === selectedId) ?? SONG_LIBRARY[0]!;
+
+  const filteredSongs = useMemo(
+    () => filterSongs(SONG_LIBRARY, filters, locale as Locale),
+    [filters, locale],
+  );
+
+  // ── XP / completion callback ───────────────────────────────────────────────
+  const handleComplete = useCallback((songId: string) => {
+    updateProgress((p) => completeSong(p, songId, localDay()));
+    setCelebrate((n) => n + 1);
+  }, []);
+
+  // ── Song selection ────────────────────────────────────────────────────────
+  const selectSong = useCallback((song: SongEntry) => {
+    setSelectedId(song.id);
+  }, []);
+
+  // ── Next / Previous song logic ─────────────────────────────────────────────
+  const handleNext = useCallback(() => {
+    const idx = filteredSongs.findIndex((s) => s.id === selectedId);
+    const nextSong = filteredSongs[(idx + 1) % filteredSongs.length];
+    if (nextSong) selectSong(nextSong);
+  }, [filteredSongs, selectedId, selectSong]);
+
+  const handlePrev = useCallback(() => {
+    const idx = filteredSongs.findIndex((s) => s.id === selectedId);
+    const prevIdx = (idx - 1 + filteredSongs.length) % filteredSongs.length;
+    const prevSong = filteredSongs[prevIdx];
+    if (prevSong) selectSong(prevSong);
+  }, [filteredSongs, selectedId, selectSong]);
+
+  const player = useMusicPlayer(handleComplete, handleNext);
+
+  // When selectedId changes, load into audio player
+  useEffect(() => {
+    if (selectedSong) {
+      player.load(selectedSong);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedId]);
+
+  const handleSelectFromList = useCallback(
+    (song: SongEntry) => {
+      if (song.id !== selectedId) {
+        player.stop();
+        selectSong(song);
+      }
+    },
+    [selectedId, player, selectSong],
+  );
+
+  const toggleFavourite = useCallback(() => {
+    setFavourites((prev) => {
+      const next = new Set(prev);
+      if (next.has(selectedSong.id)) next.delete(selectedSong.id);
+      else next.add(selectedSong.id);
+      return next;
+    });
+  }, [selectedSong.id]);
+
+  const completedCount = songsHeard.length;
+  const totalCount = SONG_LIBRARY.length;
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[300px_1fr]">
-      <div role="radiogroup" aria-label={c.tabs.songs} className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible scrollbar-thin scrollbar-amber">
-        {SONGS.map((s) => {
-          const active = s.id === song.id;
-          return (
-            <button
-              key={s.id}
-              type="button"
-              role="radio"
-              aria-checked={active}
-              onClick={() => {
-                stop();
-                setSongId(s.id);
-              }}
-              className={`flex min-w-[220px] items-center gap-3 rounded-2xl border p-3 text-left transition-colors duration-200 ${
-                active ? "border-[var(--band)] bg-[color-mix(in_srgb,var(--band)_10%,var(--surface))]" : "border-line bg-surface hover:border-line-strong"
-              }`}
-            >
-              <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-violet-deep/60 text-violet-ink">
-                <MusicNotes size={20} weight="duotone" />
+    <div className="flex flex-col gap-5">
+      {/* Progress bar */}
+      <div className="flex items-center gap-4 rounded-2xl border border-white/[0.06] bg-white/[0.02] px-5 py-3">
+        <div className="flex-1">
+          <div className="mb-1.5 flex items-center justify-between">
+            <span className="font-mono text-[11px] uppercase tracking-widest text-white/35">
+              {locale === "ta" ? "முடிந்த பாடல்கள்" : "Songs Completed"}
+            </span>
+            <span className="font-mono text-[12px] text-white/50">
+              {completedCount} / {totalCount}
+            </span>
+          </div>
+          <div className="h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-violet-600 to-violet-400 transition-all duration-500"
+              style={{ width: `${(completedCount / totalCount) * 100}%` }}
+            />
+          </div>
+        </div>
+        {/* XP celebration */}
+        <div className="relative">
+          {celebrate > 0 && (
+            <>
+              <Burst key={celebrate} />
+              <span
+                key={`xp-${celebrate}`}
+                className="float-up absolute -top-7 right-0 font-mono text-[13px] text-amber-400"
+              >
+                +{XP.song} XP
               </span>
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-[15px]">{s.title[locale]}</span>
-                <span className="block font-mono text-[11px] text-muted">{s.kind[locale]}</span>
-              </span>
-              {songsHeard.includes(s.id) && <CheckCircle size={18} weight="fill" className="shrink-0 text-success" aria-label={c.sung} />}
-            </button>
-          );
-        })}
+            </>
+          )}
+          <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03]">
+            <MusicNote size={18} weight="duotone" className="text-violet-400" />
+          </div>
+        </div>
       </div>
 
-      <LiquidGlassSurface
-        key={song.id}
-        radius={28}
-        className="fade-up border border-purple-200/70 dark:border-white/10 bg-white/75 dark:bg-[#0d0720]/80 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)]"
-      >
-        <div className="flex flex-col items-center gap-6 bg-[radial-gradient(60%_80%_at_20%_0%,rgb(124_58_237/0.22),transparent_70%)] p-6 sm:flex-row sm:p-8">
-          <Record spinning={playing} />
-          <div className="text-center sm:text-left">
-            <p className="font-mono text-[12px] text-[var(--band)]">{song.kind[locale]}</p>
-            <h2 className="mt-1 font-serif text-2xl sm:text-3xl lg:text-4xl font-black tracking-wide text-slate-900 dark:text-white">{song.title[locale]}</h2>
-            <p className="mt-1 text-[14px] text-muted">{song.credit[locale]}</p>
-            <div className="relative mt-5 inline-flex">
-              <button
-                type="button"
-                onClick={() =>
-                  playing
-                    ? stop()
-                    : play(song.id, song.lines, song.lang, {
-                        rate: band === "junior" ? 0.85 : 1,
-                        onDone: () => {
-                          updateProgress((p) => completeSong(p, song.id, localDay()));
-                          setCelebrate((n) => n + 1);
-                        },
-                      })
-                }
-                className={`inline-flex h-14 items-center gap-2 rounded-full px-7 font-mono text-sm transition-colors ${
-                  playing ? "bg-white/[0.1] text-text" : "bg-[var(--band)] text-bg hover:brightness-110"
-                }`}
+      {/* Header controls: Minimize / Expand toggle + dev timing editor button */}
+      <div className="flex items-center justify-between px-1">
+        <button
+          type="button"
+          onClick={() => setPlayerMode((m) => (m === "expanded" ? "minimized" : "expanded"))}
+          className="rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1 font-mono text-[11px] text-white/50 transition hover:border-white/20 hover:text-white"
+        >
+          {playerMode === "expanded"
+            ? (locale === "ta" ? "சுருக்கு (Mini Player)" : "Minimize to Mini Player")
+            : (locale === "ta" ? "விரிவாக்கு (Expanded)" : "Expand Player")}
+        </button>
+
+        <span className="font-mono text-[11px] text-white/40">
+          {isJunior ? "Primary (Classes 1–3)" : "Intermediate (Class 4+)"}
+        </span>
+        <button
+          type="button"
+          onClick={() => setShowDevEditor(true)}
+          className="rounded-full border border-amber-500/20 bg-amber-500/[0.04] px-2.5 py-0.5 font-mono text-[10px] text-amber-300/60 transition hover:border-amber-500/40 hover:text-amber-200"
+          title="Developer-only lyric timing calibration tool"
+        >
+          ⏱️ Calibrate Timestamps
+        </button>
+      </div>
+
+      {/* Main layout */}
+      {playerMode === "expanded" ? (
+        <div className="grid gap-5 lg:grid-cols-[320px_1fr]">
+          {/* LEFT: Song library */}
+          <div className="flex flex-col gap-4">
+            <SongFilters filters={filters} onChange={setFilters} locale={locale as Locale} />
+
+            {filteredSongs.length === 0 ? (
+              <div className="flex flex-col items-center gap-2 rounded-2xl border border-white/[0.06] py-10 text-center">
+                <MusicNote size={28} className="text-white/20" />
+                <p className="text-[13px] text-white/35">
+                  {locale === "ta" ? "பாடல்கள் இல்லை" : "No songs found"}
+                </p>
+              </div>
+            ) : (
+              <div
+                role="radiogroup"
+                aria-label={locale === "ta" ? "பாடல்கள்" : "Songs"}
+                className="flex flex-col gap-1.5 overflow-y-auto"
+                style={{ maxHeight: "calc(100vh - 320px)", minHeight: 240 }}
               >
-                {playing ? <Stop size={18} weight="fill" /> : <Play size={18} weight="fill" />}
-                {playing ? c.stop : c.singAlong}
-              </button>
-              {celebrate > 0 && (
-                <>
-                  <Burst key={celebrate} />
-                  <span key={`xp-${celebrate}`} className="float-up absolute -top-6 right-0 font-mono text-[13px] text-amber">
-                    +{XP.song} XP
-                  </span>
-                </>
-              )}
-            </div>
-            {playing && state.silent && <p className="mt-3 max-w-sm text-[12.5px] text-amber">{c.silent}</p>}
+                {filteredSongs.map((song) => (
+                  <SongCard
+                    key={song.id}
+                    song={song}
+                    isSelected={song.id === selectedId}
+                    isPlaying={song.id === selectedId && player.state.status === "playing"}
+                    isCompleted={songsHeard.includes(song.id)}
+                    locale={locale as Locale}
+                    onClick={() => handleSelectFromList(song)}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* RIGHT: Music player */}
+          <div className="min-w-0">
+            <MusicPlayer
+              song={selectedSong}
+              playerState={player.state}
+              onTogglePlay={player.togglePlay}
+              onPrev={handlePrev}
+              onNext={handleNext}
+              onSeek={player.seek}
+              onSetVolume={player.setVolume}
+              onToggleMute={player.toggleMute}
+              onSetSpeed={player.setSpeed}
+              onToggleRepeat={player.toggleRepeat}
+              onToggleShuffle={player.toggleShuffle}
+              isFavourite={favourites.has(selectedSong.id)}
+              onToggleFavourite={toggleFavourite}
+              locale={locale as Locale}
+            />
           </div>
         </div>
+      ) : (
+        /* MINIMIZED MODE: Full-width library + persistent MiniPlayer at bottom */
+        <div className="flex flex-col gap-4 pb-24">
+          <SongFilters filters={filters} onChange={setFilters} locale={locale as Locale} />
 
-        <div className="border-t border-line p-6 sm:p-8">
-          <KaraokeLines
-            lines={song.lines}
-            lang={song.lang}
-            activeLine={playing ? state.line : -1}
-            activeWord={playing ? state.word : -1}
-            className={`flex flex-col gap-1.5 font-display ${band === "junior" ? "text-[clamp(22px,3.2vw,30px)] leading-[1.5]" : "text-[clamp(19px,2.6vw,25px)] leading-[1.5]"}`}
+          <div
+            role="radiogroup"
+            aria-label={locale === "ta" ? "பாடல்கள்" : "Songs"}
+            className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {filteredSongs.map((song) => (
+              <SongCard
+                key={song.id}
+                song={song}
+                isSelected={song.id === selectedId}
+                isPlaying={song.id === selectedId && player.state.status === "playing"}
+                isCompleted={songsHeard.includes(song.id)}
+                locale={locale as Locale}
+                onClick={() => handleSelectFromList(song)}
+              />
+            ))}
+          </div>
+
+          {/* Persistent MiniPlayer */}
+          <MiniPlayer
+            song={selectedSong}
+            playerState={player.state}
+            onTogglePlay={player.togglePlay}
+            onNext={handleNext}
+            onExpand={() => setPlayerMode("expanded")}
+            locale={locale as Locale}
           />
         </div>
+      )}
 
-        <div className="grid gap-3 border-t border-line p-6 sm:grid-cols-2 sm:p-8">
-          <div>
-            <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-violet">{c.meaning}</p>
-            <p className="mt-2 text-[14.5px] leading-relaxed text-muted">{song.meaning[locale]}</p>
-          </div>
-          <div className="rounded-2xl border border-amber/25 bg-amber/[0.06] p-4">
-            <p className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.1em] text-amber">
-              <Info size={16} weight="fill" aria-hidden />
-              {c.fact}
-            </p>
-            <p className="mt-2 text-[14px] leading-relaxed">{song.fact[locale]}</p>
-          </div>
-        </div>
-      </LiquidGlassSurface>
+      {/* Developer-only Lyric Timing Editor modal */}
+      {showDevEditor && (
+        <LyricTimingEditor
+          song={selectedSong}
+          currentTime={player.state.currentTime}
+          isPlaying={player.state.status === "playing"}
+          onTogglePlay={player.togglePlay}
+          onSeek={player.seek}
+          onClose={() => setShowDevEditor(false)}
+        />
+      )}
     </div>
   );
 }
