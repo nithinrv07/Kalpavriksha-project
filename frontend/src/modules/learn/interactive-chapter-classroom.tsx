@@ -46,9 +46,6 @@ import { updateProgress, useProgress } from "@/components/progress-store";
 import { KaraokeLines, useReadAloud } from "@/components/read-aloud";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useTheme } from "@/lib/theme";
-import { ChromeWaves } from "@/components/landing/chrome-waves";
-import { LivingTree } from "@/components/landing/living-tree";
-import { CosmicParticleLayer } from "@/components/cosmic-particle-layer";
 import { InteractiveVideoPlayer } from "@/components/video-portal/interactive-video-player";
 import { getOrCreateLessonManifest } from "@/data/manifests";
 import {
@@ -841,59 +838,9 @@ export function InteractiveChapterClassroom({
       aria-modal="true"
       aria-label={chapter.title[locale] || chapter.title.en}
       className={`fixed inset-0 z-50 flex flex-col overflow-y-auto selection:bg-purple-600 selection:text-white transition-colors duration-300 ${
-        isLight ? "bg-[#f8f6fc]/85 text-slate-900" : "bg-[#080312] text-slate-100"
+        isLight ? "bg-[#f8f6fc] text-slate-900" : "bg-[#080312] text-slate-100"
       }`}
     >
-      {/* ===================================================================== */}
-      {/* LANDING PAGE SIGNATURE BACKGROUND (Chrome Waves + Living Tree + Petals)*/}
-      {/* ===================================================================== */}
-      <div
-        aria-hidden
-        className={`pointer-events-none fixed inset-0 z-0 overflow-hidden ${
-          isLight ? "bg-[#f7f1fd]/90" : "bg-[#080312]"
-        }`}
-      >
-        {/* 1. Underlying Signature Chrome Waves (chromatic nebula + spiral orbit rings directly from Landing) */}
-        <ChromeWaves />
-
-        {/* 2. Harmonious Plum & Cosmic Purple Mixup - subtle accent auras allowing rings to shine */}
-        <div
-          className={`absolute inset-0 ${
-            isLight
-              ? "bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.1),transparent_65%)]"
-              : "bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.24),transparent_65%)]"
-          }`}
-        />
-        <div
-          className={`absolute inset-0 ${
-            isLight
-              ? "bg-[radial-gradient(ellipse_at_75%_35%,rgba(236,72,153,0.08),transparent_60%)]"
-              : "bg-[radial-gradient(ellipse_at_75%_35%,rgba(236,72,153,0.18),transparent_60%)]"
-          }`}
-        />
-        <div
-          className={`absolute inset-0 ${
-            isLight
-              ? "bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.08),transparent_60%)]"
-              : "bg-[radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.16),transparent_60%)]"
-          }`}
-        />
-
-        {/* 3. Blooming Wishing Tree with drifting petals hugging the left side */}
-        <div
-          className="pointer-events-none absolute inset-y-0 left-0 hidden sm:block h-full w-[46vw] min-w-[280px] max-w-[600px] overflow-hidden opacity-85 transform-gpu"
-          style={{
-            maskImage: "linear-gradient(to right, #000 70%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to right, #000 70%, transparent 100%)",
-          }}
-        >
-          <LivingTree />
-        </div>
-      </div>
-
-      {/* 4. Cosmic particle layer with drifting petals + interactive bursts */}
-      <CosmicParticleLayer moduleSlug="learn" className="z-[1]" />
-
       {/* --------------------------------------------------------------------- */}
       {/* TOP CLASSROOM HEADER BAR                                              */}
       {/* --------------------------------------------------------------------- */}
@@ -1037,7 +984,7 @@ export function InteractiveChapterClassroom({
         {/* 1. CHAPTER HERO CARD: TITLE + DESCRIPTION + OBJECTIVES + 3D ART     */}
         {/* =================================================================== */}
         <section
-          className={`relative overflow-hidden rounded-3xl border p-6 sm:p-8 backdrop-blur-xl mb-8 transition-all ${
+          className={`relative overflow-hidden rounded-3xl border p-6 sm:p-8 backdrop-blur-xl mb-8 transition-all before:pointer-events-none before:absolute before:inset-x-8 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-fuchsia-400/80 before:to-transparent ${
             isLight
               ? "border-purple-200/90 bg-white/90 shadow-[0_12px_40px_rgba(124,58,237,0.12)] text-purple-950"
               : "border-purple-800/40 bg-gradient-to-r from-[#170a2c]/80 via-[#220e40]/65 to-[#120724]/80 shadow-[0_12px_50px_rgba(6,2,14,0.6)] text-white"
@@ -1046,6 +993,14 @@ export function InteractiveChapterClassroom({
           {/* Ambient Glow */}
           <div className="pointer-events-none absolute -right-20 -top-20 size-80 rounded-full bg-purple-600/20 blur-3xl" />
           <div className="pointer-events-none absolute -left-20 -bottom-20 size-80 rounded-full bg-pink-600/15 blur-3xl" />
+          <div
+            aria-hidden="true"
+            className={`pointer-events-none absolute right-8 top-5 hidden font-serif text-[clamp(7rem,16vw,14rem)] font-black leading-none tracking-[-0.1em] lg:block ${
+              isLight ? "text-purple-950/[0.035]" : "text-white/[0.035]"
+            }`}
+          >
+            {String(chapter.chapterNumber).padStart(2, "0")}
+          </div>
 
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             {/* Left: Titles & Objectives */}

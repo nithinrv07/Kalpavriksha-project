@@ -18,7 +18,7 @@ import { updateProgress, useProgress } from "@/components/progress-store";
 import { BAND_INFO, boardName, SETUP_COPY } from "@/lib/bands";
 import { SENIOR_GROUPS } from "@/lib/curriculum";
 import { LOCALE_LABEL, type Locale } from "@/lib/i18n";
-import { bandOf, levelOf, localDay, setProfile, streak, type Profile } from "@/lib/progress";
+import { bandOf, localDay, setProfile, streak, type Profile } from "@/lib/progress";
 
 /** The seven local days ending today, for the streak dots. */
 function lastSevenDays(today: string, locale: Locale) {
@@ -50,19 +50,27 @@ function Card({ profile, confirming, onRemove, onBlurRemove }: CardProps) {
   const progress = useProgress();
   const band = bandOf(profile.grade);
   const info = BAND_INFO[band];
-  const { level, into, span } = levelOf(progress.xp);
   const c = SETUP_COPY[locale];
   const today = localDay();
   const dayStreak = streak(progress.activeDays, today);
   const activeDays = new Set(progress.activeDays);
   const week = lastSevenDays(today, locale);
   const since = joinedYear(profile.studentId);
-  const xpLine = c.xpProgress(into, span, level + 1);
+
+  const seniorGroup =
+    profile.grade >= 11 && profile.seniorGroup
+      ? SENIOR_GROUPS.find((g) => g.id === profile.seniorGroup)
+      : undefined;
+
+  const completedChapters = useMemo(
+    () => getCompletedChaptersList(progress.lessonsDone, profile.grade),
+    [progress.lessonsDone, profile.grade],
+  );
 
   return (
     <div
       style={{ "--band": info.accent } as React.CSSProperties}
-      className="learner-card mx-auto w-full max-w-[420px] p-6 sm:p-7"
+      className="learner-card mx-auto w-full max-w-[420px] p-6 sm:p-7 lg:order-1"
     >
       <div className="relative z-10">
         <div className="flex items-center justify-between gap-3">
@@ -73,41 +81,47 @@ function Card({ profile, confirming, onRemove, onBlurRemove }: CardProps) {
           <span className="text-[11.5px] text-muted">{c.cardTitle}</span>
         </div>
 
-        {/* The growth stage is the hero: one mascot, sized by band. */}
-        <div className="mt-6 grid place-items-center">
-          <div className="relative grid size-28 place-items-center">
+        {/* Hero: mascot + name + identity badges — one unified block */}
+        <div className="mt-6 flex flex-col items-center gap-3">
+          {/* Growth stage mascot */}
+          <div className="relative grid size-24 place-items-center">
             <div
               aria-hidden
               className="absolute inset-0 rounded-full"
               style={{
                 background:
-                  "radial-gradient(circle at 50% 62%, color-mix(in srgb, var(--band) 26%, transparent), transparent 70%)",
+                  "radial-gradient(circle at 50% 62%, color-mix(in srgb, var(--band) 28%, transparent), transparent 70%)",
               }}
             />
-            <GrowthStage band={band} className="relative size-28" />
+            <GrowthStage band={band} className="relative size-24" />
           </div>
-        </div>
 
-        <div className="mt-5">
-          <div className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1">
-            <p className="font-display text-[20px] leading-none tracking-tight">
-              {t.level} {level}
-            </p>
-            <p className="text-[11.5px] text-muted">{xpLine}</p>
-          </div>
-          <div
-            role="progressbar"
-            aria-valuemin={0}
-            aria-valuemax={span}
-            aria-valuenow={into}
-            aria-label={xpLine}
-            className="mt-3 h-1.5 overflow-hidden rounded-full"
-            style={{ background: "color-mix(in srgb, var(--band) 16%, transparent)" }}
-          >
-            <div
-              className="h-full rounded-full transition-[width] duration-500"
-              style={{ width: `${Math.round((into / span) * 100)}%`, background: "var(--band)" }}
-            />
+          {/* Name */}
+          <p className="font-display text-[22px] leading-none tracking-tight">{profile.name}</p>
+
+          {/* Class · Band · Board chips */}
+          <div className="flex flex-wrap items-center justify-center gap-1.5">
+            <span
+              className="rounded-full px-2.5 py-0.5 text-[11px] font-medium"
+              style={{
+                background: "color-mix(in srgb, var(--band) 18%, transparent)",
+                color: "var(--band)",
+                border: "1px solid color-mix(in srgb, var(--band) 30%, transparent)",
+              }}
+            >
+              {c.classWord} {profile.grade}
+            </span>
+            <span className="rounded-full border border-line px-2.5 py-0.5 text-[11px] text-muted">
+              {info.name[locale].split(" (")[0]}
+            </span>
+            <span className="rounded-full border border-line px-2.5 py-0.5 text-[11px] text-muted">
+              {boardName(profile.board, locale)}
+            </span>
+            {seniorGroup && (
+              <span className="rounded-full border border-line px-2.5 py-0.5 text-[11px] text-violet">
+                {seniorGroup.name[locale]}
+              </span>
+            )}
           </div>
         </div>
 
@@ -144,6 +158,57 @@ function Card({ profile, confirming, onRemove, onBlurRemove }: CardProps) {
             <span className="text-violet">
               {LOCALE_LABEL[profile.preferredLanguage]?.native ?? profile.preferredLanguage}
             </span>
+          )}
+        </div>
+
+        {/* Completed chapters — always shown */}
+        <div className="mt-5 border-t border-line/70 pt-4">
+          <div className="mb-2.5 flex items-center justify-between gap-2">
+            <span className="inline-flex items-center gap-1.5 text-[11.5px] font-medium text-muted">
+              <CheckCircle size={13} weight="fill" className={completedChapters.length > 0 ? "text-emerald-500" : "text-muted/40"} />
+              {locale === "ta" ? "நிறைவு செய்த பாடங்கள்" : "Completed Chapters"}
+              <span className="text-muted/60">({completedChapters.length})</span>
+            </span>
+            {completedChapters.length > 0 && (
+              <Link href="/m/learn" className="text-[11px] text-violet hover:underline">
+                {locale === "ta" ? "அனைத்தும்" : "View all"}
+              </Link>
+            )}
+          </div>
+
+          {completedChapters.length === 0 ? (
+            <p className="rounded-xl border border-line/50 bg-surface/30 px-3 py-3 text-center text-[11px] text-muted/60">
+              {locale === "ta" ? "இன்னும் பாடங்கள் நிறைவு செய்யவில்லை" : "No chapters completed yet — start learning!"}
+            </p>
+          ) : (
+            <div className="flex max-h-40 flex-col gap-1.5 overflow-y-auto pr-0.5">
+              {completedChapters.map((item) => (
+                <div
+                  key={item.chapterId}
+                  className="flex items-center justify-between gap-3 rounded-xl border border-line/60 bg-surface/40 px-3 py-2 backdrop-blur-sm"
+                >
+                  <div className="min-w-0">
+                    <p className="truncate text-[11.5px] font-medium text-text">
+                      {item.chapterNumber
+                        ? `${locale === "ta" ? "அத்தியாயம்" : "Ch."} ${item.chapterNumber}: `
+                        : ""}
+                      {locale === "ta" ? item.chapterTitle.ta : item.chapterTitle.en}
+                    </p>
+                    <p className="truncate text-[10.5px] text-muted">
+                      {locale === "ta" ? item.subjectName.ta : item.subjectName.en}
+                      {" · "}
+                      {c.classWord} {item.standard}
+                    </p>
+                  </div>
+                  <Link
+                    href={item.reviewHref}
+                    className="shrink-0 rounded-lg border border-line px-2 py-1 text-[10px] text-muted transition-colors hover:bg-violet/10 hover:text-text"
+                  >
+                    {locale === "ta" ? "மீண்டும்" : "Review"}
+                  </Link>
+                </div>
+              ))}
+            </div>
           )}
         </div>
 
@@ -251,30 +316,37 @@ function SignInScreenContent() {
           {!hydrated ? (
             <div aria-hidden className="mx-auto h-96 w-full max-w-[520px] animate-pulse rounded-3xl border border-line bg-surface/60" />
           ) : !profile || editing ? (
-            <LiquidGlassSurface
-              radius={28}
-              className="border border-line p-5 shadow-[0_30px_80px_-40px_rgb(0_0_0/0.9)] sm:p-10"
-            >
+            <div className="fixed inset-0 z-20 flex flex-col overflow-y-auto">
+              {/* Full-screen frosted backdrop */}
+              <div className="pointer-events-none absolute inset-0 bg-bg/85 backdrop-blur-2xl" />
+
+              {/* Back button — top-left, above content */}
               {profile && (
-                <button
-                  type="button"
-                  onClick={() => setEditing(false)}
-                  className="mb-6 inline-flex h-10 items-center gap-2 rounded-xl border border-line px-3 text-sm text-muted transition-colors hover:text-text"
-                >
-                  <ArrowLeft size={14} />
-                  {c.back}
-                </button>
+                <div className="relative z-10 shrink-0 px-6 pt-5 sm:px-10">
+                  <button
+                    type="button"
+                    onClick={() => setEditing(false)}
+                    className="inline-flex h-10 items-center gap-2 rounded-xl border border-line bg-surface/60 px-4 text-sm text-muted backdrop-blur-xl transition-colors hover:text-text"
+                  >
+                    <ArrowLeft size={14} />
+                    {c.back}
+                  </button>
+                </div>
               )}
-              <LearnerSetup
-                existing={profile}
-                redirectTo={redirectTarget}
-                onDone={() => setEditing(false)}
-              />
-            </LiquidGlassSurface>
+
+              {/* Form fills the remaining space, scrolls if needed */}
+              <div className="relative z-10 flex-1 px-6 pb-16 pt-6 sm:px-10 sm:pt-8">
+                <LearnerSetup
+                  existing={profile}
+                  redirectTo={redirectTarget}
+                  onDone={() => setEditing(false)}
+                />
+              </div>
+            </div>
           ) : (
             <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-12">
-              {/* Unboxed greeting rail on the left. */}
-              <div className="mx-auto w-full max-w-[420px] lg:mx-0 lg:max-w-[520px] lg:pt-6">
+              {/* Unboxed greeting rail on the right on desktop. */}
+              <div className="mx-auto w-full max-w-[420px] lg:order-2 lg:mx-0 lg:max-w-[520px] lg:pt-6">
                 <h1 className="font-display text-[clamp(32px,4vw,46px)] leading-[1.02] tracking-[-0.045em]">
                   {c.hello(profile.name)}
                 </h1>
@@ -304,20 +376,25 @@ function SignInScreenContent() {
                   </button>
                 </div>
 
-                {completedChapters.length > 0 && (
-                  <div className="mt-8 border-t border-line/70 pt-5">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="inline-flex items-center gap-2 text-xs font-medium text-muted">
-                        <CheckCircle size={15} weight="fill" className="text-emerald-500" />
-                        {locale === "ta" ? "நிறைவு செய்த பாடங்கள்" : "Completed Chapters"} ({completedChapters.length})
-                      </span>
-                      <Link
-                        href="/m/learn"
-                        className="text-xs text-violet hover:underline"
-                      >
+                {/* Completed chapters — always shown */}
+                <div className="mt-8 border-t border-line/70 pt-5">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="inline-flex items-center gap-2 text-xs font-medium text-muted">
+                      <CheckCircle size={15} weight="fill" className={completedChapters.length > 0 ? "text-emerald-500" : "text-muted/40"} />
+                      {locale === "ta" ? "நிறைவு செய்த பாடங்கள்" : "Completed Chapters"} ({completedChapters.length})
+                    </span>
+                    {completedChapters.length > 0 && (
+                      <Link href="/m/learn" className="text-xs text-violet hover:underline">
                         {locale === "ta" ? "அனைத்தும்" : "View all"}
                       </Link>
-                    </div>
+                    )}
+                  </div>
+
+                  {completedChapters.length === 0 ? (
+                    <p className="mt-3 rounded-xl border border-line/50 bg-surface/30 px-3 py-3 text-center text-[12px] text-muted/60">
+                      {locale === "ta" ? "இன்னும் பாடங்கள் நிறைவு செய்யவில்லை" : "No chapters completed yet — start learning!"}
+                    </p>
+                  ) : (
                     <div className="mt-3 flex max-h-44 flex-col gap-2 overflow-y-auto pr-1">
                       {completedChapters.map((item) => (
                         <div
@@ -345,11 +422,11 @@ function SignInScreenContent() {
                         </div>
                       ))}
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
 
-              {/* The learner card sits on the right. */}
+              {/* The learner card sits on the left on desktop. */}
               <Card
                 profile={profile}
                 confirming={confirming}

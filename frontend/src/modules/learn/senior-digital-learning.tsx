@@ -680,7 +680,7 @@ export function SeniorDigitalLearning({
       {/* ========================================================================= */}
       {/* 3. DAILY ENCOURAGEMENT: centred quote strip at the top of the page        */}
       {/* ========================================================================= */}
-      <section className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center gap-2 text-center">
+      <section className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center gap-2 border-y border-purple-200/60 py-4 text-center dark:border-purple-200/15">
         <div className="flex flex-wrap items-center justify-center gap-2">
           <span className="text-pink-500 dark:text-pink-400">
             <Quotes size={16} weight="fill" />
@@ -841,15 +841,12 @@ export function SeniorDigitalLearning({
                   <div
                     key={sub.id}
                     onClick={() => handleSelectSubject(sub)}
-                    className={`group relative flex cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border bg-white/90 p-4 backdrop-blur-xl shadow-[0_8px_24px_-14px_rgba(15,8,30,0.45)] transition-all duration-300 hover:-translate-y-0.5 dark:bg-[#140a28]/85 ${
+                    className={`group relative flex cursor-pointer flex-col justify-between border-b bg-transparent px-2 py-3.5 transition-colors duration-300 ${
                       isSelected
-                        ? "border-purple-500 ring-1 ring-purple-400 dark:border-purple-400/70 dark:ring-purple-400/40"
-                        : "border-purple-200/70 hover:border-purple-400/70 dark:border-white/10 dark:hover:border-white/20"
+                        ? "border-purple-500/70 bg-purple-500/[0.06]"
+                        : "border-purple-200/50 hover:border-purple-400/70 hover:bg-purple-500/[0.035] dark:border-white/10 dark:hover:border-white/20"
                     }`}
                   >
-                    {/* Accent edge keeps the subject identity without artwork */}
-                    <span aria-hidden className={`absolute inset-x-0 top-0 h-[2px] opacity-80 ${visual.accentBg}`} />
-
                     <div>
                       <div className="flex items-center justify-between gap-2">
                         <span className="flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-purple-200/60">
@@ -960,7 +957,7 @@ export function SeniorDigitalLearning({
         {/* ===================================================================== */}
         {/* RIGHT SIDEBAR (4 cols)                                                */}
         {/* ===================================================================== */}
-        <aside className="lg:col-span-4 flex flex-col gap-5">
+        <aside className="flex flex-col gap-5 lg:col-span-4 lg:border-l lg:border-purple-200/60 lg:pl-5 dark:lg:border-purple-200/15">
           {/* ----------------------------------------------------------------- */}
           {/* CARD 1: YOUR LEARNING PATH                                        */}
           {/* ----------------------------------------------------------------- */}
