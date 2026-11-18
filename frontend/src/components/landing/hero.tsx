@@ -35,92 +35,6 @@ function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-function HomeBookArtwork() {
-  return (
-    <svg viewBox="55 65 530 400" className="h-full w-full overflow-visible" role="img" aria-label="A glowing open book surrounded by a ring of light">
-      <defs>
-        <linearGradient id="book-page-left" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#fff5ff" />
-          <stop offset="0.55" stopColor="#efd5ff" />
-          <stop offset="1" stopColor="#bf91e8" />
-        </linearGradient>
-        <linearGradient id="book-page-right" x1="1" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#fff7ff" />
-          <stop offset="0.55" stopColor="#ead1ff" />
-          <stop offset="1" stopColor="#b884e4" />
-        </linearGradient>
-        <linearGradient id="book-edge" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#f8eaff" />
-          <stop offset="1" stopColor="#9a67cf" />
-        </linearGradient>
-        <linearGradient id="orbit-line" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#f8c8ff" stopOpacity="0.05" />
-          <stop offset="0.48" stopColor="#fff4ff" stopOpacity="0.95" />
-          <stop offset="1" stopColor="#d78cff" stopOpacity="0.08" />
-        </linearGradient>
-        <radialGradient id="book-aura">
-          <stop offset="0" stopColor="#efb5ff" stopOpacity="0.44" />
-          <stop offset="1" stopColor="#a855f7" stopOpacity="0" />
-        </radialGradient>
-        <filter id="book-glow" x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur stdDeviation="3" result="blur" />
-          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-        </filter>
-      </defs>
-
-      <ellipse cx="320" cy="265" rx="232" ry="195" fill="url(#book-aura)" />
-      <path d="M145 290 C164 115 250 77 320 77 C390 77 476 115 495 290" fill="none" stroke="url(#orbit-line)" strokeWidth="1.8" strokeDasharray="1 10" strokeLinecap="round" filter="url(#book-glow)" />
-      <path d="M151 291 C170 124 252 87 320 87 C388 87 470 124 489 291" fill="none" stroke="#f6dfff" strokeOpacity="0.2" strokeWidth="1" strokeDasharray="2 14" />
-
-      {/* orbit glints */}
-      <g fill="#fff7ff" filter="url(#book-glow)">
-        <circle cx="187" cy="163" r="3" /><circle cx="208" cy="139" r="2" />
-        <circle cx="238" cy="119" r="2.5" /><circle cx="275" cy="108" r="1.8" />
-        <circle cx="318" cy="106" r="2.4" /><circle cx="364" cy="116" r="1.7" />
-        <circle cx="404" cy="135" r="2.5" /><circle cx="438" cy="163" r="2" />
-        <circle cx="458" cy="195" r="3" /><circle cx="168" cy="204" r="1.8" />
-      </g>
-
-      {/* layered page edges */}
-      <g transform="translate(38 -80) scale(0.88 1.25)" stroke="url(#book-edge)" strokeWidth="1.5" strokeLinejoin="round">
-        <path d="M320 373 C255 350 184 334 126 318 L126 332 C190 359 257 385 320 405 C383 385 450 359 514 332 L514 318 C456 334 385 350 320 373Z" fill="#b794d7" fillOpacity="0.28" />
-        <path d="M320 383 C253 362 185 345 137 329 L137 340 C199 367 260 390 320 407 C380 390 441 367 503 340 L503 329 C455 345 387 362 320 383Z" fill="#d3b6ec" fillOpacity="0.2" />
-      </g>
-
-      {/* open book */}
-      <g transform="translate(38 -80) scale(0.88 1.25)" filter="url(#book-glow)" stroke="#fff2ff" strokeWidth="1.5" strokeLinejoin="round">
-        <path d="M320 324 C263 281 195 267 111 290 C151 334 222 370 320 405Z" fill="none" />
-        <path d="M320 324 C377 281 445 267 529 290 C489 334 418 370 320 405Z" fill="none" />
-        <path d="M320 324 C316 350 317 379 320 405" fill="none" stroke="#fffaff" strokeWidth="2.5" />
-        <path d="M128 296 C194 284 253 301 308 333 M145 311 C205 301 258 315 304 343 M164 326 C216 319 263 331 306 353" fill="none" stroke="#ead6ff" strokeOpacity="0.58" strokeWidth="1.2" />
-        <path d="M512 296 C446 284 387 301 332 333 M495 311 C435 301 382 315 336 343 M476 326 C424 319 377 331 334 353" fill="none" stroke="#ead6ff" strokeOpacity="0.58" strokeWidth="1.2" />
-        <g fill="none" stroke="#e7c4ff" strokeOpacity="0.32" strokeWidth="0.85">
-          <path d="M320 324 L267 292 L211 278 L157 281 L111 290 M320 342 L276 319 L220 300 L166 296 L128 302 M320 359 L275 346 L221 329 L171 318 L137 316 M320 377 L277 367 L229 350 L180 339 L147 333 M320 397 L279 384 L234 368 L188 356 L160 347" />
-          <path d="M267 292 L276 319 L275 346 L277 367 L279 384 M211 278 L220 300 L221 329 L229 350 L234 368 M157 281 L166 296 L171 318 L180 339 L188 356 M111 290 L128 302 L137 316 L147 333 L160 347" />
-          <path d="M320 324 L373 292 L429 278 L483 281 L529 290 M320 342 L364 319 L420 300 L474 296 L512 302 M320 359 L365 346 L419 329 L469 318 L503 316 M320 377 L363 367 L411 350 L460 339 L493 333 M320 397 L361 384 L406 368 L452 356 L480 347" />
-          <path d="M373 292 L364 319 L365 346 L363 367 L361 384 M429 278 L420 300 L419 329 L411 350 L406 368 M483 281 L474 296 L469 318 L460 339 L452 356 M529 290 L512 302 L503 316 L493 333 L480 347" />
-        </g>
-        <path d="M121 352 C183 374 257 396 320 405 C256 392 172 371 121 362Z" fill="url(#book-page-left)" fillOpacity="0.56" stroke="none" />
-        <path d="M519 352 C457 374 383 396 320 405 C384 392 468 371 519 362Z" fill="url(#book-page-right)" fillOpacity="0.56" stroke="none" />
-      </g>
-
-      {/* small symbols of learning */}
-      <g fill="none" stroke="#fbeaff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" opacity="0.9">
-        <ellipse cx="320" cy="193" rx="18" ry="7" />
-        <ellipse cx="320" cy="193" rx="18" ry="7" transform="rotate(60 320 193)" />
-        <ellipse cx="320" cy="193" rx="18" ry="7" transform="rotate(120 320 193)" />
-        <circle cx="320" cy="193" r="2.5" fill="#fbeaff" stroke="none" />
-        <path d="M397 213 V188 L417 182 V207" />
-        <ellipse cx="392" cy="214" rx="5" ry="3" transform="rotate(-25 392 214)" fill="#fbeaff" stroke="none" />
-      </g>
-      <path d="M220 222 L225 232 L235 236 L225 240 L220 250 L216 240 L206 236 L216 232Z" fill="#fff6ff" filter="url(#book-glow)" />
-      <path d="M445 245 L449 253 L457 256 L449 259 L445 267 L442 259 L434 256 L442 253Z" fill="#e9b8ff" />
-
-      <ellipse cx="320" cy="431" rx="135" ry="9" fill="#d9a9ff" opacity="0.14" />
-    </svg>
-  );
-}
-
 interface HeroProps {
   scrollProgress?: number;
 }
@@ -315,8 +229,25 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center overflow-visible will-change-transform contain-strict"
               >
-                <div className="absolute left-1/2 top-[54%] h-[min(58vh,520px)] w-[min(62vw,760px)] -translate-x-1/2 -translate-y-1/2">
-                  <HomeBookArtwork />
+                <div
+                  className={`absolute left-1/2 top-[54%] h-[min(62vh,560px)] w-[min(62vh,560px)] -translate-x-1/2 -translate-y-1/2 ${
+                    isDark
+                      ? ""
+                      : "before:absolute before:inset-[-12%] before:-z-10 before:rounded-full before:bg-[radial-gradient(circle_at_50%_58%,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.6)_34%,rgba(255,255,255,0.24)_56%,rgba(255,255,255,0)_80%)] before:content-['']"
+                  }`}
+                >
+                  <Image
+                    src="/images/landing/book-open.png"
+                    alt="Open book illustration"
+                    width={1200}
+                    height={1169}
+                    className={`size-full object-contain ${
+                      isDark
+                        ? "drop-shadow-[0_0_46px_rgba(216,180,254,0.38)]"
+                        : "drop-shadow-[0_10px_30px_rgba(124,58,237,0.16)]"
+                    }`}
+                    priority
+                  />
                 </div>
               </div>
 
