@@ -31,6 +31,9 @@ const STAT_POSITIONS = [
   "right-[10%] bottom-[8%]",
 ] as const;
 
+/** Spark directions fired when the hero book is tapped. */
+const BOOK_SPARK_ANGLES = [-172, -146, -120, -94, -68, -42, -16, 10, 36, 62, 88, 114, 140, 166];
+
 function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
@@ -48,6 +51,17 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const [bookHover, setBookHover] = useState(false);
+  const [bookBurst, setBookBurst] = useState(0);
+  const [reduceMotion, setReduceMotion] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setReduceMotion(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   useEffect(() => {
     const id = window.setTimeout(() => setIntroDone(true), prefersReducedMotion() ? 0 : INTRO_MS);
@@ -84,6 +98,10 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
       y: (e.clientY / window.innerHeight) * 100,
     });
   };
+
+  // Cursor-follow tilt for the hero book — kept small so the art never skews.
+  const bookTiltX = ((mousePos.y - 50) / 50) * -5;
+  const bookTiltY = ((mousePos.x - 50) / 50) * 6;
 
   return (
     <section
@@ -223,31 +241,84 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                 />
               </div>
 
-              {/* Clear open-book focal art replaces the rotating image sphere. */}
+              {/* Floating open-book focal art: drifts on idle, tilts toward the
+                  cursor, glows on hover and throws sparks when tapped. */}
               <div
                 data-no-flip="true"
-                aria-hidden="true"
                 className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center overflow-visible will-change-transform contain-strict"
               >
-                <div
-                  className={`absolute left-1/2 top-[54%] h-[min(62vh,560px)] w-[min(62vh,560px)] -translate-x-1/2 -translate-y-1/2 ${
-                    isDark
-                      ? ""
-                      : "before:absolute before:inset-[-12%] before:-z-10 before:rounded-full before:bg-[radial-gradient(circle_at_50%_58%,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.6)_34%,rgba(255,255,255,0.24)_56%,rgba(255,255,255,0)_80%)] before:content-['']"
-                  }`}
-                >
-                  <Image
-                    src="/images/landing/book-open.png"
-                    alt="Open book illustration"
-                    width={1200}
-                    height={1169}
-                    className={`size-full object-contain ${
-                      isDark
-                        ? "drop-shadow-[0_0_46px_rgba(216,180,254,0.38)]"
-                        : "drop-shadow-[0_10px_30px_rgba(124,58,237,0.16)]"
-                    }`}
-                    priority
-                  />
+                <div className="absolute left-1/2 top-[54%] h-[min(62vh,560px)] w-[min(62vh,560px)] -translate-x-1/2 -translate-y-1/2 [perspective:1100px]">
+                  <button
+                    type="button"
+                    onClick={() => setBookBurst((n) => n + 1)}
+                    onPointerEnter={() => setBookHover(true)}
+                    onPointerLeave={() => setBookHover(false)}
+                    onFocus={() => setBookHover(true)}
+                    onBlur={() => setBookHover(false)}
+                    aria-label="Send a little sparkle over the open book"
+                    title="Give it a tap"
+                    data-no-flip
+                    className="group pointer-events-auto relative block size-full cursor-pointer rounded-[36px] outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-300/70 focus-visible:ring-offset-4 focus-visible:ring-offset-transparent"
+                    style={{
+                      transform: reduceMotion
+                        ? undefined
+                        : `rotateX(${bookHover ? bookTiltX : 0}deg) rotateY(${bookHover ? bookTiltY : 0}deg)`,
+                      transformStyle: "preserve-3d",
+                      transition: "transform 600ms cubic-bezier(0.22, 1, 0.36, 1)",
+                    }}
+                  >
+                    {/* Breathing halo: paper glow in light mode, violet bloom in dark. */}
+                    <span
+                      aria-hidden
+                      className={`hero-book-halo pointer-events-none absolute inset-[-16%] rounded-full transition-opacity duration-500 ${
+                        isDark
+                          ? "bg-[radial-gradient(circle_at_50%_60%,rgba(192,132,252,0.26),rgba(147,51,234,0.11)_42%,transparent_72%)]"
+                          : "bg-[radial-gradient(circle_at_50%_58%,rgba(255,255,255,0.92),rgba(255,255,255,0.6)_36%,rgba(255,255,255,0.24)_56%,rgba(255,255,255,0)_78%)]"
+                      }`}
+                    />
+
+                    <span
+                      className={`relative block size-full ${
+                        reduceMotion ? "" : "hero-book-float"
+                      }`}
+                    >
+                      <Image
+                        src="/images/landing/book-open.png"
+                        alt="Open book illustration"
+                        width={1200}
+                        height={1169}
+                        className={`size-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.035] ${
+                          isDark
+                            ? "drop-shadow-[0_0_46px_rgba(216,180,254,0.38)] group-hover:drop-shadow-[0_0_62px_rgba(216,180,254,0.55)]"
+                            : "drop-shadow-[0_10px_30px_rgba(124,58,237,0.16)] group-hover:drop-shadow-[0_14px_38px_rgba(124,58,237,0.26)]"
+                        }`}
+                        priority
+                      />
+                    </span>
+
+                    {/* Tap feedback: an expanding ring plus a fan of sparks. */}
+                    {bookBurst > 0 && !reduceMotion && (
+                      <span
+                        key={bookBurst}
+                        aria-hidden
+                        className="pointer-events-none absolute left-1/2 top-[64%] size-0"
+                      >
+                        <span className="hero-book-ring absolute left-1/2 top-1/2 size-44 rounded-full border border-fuchsia-300/60" />
+                        {BOOK_SPARK_ANGLES.map((angle, i) => (
+                          <span
+                            key={angle}
+                            className="hero-book-spark absolute -ml-1 -mt-1 size-2 rounded-full bg-fuchsia-100 shadow-[0_0_12px_rgba(232,121,249,0.95)]"
+                            style={
+                              {
+                                "--a": `${angle}deg`,
+                                animationDelay: `${i * 18}ms`,
+                              } as React.CSSProperties
+                            }
+                          />
+                        ))}
+                      </span>
+                    )}
+                  </button>
                 </div>
               </div>
 
