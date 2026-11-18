@@ -1,6 +1,6 @@
 "use client";
 
-import { Lock, Plus, Trash } from "@phosphor-icons/react/ssr";
+import { Plus } from "@phosphor-icons/react/ssr";
 import { useMemo, useState } from "react";
 import { BandHint } from "@/components/band-hint";
 import { Burst } from "@/components/burst";
@@ -15,14 +15,13 @@ import {
   badges,
   localDay,
   logActivity,
-  removeActivity,
   skillScores,
   type Activity,
   type Area,
   type Band,
   type Progress,
 } from "@/lib/progress";
-import { AREA_INFO, BADGE_INFO, GROW_COPY } from "./content";
+import { AREA_INFO, GROW_COPY } from "./content";
 import { LearningTrackCard } from "./learning-track-card";
 
 /** Fixed precision so server and browser render identical SVG attributes. */
@@ -443,11 +442,11 @@ function ActivityForm({ band }: { band: Band }) {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-3xl flex flex-col gap-4 border border-purple-200/70 dark:border-white/10 bg-[#faf7ff] dark:bg-[#0d0720] shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-6">
+    <form onSubmit={submit} className="flex flex-col gap-4">
       <h2 className="font-display text-base sm:text-lg lg:text-xl font-bold tracking-wide text-slate-900 dark:text-white">{c.logTitle}</h2>
       <fieldset>
         <legend className="font-mono text-[11.5px] uppercase tracking-[0.12em] text-muted">{c.areaLabel}</legend>
-        <div className="mt-2 grid grid-cols-3 gap-1.5">
+        <div className="mt-2 grid grid-cols-2 gap-1.5">
           {AREAS.map((a) => {
             const info = AREA_INFO[a];
             const Glyph = info.icon;
@@ -455,7 +454,7 @@ function ActivityForm({ band }: { band: Band }) {
               <label
                 key={a}
                 style={{ "--area": info.color } as React.CSSProperties}
-                className="flex cursor-pointer flex-col items-center gap-1 rounded-xl border border-line px-1 py-2.5 text-center text-[12px] text-muted transition-colors hover:bg-white/[0.05] has-[:checked]:border-[var(--area)] has-[:checked]:bg-[color-mix(in_srgb,var(--area)_14%,transparent)] has-[:checked]:text-text has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-violet"
+                className="flex cursor-pointer flex-col items-center gap-1 rounded-xl border border-transparent px-1 py-2.5 text-center text-[12px] text-muted transition-colors hover:bg-white/[0.05] has-[:checked]:border-[var(--area)] has-[:checked]:bg-[color-mix(in_srgb,var(--area)_14%,transparent)] has-[:checked]:text-text has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-violet"
               >
                 <input type="radio" name="area" value={a} checked={area === a} onChange={() => setArea(a)} className="sr-only" />
                 <Glyph size={band === "junior" ? 24 : 20} weight="duotone" className="text-[var(--area)]" aria-hidden />
@@ -504,7 +503,7 @@ function ActivityForm({ band }: { band: Band }) {
           )}
         </button>
       </div>
-    </div>
+    </form>
   );
 }
 
@@ -512,9 +511,7 @@ export function GrowScreen({ band }: { band: Band }) {
   const { locale } = useLocale();
   const c = GROW_COPY[locale];
   const progress = useProgress();
-  const earned = badges(progress, localDay());
-  const fruits = earned.filter((b) => b.earned).length;
-  const dateFmt = new Intl.DateTimeFormat(`${locale}-IN`, { day: "numeric", month: "short" });
+  const fruits = badges(progress, localDay()).filter((b) => b.earned).length;
   const scores = skillScores(progress);
   const ranked = [...AREAS].sort((a, b) => scores[b] - scores[a]);
 
@@ -525,7 +522,11 @@ export function GrowScreen({ band }: { band: Band }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <BandHint band={band} text={c.bandHint[band]} />
+      <BandHint
+        band={band}
+        text={c.bandHint[band]}
+        className={band === "senior" ? "rounded-none border-x-0 border-t-0 border-b border-line bg-transparent px-0 py-3 shadow-none" : ""}
+      />
 
       {/* Standard Switcher Modal for switching Class 1-12 */}
       <StandardSwitcherModal
@@ -539,8 +540,8 @@ export function GrowScreen({ band }: { band: Band }) {
         }}
       />
 
-      <div className={`grid gap-4 ${band === "junior" ? "lg:grid-cols-[1.3fr_1fr]" : "lg:grid-cols-[1.1fr_1fr]"}`}>
-        <div className="relative overflow-hidden rounded-3xl border border-purple-200/70 dark:border-white/10 bg-[#faf7ff] dark:bg-[#0d0720] p-5 sm:p-6 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] flex flex-col justify-between">
+      <div className="grid gap-6 lg:grid-cols-12 lg:gap-0">
+        <section className="flex flex-col justify-between lg:col-span-6 lg:pr-6">
           <div>
             <h2 className="font-display text-xl sm:text-2xl tracking-[-0.02em] text-slate-900 dark:text-white">{c.treeTitle}</h2>
             <p className="mt-1 font-mono text-[12.5px] font-medium text-slate-600 dark:text-purple-200/80">
@@ -555,7 +556,7 @@ export function GrowScreen({ band }: { band: Band }) {
               big={band === "junior"}
             />
           </div>
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 rounded-2xl border border-purple-200/60 dark:border-white/5 bg-purple-50/50 dark:bg-white/[0.02] px-3 py-2.5">
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 border-y border-line px-2 py-2.5">
             {AREAS.map((a) => (
               <span key={a} className="flex items-center gap-1.5 text-[12px] font-medium text-slate-700 dark:text-purple-200/80">
                 <span
@@ -567,11 +568,13 @@ export function GrowScreen({ band }: { band: Band }) {
               </span>
             ))}
           </div>
-        </div>
+        </section>
 
-        <div className="flex flex-col gap-4">
+        <section className="lg:col-span-3 lg:border-l lg:border-line lg:px-5">
           <ActivityForm band={band} />
-          <div className="relative overflow-hidden rounded-3xl border border-purple-200/70 dark:border-white/10 bg-[#faf7ff] dark:bg-[#0d0720] shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-6">
+        </section>
+
+        <section className="lg:col-span-3 lg:border-l lg:border-line lg:pl-5">
             <h2 className="font-display text-base sm:text-lg lg:text-xl font-bold tracking-wide text-slate-900 dark:text-white">{band === "junior" ? c.stickersTitle : c.skillsTitle}</h2>
             <div className="mt-4">
               {band === "junior" ? (
@@ -600,8 +603,7 @@ export function GrowScreen({ band }: { band: Band }) {
                 </p>
               </div>
             )}
-          </div>
-        </div>
+        </section>
       </div>
 
       {/* Dedicated Learning Track Performance Card integrated into Module 2 */}
@@ -611,72 +613,6 @@ export function GrowScreen({ band }: { band: Band }) {
         onOpenStandardSwitcher={() => setSwitcherOpen(true)}
       />
 
-      <div className="relative overflow-hidden rounded-3xl border border-purple-200/70 dark:border-white/10 bg-[#faf7ff] dark:bg-[#0d0720] shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-6">
-        <h2 className="font-display text-base sm:text-lg lg:text-xl font-bold tracking-wide text-slate-900 dark:text-white">{c.badgesTitle}</h2>
-        <ul className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-7">
-          {earned.map(({ id, earned: got }) => {
-            const info = BADGE_INFO[id];
-            const Glyph = info.icon;
-            return (
-              <li
-                key={id}
-                className={`flex flex-col items-center gap-2 rounded-2xl border p-4 text-center ${
-                  got ? "pop-in border-amber/40 bg-amber/[0.08]" : "border-line opacity-55"
-                }`}
-              >
-                <span
-                  className={`relative grid size-14 place-items-center rounded-full ${
-                    got ? "bg-amber/20 text-amber shadow-[0_0_30px_-6px_rgb(251_191_36/0.7)]" : "bg-white/[0.04] text-muted"
-                  }`}
-                >
-                  <Glyph size={28} weight={got ? "fill" : "duotone"} aria-hidden />
-                  {!got && <Lock size={14} weight="fill" className="absolute -bottom-0.5 -right-0.5 text-muted" aria-hidden />}
-                </span>
-                <span className="text-[14px]">{info.name[locale]}</span>
-                <span className="text-[12px] leading-snug text-muted">{info.how[locale]}</span>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-
-      <div className="relative overflow-hidden rounded-3xl border border-purple-200/70 dark:border-white/10 bg-[#faf7ff] dark:bg-[#0d0720] shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-6">
-        <h2 className="font-display text-base sm:text-lg lg:text-xl font-bold tracking-wide text-slate-900 dark:text-white">{band === "senior" ? c.portfolio : c.recent}</h2>
-        {progress.activities.length === 0 ? (
-          <p className="mt-3 text-[14px] text-muted">{c.empty}</p>
-        ) : (
-          <ul className="mt-3 flex flex-col divide-y divide-line">
-            {progress.activities.slice(0, band === "senior" ? 50 : 12).map((a) => {
-              const info = AREA_INFO[a.area];
-              const Glyph = info.icon;
-              return (
-                <li key={a.id} className="group flex items-center gap-3 py-3">
-                  <span
-                    className="grid size-9 shrink-0 place-items-center rounded-xl"
-                    style={{ background: `color-mix(in srgb, ${info.color} 16%, transparent)`, color: info.color }}
-                  >
-                    <Glyph size={18} weight="duotone" aria-hidden />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[15px]">{a.title}</span>
-                    <span className="block font-mono text-[11.5px] text-muted">
-                      {info.name[locale]} · {dateFmt.format(new Date(`${a.date}T12:00:00`))}
-                    </span>
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => updateProgress((p) => removeActivity(p, a.id))}
-                    aria-label={`${c.remove}: ${a.title}`}
-                    className="grid size-10 place-items-center rounded-xl text-muted opacity-60 transition-all hover:bg-danger/10 hover:text-danger hover:opacity-100 focus-visible:opacity-100"
-                  >
-                    <Trash size={16} />
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </div>
     </div>
   );
 }

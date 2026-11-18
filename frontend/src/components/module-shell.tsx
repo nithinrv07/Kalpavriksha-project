@@ -147,16 +147,16 @@ export function ModuleShell({
 
         {/* 2. Module Banner: Styled hero matching Module 1 exactly */}
         {module.slug !== "learn" && (
-          <section className="relative z-10 mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center rounded-3xl border border-purple-800/30 bg-gradient-to-r from-[#170a2c]/80 via-[#210e3f]/60 to-[#120724]/80 p-6 sm:p-8 backdrop-blur-xl shadow-[0_10px_40px_rgba(10,4,20,0.5)]">
+          <section className={`relative z-10 grid grid-cols-1 items-center gap-4 lg:grid-cols-12 ${(module.slug === "grow" || module.slug === "gk-songs") ? "mt-2 border-b border-line pb-4" : "mt-6 gap-6 rounded-3xl border border-purple-800/30 bg-gradient-to-r from-[#170a2c]/80 via-[#210e3f]/60 to-[#120724]/80 p-6 backdrop-blur-xl shadow-[0_10px_40px_rgba(10,4,20,0.5)] sm:mt-6 sm:p-8"}`}>
             {/* Left: Titles matching 1st module */}
-            <div className="lg:col-span-6 flex flex-col gap-2.5">
-              <h1 className="module-hero-title font-serif text-3xl sm:text-4xl lg:text-5xl font-black tracking-wider text-white uppercase drop-shadow-[0_2px_18px_rgba(168,85,247,0.35)]">
+            <div className={`flex flex-col gap-1.5 ${(module.slug === "grow" || module.slug === "gk-songs") ? "lg:col-span-8" : "lg:col-span-6 gap-2.5"}`}>
+              <h1 className={`module-hero-title font-serif font-black tracking-wider text-white uppercase drop-shadow-[0_2px_18px_rgba(168,85,247,0.35)] ${(module.slug === "grow" || module.slug === "gk-songs") ? "text-2xl sm:text-3xl lg:text-4xl" : "text-3xl sm:text-4xl lg:text-5xl"}`}>
                 {module.title[locale]}
               </h1>
-              <p className="font-display text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-300 via-pink-200 to-indigo-300 bg-clip-text text-transparent">
+              <p className={`font-display font-bold bg-gradient-to-r from-purple-300 via-pink-200 to-indigo-300 bg-clip-text text-transparent ${(module.slug === "grow" || module.slug === "gk-songs") ? "text-sm" : "text-lg sm:text-xl"}`}>
                 {locale === "en" ? "Explore. Discover. Grow." : "ஆராய்க. வளர்க. உயர்க."}
               </p>
-              <p className="font-headline text-sm sm:text-base text-purple-200/70 max-w-md">
+              <p className={`font-headline text-purple-200/70 ${(module.slug === "grow" || module.slug === "gk-songs") ? "text-xs" : "max-w-md text-sm sm:text-base"}`}>
                 {locale === "en"
                   ? "Your learning journey, beautifully connected."
                   : "உங்கள் கற்றல் பயணம், அழகாக இணைக்கப்பட்டுள்ளது."}
@@ -164,8 +164,8 @@ export function ModuleShell({
             </div>
 
             {/* Right: 3D Scene */}
-            <div className="lg:col-span-6 relative flex items-center justify-center lg:justify-end">
-              <div className="relative w-full max-w-[420px] aspect-[780/324] cosmic-prop-float transition-transform duration-500 hover:scale-[1.03]">
+            <div className={`relative flex items-center justify-center lg:justify-end ${(module.slug === "grow" || module.slug === "gk-songs") ? "lg:col-span-4" : "lg:col-span-6"}`}>
+              <div className={`relative w-full cosmic-prop-float transition-transform duration-500 hover:scale-[1.03] ${module.slug === "grow" ? "max-w-[240px] aspect-[780/324]" : module.slug === "gk-songs" ? "max-w-[180px] aspect-[3/2]" : "max-w-[420px] aspect-[780/324]"}`}>
                 <Image
                   src={module.slug === "grow" ? "/images/modules/tree-growth.png" : "/images/modules/gk-songs-raw.png"}
                   alt={module.title[locale]}
@@ -179,7 +179,7 @@ export function ModuleShell({
         )}
 
         {/* 3. Main Content: Full Screen Width across all modules */}
-        <main className={`${module.slug === "learn" ? "mt-2 sm:mt-3" : "mt-8 sm:mt-10"} flex-1 w-full pb-8 sm:pb-12`}>
+        <main className={`${module.slug === "learn" ? "mt-2 sm:mt-3" : (module.slug === "grow" || module.slug === "gk-songs") ? "mt-3 sm:mt-4" : "mt-8 sm:mt-10"} flex-1 w-full pb-8 sm:pb-12`}>
           {!hydrated ? (
             <div aria-hidden className="h-72 animate-pulse rounded-3xl border border-line bg-surface/60" />
           ) : profile && band ? (

@@ -151,36 +151,33 @@ export function GkScreen({ band }: { band: Band }) {
   ];
   return (
     <div className="fade-up flex flex-col gap-6">
-      <BandHint band={band} text={c.bandHint[band]} />
-      <div>
-        <h2 className="font-display text-[clamp(24px,3vw,34px)] font-bold tracking-tight text-text">{f.chooseTitle}</h2>
+      <BandHint
+        band={band}
+        text={c.bandHint[band]}
+        className={band === "senior" ? "rounded-none border-x-0 border-t-0 border-b border-line bg-transparent px-0 py-3 shadow-none" : ""}
+      />
+      <div className="border-b border-line pb-4">
+        <h2 className="font-display text-[clamp(20px,2.5vw,26px)] font-bold tracking-tight text-text">{f.chooseTitle}</h2>
         <p className="mt-1 text-sm text-muted">{f.chooseLead}</p>
       </div>
-      <div className="grid gap-4 md:grid-cols-2">
-        {choices.map(({ id, Glyph, title, body, accent }) => (
+      <div className="grid md:grid-cols-2">
+        {choices.map(({ id, Glyph, title, body, accent }, index) => (
           <button
             key={id}
             type="button"
             onClick={() => setStep(id === "songs" ? { name: "songs" } : { name: "levels" })}
             style={{ "--choice": accent } as React.CSSProperties}
-            className="group relative flex min-h-56 flex-col justify-between overflow-hidden rounded-[28px] border border-line bg-surface p-7 text-left transition-all duration-300 hover:-translate-y-1 hover:border-[var(--choice)] hover:shadow-[0_0_50px_-12px_var(--choice)]"
+            className={`group relative flex min-h-48 flex-col items-start px-4 py-6 text-left transition-colors duration-300 hover:bg-white/[0.025] md:px-8 ${index === 1 ? "border-t border-line md:border-l md:border-t-0" : ""}`}
           >
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_80%_at_100%_0%,color-mix(in_srgb,var(--choice)_18%,transparent),transparent_70%)]"
-            />
-            <span className="relative grid size-16 place-items-center rounded-2xl bg-[color-mix(in_srgb,var(--choice)_18%,transparent)] text-[var(--choice)]">
-              <Glyph size={34} weight="duotone" />
+            <span className="relative grid size-12 place-items-center rounded-xl bg-[color-mix(in_srgb,var(--choice)_18%,transparent)] text-[var(--choice)]">
+              <Glyph size={25} weight="duotone" />
             </span>
-            <span className="relative mt-8">
-              <span className="block font-display text-[clamp(22px,2.4vw,30px)] font-bold tracking-tight text-text">{title}</span>
-              <span className="mt-1.5 block max-w-md text-[14px] leading-relaxed text-muted">{body}</span>
+            <span className="mt-5 block font-display text-[clamp(20px,2.2vw,26px)] font-bold tracking-tight text-text">{title}</span>
+            <span className="mt-1.5 block max-w-md text-[14px] leading-relaxed text-muted">{body}</span>
+            <span className="mt-3 inline-flex items-center gap-1.5 font-display text-[13px] font-semibold text-text transition-colors group-hover:text-[var(--choice)]">
+              {id === "songs" ? (locale === "ta" ? "பாடல்களை ஆராய்" : "Explore Songs") : (locale === "ta" ? "வினாடி வினா தொடங்கு" : "Start Quiz")}
+              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
             </span>
-            <ArrowRight
-              size={22}
-              className="absolute right-7 top-8 text-[var(--choice)] transition-transform group-hover:translate-x-1"
-              aria-hidden
-            />
           </button>
         ))}
       </div>

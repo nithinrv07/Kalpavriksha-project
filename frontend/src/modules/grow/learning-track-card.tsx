@@ -30,15 +30,10 @@ export function LearningTrackCard({
   const c = GROW_COPY[locale];
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-purple-200/70 dark:border-white/10 bg-[#faf7ff] dark:bg-[#0d0720] shadow-[0_12px_36px_-10px_rgba(0,0,0,0.06)] dark:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7)] p-5 sm:p-7">
-      {/* Background ambient radial glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-24 -top-24 size-96 rounded-full bg-[radial-gradient(circle,color-mix(in_srgb,var(--violet)_18%,transparent),transparent_70%)]"
-      />
+    <section className="relative border-t border-line pt-5 sm:pt-7">
 
       {/* Header with Title and Standard Switcher */}
-      <div className="relative flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="flex items-center gap-2">
             <span className="grid size-8 place-items-center rounded-xl bg-violet/20 text-violet">
@@ -65,7 +60,7 @@ export function LearningTrackCard({
       </div>
 
       {/* 4 Key Metrics Cards */}
-      <div className="relative mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
         {/* Metric 1: Curriculum Completion */}
         <div className="flex flex-col justify-between rounded-2xl border border-line bg-surface-2 p-4">
           <div className="flex items-center justify-between text-muted">
@@ -172,7 +167,7 @@ export function LearningTrackCard({
 
       {/* Recommended / Last Accessed Chapter Banner */}
       {(stats.lastAccessed || stats.nextRecommendedChapter) && (
-        <div className="relative mt-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-line-strong bg-white/[0.03] p-4 transition-colors hover:bg-white/[0.05]">
+        <div className="mt-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-line-strong bg-white/[0.03] p-4 transition-colors hover:bg-white/[0.05]">
           <div className="flex items-center gap-3">
             <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-violet-deep text-violet-ink">
               <BookOpen size={20} weight="duotone" />
@@ -277,6 +272,6 @@ export function LearningTrackCard({
           {c.academicsContributionHint}
         </p>
       </div>
-    </div>
+    </section>
   );
 }

@@ -10,7 +10,6 @@ import { useLocale } from "@/components/locale-provider";
 import { ParticleCanvas } from "@/components/particle-canvas";
 import { FlipCard } from "@/components/flip-card";
 import { SparkleButton } from "@/components/sparkle-button";
-import { SphereGallery3D } from "@/components/sphere-gallery-3d";
 import type { ShapeName } from "@/lib/shapes";
 import { MODULES } from "@/modules/registry";
 import { accentOf } from "@/modules/accents";
@@ -118,7 +117,7 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
           className="h-full w-full"
           ariaLabel="Kalpavriksha hero frame"
           front={
-            /* DEFAULT FRONTPAGE: Luminous 3D Sphere Gallery View */
+            /* DEFAULT FRONTPAGE: Glowing open-book illustration */
             <div className="relative flex h-full w-full flex-col overflow-hidden bg-transparent lg:block">
 
               {/* Top bar — flows on mobile, pinned on desktop (no-flip zone: stops propagation to FlipCard) */}
@@ -201,10 +200,10 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                 <DotsNine size={14} className="text-amber-400/80 transition-colors group-hover:text-amber-300" aria-hidden />
               </button>
 
-              {/* Horizontal brand title centered directly above 3D Sphere with dual-tone SparkleButton (hover glare animation) */}
+              {/* Horizontal brand title centered directly above the book */}
               <div
                 aria-hidden
-                className="pointer-events-none select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 lg:flex"
+                className="pointer-events-none select-none absolute top-[5.5vh] inset-x-0 z-20 hidden justify-center lg:flex"
               >
                 <SparkleButton
                   as="h1"
@@ -224,24 +223,32 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                 />
               </div>
 
-              {/* 3D Sphere Gallery canvas — normal full size */}
+              {/* Clear open-book focal art replaces the rotating image sphere. */}
               <div
                 data-no-flip="true"
-                className="absolute inset-0 z-10 h-full w-full -translate-x-4 sm:-translate-x-8 lg:-translate-x-16 xl:-translate-x-16 2xl:-translate-x-8 translate-y-12 sm:translate-y-14 lg:translate-y-16 will-change-transform contain-strict"
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center overflow-visible will-change-transform contain-strict"
               >
-                <SphereGallery3D
-                  scale={65}
-                  size={26}
-                  background="transparent"
-                  placeholder={isDark ? "#1b1b20" : "#e7d9f8"}
-                  core={
+                <div
+                  className={`absolute left-1/2 top-[54%] h-[min(62vh,560px)] w-[min(62vh,560px)] -translate-x-1/2 -translate-y-1/2 ${
                     isDark
-                      ? { coreSize: 24, coreColor: "#FFFFFF59", lineColor: "#FFFFFF59" }
-                      : { coreSize: 24, coreColor: "#ffffff", lineColor: "#7c3aed66" }
-                  }
-                  active={!isFlipped}
-                  style={{ width: "100%", height: "100%", minWidth: 0, minHeight: 0 }}
-                />
+                      ? ""
+                      : "before:absolute before:inset-[-12%] before:-z-10 before:rounded-full before:bg-[radial-gradient(circle_at_50%_58%,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.6)_34%,rgba(255,255,255,0.24)_56%,rgba(255,255,255,0)_80%)] before:content-['']"
+                  }`}
+                >
+                  <Image
+                    src="/images/landing/book-open.png"
+                    alt="Open book illustration"
+                    width={1200}
+                    height={1169}
+                    className={`size-full object-contain ${
+                      isDark
+                        ? "drop-shadow-[0_0_46px_rgba(216,180,254,0.38)]"
+                        : "drop-shadow-[0_10px_30px_rgba(124,58,237,0.16)]"
+                    }`}
+                    priority
+                  />
+                </div>
               </div>
 
               {/* Right-side content column: harmoniously proportioned, cohesive right rail */}
@@ -389,11 +396,11 @@ export function Hero({ scrollProgress = 0 }: HeroProps) {
                       setIsFlipped(false);
                     }}
                     className="flex min-w-[44px] h-11 items-center justify-center gap-2 rounded-xl border border-line bg-white/[0.06] px-4 font-mono text-[14px] text-text transition-colors duration-200 hover:border-violet/40 hover:bg-violet-deep hover:text-violet-ink active:scale-[0.98]"
-                    title="Return to 3D Sphere Gallery"
+                    title="Return to Home Page"
                     data-no-flip
                   >
                     <ArrowsClockwise size={15} />
-                    <span className="hidden sm:inline">3D Gallery</span>
+                    <span className="hidden sm:inline">Home</span>
                   </button>
                   <Link
                     href="/sign-in"
