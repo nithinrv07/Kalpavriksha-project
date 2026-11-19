@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
-  BookOpen,
   CaretRight,
   DownloadSimple,
   FileText,
@@ -450,8 +449,46 @@ export function SeniorDigitalLearning({
   const progress = useProgress();
   const router = useRouter();
 
-  // Active subject filter: "all" or subjectId
-  const [activeSubjectId, setActiveSubjectId] = useState<string>("all");
+  // The open subject lives in the URL (?subject=…), so each subject is its own page
+  // listing its lessons; the browser's back button returns to the subject list.
+  const [activeSubjectId, setActiveSubjectIdState] = useState<string>(() =>
+    typeof window === "undefined" ? "all" : new URLSearchParams(window.location.search).get("subject") ?? "all",
+  );
+  const pushedSubjectRef = useRef(false);
+
+  useEffect(() => {
+    const onPop = () => {
+      pushedSubjectRef.current = false;
+      setActiveSubjectIdState(new URLSearchParams(window.location.search).get("subject") ?? "all");
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  /** Open a subject page ("all" goes back to the subject list). */
+  const setActiveSubjectId = (next: string) => {
+    if (next === activeSubjectId) return;
+    if (next === "all" && pushedSubjectRef.current) {
+      window.history.back();
+      return;
+    }
+    const url = new URL(window.location.href);
+    url.searchParams.delete("chapter");
+    if (next === "all") {
+      url.searchParams.delete("subject");
+      window.history.replaceState(window.history.state, "", url);
+    } else {
+      url.searchParams.set("subject", next);
+      if (activeSubjectId === "all") {
+        window.history.pushState(window.history.state, "", url);
+        pushedSubjectRef.current = true;
+      } else {
+        window.history.replaceState(window.history.state, "", url);
+      }
+    }
+    setActiveSubjectIdState(next);
+    window.scrollTo({ top: 0 });
+  };
 
   const subjectsSectionRef = useRef<HTMLElement | null>(null);
 
@@ -496,11 +533,6 @@ export function SeniorDigitalLearning({
     }, 120);
   };
 
-  const displayedChapters = useMemo(() => {
-    if (activeSubjectId === "all") return allFlatChapters;
-    return allFlatChapters.filter((item) => item.subject.id === activeSubjectId);
-  }, [activeSubjectId, allFlatChapters]);
-
   const learnerName = progress.profile?.name || "Kavin";
 
   // Progress percentage
@@ -523,10 +555,10 @@ export function SeniorDigitalLearning({
   };
 
   const handleSelectSubject = (sub?: CurriculumSubject) => {
-    if (sub) {
-      setActiveSubjectId((prev) => (prev === sub.id ? "all" : sub.id));
-    }
+    if (sub) setActiveSubjectId(sub.id);
   };
+
+  const activeSubject = activeSubjectId === "all" ? null : subjects.find((s) => s.id === activeSubjectId) ?? null;
 
   return (
     <div className="learn-page-scale relative mx-auto flex w-full max-w-[1460px] flex-col gap-6 pb-28 select-none text-slate-900 sm:gap-8 sm:pb-36 dark:text-slate-100">
@@ -612,6 +644,16 @@ export function SeniorDigitalLearning({
         </div>
       </header>
 
+      {activeSubject ? (
+        <SubjectLessonsPage
+          subject={activeSubject}
+          currentStandard={currentStandard}
+          lessonsDone={progress.lessonsDone}
+          onBack={() => setActiveSubjectId("all")}
+          onOpenChapter={onOpenChapter}
+        />
+      ) : (
+      <>
       {/* ========================================================================= */}
       {/* 2. SLIM PAGE HEADER: IDENTITY + CLASS / BOARD / STREAM                    */}
       {/* ========================================================================= */}
@@ -813,15 +855,6 @@ export function SeniorDigitalLearning({
                 )}
               </div>
 
-              {activeSubjectId !== "all" && (
-                <button
-                  type="button"
-                  onClick={() => setActiveSubjectId("all")}
-                  className="shrink-0 font-mono text-[12px] font-semibold text-purple-700 hover:text-purple-950 hover:underline dark:text-purple-300 dark:hover:text-white"
-                >
-                  Clear filter
-                </button>
-              )}
             </div>
 
             {/* Subjects Grid: 3 columns on desktop so titles never wrap */}
@@ -898,59 +931,6 @@ export function SeniorDigitalLearning({
             </div>
           </section>
 
-          {/* ----------------------------------------------------------------- */}
-          {/* C. EXPANDED CHAPTERS EXPLORER (Shown only when subject is clicked)*/}
-          {/* ----------------------------------------------------------------- */}
-          {activeSubjectId !== "all" && (
-            <section className="fade-up">
-              <div className="flex items-center justify-between mb-3">
-                <span className="font-display text-[15px] font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  <BookOpen size={16} className="text-purple-600 dark:text-purple-400" />
-                  <span>
-                    {subjects.find((s) => s.id === activeSubjectId)?.name[locale] || "Chapters"}
-                  </span>
-                  <span className="font-mono text-[13px] text-slate-500 dark:text-purple-300/60 font-normal">
-                    ({displayedChapters.length} chapters)
-                  </span>
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setActiveSubjectId("all")}
-                  className="rounded-lg border border-purple-200 bg-purple-50 px-2.5 py-1 font-mono text-[12px] font-medium text-purple-800 hover:bg-purple-100 hover:text-purple-950 hover:border-purple-400 dark:border-purple-800/40 dark:bg-purple-950/50 dark:text-purple-300 dark:hover:text-white dark:hover:border-purple-600 transition-colors"
-                >
-                  ✕ Close Explorer
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-72 overflow-y-auto pr-1 scrollbar-thin scrollbar-violet">
-                {displayedChapters.map((item, idx) => (
-                  <button
-                    key={item.chapter.id}
-                    type="button"
-                    onClick={() => onOpenChapter(item.chapter.id)}
-                    className="group flex items-center justify-between gap-3 border-b border-purple-200/60 px-1 py-3 text-left transition-colors duration-200 last:border-0 hover:text-purple-800 dark:border-white/10 dark:hover:text-purple-300"
-                  >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <span className="w-5 shrink-0 font-mono text-[12px] font-bold text-purple-700 dark:text-purple-300">
-                        {idx + 1}
-                      </span>
-                      <div className="min-w-0">
-                        <p className="truncate font-display text-[13px] sm:text-[14px] font-bold text-slate-900 group-hover:text-purple-800 dark:text-slate-100 dark:group-hover:text-purple-300">
-                          {item.chapter.title[locale]}
-                        </p>
-                        <p className="truncate font-mono text-[11.5px] text-slate-600 dark:text-purple-300/60">
-                          {item.subject.name[locale]} • {item.chapter.summary[locale]}
-                        </p>
-                      </div>
-                    </div>
-                    <span className="shrink-0 text-purple-600 transition-colors group-hover:text-purple-800 dark:text-purple-400 dark:group-hover:text-purple-200">
-                      <Play size={11} weight="fill" className="ml-0.5" />
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </section>
-          )}
 
         </div>
 
@@ -1062,6 +1042,122 @@ export function SeniorDigitalLearning({
           </div>
         </aside>
       </div>
+      </>
+      )}
     </div>
+  );
+}
+
+/** A subject's own page: just its lessons, in a roomy list. */
+function SubjectLessonsPage({
+  subject,
+  currentStandard,
+  lessonsDone,
+  onBack,
+  onOpenChapter,
+}: {
+  subject: CurriculumSubject;
+  currentStandard: number;
+  lessonsDone: readonly string[];
+  onBack: () => void;
+  onOpenChapter: (chapterId: string) => void;
+}) {
+  const { locale } = useLocale();
+  const visual = getSubjectVisual(subject);
+  const done = subject.chapters.filter((ch) => lessonsDone.includes(ch.id)).length;
+  const total = subject.chapters.length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const totalMinutes = subject.chapters.reduce((sum, ch) => sum + ch.estimatedMinutes, 0);
+  // The first lesson not yet finished is the learner's "next" one.
+  const nextId = subject.chapters.find((ch) => !lessonsDone.includes(ch.id))?.id;
+
+  return (
+    <section className="fade-up relative z-10 flex flex-col gap-6">
+      <div className="flex flex-col gap-4 border-b border-purple-200/60 pb-5 dark:border-purple-200/15 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0">
+          <button
+            type="button"
+            onClick={onBack}
+            className="group mb-3 inline-flex items-center gap-1.5 font-mono text-[12px] font-semibold text-purple-700 hover:text-purple-950 dark:text-purple-300 dark:hover:text-white"
+          >
+            <ArrowLeft size={13} className="transition-transform group-hover:-translate-x-0.5" />
+            All subjects
+          </button>
+          <p className="flex items-center gap-1.5 font-mono text-[11.5px] font-bold uppercase tracking-wider text-slate-600 dark:text-purple-200/70">
+            <span aria-hidden className={`size-1.5 rounded-full ${visual.accentBg}`} />
+            Class {currentStandard} · {subject.code}
+          </p>
+          <h1 className="mt-1 font-display text-[28px] font-black leading-tight text-slate-900 dark:text-white sm:text-[34px]">
+            {subject.name[locale] || subject.name.en}
+          </h1>
+          <p className="mt-1 max-w-2xl text-[14px] leading-relaxed text-slate-600 dark:text-purple-200/70">
+            {subject.description[locale]}
+          </p>
+        </div>
+
+        <div className="w-full shrink-0 sm:w-64">
+          <div className="flex items-center justify-between font-mono text-[11.5px] text-slate-600 dark:text-purple-200/70">
+            <span>
+              {done}/{total} lessons · ~{totalMinutes} mins
+            </span>
+            <span className="font-bold text-purple-700 dark:text-purple-300">{pct}%</span>
+          </div>
+          <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-purple-100 dark:bg-white/[0.07]">
+            <div
+              className={`h-full rounded-full transition-all duration-500 ${visual.accentBg}`}
+              style={{ width: `${Math.max(3, pct)}%` }}
+            />
+          </div>
+        </div>
+      </div>
+
+      <ol className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        {subject.chapters.map((ch) => {
+          const isDone = lessonsDone.includes(ch.id);
+          const isNext = ch.id === nextId;
+          return (
+            <li key={ch.id}>
+              <button
+                type="button"
+                onClick={() => onOpenChapter(ch.id)}
+                className={`group flex h-full w-full items-start gap-4 rounded-2xl border p-4 text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md sm:p-5 ${
+                  isNext
+                    ? "border-purple-400 bg-purple-50/80 dark:border-purple-500/60 dark:bg-purple-500/10"
+                    : "border-purple-200/70 bg-white/70 hover:border-purple-400 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-purple-500/50"
+                }`}
+              >
+                <span
+                  className={`grid size-10 shrink-0 place-items-center rounded-xl font-mono text-[14px] font-bold ${
+                    isDone
+                      ? "bg-emerald-500 text-white"
+                      : "bg-purple-100 text-purple-800 dark:bg-purple-500/20 dark:text-purple-200"
+                  }`}
+                >
+                  {isDone ? "✓" : ch.chapterNumber}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="flex flex-wrap items-center gap-2 font-mono text-[11px] text-slate-500 dark:text-purple-200/60">
+                    <span>Chapter {ch.chapterNumber}</span>
+                    <span aria-hidden>·</span>
+                    <span>~{ch.estimatedMinutes} mins</span>
+                    {isDone && <span className="font-semibold text-emerald-700 dark:text-emerald-300">Done</span>}
+                    {isNext && <span className="font-semibold text-purple-700 dark:text-purple-300">Up next</span>}
+                  </span>
+                  <span className="mt-1 block font-display text-[16px] font-bold leading-snug text-slate-900 group-hover:text-purple-800 dark:text-white dark:group-hover:text-purple-200">
+                    {ch.title[locale]}
+                  </span>
+                  <span className="mt-1 line-clamp-2 block text-[13px] leading-relaxed text-slate-600 dark:text-purple-200/70">
+                    {ch.summary[locale]}
+                  </span>
+                </span>
+                <span className="mt-1 shrink-0 text-purple-600 transition-transform group-hover:translate-x-0.5 dark:text-purple-300">
+                  <Play size={14} weight="fill" />
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+    </section>
   );
 }
