@@ -538,14 +538,6 @@ export function SeniorDigitalLearning({
   // Progress percentage
   const progressPct = totalChapters > 0 ? Math.round((completedChaptersCount / totalChapters) * 100) : 60;
 
-  // Chapter progress for the subject of the "Continue Learning" card
-  const continueSubject = continueRecord?.subject;
-  const continueDone = continueSubject
-    ? continueSubject.chapters.filter((ch) => progress.lessonsDone.includes(ch.id)).length
-    : 0;
-  const continueTotal = continueSubject?.chapters.length ?? 0;
-  const continuePct = continueTotal > 0 ? Math.round((continueDone / continueTotal) * 100) : 0;
-
   const handleLaunchContinue = () => {
     if (continueRecord) {
       onOpenChapter(continueRecord.chapter.id);
@@ -670,15 +662,6 @@ export function SeniorDigitalLearning({
               <span className="rounded-full border border-purple-200 bg-purple-50 px-2.5 py-0.5 font-mono text-[11.5px] font-semibold text-purple-800 dark:border-purple-400/30 dark:bg-purple-500/20 dark:text-purple-200">
                 Class {currentStandard}
               </span>
-              <span className="rounded-full border border-purple-200 bg-white px-2.5 py-0.5 font-mono text-[11.5px] text-slate-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-purple-200/70">
-                {currentStandard <= 5
-                  ? "Primary Stage"
-                  : currentStandard <= 8
-                  ? "Middle School"
-                  : currentStandard <= 10
-                  ? "Secondary School"
-                  : "Higher Secondary"}
-              </span>
               <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 font-mono text-[11.5px] font-semibold text-emerald-800 dark:border-emerald-400/30 dark:bg-emerald-500/15 dark:text-emerald-300">
                 {profile?.board === "cbse"
                   ? "CBSE"
@@ -694,71 +677,8 @@ export function SeniorDigitalLearning({
             </div>
           </div>
         </div>
-
-        <div className="w-full shrink-0 self-stretch sm:w-60 sm:self-auto">
-          <div className="flex items-center justify-between gap-3">
-            <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-slate-500 dark:text-purple-200/70">
-              Overall progress
-            </span>
-            <span className="font-mono text-[13px] font-bold text-purple-700 dark:text-purple-300">
-              {progressPct}%
-            </span>
-          </div>
-          <p className="mt-1 font-display text-[19px] font-black leading-none text-slate-900 dark:text-white">
-            {completedChaptersCount}
-            <span className="text-[15px] font-semibold text-slate-400 dark:text-purple-200/60">
-              {" "}/ {totalChapters} chapters
-            </span>
-          </p>
-          <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full border border-purple-200 bg-purple-100 dark:border-white/10 dark:bg-white/[0.06]">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 shadow-[0_0_10px_#a855f7] transition-all duration-500"
-              style={{ width: `${Math.max(3, progressPct)}%` }}
-            />
-          </div>
-        </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* 3. DAILY ENCOURAGEMENT: centred quote strip at the top of the page        */}
-      {/* ========================================================================= */}
-      <section className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center gap-2 border-y border-purple-200/60 py-4 text-center dark:border-purple-200/15">
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          <span className="text-pink-500 dark:text-pink-400">
-            <Quotes size={16} weight="fill" />
-          </span>
-          <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-slate-700 dark:text-purple-200/80">
-            Daily Encouragement
-          </h2>
-          <span className="rounded-full border border-purple-200 bg-purple-50 px-2 py-0.5 font-mono text-[10.5px] text-purple-700 dark:border-purple-400/30 dark:bg-purple-500/20 dark:text-purple-200">
-            Day #{dayOfYear}
-          </span>
-        </div>
-
-        <p className="max-w-3xl font-serif text-[17px] italic leading-relaxed text-slate-800 dark:text-purple-50">
-          “{currentQuote.quote[locale]}”
-        </p>
-
-        <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
-          <p className="font-mono text-[12px] font-bold text-pink-600 dark:text-pink-400">
-            — {currentQuote.author[locale]}
-          </p>
-          {currentQuote.role && (
-            <p className="font-mono text-[11px] text-purple-700/80 dark:text-purple-300/80">
-              · {currentQuote.role[locale]}
-            </p>
-          )}
-          <button
-            type="button"
-            onClick={handleNextQuote}
-            className="group ml-1 inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-purple-200 bg-white/70 px-2.5 py-1 font-mono text-[11.5px] text-purple-700 transition-colors hover:border-purple-400 hover:text-purple-900 dark:border-purple-400/30 dark:bg-white/[0.04] dark:text-purple-200 dark:hover:border-purple-400 dark:hover:text-white"
-            title="Next Daily Quote"
-          >
-            <ArrowClockwise size={11} className="transition-transform duration-300 group-hover:rotate-180" />
-            <span>Next</span>
-          </button>
-        </div>
-      </section>
 
       {/* ========================================================================= */}
       {/* 4. MAIN 2-COLUMN GRID: CONTENT (8 cols) + RIGHT SIDEBAR (4 cols)          */}
@@ -768,69 +688,6 @@ export function SeniorDigitalLearning({
         {/* LEFT MAIN AREA (8 cols)                                               */}
         {/* ===================================================================== */}
         <div className="lg:col-span-8 flex flex-col gap-6">
-          {/* ----------------------------------------------------------------- */}
-          {/* A. CONTINUE LEARNING — primary action card                        */}
-          {/* ----------------------------------------------------------------- */}
-          <section className="relative">
-            <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="grid size-7 place-items-center rounded-full bg-purple-600 text-white shadow-[0_0_14px_rgba(168,85,247,0.45)]">
-                    <Play size={11} weight="fill" className="ml-0.5" />
-                  </span>
-                  <span className="font-mono text-[11.5px] font-bold uppercase tracking-[0.18em] text-purple-700 dark:text-purple-300">
-                    Continue Learning
-                  </span>
-                  <span className="rounded-full border border-purple-200 bg-purple-50 px-2 py-0.5 font-mono text-[11px] font-semibold text-purple-800 dark:border-purple-400/30 dark:bg-purple-500/20 dark:text-purple-200">
-                    {continueRecord ? "In progress" : "Start here"}
-                  </span>
-                </div>
-
-                <h2 className="mt-2.5 font-display text-[19px] font-black leading-tight text-slate-900 dark:text-white sm:text-[22px]">
-                  {continueRecord ? continueRecord.chapter.title[locale] : "Chapter 3: Plants Around Us"}
-                </h2>
-
-                <p className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 font-mono text-[12px] text-slate-600 dark:text-purple-200/70">
-                  <span className="font-semibold text-purple-700 dark:text-purple-300">Class {currentStandard}</span>
-                  <span aria-hidden>›</span>
-                  <span className="font-semibold text-pink-700 dark:text-pink-300">
-                    {continueRecord ? continueRecord.subject.name[locale] : "Science"}
-                  </span>
-                  <span aria-hidden>›</span>
-                  <span>Term 1</span>
-                </p>
-
-                <div className="mt-3.5 max-w-md">
-                  <div className="relative h-1.5 w-full overflow-hidden rounded-full border border-purple-200 bg-purple-100 dark:border-white/10 dark:bg-white/[0.06]">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 shadow-[0_0_12px_#a855f7] transition-all duration-500"
-                      style={{ width: `${Math.max(4, continuePct)}%` }}
-                    />
-                  </div>
-                  <div className="mt-1.5 flex items-center justify-between font-mono text-[11.5px] text-slate-600 dark:text-purple-200/60">
-                    <span>
-                      {continueTotal > 0
-                        ? `${continueDone} of ${continueTotal} chapters in this subject`
-                        : "Your next chapter is ready"}
-                    </span>
-                    <span className="font-bold text-purple-700 dark:text-purple-300">{continuePct}%</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex shrink-0 items-center gap-3 sm:flex-col sm:items-end">
-                <button
-                  type="button"
-                  onClick={handleLaunchContinue}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-purple-600 px-4 py-2.5 font-display text-[15px] font-bold text-white shadow-[0_0_18px_rgba(168,85,247,0.45)] transition-all hover:scale-[1.03] hover:bg-purple-500 active:scale-95"
-                >
-                  <span>{continueDone > 0 ? "Resume" : "Start"}</span>
-                  <ArrowRight size={14} weight="bold" />
-                </button>
-              </div>
-            </div>
-          </section>
-
           {/* ----------------------------------------------------------------- */}
           {/* B. EXPLORE YOUR SUBJECTS                                          */}
           {/* ----------------------------------------------------------------- */}
@@ -1042,6 +899,47 @@ export function SeniorDigitalLearning({
           </div>
         </aside>
       </div>
+
+      {/* ========================================================================= */}
+      {/* 5. DAILY ENCOURAGEMENT: centred quote strip at the bottom of the page      */}
+      {/* ========================================================================= */}
+      <section className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center gap-2 border-y border-purple-200/60 py-4 text-center dark:border-purple-200/15">
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <span className="text-pink-500 dark:text-pink-400">
+            <Quotes size={16} weight="fill" />
+          </span>
+          <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-slate-700 dark:text-purple-200/80">
+            Daily Encouragement
+          </h2>
+          <span className="rounded-full border border-purple-200 bg-purple-50 px-2 py-0.5 font-mono text-[10.5px] text-purple-700 dark:border-purple-400/30 dark:bg-purple-500/20 dark:text-purple-200">
+            Day #{dayOfYear}
+          </span>
+        </div>
+
+        <p className="max-w-3xl font-serif text-[17px] italic leading-relaxed text-slate-800 dark:text-purple-50">
+          “{currentQuote.quote[locale]}”
+        </p>
+
+        <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+          <p className="font-mono text-[12px] font-bold text-pink-600 dark:text-pink-400">
+            — {currentQuote.author[locale]}
+          </p>
+          {currentQuote.role && (
+            <p className="font-mono text-[11px] text-purple-700/80 dark:text-purple-300/80">
+              · {currentQuote.role[locale]}
+            </p>
+          )}
+          <button
+            type="button"
+            onClick={handleNextQuote}
+            className="group ml-1 inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-purple-200 bg-white/70 px-2.5 py-1 font-mono text-[11.5px] text-purple-700 transition-colors hover:border-purple-400 hover:text-purple-900 dark:border-purple-400/30 dark:bg-white/[0.04] dark:text-purple-200 dark:hover:border-purple-400 dark:hover:text-white"
+            title="Next Daily Quote"
+          >
+            <ArrowClockwise size={11} className="transition-transform duration-300 group-hover:rotate-180" />
+            <span>Next</span>
+          </button>
+        </div>
+      </section>
       </>
       )}
     </div>
