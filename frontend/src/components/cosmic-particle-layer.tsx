@@ -170,6 +170,11 @@ export function CosmicParticleLayer({ moduleSlug = "learn", className = "" }: Co
 
     // Render loop
     const render = () => {
+      // A full-screen lesson covers this layer: skip the drawing until it closes.
+      if (document.documentElement.dataset.lessonOpen === "true") {
+        animId = requestAnimationFrame(render);
+        return;
+      }
       ctx.clearRect(0, 0, width, height);
 
       // Maintain ambient particle population
@@ -293,6 +298,7 @@ export function CosmicParticleLayer({ moduleSlug = "learn", className = "" }: Co
     <canvas
       ref={canvasRef}
       aria-hidden
+      data-module-layer
       className={`pointer-events-none fixed inset-0 z-0 h-full w-full contain-strict will-change-transform ${className}`}
     />
   );

@@ -853,6 +853,7 @@ export function InteractiveChapterClassroom({
       role="dialog"
       aria-modal="true"
       aria-label={chapter.title[locale] || chapter.title.en}
+      data-lesson-overlay
       className={`fixed inset-0 z-50 flex flex-col overflow-y-auto selection:bg-purple-600 selection:text-white transition-colors duration-300 ${
         isLight ? "bg-[#f8f6fc] text-slate-900" : "bg-[#080312] text-slate-100"
       }`}
@@ -861,10 +862,10 @@ export function InteractiveChapterClassroom({
       {/* TOP CLASSROOM HEADER BAR                                              */}
       {/* --------------------------------------------------------------------- */}
       <header
-        className={`sticky top-0 z-30 flex flex-wrap items-center justify-between gap-4 border-b px-4 py-3 sm:px-8 backdrop-blur-xl shadow-sm transition-colors ${
+        className={`sticky top-0 z-30 flex flex-wrap items-center justify-between gap-4 border-b px-4 py-3 sm:px-8 shadow-sm transition-colors ${
           isLight
-            ? "border-purple-200/80 bg-white/85 text-purple-950"
-            : "border-purple-900/40 bg-[#0d051f]/80 text-white shadow-lg"
+            ? "border-purple-200/80 bg-white text-purple-950"
+            : "border-purple-900/40 bg-[#0d051f] text-white shadow-lg"
         }`}
       >
         {/* Left: Back button & Breadcrumb Navigation */}
@@ -1000,7 +1001,7 @@ export function InteractiveChapterClassroom({
               >
             {/* 1. Chapter Progress Ring Card */}
             <div
-              className={`rounded-3xl border p-6 backdrop-blur-2xl shadow-xl flex flex-col items-center text-center ${
+              className={`rounded-3xl border p-6 shadow-xl flex flex-col items-center text-center ${
                 isLight
                   ? "border-purple-200 bg-white/95 text-purple-950 shadow-lg"
                   : "border-purple-800/40 bg-[#160a2b]/85 text-white"
@@ -1043,7 +1044,7 @@ export function InteractiveChapterClassroom({
 
             {/* 2. Lesson Completion Checklist */}
             <div
-              className={`rounded-3xl border p-6 backdrop-blur-2xl shadow-xl flex flex-col gap-3 ${
+              className={`rounded-3xl border p-6 shadow-xl flex flex-col gap-3 ${
                 isLight
                   ? "border-purple-200 bg-white/95 text-purple-950 shadow-lg"
                   : "border-purple-800/40 bg-[#160a2b]/85 text-white"
@@ -1340,7 +1341,7 @@ export function InteractiveChapterClassroom({
               <div className="flex flex-col gap-6">
                 {/* Micro-Lesson Navigation Bar */}
                 <div
-                  className={`flex flex-wrap items-center justify-between gap-3 rounded-2xl border p-3.5 backdrop-blur-xl ${
+                  className={`flex flex-wrap items-center justify-between gap-3 rounded-2xl border p-3.5 ${
                     isLight ? "border-purple-200 bg-white/90 shadow-xs" : "border-purple-800/40 bg-[#160a2b]/80"
                   }`}
                 >
@@ -1413,7 +1414,7 @@ export function InteractiveChapterClassroom({
 
                 {/* Lesson Main Card */}
                 <div
-                  className={`rounded-3xl border p-6 sm:p-8 backdrop-blur-xl shadow-xl flex flex-col gap-6 ${
+                  className={`rounded-3xl border p-6 sm:p-8 shadow-xl flex flex-col gap-6 ${
                     isLight
                       ? "border-purple-200/90 bg-white/95 text-purple-950 shadow-md"
                       : "border-purple-800/40 bg-[#160a2b]/80 text-white"
@@ -1685,7 +1686,7 @@ export function InteractiveChapterClassroom({
               <div className="flex flex-col gap-6">
                 {/* Notes Controls Header */}
                 <div
-                  className={`flex flex-wrap items-center justify-between gap-3 rounded-2xl border p-4 backdrop-blur-xl ${
+                  className={`flex flex-wrap items-center justify-between gap-3 rounded-2xl border p-4 ${
                     isLight ? "border-purple-200 bg-white/90 shadow-xs" : "border-purple-800/40 bg-[#160a2b]/80"
                   }`}
                 >
@@ -1711,7 +1712,7 @@ export function InteractiveChapterClassroom({
 
                 {/* Chapter Summary Card */}
                 <div
-                  className={`rounded-3xl border p-6 sm:p-7 backdrop-blur-xl shadow-xl flex flex-col gap-4 ${
+                  className={`rounded-3xl border p-6 sm:p-7 shadow-xl flex flex-col gap-4 ${
                     isLight
                       ? "border-purple-200 bg-white/95 text-purple-950 shadow-md"
                       : "border-purple-800/40 bg-[#160a2b]/80 text-white"
@@ -1748,7 +1749,7 @@ export function InteractiveChapterClassroom({
 
                 {/* Important Definitions & Formulas Card */}
                 <div
-                  className={`rounded-3xl border p-6 sm:p-7 backdrop-blur-xl shadow-xl flex flex-col gap-4 ${
+                  className={`rounded-3xl border p-6 sm:p-7 shadow-xl flex flex-col gap-4 ${
                     isLight
                       ? "border-purple-200 bg-white/95 text-purple-950 shadow-md"
                       : "border-purple-800/40 bg-[#160a2b]/80 text-white"
@@ -1807,7 +1808,7 @@ export function InteractiveChapterClassroom({
               <div className="flex flex-col gap-6">
                 {/* Practice Score Banner */}
                 <div
-                  className={`flex flex-wrap items-center justify-between gap-4 rounded-2xl border p-4 backdrop-blur-xl ${
+                  className={`flex flex-wrap items-center justify-between gap-4 rounded-2xl border p-4 ${
                     isLight
                       ? "border-purple-200 bg-gradient-to-r from-purple-50 via-pink-50 to-purple-50 text-purple-950 shadow-md"
                       : "border-purple-800/40 bg-gradient-to-r from-purple-950/80 via-pink-950/60 to-purple-950/80 text-white"
@@ -1852,7 +1853,7 @@ export function InteractiveChapterClassroom({
 
                 {/* 1. Multiple Choice Questions (from Curriculum) */}
                 <div
-                  className={`rounded-3xl border p-6 sm:p-7 backdrop-blur-xl flex flex-col gap-5 ${
+                  className={`rounded-3xl border p-6 sm:p-7 flex flex-col gap-5 ${
                     isLight
                       ? "border-purple-200 bg-white/95 text-purple-950 shadow-lg"
                       : "border-purple-800/40 bg-[#160a2b]/80 shadow-xl"
@@ -1967,7 +1968,7 @@ export function InteractiveChapterClassroom({
 
                 {/* 2. Fill in the Blanks */}
                 <div
-                  className={`rounded-3xl border p-6 sm:p-7 backdrop-blur-xl flex flex-col gap-4 ${
+                  className={`rounded-3xl border p-6 sm:p-7 flex flex-col gap-4 ${
                     isLight
                       ? "border-purple-200 bg-white/95 text-purple-950 shadow-lg"
                       : "border-purple-800/40 bg-[#160a2b]/80 shadow-xl"
@@ -2049,7 +2050,7 @@ export function InteractiveChapterClassroom({
 
                 {/* 3. True / False Questions */}
                 <div
-                  className={`rounded-3xl border p-6 sm:p-7 backdrop-blur-xl flex flex-col gap-4 ${
+                  className={`rounded-3xl border p-6 sm:p-7 flex flex-col gap-4 ${
                     isLight
                       ? "border-purple-200 bg-white/95 text-purple-950 shadow-lg"
                       : "border-purple-800/40 bg-[#160a2b]/80 shadow-xl"
@@ -2134,7 +2135,7 @@ export function InteractiveChapterClassroom({
 
                 {/* 4. Match the Following */}
                 <div
-                  className={`rounded-3xl border p-6 sm:p-7 backdrop-blur-xl flex flex-col gap-4 ${
+                  className={`rounded-3xl border p-6 sm:p-7 flex flex-col gap-4 ${
                     isLight
                       ? "border-purple-200 bg-white/95 text-purple-950 shadow-lg"
                       : "border-purple-800/40 bg-[#160a2b]/80 shadow-xl"
@@ -2187,7 +2188,7 @@ export function InteractiveChapterClassroom({
             {activeTab === "resources" && (
               <div className="flex flex-col gap-6">
                 <div
-                  className={`rounded-2xl border p-4 backdrop-blur-xl ${
+                  className={`rounded-2xl border p-4 ${
                     isLight
                       ? "border-purple-200 bg-white/95 text-purple-950 shadow-md"
                       : "border-purple-800/40 bg-[#160a2b]/80 text-white"
@@ -2210,7 +2211,7 @@ export function InteractiveChapterClassroom({
                     return (
                       <div
                         key={res.id}
-                        className={`group flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-3xl border p-5 backdrop-blur-xl transition-all shadow-lg ${
+                        className={`group flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-3xl border p-5 transition-all shadow-lg ${
                           isLight
                             ? "border-purple-200 bg-white/95 text-purple-950 hover:border-purple-400"
                             : "border-purple-800/40 bg-[#160a2b]/80 text-white hover:border-purple-600/60"

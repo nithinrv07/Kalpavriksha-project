@@ -84,7 +84,7 @@ export function ModuleShell({
       className="relative isolate min-h-[100dvh] w-full"
     >
       {/* Consistent Cosmic Purple atmosphere across all modules */}
-      <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#f8f6fc] dark:bg-[#080312]">
+      <div aria-hidden data-module-layer className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#f8f6fc] dark:bg-[#080312]">
         {/* 1. Underlying Signature Chrome Waves */}
         <ChromeWaves />
 
@@ -101,7 +101,7 @@ export function ModuleShell({
       <CosmicParticleLayer moduleSlug={module.slug} />
 
       {/* Main Full-Screen Content Layer */}
-      <div className={`relative z-10 flex min-h-[100dvh] w-full flex-col ${module.slug === "learn" ? "px-3 py-3 sm:px-6 sm:py-5 md:px-8 lg:px-10" : "px-4 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-10 xl:px-14"}`}>
+      <div data-module-layer className={`relative z-10 flex min-h-[100dvh] w-full flex-col ${module.slug === "learn" ? "px-3 py-3 sm:px-6 sm:py-5 md:px-8 lg:px-10" : "px-4 py-4 sm:px-6 sm:py-6 md:px-8 lg:px-10 xl:px-14"}`}>
         {/* 1. Header: Back to home, module switcher tabs, XP pill & language selector */}
         {(!profile || module.slug !== "learn") && (
           <header className="flex flex-wrap items-center justify-between gap-3 border-b border-purple-200/60 dark:border-white/[0.08] pb-4 sm:pb-5">

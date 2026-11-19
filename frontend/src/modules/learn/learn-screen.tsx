@@ -1356,15 +1356,37 @@ function CurriculumLessonDialog(props: {
         role="dialog"
         aria-modal="true"
         aria-label={props.chapter.title.en}
+        data-lesson-overlay
         className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/85 p-2 sm:p-4 backdrop-blur-md"
       >
+        <LessonOpenFlag />
         <div className="relative w-full max-w-[1240px] my-auto">
           <JuniorCosmicLessonPlayer {...props} />
         </div>
       </div>
     );
   }
-  return <InteractiveChapterClassroom {...props} />;
+  return (
+    <>
+      <LessonOpenFlag />
+      <InteractiveChapterClassroom {...props} />
+    </>
+  );
+}
+
+/**
+ * While mounted, marks the page as "lesson open" so the module page underneath
+ * (background glow, petals, dashboard) stops drawing and animating.
+ */
+function LessonOpenFlag() {
+  useEffect(() => {
+    const root = document.documentElement;
+    root.dataset.lessonOpen = "true";
+    return () => {
+      delete root.dataset.lessonOpen;
+    };
+  }, []);
+  return null;
 }
 
 function CosmicSubjectCard({

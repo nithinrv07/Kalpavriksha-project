@@ -763,53 +763,65 @@ body {
   color: #fff;
 }
 
-/* Dynamic chromatic nebula shifts for living ambient background */
+/* Ambient nebula drift. Transform only (no filter), so the GPU can move these
+   huge layers without repainting them every frame. */
 @keyframes aurora-shift-1 {
   0%, 100% {
     transform: translate3d(0, 0, 0) scale(1);
-    filter: hue-rotate(0deg);
   }
   50% {
     transform: translate3d(-5vmax, 4vmax, 0) scale(1.12);
-    filter: hue-rotate(42deg);
   }
 }
 
 @keyframes aurora-shift-2 {
   0%, 100% {
     transform: translate3d(0, 0, 0) scale(1);
-    filter: hue-rotate(0deg);
   }
   50% {
     transform: translate3d(4vmax, -4vmax, 0) scale(1.15);
-    filter: hue-rotate(-45deg);
   }
 }
 
 @keyframes aurora-shift-3 {
   0%, 100% {
     transform: translate3d(0, 0, 0) scale(1);
-    filter: hue-rotate(0deg);
   }
   50% {
     transform: translate3d(-3vmax, -3vmax, 0) scale(1.08);
-    filter: hue-rotate(55deg);
   }
 }
 
 .aurora-drift-1 {
+  will-change: transform;
   animation: aurora-shift-1 28s ease-in-out infinite;
   transform: translate3d(0, 0, 0);
 }
 
 .aurora-drift-2 {
+  will-change: transform;
   animation: aurora-shift-2 34s ease-in-out infinite;
   transform: translate3d(0, 0, 0);
 }
 
 .aurora-drift-3 {
+  will-change: transform;
   animation: aurora-shift-3 24s ease-in-out infinite;
   transform: translate3d(0, 0, 0);
+}
+
+/* While a lesson is open it covers the whole screen: stop drawing and animating the
+   module page underneath (background glow, petals, dashboard). */
+html[data-lesson-open="true"] [data-module-layer] {
+  visibility: hidden;
+}
+html[data-lesson-open="true"] [data-lesson-overlay] {
+  visibility: visible;
+}
+html[data-lesson-open="true"] .aurora-drift-1,
+html[data-lesson-open="true"] .aurora-drift-2,
+html[data-lesson-open="true"] .aurora-drift-3 {
+  animation-play-state: paused;
 }
 
 /* Reduced-motion overrides: pause infinite ambient loops. */
