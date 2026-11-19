@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -10,6 +9,7 @@ import {
   BookOpen,
   BookOpenText,
   BookmarkSimple,
+  CaretDown,
   CaretRight,
   Check,
   CheckCircle,
@@ -35,7 +35,6 @@ import {
   Sparkle,
   SpeakerHigh,
   Stop,
-  Target,
   Trophy,
   VideoCamera,
   X,
@@ -600,6 +599,23 @@ export function InteractiveChapterClassroom({
 
   // Active Tab
   const [activeTab, setActiveTab] = useState<ClassroomTab>("learn");
+  const [progressOpen, setProgressOpen] = useState(false);
+  const progressMenuRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!progressOpen) return;
+    const onDown = (e: PointerEvent) => {
+      if (!progressMenuRef.current?.contains(e.target as Node)) setProgressOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setProgressOpen(false);
+    };
+    document.addEventListener("pointerdown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [progressOpen]);
 
   // Lesson Index within LEARN tab
   const [activeLessonIdx, setActiveLessonIdx] = useState(0);
@@ -938,6 +954,273 @@ export function InteractiveChapterClassroom({
             </button>
           </div>
 
+          {/* Progress menu: a profile-style button that drops down the chapter progress and checklist */}
+          <div ref={progressMenuRef} className="relative">
+            <button
+              type="button"
+              onClick={() => setProgressOpen((o) => !o)}
+              aria-expanded={progressOpen}
+              aria-haspopup="true"
+              className={`flex items-center gap-2 rounded-full border py-1 pl-1 pr-3 text-xs font-semibold transition-all ${
+                isLight
+                  ? "border-purple-200 bg-white/90 text-purple-900 hover:border-purple-400 hover:bg-purple-50"
+                  : "border-purple-700/50 bg-purple-950/60 text-purple-200 hover:border-purple-500 hover:text-white"
+              }`}
+              title="Chapter progress"
+            >
+              <svg width="28" height="28" viewBox="0 0 28 28" className="-rotate-90" aria-hidden>
+                <circle cx="14" cy="14" r="11" fill="none" strokeWidth="3.5" stroke={isLight ? "rgba(124,58,237,0.15)" : "rgba(255,255,255,0.1)"} />
+                <circle
+                  cx="14"
+                  cy="14"
+                  r="11"
+                  fill="none"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                  stroke={progressPercent === 100 ? "#10b981" : "#a855f7"}
+                  strokeDasharray={2 * Math.PI * 11}
+                  strokeDashoffset={2 * Math.PI * 11 * (1 - progressPercent / 100)}
+                  className="transition-all duration-500"
+                />
+              </svg>
+              <span className="font-mono">{progressPercent}%</span>
+              <span className="hidden sm:inline">
+                · {Object.values(completedLessons).filter(Boolean).length}/{content.lessons.length} lessons
+              </span>
+              <CaretDown size={12} weight="bold" className={`transition-transform ${progressOpen ? "rotate-180" : ""}`} />
+            </button>
+
+            {progressOpen && (
+              <div
+                onClick={(e) => {
+                  // Picking a lesson, the quiz or the next chapter closes the menu.
+                  if ((e.target as HTMLElement).closest("button, a")) setProgressOpen(false);
+                }}
+                className="absolute right-0 top-full z-40 mt-2 flex max-h-[calc(100vh-6rem)] w-[min(360px,calc(100vw-2rem))] flex-col gap-4 overflow-y-auto rounded-3xl"
+              >
+            {/* 1. Chapter Progress Ring Card */}
+            <div
+              className={`rounded-3xl border p-6 backdrop-blur-2xl shadow-xl flex flex-col items-center text-center ${
+                isLight
+                  ? "border-purple-200 bg-white/95 text-purple-950 shadow-lg"
+                  : "border-purple-800/40 bg-[#160a2b]/85 text-white"
+              }`}
+            >
+              <span
+                className={`font-mono text-xs uppercase tracking-wider font-bold mb-4 ${
+                  isLight ? "text-pink-700 font-black" : "text-pink-300"
+                }`}
+              >
+                Chapter Completion
+              </span>
+
+              <CircularProgressBar progressPercent={progressPercent} size={110} strokeWidth={9} />
+
+              <p className={`font-display text-xs mt-4 max-w-[220px] ${isLight ? "text-slate-700 font-medium" : "text-purple-200"}`}>
+                {progressPercent === 100
+                  ? "🎉 Magnificent! You have mastered this chapter!"
+                  : progressPercent >= 50
+                  ? "Great progress! Keep going to unlock the next chapter."
+                  : "Begin Lesson 1 and check your understanding."}
+              </p>
+
+              {/* Status Badge */}
+              <div
+                className={`mt-4 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 text-xs font-mono ${
+                  isLight
+                    ? "border-purple-300 bg-purple-50 text-purple-900 font-semibold"
+                    : "border-purple-700/50 bg-purple-950/60 text-purple-300"
+                }`}
+              >
+                <span className={`size-2 rounded-full ${progressPercent === 100 ? "bg-emerald-400 shadow-[0_0_8px_#34d399]" : "bg-purple-400 animate-pulse"}`} />
+                <span>
+                  {progressPercent === 100
+                    ? "Completed"
+                    : `Lesson ${activeLessonIdx + 1} of 3 in progress`}
+                </span>
+              </div>
+            </div>
+
+            {/* 2. Lesson Completion Checklist */}
+            <div
+              className={`rounded-3xl border p-6 backdrop-blur-2xl shadow-xl flex flex-col gap-3 ${
+                isLight
+                  ? "border-purple-200 bg-white/95 text-purple-950 shadow-lg"
+                  : "border-purple-800/40 bg-[#160a2b]/85 text-white"
+              }`}
+            >
+              <div
+                className={`flex items-center justify-between border-b pb-3 ${
+                  isLight ? "border-purple-200" : "border-purple-900/40"
+                }`}
+              >
+                <h4 className={`font-display text-sm font-bold flex items-center gap-2 ${isLight ? "text-purple-950" : "text-white"}`}>
+                  <ListChecks size={16} className={isLight ? "text-purple-600" : "text-purple-400"} />
+                  <span>Lesson Checklist</span>
+                </h4>
+                <span className={`font-mono text-[11px] font-bold ${isLight ? "text-purple-700" : "text-purple-300/70"}`}>
+                  {Object.values(completedLessons).filter(Boolean).length}/{content.lessons.length}
+                </span>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                {content.lessons.map((lesson, idx) => {
+                  const isDone = completedLessons[lesson.id];
+                  const isCurrent = activeTab === "learn" && activeLessonIdx === idx;
+
+                  return (
+                    <button
+                      key={lesson.id}
+                      type="button"
+                      onClick={() => {
+                        setActiveTab("learn");
+                        setActiveLessonIdx(idx);
+                      }}
+                      className={`group flex items-center justify-between gap-3 rounded-2xl border p-3 text-left transition-all ${
+                        isCurrent
+                          ? isLight
+                            ? "border-purple-400 bg-purple-100/70 shadow-sm"
+                            : "border-purple-500 bg-purple-900/40 shadow-sm"
+                          : isLight
+                          ? "border-purple-200 bg-purple-50/50 hover:border-purple-300 hover:bg-purple-100/50"
+                          : "border-purple-900/40 bg-purple-950/20 hover:border-purple-700 hover:bg-purple-900/30"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <span
+                          className={`grid size-6 place-items-center rounded-lg font-mono text-xs font-bold transition-all shrink-0 ${
+                            isDone
+                              ? "bg-emerald-500 text-white font-bold shadow-sm"
+                              : isLight
+                              ? "border border-purple-300 bg-white text-purple-900 font-bold"
+                              : "border border-purple-700/60 bg-purple-900/40 text-purple-300"
+                          }`}
+                        >
+                          {isDone ? <Check size={12} weight="bold" /> : idx + 1}
+                        </span>
+                        <div className="min-w-0">
+                          <p
+                            className={`font-display text-xs font-bold truncate transition-colors ${
+                              isLight
+                                ? "text-purple-950 group-hover:text-purple-700"
+                                : "text-white group-hover:text-pink-300"
+                            }`}
+                          >
+                            {lesson.title[locale] || lesson.title.en}
+                          </p>
+                          <span className={`font-mono text-[10px] ${isLight ? "text-slate-500 font-medium" : "text-purple-300/60"}`}>
+                            ~{lesson.durationMinutes} mins
+                          </span>
+                        </div>
+                      </div>
+
+                      <CaretRight size={13} className={`${isLight ? "text-purple-600" : "text-purple-500"} group-hover:text-purple-400 shrink-0`} />
+                    </button>
+                  );
+                })}
+
+                {/* Practice Quiz Checklist Item */}
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("practice")}
+                  className={`group flex items-center justify-between gap-3 rounded-2xl border p-3 text-left transition-all ${
+                    activeTab === "practice"
+                      ? isLight
+                        ? "border-purple-400 bg-purple-100/70 shadow-sm"
+                        : "border-purple-500 bg-purple-900/40 shadow-sm"
+                      : isLight
+                      ? "border-purple-200 bg-purple-50/50 hover:border-purple-300 hover:bg-purple-100/50"
+                      : "border-purple-900/40 bg-purple-950/20 hover:border-purple-700 hover:bg-purple-900/30"
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <span
+                      className={`grid size-6 place-items-center rounded-lg font-mono text-xs font-bold shrink-0 ${
+                        isLight
+                          ? "bg-pink-100 border border-pink-300 text-pink-700"
+                          : "bg-pink-500/30 border border-pink-400/40 text-pink-300"
+                      }`}
+                    >
+                      ★
+                    </span>
+                    <div className="min-w-0">
+                      <p
+                        className={`font-display text-xs font-bold truncate transition-colors ${
+                          isLight
+                            ? "text-purple-950 group-hover:text-purple-700"
+                            : "text-white group-hover:text-pink-300"
+                        }`}
+                      >
+                        Practice Knowledge Check
+                      </p>
+                      <span className={`font-mono text-[10px] ${isLight ? "text-slate-500 font-medium" : "text-purple-300/60"}`}>
+                        MCQs, Blanks & Match
+                      </span>
+                    </div>
+                  </div>
+                  <CaretRight size={13} className={`${isLight ? "text-purple-600" : "text-purple-500"} group-hover:text-purple-400 shrink-0`} />
+                </button>
+              </div>
+            </div>
+
+            {/* 3. Prominent Action Button: Continue / Next Chapter */}
+            <div className="flex flex-col gap-2.5">
+              {progressPercent === 100 ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (nextChapterItem) {
+                      onSelectChapter(nextChapterItem.chapter.id);
+                    } else {
+                      onClose();
+                    }
+                  }}
+                  className="beam-border relative flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 px-6 py-4 font-display text-sm font-bold text-white shadow-[0_0_30px_rgba(16,185,129,0.4)] transition-all hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <Trophy size={18} weight="fill" />
+                  <span>{nextChapterItem ? "Unlock Next Chapter →" : "Course Complete! Return Home"}</span>
+                </button>
+              ) : activeTab === "learn" && activeLessonIdx < content.lessons.length - 1 ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (currentLesson) toggleLessonComplete(currentLesson.id);
+                    setActiveLessonIdx((i) => i + 1);
+                  }}
+                  className="beam-border relative flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 px-6 py-4 font-display text-sm font-bold text-white shadow-[0_0_25px_rgba(168,85,247,0.45)] transition-all hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <span>Continue: Lesson {activeLessonIdx + 2} →</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("practice")}
+                  className="beam-border relative flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 px-6 py-4 font-display text-sm font-bold text-white shadow-[0_0_25px_rgba(236,72,153,0.45)] transition-all hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <Question size={18} weight="bold" />
+                  <span>Start Practice Quiz →</span>
+                </button>
+              )}
+
+              {/* Textbook PDF Quick Link */}
+              <a
+                href={TN_TEXTBOOK_PORTAL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 font-mono text-xs transition-all text-center ${
+                  isLight
+                    ? "border-purple-300 bg-white text-purple-900 hover:bg-purple-50 hover:border-purple-400 font-bold shadow-sm"
+                    : "border-purple-800/40 bg-purple-950/40 text-purple-300 hover:border-purple-600 hover:text-white"
+                }`}
+              >
+                <FilePdf size={14} className="text-pink-500" />
+                <span>Open Samacheer Kalvi PDF</span>
+              </a>
+            </div>
+              </div>
+            )}
+          </div>
+
           {/* Bookmark Button */}
           <button
             type="button"
@@ -981,168 +1264,39 @@ export function InteractiveChapterClassroom({
       {/* --------------------------------------------------------------------- */}
       <div className="relative z-10 mx-auto w-full max-w-[1440px] flex-1 px-4 py-6 sm:px-8 sm:py-8">
         {/* =================================================================== */}
-        {/* 1. CHAPTER HERO CARD: TITLE + DESCRIPTION + OBJECTIVES + 3D ART     */}
+        {/* 1. CHAPTER STRIP: kept small so the lesson gets the space          */}
         {/* =================================================================== */}
         <section
-          className={`relative overflow-hidden rounded-3xl border p-6 sm:p-8 backdrop-blur-xl mb-8 transition-all before:pointer-events-none before:absolute before:inset-x-8 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-fuchsia-400/80 before:to-transparent ${
-            isLight
-              ? "border-purple-200/90 bg-white/90 shadow-[0_12px_40px_rgba(124,58,237,0.12)] text-purple-950"
-              : "border-purple-800/40 bg-gradient-to-r from-[#170a2c]/80 via-[#220e40]/65 to-[#120724]/80 shadow-[0_12px_50px_rgba(6,2,14,0.6)] text-white"
+          className={`mx-auto mb-5 flex w-full max-w-6xl flex-wrap items-center gap-x-3 gap-y-1 border-b pb-4 ${
+            isLight ? "border-purple-200/80 text-purple-950" : "border-purple-900/50 text-white"
           }`}
         >
-          {/* Ambient Glow */}
-          <div className="pointer-events-none absolute -right-20 -top-20 size-80 rounded-full bg-purple-600/20 blur-3xl" />
-          <div className="pointer-events-none absolute -left-20 -bottom-20 size-80 rounded-full bg-pink-600/15 blur-3xl" />
-          <div
-            aria-hidden="true"
-            className={`pointer-events-none absolute right-8 top-5 hidden font-serif text-[clamp(7rem,16vw,14rem)] font-black leading-none tracking-[-0.1em] lg:block ${
-              isLight ? "text-purple-950/[0.035]" : "text-white/[0.035]"
+          <span
+            className={`rounded-full border px-2.5 py-0.5 font-mono text-[11px] font-bold ${
+              isLight ? "bg-purple-100 border-purple-300 text-purple-900" : "bg-purple-500/20 border-purple-400/40 text-purple-200"
             }`}
           >
-            {String(chapter.chapterNumber).padStart(2, "0")}
-          </div>
-
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-            {/* Left: Titles & Objectives */}
-            <div className="lg:col-span-8 flex flex-col gap-3">
-              <div className="flex flex-wrap items-center gap-2">
-                <span
-                  className={`rounded-full border px-3 py-1 font-mono text-xs font-bold ${
-                    isLight
-                      ? "bg-purple-100 border-purple-300 text-purple-900"
-                      : "bg-purple-500/20 border-purple-400/40 text-purple-200"
-                  }`}
-                >
-                  Unit {chapter.chapterNumber}
-                </span>
-                <span
-                  className={`rounded-full border px-3 py-1 font-mono text-xs font-bold ${
-                    isLight
-                      ? "bg-pink-100 border-pink-300 text-pink-800"
-                      : "bg-pink-500/20 border-pink-400/40 text-pink-200"
-                  }`}
-                >
-                  {subject.name[locale] || subject.name.en}
-                </span>
-                <span
-                  className={`flex items-center gap-1.5 font-mono text-xs ml-auto sm:ml-0 ${
-                    isLight ? "text-purple-800 font-medium" : "text-purple-300/80"
-                  }`}
-                >
-                  <Clock size={14} className={isLight ? "text-purple-600" : "text-purple-400"} />
-                  <span>~{chapter.estimatedMinutes} mins learning</span>
-                </span>
-              </div>
-
-              <h1
-                className={`font-serif text-2xl sm:text-4xl lg:text-[42px] font-black leading-tight tracking-tight ${
-                  isLight ? "text-purple-950" : "text-white drop-shadow-[0_2px_15px_rgba(168,85,247,0.4)]"
-                }`}
-              >
-                {chapter.title[locale] || chapter.title.en}
-              </h1>
-
-              <p
-                className={`font-headline text-sm sm:text-base leading-relaxed max-w-2xl font-medium ${
-                  isLight ? "text-purple-900/90" : "text-purple-200/80"
-                }`}
-              >
-                {chapter.summary[locale] || chapter.summary.en}
-              </p>
-
-              {/* Learning Objectives Pills */}
-              <div className="mt-2 flex flex-col gap-2">
-                <span
-                  className={`font-mono text-xs uppercase tracking-wider font-bold flex items-center gap-1.5 ${
-                    isLight ? "text-purple-900" : "text-purple-300"
-                  }`}
-                >
-                  <Target size={14} className={isLight ? "text-pink-600" : "text-pink-400"} />
-                  <span>{locale === "ta" ? "கற்றல் நோக்கங்கள்" : "Learning Objectives"}</span>
-                </span>
-                <div className="flex flex-wrap gap-2">
-                  <div
-                    className={`flex items-center gap-2 rounded-xl border px-3 py-1.5 text-xs font-medium shadow-xs ${
-                      isLight
-                        ? "border-purple-200 bg-purple-50/90 text-purple-950"
-                        : "border-purple-800/40 bg-purple-950/40 text-purple-200"
-                    }`}
-                  >
-                    <span
-                      className={`grid size-4 place-items-center rounded-full text-[10px] font-bold ${
-                        isLight ? "bg-purple-200 text-purple-900" : "bg-purple-500/30 text-purple-300"
-                      }`}
-                    >
-                      1
-                    </span>
-                    <span>{content.lessons[0]?.objective[locale] || "Core Fundamentals & Definitions"}</span>
-                  </div>
-                  <div
-                    className={`flex items-center gap-2 rounded-xl border px-3 py-1.5 text-xs font-medium shadow-xs ${
-                      isLight
-                        ? "border-purple-200 bg-purple-50/90 text-purple-950"
-                        : "border-purple-800/40 bg-purple-950/40 text-purple-200"
-                    }`}
-                  >
-                    <span
-                      className={`grid size-4 place-items-center rounded-full text-[10px] font-bold ${
-                        isLight ? "bg-pink-200 text-pink-900" : "bg-pink-500/30 text-pink-300"
-                      }`}
-                    >
-                      2
-                    </span>
-                    <span>{content.lessons[1]?.objective[locale] || "Governing Principles & Rules"}</span>
-                  </div>
-                  <div
-                    className={`flex items-center gap-2 rounded-xl border px-3 py-1.5 text-xs font-medium shadow-xs ${
-                      isLight
-                        ? "border-purple-200 bg-purple-50/90 text-purple-950"
-                        : "border-purple-800/40 bg-purple-950/40 text-purple-200"
-                    }`}
-                  >
-                    <span
-                      className={`grid size-4 place-items-center rounded-full text-[10px] font-bold ${
-                        isLight ? "bg-indigo-200 text-indigo-900" : "bg-indigo-500/30 text-indigo-300"
-                      }`}
-                    >
-                      3
-                    </span>
-                    <span>{content.lessons[2]?.objective[locale] || "Real-World Context & Exam Practice"}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right: Chapter 3D Art Illustration */}
-            <div className="lg:col-span-4 flex items-center justify-center lg:justify-end">
-              <div
-                className={`relative size-44 sm:size-52 rounded-2xl border p-4 flex items-center justify-center transition-all ${
-                  isLight
-                    ? "border-purple-200 bg-gradient-to-tr from-purple-50/90 to-pink-50/80 shadow-md"
-                    : "border-purple-700/40 bg-gradient-to-tr from-purple-950/70 to-indigo-950/70 shadow-[0_8px_32px_rgba(168,85,247,0.3)]"
-                }`}
-              >
-                <Image
-                  src="/images/learn/hero-3d-scene.png"
-                  alt="3D Interactive Lesson Scene"
-                  width={200}
-                  height={200}
-                  className="size-full object-contain drop-shadow-[0_8px_25px_rgba(168,85,247,0.5)] transition-transform duration-500 hover:scale-105"
-                  priority
-                />
-              </div>
-            </div>
-          </div>
+            Unit {chapter.chapterNumber}
+          </span>
+          <h1 className={`min-w-0 font-serif text-lg font-black leading-snug sm:text-xl ${isLight ? "text-purple-950" : "text-white"}`}>
+            {chapter.title[locale] || chapter.title.en}
+          </h1>
+          <span className={`flex items-center gap-1 font-mono text-[11px] ${isLight ? "text-purple-700" : "text-purple-300/80"}`}>
+            <Clock size={12} />~{chapter.estimatedMinutes} mins
+          </span>
+          <p className={`w-full truncate text-[13px] ${isLight ? "text-purple-900/75" : "text-purple-200/70"}`}>
+            {chapter.summary[locale] || chapter.summary.en}
+          </p>
         </section>
 
         {/* =================================================================== */}
         {/* 2. MAIN 2-COLUMN GRID: CONTENT (8 cols) + RIGHT PANELS (4 cols)    */}
         {/* =================================================================== */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="mx-auto w-full max-w-6xl">
           {/* ================================================================= */}
-          {/* LEFT 8 COLUMNS: INTERACTIVE TABS & CONTENT                        */}
+          {/* LESSON CONTENT: full width (progress lives in the top-bar menu)   */}
           {/* ================================================================= */}
-          <main className="lg:col-span-8 flex flex-col gap-6">
+          <main className="flex flex-col gap-6">
             {/* Interactive Tabs Header */}
             <div
               className={`flex items-center gap-2 border-b pb-3 overflow-x-auto scrollbar-none ${
@@ -2161,230 +2315,6 @@ export function InteractiveChapterClassroom({
             )}
           </main>
 
-          {/* ================================================================= */}
-          {/* RIGHT 4 COLUMNS: PROGRESS, CHECKLIST & NEXT LESSON ACTION         */}
-          {/* ================================================================= */}
-          <aside className="lg:col-span-4 flex flex-col gap-6">
-            {/* 1. Chapter Progress Ring Card */}
-            <div
-              className={`rounded-3xl border p-6 backdrop-blur-2xl shadow-xl flex flex-col items-center text-center ${
-                isLight
-                  ? "border-purple-200 bg-white/95 text-purple-950 shadow-lg"
-                  : "border-purple-800/40 bg-[#160a2b]/85 text-white"
-              }`}
-            >
-              <span
-                className={`font-mono text-xs uppercase tracking-wider font-bold mb-4 ${
-                  isLight ? "text-pink-700 font-black" : "text-pink-300"
-                }`}
-              >
-                Chapter Completion
-              </span>
-
-              <CircularProgressBar progressPercent={progressPercent} size={110} strokeWidth={9} />
-
-              <p className={`font-display text-xs mt-4 max-w-[220px] ${isLight ? "text-slate-700 font-medium" : "text-purple-200"}`}>
-                {progressPercent === 100
-                  ? "🎉 Magnificent! You have mastered this chapter!"
-                  : progressPercent >= 50
-                  ? "Great progress! Keep going to unlock the next chapter."
-                  : "Begin Lesson 1 and check your understanding."}
-              </p>
-
-              {/* Status Badge */}
-              <div
-                className={`mt-4 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 text-xs font-mono ${
-                  isLight
-                    ? "border-purple-300 bg-purple-50 text-purple-900 font-semibold"
-                    : "border-purple-700/50 bg-purple-950/60 text-purple-300"
-                }`}
-              >
-                <span className={`size-2 rounded-full ${progressPercent === 100 ? "bg-emerald-400 shadow-[0_0_8px_#34d399]" : "bg-purple-400 animate-pulse"}`} />
-                <span>
-                  {progressPercent === 100
-                    ? "Completed"
-                    : `Lesson ${activeLessonIdx + 1} of 3 in progress`}
-                </span>
-              </div>
-            </div>
-
-            {/* 2. Lesson Completion Checklist */}
-            <div
-              className={`rounded-3xl border p-6 backdrop-blur-2xl shadow-xl flex flex-col gap-3 ${
-                isLight
-                  ? "border-purple-200 bg-white/95 text-purple-950 shadow-lg"
-                  : "border-purple-800/40 bg-[#160a2b]/85 text-white"
-              }`}
-            >
-              <div
-                className={`flex items-center justify-between border-b pb-3 ${
-                  isLight ? "border-purple-200" : "border-purple-900/40"
-                }`}
-              >
-                <h4 className={`font-display text-sm font-bold flex items-center gap-2 ${isLight ? "text-purple-950" : "text-white"}`}>
-                  <ListChecks size={16} className={isLight ? "text-purple-600" : "text-purple-400"} />
-                  <span>Lesson Checklist</span>
-                </h4>
-                <span className={`font-mono text-[11px] font-bold ${isLight ? "text-purple-700" : "text-purple-300/70"}`}>
-                  {Object.values(completedLessons).filter(Boolean).length}/{content.lessons.length}
-                </span>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                {content.lessons.map((lesson, idx) => {
-                  const isDone = completedLessons[lesson.id];
-                  const isCurrent = activeTab === "learn" && activeLessonIdx === idx;
-
-                  return (
-                    <button
-                      key={lesson.id}
-                      type="button"
-                      onClick={() => {
-                        setActiveTab("learn");
-                        setActiveLessonIdx(idx);
-                      }}
-                      className={`group flex items-center justify-between gap-3 rounded-2xl border p-3 text-left transition-all ${
-                        isCurrent
-                          ? isLight
-                            ? "border-purple-400 bg-purple-100/70 shadow-sm"
-                            : "border-purple-500 bg-purple-900/40 shadow-sm"
-                          : isLight
-                          ? "border-purple-200 bg-purple-50/50 hover:border-purple-300 hover:bg-purple-100/50"
-                          : "border-purple-900/40 bg-purple-950/20 hover:border-purple-700 hover:bg-purple-900/30"
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <span
-                          className={`grid size-6 place-items-center rounded-lg font-mono text-xs font-bold transition-all shrink-0 ${
-                            isDone
-                              ? "bg-emerald-500 text-white font-bold shadow-sm"
-                              : isLight
-                              ? "border border-purple-300 bg-white text-purple-900 font-bold"
-                              : "border border-purple-700/60 bg-purple-900/40 text-purple-300"
-                          }`}
-                        >
-                          {isDone ? <Check size={12} weight="bold" /> : idx + 1}
-                        </span>
-                        <div className="min-w-0">
-                          <p
-                            className={`font-display text-xs font-bold truncate transition-colors ${
-                              isLight
-                                ? "text-purple-950 group-hover:text-purple-700"
-                                : "text-white group-hover:text-pink-300"
-                            }`}
-                          >
-                            {lesson.title[locale] || lesson.title.en}
-                          </p>
-                          <span className={`font-mono text-[10px] ${isLight ? "text-slate-500 font-medium" : "text-purple-300/60"}`}>
-                            ~{lesson.durationMinutes} mins
-                          </span>
-                        </div>
-                      </div>
-
-                      <CaretRight size={13} className={`${isLight ? "text-purple-600" : "text-purple-500"} group-hover:text-purple-400 shrink-0`} />
-                    </button>
-                  );
-                })}
-
-                {/* Practice Quiz Checklist Item */}
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("practice")}
-                  className={`group flex items-center justify-between gap-3 rounded-2xl border p-3 text-left transition-all ${
-                    activeTab === "practice"
-                      ? isLight
-                        ? "border-purple-400 bg-purple-100/70 shadow-sm"
-                        : "border-purple-500 bg-purple-900/40 shadow-sm"
-                      : isLight
-                      ? "border-purple-200 bg-purple-50/50 hover:border-purple-300 hover:bg-purple-100/50"
-                      : "border-purple-900/40 bg-purple-950/20 hover:border-purple-700 hover:bg-purple-900/30"
-                  }`}
-                >
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <span
-                      className={`grid size-6 place-items-center rounded-lg font-mono text-xs font-bold shrink-0 ${
-                        isLight
-                          ? "bg-pink-100 border border-pink-300 text-pink-700"
-                          : "bg-pink-500/30 border border-pink-400/40 text-pink-300"
-                      }`}
-                    >
-                      ★
-                    </span>
-                    <div className="min-w-0">
-                      <p
-                        className={`font-display text-xs font-bold truncate transition-colors ${
-                          isLight
-                            ? "text-purple-950 group-hover:text-purple-700"
-                            : "text-white group-hover:text-pink-300"
-                        }`}
-                      >
-                        Practice Knowledge Check
-                      </p>
-                      <span className={`font-mono text-[10px] ${isLight ? "text-slate-500 font-medium" : "text-purple-300/60"}`}>
-                        MCQs, Blanks & Match
-                      </span>
-                    </div>
-                  </div>
-                  <CaretRight size={13} className={`${isLight ? "text-purple-600" : "text-purple-500"} group-hover:text-purple-400 shrink-0`} />
-                </button>
-              </div>
-            </div>
-
-            {/* 3. Prominent Action Button: Continue / Next Chapter */}
-            <div className="flex flex-col gap-2.5">
-              {progressPercent === 100 ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (nextChapterItem) {
-                      onSelectChapter(nextChapterItem.chapter.id);
-                    } else {
-                      onClose();
-                    }
-                  }}
-                  className="beam-border relative flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 px-6 py-4 font-display text-sm font-bold text-white shadow-[0_0_30px_rgba(16,185,129,0.4)] transition-all hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  <Trophy size={18} weight="fill" />
-                  <span>{nextChapterItem ? "Unlock Next Chapter →" : "Course Complete! Return Home"}</span>
-                </button>
-              ) : activeTab === "learn" && activeLessonIdx < content.lessons.length - 1 ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (currentLesson) toggleLessonComplete(currentLesson.id);
-                    setActiveLessonIdx((i) => i + 1);
-                  }}
-                  className="beam-border relative flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 px-6 py-4 font-display text-sm font-bold text-white shadow-[0_0_25px_rgba(168,85,247,0.45)] transition-all hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  <span>Continue: Lesson {activeLessonIdx + 2} →</span>
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("practice")}
-                  className="beam-border relative flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 px-6 py-4 font-display text-sm font-bold text-white shadow-[0_0_25px_rgba(236,72,153,0.45)] transition-all hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  <Question size={18} weight="bold" />
-                  <span>Start Practice Quiz →</span>
-                </button>
-              )}
-
-              {/* Textbook PDF Quick Link */}
-              <a
-                href={TN_TEXTBOOK_PORTAL_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 font-mono text-xs transition-all text-center ${
-                  isLight
-                    ? "border-purple-300 bg-white text-purple-900 hover:bg-purple-50 hover:border-purple-400 font-bold shadow-sm"
-                    : "border-purple-800/40 bg-purple-950/40 text-purple-300 hover:border-purple-600 hover:text-white"
-                }`}
-              >
-                <FilePdf size={14} className="text-pink-500" />
-                <span>Open Samacheer Kalvi PDF</span>
-              </a>
-            </div>
-          </aside>
         </div>
       </div>
 
